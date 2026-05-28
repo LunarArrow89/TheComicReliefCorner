@@ -18,7 +18,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* canvas behind everything */
 #matrix {
     position: fixed;
     top: 0;
@@ -40,7 +39,7 @@ body {
     margin-top: 18vh;
 }
 
-/* TITLE */
+/* TITLE (NO FLOATING ANYMORE) */
 .glow-text {
     font-size: 80px;
     font-weight: bold;
@@ -50,14 +49,6 @@ body {
         0 0 10px #ff69b4,
         0 0 20px #ff1493,
         0 0 40px #ff69b4;
-
-    animation: float 3s ease-in-out infinite;
-}
-
-/* float animation */
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 
 /* BUTTON */
@@ -87,10 +78,8 @@ body {
 
 <body>
 
-<!-- MATRIX CANVAS -->
 <canvas id="matrix"></canvas>
 
-<!-- MAIN -->
 <div class="container">
 
     <h1 class="glow-text">
@@ -106,7 +95,7 @@ body {
 <script>
 
 /* =========================
-   MATRIX EFFECT
+   PINK MATRIX EFFECT
 ========================= */
 
 const canvas = document.getElementById("matrix");
@@ -115,7 +104,8 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+const letters =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
 const lettersArray = letters.split("");
 
 const fontSize = 16;
@@ -132,14 +122,15 @@ function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#00ff66";
+    /* PINK COLOR NOW */
+    ctx.fillStyle = "#ff4fd8";
+
     ctx.font = fontSize + "px monospace";
 
     for (let i = 0; i < drops.length; i++) {
 
-        const text = lettersArray[
-            Math.floor(Math.random() * lettersArray.length)
-        ];
+        const text =
+            lettersArray[Math.floor(Math.random() * lettersArray.length)];
 
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 

@@ -1,435 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Comic Relief Corner</title>
 
-    <style>
+<style>
+
+/* =========================
+   PAGE BACKGROUND
+========================= */
 
 body {
-
     margin: 0;
-
     display: flex;
     justify-content: center;
     align-items: flex-start;
-
     padding-top: 120px;
-
     min-height: 100vh;
-
     overflow: hidden;
-
-    position: relative;
-
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    /* BLACK PAPER TEXTURE */
+    font-family: Arial, sans-serif;
 
     background-color: #050505;
 
+    /* “paper noise” texture */
     background-image:
+        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
 
-        radial-gradient(
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px
-        ),
-
-        radial-gradient(
-            rgba(255,255,255,0.02) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            180deg,
-            #0a0a0a,
-            #050505
-        );
-
-    background-size:
-        4px 4px,
-        7px 7px,
-        100% 100%;
-
-    color: white;
+    background-size: 4px 4px, 8px 8px;
 }
 
-        /* TOP SCROLLING BAR */
+/* =========================
+   TOP SCROLL BAR
+========================= */
 
-        .top-scroll {
+.top-scroll {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
 
-            position: fixed;
+    background: rgba(0,0,0,0.6);
+    border-bottom: 2px solid #ff5ca8;
 
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 50px;
-
-            background: rgba(255,255,255,0.35);
-
-            backdrop-filter: blur(6px);
-
-            overflow: hidden;
-
-            display: flex;
-            align-items: center;
-
-            border-bottom: 2px solid #ff5ca8;
-
-            z-index: 999;
-        }
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
 
 .top-scroll span {
-
     white-space: nowrap;
+    display: inline-block;
 
     color: white;
-
     font-size: 24px;
     font-weight: bold;
 
-    text-shadow:
-        0 0 5px #ff69b4,
-        0 0 10px #ff69b4,
-        0 0 20px #ff1493;
+    text-shadow: 0 0 10px #ff69b4;
 
-    display: inline-block;
-
-    padding-left: 0;
-
-    animation: marquee 25s linear infinite;
+    animation: marquee 20s linear infinite;
 }
+
+/* IMPORTANT: infinite scroll movement */
 @keyframes marquee {
-
     0% {
-
         transform: translateX(100%);
     }
-
     100% {
-
         transform: translateX(-100%);
     }
 }
 
-        /* MAIN CONTAINER */
-
-        .container {
-
-            text-align: center;
-
-            padding: 20px;
-
-            position: relative;
-
-            z-index: 2;
-        }
-
-        /* TITLE */
-
-        .glow-text {
-
-            font-size: 82px;
-
-            font-weight: bold;
-
-            margin: 0;
-
-            color: white;
-
-            animation: pinkGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes pinkGlow {
-
-            0% {
-
-                text-shadow:
-                    0 0 5px #ff69b4,
-                    0 0 10px #ff69b4,
-                    0 0 20px #ff69b4,
-                    0 0 40px #ff69b4;
-
-                transform: translateY(0px);
-            }
-
-            50% {
-
-                text-shadow:
-                    0 0 10px #ff1493,
-                    0 0 20px #ff1493,
-                    0 0 40px #ff1493,
-                    0 0 80px #ff1493;
-
-                transform: translateY(-8px);
-            }
-
-            100% {
-
-                text-shadow:
-                    0 0 5px #ff69b4,
-                    0 0 10px #ff69b4,
-                    0 0 20px #ff69b4,
-                    0 0 40px #ff69b4;
-
-                transform: translateY(0px);
-            }
-        }
-
-        /* AUTHOR */
-
-        .author-text {
-
-            font-size: 22px;
-
-            font-weight: bold;
-
-            color: white;
-
-            margin-top: 15px;
-
-            text-shadow:
-                0 0 5px #ff69b4,
-                0 0 15px #ff69b4;
-        }
-
-        /* SUBTEXT */
-
-        .subtext {
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-            color: white;
-
-            letter-spacing: 2px;
-
-            margin-top: 10px;
-
-            text-shadow:
-                0 0 5px #ff69b4;
-        }
-
-        /* BUTTON */
-
-        .start-button {
-
-            display: inline-block;
-
-            margin-top: 35px;
-
-            padding: 16px 45px;
-
-            font-size: 24px;
-
-            font-weight: bold;
-
-            color: white;
-
-            background: linear-gradient(
-                135deg,
-                #ff69b4,
-                #ff1493
-            );
-
-            border: none;
-
-            border-radius: 50px;
-
-            cursor: pointer;
-
-            text-transform: uppercase;
-
-            letter-spacing: 2px;
-
-            text-decoration: none;
-
-            box-shadow:
-                0 0 10px #ff69b4,
-                0 0 20px #ff69b4;
-
-            transition: 0.3s;
-        }
-
-        .start-button:hover {
-
-            transform: scale(1.08);
-
-            box-shadow:
-                0 0 20px #ff1493,
-                0 0 40px #ff1493,
-                0 0 70px #ff1493;
-        }
-
-        /* FLOATING PARTICLES */
-
-        .particle {
-
-            position: absolute;
-
-            background-color: #ff69b4;
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            opacity: 0.8;
-
-            filter: blur(1px);
-
-            z-index: 1;
-
-            animation: floatUp linear forwards;
-        }
-
-        @keyframes floatUp {
-
-            from {
-
-                transform: translateY(0);
-
-                opacity: 0.8;
-            }
-
-            to {
-
-                transform: translateY(-100vh);
-
-                opacity: 0;
-            }
-        }
-
-    </style>
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.container {
+    text-align: center;
+    z-index: 2;
+}
+
+.glow-text {
+    font-size: 80px;
+    font-weight: bold;
+    color: white;
+
+    text-shadow:
+        0 0 5px #ff69b4,
+        0 0 15px #ff1493,
+        0 0 30px #ff69b4;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* floating effect */
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* BUTTON */
+.start-button {
+    margin-top: 30px;
+    padding: 15px 40px;
+    font-size: 22px;
+
+    background: #ff1493;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+
+    box-shadow: 0 0 20px #ff69b4;
+}
+
+.start-button:hover {
+    transform: scale(1.05);
+}
+
+/* PARTICLES */
+.particle {
+    position: absolute;
+    background: #ff69b4;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear;
+}
+
+@keyframes fall {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+
+</style>
 </head>
 
 <body>
 
-<!-- TOP SCROLLING TEXT -->
-
+<!-- TOP SCROLL -->
 <div class="top-scroll">
-
     <span id="scrollingText"></span>
-
 </div>
 
-<!-- MAIN CONTENT -->
-
+<!-- MAIN -->
 <div class="container">
 
     <h1 class="glow-text">
         The Comic Relief Corner
     </h1>
 
-    <p class="author-text">
-        By Luna Murray
-    </p>
-
-    <p class="subtext">
-        (Very fahhh)
-    </p>
-
-    <a class="start-button"
-       href="https://sites.google.com/aacps.org/gamesunleashed/games"
-       target="_blank">
-
+    <a class="start-button" href="#">
         Games
-
     </a>
 
 </div>
 
 <script>
 
-/* RANDOM SCROLLING TEXT */
+/* =========================
+   RANDOM SCROLL TEXT ENGINE
+========================= */
 
 const phrases = [
-
     "WELCOME TO THE COMIC RELIEF CORNER",
-    "SILLY GAMES",
-    "FAHHHH",
     "UNDERTALE IS PEAK",
-    "CHAOS",
-    "WHY AM I STILL CODING",
-    "VERY PROFESSIONAL WEBSITE",
-    "ABSOLUTE CINEMA",
-    "NERD STUFF",
-    "GO PLAY SOME GAMES",
-    "TOTALLY NOT CRINGE",
-    "BREAD 👍",
-    "MY BRAIN IS MELTING",
-    "RETRO VIBES",
-    "LOUD INCORRECT BUZZER",
-    "I LOVE CODEENG",
-    "FROGS ARE COOL",
+    "FAHHHH",
+    "CHAOS MODE",
+    "NERD ZONE",
     "SKILL ISSUE",
-    "W WEBSITE",
-    "THE SILLY ZONE"
-
+    "BREAD 👍",
+    "ABSOLUTE CINEMA",
+    "GO PLAY GAMES"
 ];
 
-const scrollingText =
-    document.getElementById("scrollingText");
+const scrollingText = document.getElementById("scrollingText");
 
-function randomizeScrollingText() {
+function updateScroll() {
+    let text = "";
 
-    let finalText = "";
-
-    for(let i = 0; i < 12; i++) {
-
-        const randomPhrase =
-            phrases[Math.floor(Math.random() * phrases.length)];
-
-        finalText += randomPhrase + " ✦ ";
-
+    for (let i = 0; i < 10; i++) {
+        let pick = phrases[Math.floor(Math.random() * phrases.length)];
+        text += pick + " ✦ ";
     }
 
-    scrollingText.textContent = finalText;
+    scrollingText.textContent = text;
 }
 
-randomizeScrollingText();
+/* start immediately */
+updateScroll();
 
-/* CHANGE PHRASES EVERY LOOP */
+/* keep updating forever */
+setInterval(updateScroll, 8000);
 
-setInterval(randomizeScrollingText, 18000);
 
-/* FLOATING PARTICLES */
+/* =========================
+   SIMPLE PARTICLES
+========================= */
 
-function createParticle() {
+function spawnParticle() {
+    const p = document.createElement("div");
+    p.className = "particle";
 
-    const particle = document.createElement("div");
+    let size = Math.random() * 5 + 2;
 
-    particle.classList.add("particle");
+    p.style.width = size + "px";
+    p.style.height = size + "px";
 
-    const size = Math.random() * 6 + 2;
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.top = window.innerHeight + "px";
 
-    particle.style.width = size + "px";
-    particle.style.height = size + "px";
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
 
-    particle.style.left =
-        Math.random() * window.innerWidth + "px";
+    document.body.appendChild(p);
 
-    particle.style.top =
-        (window.innerHeight + 10) + "px";
-
-    const duration =
-        Math.random() * 4 + 2;
-
-    particle.style.animationDuration =
-        duration + "s";
-
-    document.body.appendChild(particle);
-
-    setTimeout(() => {
-
-        particle.remove();
-
-    }, duration * 1000);
+    setTimeout(() => p.remove(), 5000);
 }
 
-setInterval(createParticle, 80);
+setInterval(spawnParticle, 100);
 
 </script>
 

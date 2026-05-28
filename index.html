@@ -8,79 +8,24 @@
 <style>
 
 /* =========================
-   BACKGROUND (BLACK PAPER)
+   MATRIX BACKGROUND
 ========================= */
 
 body {
     margin: 0;
-    min-height: 100vh;
     overflow: hidden;
+    background: black;
     font-family: Arial, sans-serif;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 120px;
-
-    background-color: #050505;
-
-    background-image:
-        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
-
-    background-size: 4px 4px, 8px 8px;
 }
 
-/* =========================
-   TOP SCROLL (FIXED + SMOOTH)
-========================= */
-
-.top-scroll {
+/* canvas behind everything */
+#matrix {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px;
-
-    background: rgba(0,0,0,0.75);
-    border-bottom: 2px solid #ff5ca8;
-
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
-
-/* wrapper that moves */
-.scroll-wrapper {
-    display: flex;
-    width: max-content;
-}
-
-/* each text strip */
-.track {
-    white-space: nowrap;
-
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-
-    padding-right: 60px;
-
-    text-shadow:
-        0 0 5px #ff69b4,
-        0 0 10px #ff1493;
-
-    animation: scrollLeft 18s linear infinite;
-}
-
-/* smooth movement (NO glitch) */
-@keyframes scrollLeft {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-100%);
-    }
+    height: 100%;
+    z-index: -1;
 }
 
 /* =========================
@@ -88,9 +33,14 @@ body {
 ========================= */
 
 .container {
+    position: relative;
+    z-index: 2;
+
     text-align: center;
+    margin-top: 18vh;
 }
 
+/* TITLE */
 .glow-text {
     font-size: 80px;
     font-weight: bold;
@@ -100,8 +50,17 @@ body {
         0 0 10px #ff69b4,
         0 0 20px #ff1493,
         0 0 40px #ff69b4;
+
+    animation: float 3s ease-in-out infinite;
 }
 
+/* float animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* BUTTON */
 .start-button {
     display: inline-block;
     margin-top: 30px;
@@ -123,35 +82,13 @@ body {
     transform: scale(1.05);
 }
 
-/* =========================
-   PARTICLES
-========================= */
-
-.particle {
-    position: absolute;
-    background: #ff69b4;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: fall linear;
-}
-
-@keyframes fall {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-100vh); opacity: 0; }
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- TOP SCROLL -->
-<div class="top-scroll">
-    <div class="scroll-wrapper">
-        <div class="track" id="track"></div>
-        <div class="track" id="track2"></div>
-    </div>
-</div>
+<!-- MATRIX CANVAS -->
+<canvas id="matrix"></canvas>
 
 <!-- MAIN -->
 <div class="container">
@@ -169,67 +106,58 @@ body {
 <script>
 
 /* =========================
-   RANDOM SCROLL TEXT
+   MATRIX EFFECT
 ========================= */
 
-const phrases = [
-    "WELCOME TO THE COMIC RELIEF CORNER",
-    "UNDERTALE IS PEAK",
-    "FAHHHH",
-    "CHAOS MODE",
-    "NERD ZONE",
-    "SKILL ISSUE",
-    "BREAD 👍",
-    "ABSOLUTE CINEMA",
-    "GO PLAY GAMES",
-    "MEME ENERGY",
-    "THIS IS FINE 🔥",
-    "WHY AM I CODING THIS",
-    "LOW QUALITY HUMOR"
-];
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-function buildText() {
-    let text = "";
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    for (let i = 0; i < 25; i++) {
-        text += phrases[Math.floor(Math.random() * phrases.length)] + " ✦ ";
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+const lettersArray = letters.split("");
+
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+
+const drops = [];
+
+for (let i = 0; i < columns; i++) {
+    drops[i] = 1;
+}
+
+function drawMatrix() {
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff66";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+
+        const text = lettersArray[
+            Math.floor(Math.random() * lettersArray.length)
+        ];
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
     }
-
-    return text;
 }
 
-/* same text in both tracks = seamless loop */
-const text = buildText();
+setInterval(drawMatrix, 33);
 
-document.getElementById("track").textContent = text;
-document.getElementById("track2").textContent = text;
-
-/* =========================
-   PARTICLES (OPTIONAL)
-========================= */
-
-function spawnParticle() {
-
-    const p = document.createElement("div");
-
-    p.className = "particle";
-
-    let size = Math.random() * 5 + 2;
-
-    p.style.width = size + "px";
-    p.style.height = size + "px";
-
-    p.style.left = Math.random() * window.innerWidth + "px";
-    p.style.top = window.innerHeight + "px";
-
-    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-
-    document.body.appendChild(p);
-
-    setTimeout(() => p.remove(), 5000);
-}
-
-setInterval(spawnParticle, 120);
+/* resize fix */
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
 </script>
 

@@ -3,22 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games Unleashed</title>
+    <title>The Comic Relief Corner</title>
 
     <style>
 
         body {
+
             margin: 0;
+
             display: flex;
             justify-content: center;
             align-items: flex-start;
+
             padding-top: 120px;
+
             min-height: 100vh;
+
             overflow: hidden;
+
             position: relative;
+
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-            /* PAPER TEXTURE */
+            /* PAPER-LIKE BACKGROUND */
+
             background-color: #ffd6ea;
 
             background-image:
@@ -41,9 +49,12 @@
         /* TOP SCROLLING BAR */
 
         .top-scroll {
+
             position: fixed;
+
             top: 0;
             left: 0;
+
             width: 100%;
             height: 50px;
 
@@ -65,14 +76,15 @@
 
             white-space: nowrap;
 
-            color: #ff1493;
+            color: white;
 
             font-size: 24px;
             font-weight: bold;
 
             text-shadow:
-                0 0 5px #ff8fc7,
-                0 0 10px #ff8fc7;
+                0 0 5px #ff69b4,
+                0 0 10px #ff69b4,
+                0 0 20px #ff1493;
 
             padding-left: 100%;
 
@@ -82,18 +94,26 @@
         @keyframes marquee {
 
             0% {
+
                 transform: translateX(0);
             }
 
             100% {
+
                 transform: translateX(-100%);
             }
         }
 
+        /* MAIN CONTAINER */
+
         .container {
+
             text-align: center;
+
             padding: 20px;
+
             position: relative;
+
             z-index: 2;
         }
 
@@ -101,12 +121,13 @@
 
         .glow-text {
 
-            font-size: 80px;
+            font-size: 82px;
+
             font-weight: bold;
 
             margin: 0;
 
-            color: #ff1493;
+            color: white;
 
             animation: pinkGlow 3s ease-in-out infinite;
         }
@@ -130,7 +151,7 @@
                     0 0 10px #ff1493,
                     0 0 20px #ff1493,
                     0 0 40px #ff1493,
-                    0 0 70px #ff1493;
+                    0 0 80px #ff1493;
 
                 transform: translateY(-8px);
             }
@@ -147,9 +168,12 @@
             }
         }
 
+        /* AUTHOR */
+
         .author-text {
 
             font-size: 22px;
+
             font-weight: bold;
 
             color: white;
@@ -161,12 +185,15 @@
                 0 0 15px #ff69b4;
         }
 
+        /* SUBTEXT */
+
         .subtext {
 
             font-size: 18px;
+
             font-weight: bold;
 
-            color: #fff0f6;
+            color: white;
 
             letter-spacing: 2px;
 
@@ -174,40 +201,6 @@
 
             text-shadow:
                 0 0 5px #ff69b4;
-        }
-
-        /* PARTICLES */
-
-        .particle {
-
-            position: absolute;
-
-            background-color: #ff69b4;
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            opacity: 0.8;
-
-            filter: blur(1px);
-
-            z-index: 1;
-
-            animation: floatUp linear forwards;
-        }
-
-        @keyframes floatUp {
-
-            from {
-                transform: translateY(0);
-                opacity: 0.8;
-            }
-
-            to {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
         }
 
         /* BUTTON */
@@ -221,6 +214,7 @@
             padding: 16px 45px;
 
             font-size: 24px;
+
             font-weight: bold;
 
             color: white;
@@ -260,28 +254,72 @@
                 0 0 70px #ff1493;
         }
 
+        /* FLOATING PARTICLES */
+
+        .particle {
+
+            position: absolute;
+
+            background-color: #ff69b4;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            opacity: 0.8;
+
+            filter: blur(1px);
+
+            z-index: 1;
+
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+
+            from {
+
+                transform: translateY(0);
+
+                opacity: 0.8;
+            }
+
+            to {
+
+                transform: translateY(-100vh);
+
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 
 <body>
 
-<!-- SCROLLING TOP TEXT -->
+<!-- TOP SCROLLING TEXT -->
 
 <div class="top-scroll">
 
-    <span>
-        ✨ WELCOME TO GAMES UNLEASHED ✨ NEW GAMES ✨ COOL STUFF ✨ FAHHHH ✨ UNDERTALE IS PEAK ✨
-    </span>
+    <span id="scrollingText"></span>
 
 </div>
 
+<!-- MAIN CONTENT -->
+
 <div class="container">
 
-    <h1 class="glow-text">Games Unleashed</h1>
+    <h1 class="glow-text">
+        The Comic Relief Corner
+    </h1>
 
-    <p class="author-text">By Luna Murray</p>
+    <p class="author-text">
+        By Luna Murray
+    </p>
 
-    <p class="subtext">(Very fahhh)</p>
+    <p class="subtext">
+        (Very fahhh)
+    </p>
 
     <a class="start-button"
        href="https://sites.google.com/aacps.org/gamesunleashed/games"
@@ -295,6 +333,60 @@
 
 <script>
 
+/* RANDOM SCROLLING TEXT */
+
+const phrases = [
+
+    "WELCOME TO THE COMIC RELIEF CORNER",
+    "SILLY GAMES",
+    "FAHHHH",
+    "UNDERTALE IS PEAK",
+    "CHAOS",
+    "WHY AM I STILL CODING",
+    "VERY PROFESSIONAL WEBSITE",
+    "ABSOLUTE CINEMA",
+    "NERD STUFF",
+    "GO PLAY SOME GAMES",
+    "TOTALLY NOT CRINGE",
+    "BREAD 👍",
+    "MY BRAIN IS MELTING",
+    "RETRO VIBES",
+    "LOUD INCORRECT BUZZER",
+    "I LOVE CODEENG",
+    "FROGS ARE COOL",
+    "SKILL ISSUE",
+    "W WEBSITE",
+    "THE SILLY ZONE"
+
+];
+
+const scrollingText =
+    document.getElementById("scrollingText");
+
+function randomizeScrollingText() {
+
+    let finalText = "";
+
+    for(let i = 0; i < 12; i++) {
+
+        const randomPhrase =
+            phrases[Math.floor(Math.random() * phrases.length)];
+
+        finalText += randomPhrase + " ✦ ";
+
+    }
+
+    scrollingText.textContent = finalText;
+}
+
+randomizeScrollingText();
+
+/* CHANGE PHRASES EVERY LOOP */
+
+setInterval(randomizeScrollingText, 18000);
+
+/* FLOATING PARTICLES */
+
 function createParticle() {
 
     const particle = document.createElement("div");
@@ -306,13 +398,17 @@ function createParticle() {
     particle.style.width = size + "px";
     particle.style.height = size + "px";
 
-    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.left =
+        Math.random() * window.innerWidth + "px";
 
-    particle.style.top = (window.innerHeight + 10) + "px";
+    particle.style.top =
+        (window.innerHeight + 10) + "px";
 
-    const duration = Math.random() * 4 + 2;
+    const duration =
+        Math.random() * 4 + 2;
 
-    particle.style.animationDuration = duration + "s";
+    particle.style.animationDuration =
+        duration + "s";
 
     document.body.appendChild(particle);
 

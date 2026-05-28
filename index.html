@@ -32,7 +32,7 @@ body {
 }
 
 /* =========================
-   TOP SCROLL BAR
+   TOP SCROLL (FIXED + SMOOTH)
 ========================= */
 
 .top-scroll {
@@ -42,7 +42,7 @@ body {
     width: 100%;
     height: 50px;
 
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.75);
     border-bottom: 2px solid #ff5ca8;
 
     overflow: hidden;
@@ -50,35 +50,36 @@ body {
     align-items: center;
 }
 
-/* moving track (KEY FIX) */
-.scroll-track {
+/* wrapper that moves */
+.scroll-wrapper {
     display: flex;
     width: max-content;
-    animation: scrollLeft 18s linear infinite;
 }
 
-/* text style */
-.scroll-track span {
+/* each text strip */
+.track {
     white-space: nowrap;
 
     font-size: 24px;
     font-weight: bold;
     color: white;
 
-    padding-right: 80px;
+    padding-right: 60px;
 
     text-shadow:
         0 0 5px #ff69b4,
         0 0 10px #ff1493;
+
+    animation: scrollLeft 18s linear infinite;
 }
 
-/* smooth endless loop */
+/* smooth movement (NO glitch) */
 @keyframes scrollLeft {
-    0% {
+    from {
         transform: translateX(0);
     }
-    100% {
-        transform: translateX(-50%);
+    to {
+        transform: translateX(-100%);
     }
 }
 
@@ -101,7 +102,6 @@ body {
         0 0 40px #ff69b4;
 }
 
-/* button */
 .start-button {
     display: inline-block;
     margin-top: 30px;
@@ -123,6 +123,23 @@ body {
     transform: scale(1.05);
 }
 
+/* =========================
+   PARTICLES
+========================= */
+
+.particle {
+    position: absolute;
+    background: #ff69b4;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear;
+}
+
+@keyframes fall {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+
 </style>
 </head>
 
@@ -130,9 +147,9 @@ body {
 
 <!-- TOP SCROLL -->
 <div class="top-scroll">
-    <div class="scroll-track">
-        <span id="scrollingText"></span>
-        <span id="scrollingText2"></span>
+    <div class="scroll-wrapper">
+        <div class="track" id="track"></div>
+        <div class="track" id="track2"></div>
     </div>
 </div>
 
@@ -152,7 +169,7 @@ body {
 <script>
 
 /* =========================
-   RANDOM PHRASES
+   RANDOM SCROLL TEXT
 ========================= */
 
 const phrases = [
@@ -165,12 +182,12 @@ const phrases = [
     "BREAD 👍",
     "ABSOLUTE CINEMA",
     "GO PLAY GAMES",
-    "THIS IS FINE 🔥",
     "MEME ENERGY",
+    "THIS IS FINE 🔥",
+    "WHY AM I CODING THIS",
     "LOW QUALITY HUMOR"
 ];
 
-/* build long random string */
 function buildText() {
     let text = "";
 
@@ -181,11 +198,38 @@ function buildText() {
     return text;
 }
 
-/* put SAME text in both spans (for seamless loop) */
+/* same text in both tracks = seamless loop */
 const text = buildText();
 
-document.getElementById("scrollingText").textContent = text;
-document.getElementById("scrollingText2").textContent = text;
+document.getElementById("track").textContent = text;
+document.getElementById("track2").textContent = text;
+
+/* =========================
+   PARTICLES (OPTIONAL)
+========================= */
+
+function spawnParticle() {
+
+    const p = document.createElement("div");
+
+    p.className = "particle";
+
+    let size = Math.random() * 5 + 2;
+
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.top = window.innerHeight + "px";
+
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+
+    document.body.appendChild(p);
+
+    setTimeout(() => p.remove(), 5000);
+}
+
+setInterval(spawnParticle, 120);
 
 </script>
 

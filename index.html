@@ -8,22 +8,22 @@
 <style>
 
 /* =========================
-   PAGE BACKGROUND
+   BACKGROUND (BLACK PAPER)
 ========================= */
 
 body {
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 120px;
     min-height: 100vh;
     overflow: hidden;
     font-family: Arial, sans-serif;
 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 120px;
+
     background-color: #050505;
 
-    /* “paper noise” texture */
     background-image:
         radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
         radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -42,7 +42,7 @@ body {
     width: 100%;
     height: 50px;
 
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     border-bottom: 2px solid #ff5ca8;
 
     overflow: hidden;
@@ -50,26 +50,35 @@ body {
     align-items: center;
 }
 
-.top-scroll span {
-    white-space: nowrap;
-    display: inline-block;
-
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-
-    text-shadow: 0 0 10px #ff69b4;
-
-    animation: marquee 20s linear infinite;
+/* moving track (KEY FIX) */
+.scroll-track {
+    display: flex;
+    width: max-content;
+    animation: scrollLeft 18s linear infinite;
 }
 
-/* IMPORTANT: infinite scroll movement */
-@keyframes marquee {
+/* text style */
+.scroll-track span {
+    white-space: nowrap;
+
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+
+    padding-right: 80px;
+
+    text-shadow:
+        0 0 5px #ff69b4,
+        0 0 10px #ff1493;
+}
+
+/* smooth endless loop */
+@keyframes scrollLeft {
     0% {
-        transform: translateX(100%);
+        transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
 
@@ -79,7 +88,6 @@ body {
 
 .container {
     text-align: center;
-    z-index: 2;
 }
 
 .glow-text {
@@ -88,27 +96,23 @@ body {
     color: white;
 
     text-shadow:
-        0 0 5px #ff69b4,
-        0 0 15px #ff1493,
-        0 0 30px #ff69b4;
-
-    animation: float 3s ease-in-out infinite;
+        0 0 10px #ff69b4,
+        0 0 20px #ff1493,
+        0 0 40px #ff69b4;
 }
 
-/* floating effect */
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-
-/* BUTTON */
+/* button */
 .start-button {
+    display: inline-block;
     margin-top: 30px;
     padding: 15px 40px;
+
     font-size: 22px;
+    font-weight: bold;
 
     background: #ff1493;
     color: white;
+
     border-radius: 30px;
     text-decoration: none;
 
@@ -119,20 +123,6 @@ body {
     transform: scale(1.05);
 }
 
-/* PARTICLES */
-.particle {
-    position: absolute;
-    background: #ff69b4;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: fall linear;
-}
-
-@keyframes fall {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-100vh); opacity: 0; }
-}
-
 </style>
 </head>
 
@@ -140,7 +130,10 @@ body {
 
 <!-- TOP SCROLL -->
 <div class="top-scroll">
-    <span id="scrollingText"></span>
+    <div class="scroll-track">
+        <span id="scrollingText"></span>
+        <span id="scrollingText2"></span>
+    </div>
 </div>
 
 <!-- MAIN -->
@@ -159,7 +152,7 @@ body {
 <script>
 
 /* =========================
-   RANDOM SCROLL TEXT ENGINE
+   RANDOM PHRASES
 ========================= */
 
 const phrases = [
@@ -171,53 +164,28 @@ const phrases = [
     "SKILL ISSUE",
     "BREAD 👍",
     "ABSOLUTE CINEMA",
-    "GO PLAY GAMES"
+    "GO PLAY GAMES",
+    "THIS IS FINE 🔥",
+    "MEME ENERGY",
+    "LOW QUALITY HUMOR"
 ];
 
-const scrollingText = document.getElementById("scrollingText");
-
-function updateScroll() {
+/* build long random string */
+function buildText() {
     let text = "";
 
-    for (let i = 0; i < 10; i++) {
-        let pick = phrases[Math.floor(Math.random() * phrases.length)];
-        text += pick + " ✦ ";
+    for (let i = 0; i < 25; i++) {
+        text += phrases[Math.floor(Math.random() * phrases.length)] + " ✦ ";
     }
 
-    scrollingText.textContent = text;
+    return text;
 }
 
-/* start immediately */
-updateScroll();
+/* put SAME text in both spans (for seamless loop) */
+const text = buildText();
 
-/* keep updating forever */
-setInterval(updateScroll, 8000);
-
-
-/* =========================
-   SIMPLE PARTICLES
-========================= */
-
-function spawnParticle() {
-    const p = document.createElement("div");
-    p.className = "particle";
-
-    let size = Math.random() * 5 + 2;
-
-    p.style.width = size + "px";
-    p.style.height = size + "px";
-
-    p.style.left = Math.random() * window.innerWidth + "px";
-    p.style.top = window.innerHeight + "px";
-
-    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-
-    document.body.appendChild(p);
-
-    setTimeout(() => p.remove(), 5000);
-}
-
-setInterval(spawnParticle, 100);
+document.getElementById("scrollingText").textContent = text;
+document.getElementById("scrollingText2").textContent = text;
 
 </script>
 

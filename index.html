@@ -6,111 +6,199 @@
     <title>Games Unleashed</title>
 
     <style>
+
         body {
-            background-color: #000;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 50px;
+            padding-top: 120px;
             min-height: 100vh;
             overflow: hidden;
             position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            /* PAPER TEXTURE */
+            background-color: #ffd6ea;
+
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 1px, transparent 2px),
+                radial-gradient(circle at 80% 40%, rgba(255,255,255,0.25) 1px, transparent 2px),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.3) 1px, transparent 2px),
+                linear-gradient(
+                    180deg,
+                    #ffd6ea,
+                    #ffc0dd
+                );
+
+            background-size:
+                120px 120px,
+                180px 180px,
+                140px 140px,
+                100% 100%;
+        }
+
+        /* TOP SCROLLING BAR */
+
+        .top-scroll {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+
+            background: rgba(255,255,255,0.35);
+
+            backdrop-filter: blur(6px);
+
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+
+            border-bottom: 2px solid #ff5ca8;
+
+            z-index: 999;
+        }
+
+        .top-scroll span {
+
+            white-space: nowrap;
+
+            color: #ff1493;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            text-shadow:
+                0 0 5px #ff8fc7,
+                0 0 10px #ff8fc7;
+
+            padding-left: 100%;
+
+            animation: marquee 18s linear infinite;
+        }
+
+        @keyframes marquee {
+
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .container {
             text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px;
             position: relative;
             z-index: 2;
         }
 
         /* TITLE */
+
         .glow-text {
-            font-size: 72px;
+
+            font-size: 80px;
             font-weight: bold;
-            color: #fff;
+
             margin: 0;
-            animation: glowFade 2.5s ease-in-out infinite;
+
+            color: #ff1493;
+
+            animation: pinkGlow 3s ease-in-out infinite;
         }
 
-        @keyframes glowFade {
+        @keyframes pinkGlow {
+
             0% {
-                opacity: 1;
+
                 text-shadow:
-                    0 0 5px #2E2EFF,
-                    0 0 10px #2E2EFF,
-                    0 0 20px #2E2EFF,
-                    0 0 40px #2E2EFF,
-                    0 0 80px #2E2EFF;
+                    0 0 5px #ff69b4,
+                    0 0 10px #ff69b4,
+                    0 0 20px #ff69b4,
+                    0 0 40px #ff69b4;
+
+                transform: translateY(0px);
             }
 
             50% {
-                opacity: 0.4;
+
                 text-shadow:
-                    0 0 2px #2E2EFF,
-                    0 0 5px #2E2EFF,
-                    0 0 10px #2E2EFF;
+                    0 0 10px #ff1493,
+                    0 0 20px #ff1493,
+                    0 0 40px #ff1493,
+                    0 0 70px #ff1493;
+
+                transform: translateY(-8px);
             }
 
             100% {
-                opacity: 1;
+
                 text-shadow:
-                    0 0 5px #2E2EFF,
-                    0 0 10px #2E2EFF,
-                    0 0 20px #2E2EFF,
-                    0 0 40px #2E2EFF,
-                    0 0 80px #2E2EFF;
+                    0 0 5px #ff69b4,
+                    0 0 10px #ff69b4,
+                    0 0 20px #ff69b4,
+                    0 0 40px #ff69b4;
+
+                transform: translateY(0px);
             }
         }
 
-        /* TYPING TEXT */
-        .typing {
+        .author-text {
+
             font-size: 22px;
             font-weight: bold;
-            color: #ddd;
-            margin-top: 10px;
-            letter-spacing: 2px;
-            display: inline-block;
-            border-right: 2px solid #2E2EFF;
-            white-space: nowrap;
-            overflow: hidden;
-            text-shadow: 0 0 5px #2E2EFF;
-            min-height: 28px;
-            height: 28px;
-        }
 
-        .author-text {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
-            margin: 10px 0 0 0;
-            text-shadow: 0 0 5px #2E2EFF;
+            color: white;
+
+            margin-top: 15px;
+
+            text-shadow:
+                0 0 5px #ff69b4,
+                0 0 15px #ff69b4;
         }
 
         .subtext {
+
             font-size: 18px;
             font-weight: bold;
-            color: #ddd;
-            margin-top: 10px;
+
+            color: #fff0f6;
+
             letter-spacing: 2px;
+
+            margin-top: 10px;
+
+            text-shadow:
+                0 0 5px #ff69b4;
         }
 
-        /* PARTICLES FIXED */
+        /* PARTICLES */
+
         .particle {
+
             position: absolute;
-            background-color: #2E2EFF;
+
+            background-color: #ff69b4;
+
             border-radius: 50%;
+
             pointer-events: none;
+
             opacity: 0.8;
+
             filter: blur(1px);
+
             z-index: 1;
 
             animation: floatUp linear forwards;
         }
 
         @keyframes floatUp {
+
             from {
                 transform: translateY(0);
                 opacity: 0.8;
@@ -123,120 +211,67 @@
         }
 
         /* BUTTON */
+
         .start-button {
+
             display: inline-block;
-            margin-top: 30px;
-            padding: 15px 40px;
+
+            margin-top: 35px;
+
+            padding: 16px 45px;
+
             font-size: 24px;
             font-weight: bold;
+
             color: white;
-            background-color: #000;
-            border: 2px solid #2E2EFF;
+
+            background: linear-gradient(
+                135deg,
+                #ff69b4,
+                #ff1493
+            );
+
+            border: none;
+
             border-radius: 50px;
+
             cursor: pointer;
+
             text-transform: uppercase;
+
             letter-spacing: 2px;
+
             text-decoration: none;
-            box-shadow: 0 0 10px #2E2EFF;
+
+            box-shadow:
+                0 0 10px #ff69b4,
+                0 0 20px #ff69b4;
+
             transition: 0.3s;
         }
 
         .start-button:hover {
-            box-shadow: 0 0 30px #2E2EFF;
-            transform: scale(1.05);
+
+            transform: scale(1.08);
+
+            box-shadow:
+                0 0 20px #ff1493,
+                0 0 40px #ff1493,
+                0 0 70px #ff1493;
         }
 
-        /* SONG BOX */
-        .song-box {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 999;
-            background: rgba(0,0,0,0.75);
-            border: 1px solid #2E2EFF;
-            padding: 8px;
-            border-radius: 8px;
-            color: white;
-            width: 190px;
-            box-shadow: 0 0 8px #2E2EFF;
-            font-family: Arial;
-            font-size: 11px;
-        }
-
-        .song-title {
-            font-size: 14px;
-            margin-bottom: 6px;
-            color: #ddd;
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-
-        .song-title span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: scrollText 10s linear infinite;
-        }
-
-        @keyframes scrollText {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        .music-circle {
-    width: 70px;
-    height: 70px;
-    margin: 10px auto;
-    border-radius: 50%;
-    border: 3px solid #2E2EFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    /* REAL GLOW */
-    box-shadow:
-        0 0 10px #2E2EFF,
-        0 0 20px #2E2EFF,
-        inset 0 0 10px #2E2EFF;
-
-    transition: 0.3s;
-}
-
-.music-circle:hover {
-    transform: scale(1.1);
-
-    box-shadow:
-        0 0 15px #2E2EFF,
-        0 0 30px #2E2EFF,
-        0 0 60px #2E2EFF,
-        inset 0 0 10px #2E2EFF;
-}
-
-        .inner-circle {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #2E2EFF;
-        }
     </style>
 </head>
 
 <body>
 
-<div class="song-box">
+<!-- SCROLLING TOP TEXT -->
 
-    <div class="song-title">
-        <span>🎵 Song of the Week: Battling Strongish Monsters</span>
-    </div>
+<div class="top-scroll">
 
-    <div class="music-circle" onclick="toggleSong()">
-        <div class="inner-circle"></div>
-    </div>
+    <span>
+        ✨ WELCOME TO GAMES UNLEASHED ✨ NEW GAMES ✨ COOL STUFF ✨ FAHHHH ✨ UNDERTALE IS PEAK ✨
+    </span>
 
 </div>
 
@@ -244,155 +279,26 @@
 
     <h1 class="glow-text">Games Unleashed</h1>
 
-    <p id="typing" class="typing"></p>
+    <p class="author-text">By Luna Murray</p>
 
-    <p class="author-text">By luna murray</p>
     <p class="subtext">(Very fahhh)</p>
 
-    <a class="start-button" href="https://sites.google.com/aacps.org/gamesunleashed/games" target="_blank">
+    <a class="start-button"
+       href="https://sites.google.com/aacps.org/gamesunleashed/games"
+       target="_blank">
+
         Games
+
     </a>
 
 </div>
 
 <script>
 
-let musicWindow = null;
-
-function toggleSong() {
-    const url =
-        "https://drive.google.com/file/d/1ah-cbKMMGGO8PXcy--8YXnBJy1d1owGs/preview";
-
-    if (!musicWindow || musicWindow.closed) {
-        musicWindow = window.open(url, "MusicPlayer", "width=300,height=120");
-    } else {
-        musicWindow.close();
-        musicWindow = null;
-    }
-}
-
-/* ===================== */
-/* TYPING FIXED          */
-/* ===================== */
-
-const messages = [
-"https://youtube.com",
-"Too cool for skewl (Whoops I spelled 'school' wrong)",
-"GAY FROGS",
-"F O R G",
-"Nerd hookup: Dating app for nerds",
-"Dungeons and Dragons is too peak to be just for nerds",
-"New song weekly!",
-"PICK UP THE PHONE. NOISE IS CALLING.",
-"P I Z Z A",
-"Imagine having a valid education XD",
-"How many awesome websites do I need to make?",
-"SYNTAX ERROR: EVERYTHING",
-"Lord knows how nerdy I am",
-"Play undertale. NOW",
-"Me and my boi playing Brotato",
-"Lego Batman is geniuenly peak",
-"I could start a cult >:D",
-"Want a movie? Recommend it via the google form!",
-"Have you watched adventure time yet?",
-"Hey! No cussing in the chatroom!",
-"FAHHHHHHHHHHHHH",
-"AHH MY FOOT FELL ASLEEP~",
-"Please don't tattle :(",
-"IT'S CAINE THE TEETH-MAN",
-"RAHHHHHHHH",
-"I luv codeeng",
-"My brain stopped braining in 3rd grade",
-"I... am the alpha wolf!! AWOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
-"GO TO SLEEP!!",
-"My code looks so messy rn...",
-"Thug life B-)",
-"My IQ test came back as -5 :(",
-"Trump is an orange Cheeto puff",
-"WHO IS PEWDIEPIE??!?!?",
-"THICC",
-"SIX SEVEN SIX SEVEN",
-"Inspired by Frogies Arcade",
-"Logan was the first to attempt to curse in the chatroom. Frick Logan",
-"WESLEY ROCKS!!",
-"Jimmy is a bully. Don't be Jimmy",
-"What's up, ladies. I'm an OG fortniter B-]",
-"When you [Insert relatable thing here]",
-"I dO nOt FeAR DeatH, FoR i Am DeaTH!!!11!",
-"Hey, look! A cool little easter egg!",
-"Search for the hidden games!",
-"Hm... seems like math homework to me!",
-"Amongus",
-"This took WAY too long to code ToT",
-"New games added daily!",
-"Blud thought this was canvas",
-"Enter the arcade.",
-"Skibidi rizz",
-"Don't get caught!",
-"Sybau  🥀💔✌️",
-"Tiff = Tuff",
-"UwU me iz cute",
-"ULTRA CRINGE",
-"Who you looking at?! >:("
-];
-
-let charIndex = 0;
-let isDeleting = false;
-let currentMessage = "";
-let lastMessage = "";
-
-function pickRandomMessage() {
-    let msg;
-    do {
-        msg = messages[Math.floor(Math.random() * messages.length)];
-    } while (msg === lastMessage);
-
-    lastMessage = msg;
-    return msg;
-}
-
-function type() {
-    const display = document.getElementById("typing");
-
-    if (!currentMessage) {
-        currentMessage = pickRandomMessage();
-    }
-
-    if (!isDeleting) {
-
-        display.innerHTML = currentMessage.substring(0, charIndex);
-        charIndex++;
-
-        if (charIndex > currentMessage.length) {
-            isDeleting = true;
-            setTimeout(type, 1200);
-            return;
-        }
-
-    } else {
-
-        display.innerHTML = currentMessage.substring(0, charIndex);
-        charIndex--;
-
-        if (charIndex < 0) {
-            isDeleting = false;
-            currentMessage = pickRandomMessage();
-            charIndex = 0;
-        }
-    }
-
-    setTimeout(type, isDeleting ? 50 : 90);
-}
-
-type();
-
-/* ===================== */
-/* PARTICLES FIXED      */
-/* ===================== */
-
 function createParticle() {
 
     const particle = document.createElement("div");
+
     particle.classList.add("particle");
 
     const size = Math.random() * 6 + 2;
@@ -401,6 +307,7 @@ function createParticle() {
     particle.style.height = size + "px";
 
     particle.style.left = Math.random() * window.innerWidth + "px";
+
     particle.style.top = (window.innerHeight + 10) + "px";
 
     const duration = Math.random() * 4 + 2;
@@ -410,7 +317,9 @@ function createParticle() {
     document.body.appendChild(particle);
 
     setTimeout(() => {
+
         particle.remove();
+
     }, duration * 1000);
 }
 

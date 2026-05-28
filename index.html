@@ -7,44 +7,53 @@
 
     <style>
 
-        body {
+body {
 
-            margin: 0;
+    margin: 0;
 
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 
-            padding-top: 120px;
+    padding-top: 120px;
 
-            min-height: 100vh;
+    min-height: 100vh;
 
-            overflow: hidden;
+    overflow: hidden;
 
-            position: relative;
+    position: relative;
 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-            /* PAPER-LIKE BACKGROUND */
+    /* BLACK PAPER TEXTURE */
 
-            background-color: #ffd6ea;
+    background-color: #050505;
 
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 1px, transparent 2px),
-                radial-gradient(circle at 80% 40%, rgba(255,255,255,0.25) 1px, transparent 2px),
-                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.3) 1px, transparent 2px),
-                linear-gradient(
-                    180deg,
-                    #ffd6ea,
-                    #ffc0dd
-                );
+    background-image:
 
-            background-size:
-                120px 120px,
-                180px 180px,
-                140px 140px,
-                100% 100%;
-        }
+        radial-gradient(
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            rgba(255,255,255,0.02) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            180deg,
+            #0a0a0a,
+            #050505
+        );
+
+    background-size:
+        4px 4px,
+        7px 7px,
+        100% 100%;
+
+    color: white;
+}
 
         /* TOP SCROLLING BAR */
 
@@ -91,18 +100,18 @@
             animation: marquee 18s linear infinite;
         }
 
-        @keyframes marquee {
+@keyframes marquee {
 
-            0% {
+    0% {
 
-                transform: translateX(0);
-            }
+        transform: translateX(100%);
+    }
 
-            100% {
+    100% {
 
-                transform: translateX(-100%);
-            }
-        }
+        transform: translateX(-100%);
+    }
+}
 
         /* MAIN CONTAINER */
 

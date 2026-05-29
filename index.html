@@ -8,7 +8,7 @@
 <style>
 
 /* =========================
-   BASE / PAPER BACKGROUND
+   BASE
 ========================= */
 
 body {
@@ -16,30 +16,54 @@ body {
     overflow: hidden;
     font-family: Arial, sans-serif;
 
-    /* dark paper base */
-    background-color: #0b0b0b;
-
-    /* SIMPLE VISIBLE PAPER GRAIN */
-    background-image:
-        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-
-    background-size: 3px 3px, 7px 7px;
+    background: #0b0b0f; /* deep soft base */
 }
 
 /* =========================
-   MAIN UI
+   PAPER TEXTURE LAYER
+========================= */
+
+.paper {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+
+    /* soft warm/dark paper tone */
+    background: radial-gradient(
+        circle at 20% 20%,
+        #14141a,
+        #0b0b0f 60%
+    );
+}
+
+/* subtle fiber noise (this is the “real” paper feel) */
+.paper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    opacity: 0.08;
+    pointer-events: none;
+
+    background-image:
+        url("https://www.transparenttextures.com/patterns/noise.png");
+
+    /* IMPORTANT: makes it feel like real paper, not dots */
+    mix-blend-mode: overlay;
+}
+
+/* =========================
+   UI
 ========================= */
 
 .container {
     position: relative;
     z-index: 2;
-
     text-align: center;
     margin-top: 18vh;
 }
 
-/* TITLE (STATIC) */
+/* TITLE */
 .glow-text {
     font-size: 80px;
     font-weight: bold;
@@ -77,17 +101,13 @@ body {
 
 <body>
 
-<!-- MAIN CONTENT -->
+<!-- PAPER BACKGROUND -->
+<div class="paper"></div>
+
+<!-- MAIN UI -->
 <div class="container">
-
-    <h1 class="glow-text">
-        The Comic Relief Corner
-    </h1>
-
-    <a class="start-button" href="#">
-        Games
-    </a>
-
+    <h1 class="glow-text">The Comic Relief Corner</h1>
+    <a class="start-button" href="#">Games</a>
 </div>
 
 </body>

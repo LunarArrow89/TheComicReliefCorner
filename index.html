@@ -112,9 +112,25 @@ header{
 
 }
 
-/* ========================= TIME / DATE / BUTTONS ========================= */
+/* ========================= LEFT TIME ========================= */
 
-.header-right-panel{
+.header-left-time{
+    position:absolute;
+
+    left:20px;
+    bottom:18px;
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    z-index:3;
+}
+
+/* ========================= RIGHT BUTTONS ========================= */
+
+.header-right-buttons{
     position:absolute;
 
     right:20px;
@@ -128,7 +144,7 @@ header{
     z-index:3;
 }
 
-/* TIME */
+/* ========================= TIME ========================= */
 
 .time-display{
     font-size:22px;
@@ -141,16 +157,7 @@ header{
     color:#ff69b4;
 }
 
-/* DIVIDER */
-
-.datetime-divider{
-    width:1px;
-    height:26px;
-
-    background:rgba(180,180,180,0.5);
-}
-
-/* DATE */
+/* ========================= DATE ========================= */
 
 .date-display{
     font-size:22px;
@@ -163,15 +170,16 @@ header{
     text-shadow:0 0 8px #ff69b4;
 }
 
-/* ========================= BUTTONS ========================= */
+/* ========================= DIVIDER ========================= */
 
-.quick-links-cluster{
-    display:flex;
+.datetime-divider{
+    width:1px;
+    height:26px;
 
-    gap:10px;
-
-    margin-left:10px;
+    background:rgba(180,180,180,0.5);
 }
+
+/* ========================= BUTTONS ========================= */
 
 .square-link-btn{
     width:34px;
@@ -465,7 +473,7 @@ main{
 
     <header>
 
-        <!-- SCROLLING TEXT -->
+        <!-- TOP SCROLLING TEXT -->
 
         <div class="ticker-wrap">
 
@@ -475,47 +483,41 @@ main{
 
         </div>
 
-        <!-- TIME / DATE / BUTTONS -->
+        <!-- LEFT TIME -->
 
-        <div class="header-right-panel">
-
-            <!-- TIME -->
+        <div class="header-left-time">
 
             <div class="time-display" id="timeBox">
                 00:00:00
             </div>
 
-            <!-- DIVIDER -->
-
             <div class="datetime-divider"></div>
-
-            <!-- DATE -->
 
             <div class="date-display" id="dateBox">
                 YYYY/MM/DD
             </div>
 
-            <!-- BUTTONS -->
+        </div>
 
-            <div class="quick-links-cluster">
+        <!-- RIGHT BUTTONS -->
 
-                <a href="#" class="square-link-btn">
-                    <img src="https://picsum.photos/40?11">
-                </a>
+        <div class="header-right-buttons">
 
-                <a href="#" class="square-link-btn">
-                    <img src="https://picsum.photos/40?12">
-                </a>
+            <a href="#" class="square-link-btn">
+                <img src="https://picsum.photos/40?11">
+            </a>
 
-                <a href="#" class="square-link-btn">
-                    <img src="https://picsum.photos/40?13">
-                </a>
+            <a href="#" class="square-link-btn">
+                <img src="https://picsum.photos/40?12">
+            </a>
 
-                <a href="#" class="square-link-btn">
-                    <img src="https://picsum.photos/40?14">
-                </a>
+            <a href="#" class="square-link-btn">
+                <img src="https://picsum.photos/40?13">
+            </a>
 
-            </div>
+            <a href="#" class="square-link-btn">
+                <img src="https://picsum.photos/40?14">
+            </a>
 
         </div>
 

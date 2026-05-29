@@ -36,18 +36,20 @@
 
         /* ========================= LAYOUT GRID ========================= */
 
-        .wrapper {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            grid-template-rows: 240px 1fr;
-            height: 100vh;
-            position: relative;
-            z-index: 2;
-        }
+.wrapper {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 120px 1fr;
+
+    height: 100vh;
+    position: relative;
+    z-index: 2;
+}
 
         /* ========================= HEADER AREA ========================= */
 
         header {
+            height: 120px;
             grid-column: 2 / 3;
             grid-row: 1 / 2;
 
@@ -203,24 +205,26 @@
             box-shadow: 4px 0 15px rgba(255, 20, 147, 0.2);
         }
 
-        .logo-area {
-            width: 240px;
-            height: 240px;
+.logo-area {
+    width: 240px;
+    height: 120px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            border-bottom: 2px solid #ff1493;
+    /* REMOVED BOX BACKGROUND */
+    background: transparent;
 
-            background-color: rgba(255, 20, 147, 0.02);
+    /* REMOVED BOTTOM BORDER BOX */
+    border-bottom: none;
 
-            box-sizing: border-box;
-        }
+    box-sizing: border-box;
+}
 
-        .logo-image {
-            width: 180px;
-            height: 180px;
+.logo-image {
+    width: 85px;
+    height: 85px;
 
             object-fit: cover;
 

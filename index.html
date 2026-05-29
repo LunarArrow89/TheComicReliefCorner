@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner</title>
+
     <style>
+
         /* ========================= BASE / BACKGROUND ========================= */
+
         body {
             margin: 0;
             overflow: hidden;
@@ -17,6 +20,7 @@
         }
 
         /* SVG GRAIN OVERLAY */
+
         body::before {
             content: "";
             position: fixed;
@@ -24,34 +28,39 @@
             left: 0;
             right: 0;
             bottom: 0;
-            filter: url(#grainy-noise); 
-            opacity: 0.15; 
+            filter: url(#grainy-noise);
+            opacity: 0.15;
             pointer-events: none;
             z-index: 10;
         }
 
         /* ========================= LAYOUT GRID ========================= */
+
         .wrapper {
             display: grid;
             grid-template-columns: 240px 1fr;
-            /* Top row matches the height of the square logo block area */
-            grid-template-rows: 240px 1fr; 
+            grid-template-rows: 240px 1fr;
             height: 100vh;
             position: relative;
             z-index: 2;
         }
 
         /* ========================= HEADER AREA ========================= */
+
         header {
             grid-column: 2 / 3;
             grid-row: 1 / 2;
+
             display: flex;
             align-items: center;
+
             padding: 0 30px;
-            /* Matches the bottom border of the logo square block exactly */
-            border-bottom: 2px solid #ff1493; 
+
+            border-bottom: 2px solid #ff1493;
+
             box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
-            overflow: hidden; 
+
+            overflow: hidden;
             position: relative;
         }
 
@@ -60,52 +69,73 @@
             color: #ff69b4;
             font-weight: bold;
             white-space: nowrap;
-            z-index: 3; 
-            background-color: #0b0b0b; 
+            z-index: 3;
+            background-color: #0b0b0b;
             padding-right: 15px;
         }
 
-        /* WHOLE-WIDTH SCROLLING TEXT CONTAINER */
+        /* ========================= TICKER ========================= */
+
         .ticker-wrap {
             position: absolute;
-            left: 140px; 
-            /* Pushes the end track zone back to avoid crashing into the new quick-link buttons */
-            right: 320px; 
+
+            left: 140px;
+            right: 320px;
+
             overflow: hidden;
+
             display: flex;
             align-items: center;
+
             z-index: 2;
         }
 
         .ticker-text {
             display: inline-block;
             white-space: nowrap;
+
             font-size: 15px;
             font-weight: bold;
+
             color: #ff69b4;
+
             text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+
             animation: marquee 12s linear infinite;
-            padding-left: 100%; 
+
+            padding-left: 100%;
         }
 
         @keyframes marquee {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
         }
 
-        /* RIGHT PANEL FOR CLOCK & NEW LINKS */
+        /* ========================= HEADER RIGHT PANEL ========================= */
+
         .header-right-panel {
-            margin-left: auto; /* Snaps entire control cluster to the far right */
+            margin-left: auto;
+
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+
             gap: 15px;
+
             z-index: 3;
+
             background-color: #0b0b0b;
+
             padding-left: 15px;
         }
 
-        /* FOUR SQUARE QUICK LINKS WITH PADDED EDGES */
+        /* ========================= QUICK LINKS ========================= */
+
         .quick-links-cluster {
             display: flex;
             gap: 10px;
@@ -114,105 +144,152 @@
         .square-link-btn {
             width: 32px;
             height: 32px;
+
             background: rgba(255, 255, 255, 0.03);
+
             border: 1px solid rgba(255, 20, 147, 0.5);
-            border-radius: 6px; /* Smoothly padded/rounded corners */
+
+            border-radius: 6px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             color: white;
             text-decoration: none;
+
             font-size: 11px;
             font-weight: bold;
+
             transition: all 0.2s ease;
+
             box-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
 
         .square-link-btn:hover {
             background: #ff1493;
+
             box-shadow: 0 0 10px #ff69b4;
+
             transform: scale(1.05);
         }
+
+        /* ========================= CLOCK ========================= */
 
         .time-display {
             font-size: 24px;
             font-weight: bold;
+
             text-shadow: 0 0 8px #ff69b4;
+
             white-space: nowrap;
+
             line-height: 1;
         }
 
         /* ========================= SIDEBAR ========================= */
+
         sidebar {
             grid-column: 1 / 2;
             grid-row: 1 / 3;
+
             border-right: 2px solid #ff1493;
+
             background-color: rgba(11, 11, 11, 0.9);
+
             display: flex;
             flex-direction: column;
+
             box-shadow: 4px 0 15px rgba(255, 20, 147, 0.2);
         }
 
         .logo-area {
             width: 240px;
-            height: 240px; 
+            height: 240px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border-bottom: 2px solid #ff1493;
+
             background-color: rgba(255, 20, 147, 0.02);
+
             box-sizing: border-box;
         }
 
         .logo-image {
-            width: 180px;  
-            height: 180px; 
+            width: 180px;
+            height: 180px;
+
             object-fit: cover;
+
             border-radius: 12px;
+
             box-shadow: 0 0 20px #ff1493;
+
             border: 1px solid rgba(255, 20, 147, 0.4);
         }
+
+        /* ========================= NAVIGATION ========================= */
 
         .nav-links {
             display: flex;
             flex-direction: column;
+
             padding: 20px 0;
+
             gap: 10px;
-            overflow-y: auto; 
+
+            overflow-y: auto;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
+
             gap: 15px;
+
             padding: 12px 20px;
+
             color: white;
             text-decoration: none;
+
             font-weight: bold;
             font-size: 15px;
+
             border-left: 4px solid transparent;
+
             transition: all 0.2s ease;
         }
 
         .nav-item:hover {
             background: rgba(255, 20, 147, 0.1);
+
             border-left-color: #ff1493;
+
             text-shadow: 0 0 5px #ff69b4;
         }
 
         .nav-icon-img {
             width: 30px;
             height: 30px;
+
             object-fit: cover;
+
             border-radius: 4px;
         }
 
-        /* ========================= MAIN CONTENT BODY ========================= */
+        /* ========================= MAIN ========================= */
+
         main {
             grid-column: 2 / 3;
             grid-row: 2 / 3;
+
             padding: 40px;
+
             overflow-y: auto;
+
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -221,102 +298,284 @@
         .welcome-title {
             font-size: 54px;
             font-weight: bold;
+
             margin-bottom: 50px;
-            text-shadow: 0 0 8px #ff69b4, 0 0 18px #ff1493;
+
+            text-shadow:
+                0 0 8px #ff69b4,
+                0 0 18px #ff1493;
         }
 
         .card-grid {
             display: flex;
             justify-content: center;
+
             gap: 40px;
+
             width: 100%;
             max-width: 1000px;
+
             margin-top: 20px;
         }
 
         .feature-card {
             background: rgba(255, 255, 255, 0.03);
+
             border: 1px solid rgba(255, 20, 147, 0.3);
+
             border-radius: 16px;
+
             width: 240px;
+
             padding: 30px 20px;
+
             text-align: center;
+
             text-decoration: none;
+
             color: white;
+
             transition: all 0.3s ease;
+
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
+
             border-color: #ff1493;
+
             box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
         }
 
         .card-image {
             width: 100%;
             height: 120px;
+
             object-fit: cover;
+
             border-radius: 8px;
+
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .card-title {
             font-size: 22px;
             font-weight: bold;
         }
+
     </style>
 </head>
+
 <body>
 
     <!-- SVG NOISE FILTER -->
-    <svg style="display: none;">
+
+    <svg style="display:none;">
         <filter id="grainy-noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+            <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.65"
+                numOctaves="3"
+                stitchTiles="stitch"
+            />
         </filter>
     </svg>
 
-    <!-- FULL PAGE LAYOUT WRAPPER -->
+    <!-- PAGE WRAPPER -->
+
     <div class="wrapper">
-        
-        <!-- SIDEBAR NAVIGATION -->
+
+        <!-- SIDEBAR -->
+
         <sidebar>
+
             <div class="logo-area">
-                <img class="logo-image" src="https://unsplash.com" alt="Logo">
+                <img
+                    class="logo-image"
+                    src="https://picsum.photos/300"
+                    alt="Logo"
+                >
             </div>
+
             <nav class="nav-links">
+
                 <a href="#" class="nav-item">
-                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Games
+                    <img class="nav-icon-img" src="https://picsum.photos/50?1">
+                    Games
                 </a>
+
                 <a href="#" class="nav-item">
-                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Movies
+                    <img class="nav-icon-img" src="https://picsum.photos/50?2">
+                    Movies
                 </a>
+
                 <a href="#" class="nav-item">
-                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Chatroom
+                    <img class="nav-icon-img" src="https://picsum.photos/50?3">
+                    Chatroom
                 </a>
+
                 <a href="#" class="nav-item">
-                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Creators
+                    <img class="nav-icon-img" src="https://picsum.photos/50?4">
+                    Creators
                 </a>
+
                 <a href="#" class="nav-item">
-                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Discord
+                    <img class="nav-icon-img" src="https://picsum.photos/50?5">
+                    Discord
                 </a>
+
             </nav>
+
         </sidebar>
 
-        <!-- TOP BAR ROW (ALIGNED TO LOGO BLOCK SIZES) -->
+        <!-- HEADER -->
+
         <header>
-            <div class="date-display" id="dateBox">YYYY/MM/DD</div>
-            
-            <div class="ticker-wrap">
-                <div class="ticker-text">Welcome to the Comic Relief Corner! Enjoy your stay and explore our games, chatrooms, movies and communities!</div>
+
+            <!-- DATE -->
+
+            <div class="date-display" id="dateBox">
+                YYYY/MM/DD
             </div>
-const mm = String(now.getMonth() + 1).padStart(2, '0');
-const dd = String(now.getDate()).padStart(2, '0');
-document.getElementById('dateBox').textContent = ${yyyy}/${mm}/${dd};
-const hrs = String(now.getHours()).padStart(2, '0');
-const mins = String(now.getMinutes()).padStart(2, '0');
-const secs = String(now.getSeconds()).padStart(2, '0');
-document.getElementById('timeBox').textContent = ${hrs}:${mins}:${secs};}setInterval(updateClock, 1000);
-updateClock();{content: }
+
+            <!-- SCROLLING TEXT -->
+
+            <div class="ticker-wrap">
+                <div class="ticker-text">
+                    Welcome to the Comic Relief Corner! Enjoy your stay and explore our games, chatrooms, movies and communities!
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="header-right-panel">
+
+                <div class="quick-links-cluster">
+
+                    <a href="#" class="square-link-btn">YT</a>
+
+                    <a href="#" class="square-link-btn">DC</a>
+
+                    <a href="#" class="square-link-btn">GM</a>
+
+                    <a href="#" class="square-link-btn">CH</a>
+
+                </div>
+
+                <!-- CLOCK -->
+
+                <div class="time-display" id="timeBox">
+                    00:00:00
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- MAIN CONTENT -->
+
+        <main>
+
+            <div class="welcome-title">
+                Comic Relief Corner
+            </div>
+
+            <div class="card-grid">
+
+                <a href="#" class="feature-card">
+
+                    <img
+                        class="card-image"
+                        src="https://picsum.photos/400/200?1"
+                    >
+
+                    <div class="card-title">
+                        Games
+                    </div>
+
+                </a>
+
+                <a href="#" class="feature-card">
+
+                    <img
+                        class="card-image"
+                        src="https://picsum.photos/400/200?2"
+                    >
+
+                    <div class="card-title">
+                        Movies
+                    </div>
+
+                </a>
+
+                <a href="#" class="feature-card">
+
+                    <img
+                        class="card-image"
+                        src="https://picsum.photos/400/200?3"
+                    >
+
+                    <div class="card-title">
+                        Community
+                    </div>
+
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- CLOCK SCRIPT -->
+
+    <script>
+
+        function updateClock() {
+
+            const now = new Date();
+
+            /* DATE */
+
+            const yyyy = now.getFullYear();
+
+            const mm = String(
+                now.getMonth() + 1
+            ).padStart(2, '0');
+
+            const dd = String(
+                now.getDate()
+            ).padStart(2, '0');
+
+            document.getElementById('dateBox').textContent =
+                `${yyyy}/${mm}/${dd}`;
+
+            /* TIME */
+
+            const hrs = String(
+                now.getHours()
+            ).padStart(2, '0');
+
+            const mins = String(
+                now.getMinutes()
+            ).padStart(2, '0');
+
+            const secs = String(
+                now.getSeconds()
+            ).padStart(2, '0');
+
+            document.getElementById('timeBox').textContent =
+                `${hrs}:${mins}:${secs}`;
+        }
+
+        setInterval(updateClock, 1000);
+
+        updateClock();
+
+    </script>
+
+</body>
+</html>

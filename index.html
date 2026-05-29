@@ -8,96 +8,68 @@
 <style>
 
 /* =========================
-   BASE BACKGROUND (DARK + RED GLOW)
+   BASE / PAPER BACKGROUND
 ========================= */
 
 body {
     margin: 0;
-    height: 100vh;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: #0b0b0b;
     font-family: Arial, sans-serif;
-}
 
-/* subtle grain texture */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+    /* dark paper base */
+    background-color: #0b0b0b;
 
+    /* SIMPLE VISIBLE PAPER GRAIN */
     background-image:
-        radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
 
-    background-size: 3px 3px;
-    opacity: 0.15;
-}
-
-/* red glow area (top-right vibe from image) */
-.glow {
-    position: fixed;
-    top: -200px;
-    right: -200px;
-    width: 600px;
-    height: 600px;
-
-    background: radial-gradient(circle,
-        rgba(255, 60, 60, 0.35),
-        transparent 60%
-    );
-
-    filter: blur(40px);
+    background-size: 3px 3px, 7px 7px;
 }
 
 /* =========================
-   CENTER UI
+   MAIN UI
 ========================= */
 
 .container {
-    text-align: center;
+    position: relative;
     z-index: 2;
+
+    text-align: center;
+    margin-top: 18vh;
 }
 
-/* TITLE */
-.title {
+/* TITLE (STATIC) */
+.glow-text {
     font-size: 80px;
     font-weight: bold;
-    color: #ff4d6d;
+    color: white;
 
     text-shadow:
-        0 0 10px rgba(255, 77, 109, 0.6),
-        0 0 25px rgba(255, 77, 109, 0.4);
+        0 0 8px #ff69b4,
+        0 0 18px #ff1493;
 }
 
 /* BUTTON */
-.button {
+.start-button {
     display: inline-block;
-    margin-top: 25px;
+    margin-top: 30px;
+    padding: 15px 40px;
 
-    padding: 12px 40px;
-    font-size: 18px;
-    letter-spacing: 3px;
+    font-size: 22px;
+    font-weight: bold;
 
+    background: #ff1493;
     color: white;
+
+    border-radius: 30px;
     text-decoration: none;
 
-    border: 2px solid #ff4d6d;
-    border-radius: 999px;
-
-    box-shadow:
-        0 0 10px rgba(255, 77, 109, 0.4);
-
-    transition: 0.3s;
+    box-shadow: 0 0 15px #ff69b4;
 }
 
-.button:hover {
+.start-button:hover {
     transform: scale(1.05);
-    box-shadow:
-        0 0 20px rgba(255, 77, 109, 0.7);
 }
 
 </style>
@@ -105,11 +77,17 @@ body::before {
 
 <body>
 
-<div class="glow"></div>
-
+<!-- MAIN CONTENT -->
 <div class="container">
-    <div class="title">The Comic Relief Corner</div>
-    <a class="button" href="#">GAMES</a>
+
+    <h1 class="glow-text">
+        The Comic Relief Corner
+    </h1>
+
+    <a class="start-button" href="#">
+        Games
+    </a>
+
 </div>
 
 </body>

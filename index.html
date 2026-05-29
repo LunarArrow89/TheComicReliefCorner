@@ -109,9 +109,10 @@ header{
 /* ========================= DATE/TIME/BUTTON ROW ========================= */
 
 .header-right-panel{
-    margin-left:auto;
+    position:absolute;
 
-    margin-top:25px;
+    left:20px;
+    bottom:18px;
 
     display:flex;
     align-items:center;
@@ -119,19 +120,17 @@ header{
     gap:10px;
 
     z-index:3;
-
-    background:#0b0b0b;
-
-    padding-left:15px;
 }
 
 /* DATE */
 
 .date-display{
-    font-size:16px;
+    font-size:22px;
     color:#ff69b4;
     font-weight:bold;
     white-space:nowrap;
+
+    text-shadow:0 0 8px #ff69b4;
 }
 
 /* DIVIDER */

@@ -20,7 +20,7 @@ body{
     position:relative;
 }
 
-/* GRAIN */
+/* ========================= GRAIN ========================= */
 
 body::before{
     content:"";
@@ -38,7 +38,9 @@ body::before{
     display:grid;
     grid-template-columns:240px 1fr;
     grid-template-rows:120px 1fr;
+
     height:100vh;
+
     position:relative;
     z-index:2;
 }
@@ -61,16 +63,18 @@ header{
     box-shadow:0 4px 15px rgba(255,20,147,0.2);
 
     overflow:hidden;
+
     position:relative;
 }
 
-/* ========================= TOP SCROLLER ========================= */
+/* ========================= TOP SCROLLING TEXT ========================= */
 
 .ticker-wrap{
     position:absolute;
 
     left:20px;
     right:20px;
+
     top:10px;
 
     overflow:hidden;
@@ -97,6 +101,7 @@ header{
 }
 
 @keyframes marquee{
+
     0%{
         transform:translateX(0%);
     }
@@ -104,14 +109,15 @@ header{
     100%{
         transform:translateX(-100%);
     }
+
 }
 
-/* ========================= DATE/TIME/BUTTON ROW ========================= */
+/* ========================= TIME / DATE / BUTTONS ========================= */
 
 .header-right-panel{
     position:absolute;
 
-    left:20px;
+    right:20px;
     bottom:18px;
 
     display:flex;
@@ -122,26 +128,7 @@ header{
     z-index:3;
 }
 
-/* DATE */
-
-.date-display{
-    font-size:22px;
-    color:#ff69b4;
-    font-weight:bold;
-    white-space:nowrap;
-
-    text-shadow:0 0 8px #ff69b4;
-}
-
-/* DIVIDER */
-
-.datetime-divider{
-    width:1px;
-    height:26px;
-    background:rgba(180,180,180,0.5);
-}
-
-/* CLOCK */
+/* TIME */
 
 .time-display{
     font-size:22px;
@@ -150,13 +137,39 @@ header{
     white-space:nowrap;
 
     text-shadow:0 0 8px #ff69b4;
+
+    color:#ff69b4;
 }
 
-/* ========================= QUICK BUTTONS ========================= */
+/* DIVIDER */
+
+.datetime-divider{
+    width:1px;
+    height:26px;
+
+    background:rgba(180,180,180,0.5);
+}
+
+/* DATE */
+
+.date-display{
+    font-size:22px;
+    font-weight:bold;
+
+    white-space:nowrap;
+
+    color:#ff69b4;
+
+    text-shadow:0 0 8px #ff69b4;
+}
+
+/* ========================= BUTTONS ========================= */
 
 .quick-links-cluster{
     display:flex;
+
     gap:10px;
+
     margin-left:10px;
 }
 
@@ -192,6 +205,7 @@ header{
 .square-link-btn img{
     width:100%;
     height:100%;
+
     object-fit:cover;
 }
 
@@ -222,8 +236,6 @@ sidebar{
     justify-content:center;
 
     background:transparent;
-
-    box-sizing:border-box;
 }
 
 .logo-image{
@@ -234,9 +246,9 @@ sidebar{
 
     border-radius:12px;
 
-    box-shadow:0 0 20px #ff1493;
-
     border:1px solid rgba(255,20,147,0.4);
+
+    box-shadow:0 0 20px #ff1493;
 }
 
 /* ========================= NAVIGATION ========================= */
@@ -385,12 +397,14 @@ main{
 
 <svg style="display:none;">
     <filter id="grainy-noise">
+
         <feTurbulence
             type="fractalNoise"
             baseFrequency="0.65"
             numOctaves="3"
             stitchTiles="stitch"
         />
+
     </filter>
 </svg>
 
@@ -451,7 +465,7 @@ main{
 
     <header>
 
-        <!-- TOP SCROLLING TEXT -->
+        <!-- SCROLLING TEXT -->
 
         <div class="ticker-wrap">
 
@@ -461,19 +475,9 @@ main{
 
         </div>
 
-        <!-- DATE / TIME / BUTTONS -->
+        <!-- TIME / DATE / BUTTONS -->
 
         <div class="header-right-panel">
-
-            <!-- DATE -->
-
-            <div class="date-display" id="dateBox">
-                YYYY/MM/DD
-            </div>
-
-            <!-- LINE -->
-
-            <div class="datetime-divider"></div>
 
             <!-- TIME -->
 
@@ -481,7 +485,17 @@ main{
                 00:00:00
             </div>
 
-            <!-- IMAGE BUTTONS -->
+            <!-- DIVIDER -->
+
+            <div class="datetime-divider"></div>
+
+            <!-- DATE -->
+
+            <div class="date-display" id="dateBox">
+                YYYY/MM/DD
+            </div>
+
+            <!-- BUTTONS -->
 
             <div class="quick-links-cluster">
 

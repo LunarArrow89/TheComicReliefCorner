@@ -312,3 +312,11 @@
             <div class="ticker-wrap">
                 <div class="ticker-text">Welcome to the Comic Relief Corner! Enjoy your stay and explore our games, chatrooms, movies and communities!</div>
             </div>
+const mm = String(now.getMonth() + 1).padStart(2, '0');
+const dd = String(now.getDate()).padStart(2, '0');
+document.getElementById('dateBox').textContent = ${yyyy}/${mm}/${dd};
+const hrs = String(now.getHours()).padStart(2, '0');
+const mins = String(now.getMinutes()).padStart(2, '0');
+const secs = String(now.getSeconds()).padStart(2, '0');
+document.getElementById('timeBox').textContent = ${hrs}:${mins}:${secs};}setInterval(updateClock, 1000);
+updateClock();{content: }

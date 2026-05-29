@@ -5,64 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner</title>
     <style>
-        /* ========================= BASE / PAPER BACKGROUND ========================= */
+        /* ========================= BASE / BACKGROUND ========================= */
         body {
             margin: 0;
             overflow: hidden;
             font-family: Arial, sans-serif;
             background-color: #0b0b0b;
-            min-height: 100vh; /* Ensures the background color takes up the whole screen height */
+            min-height: 100vh;
             position: relative;
+            color: white;
         }
 
         /* SVG GRAIN OVERLAY */
         body::before {
             content: "";
-            position: fixed; /* Changed from absolute to fixed so it locks to the viewport edges */
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            /* Links to the SVG filter below */
             filter: url(#grainy-noise); 
             opacity: 0.15; 
             pointer-events: none;
-            z-index: 1;
+            z-index: 10; /* Keeps grain over everything */
         }
 
-        /* ========================= MAIN UI ========================= */
-        .container {
+        /* ========================= LAYOUT GRID ========================= */
+        .wrapper {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            grid-template-rows: 80px 1fr;
+            height: 100vh;
             position: relative;
-            z-index: 2; 
-            text-align: center;
-            margin-top: 18vh;
+            z-index: 2;
         }
 
-        /* TITLE (STATIC) */
-        .glow-text {
-            font-size: 80px;
+        /* ========================= HEADER ========================= */
+        header {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 2px solid #ff1493;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
+        }
+
+        .date-display {
+            font-size: 16px;
+            color: #ff69b4;
             font-weight: bold;
+        }
+
+        .time-display {
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 8px #ff69b4;
+        }
+
+        /* ========================= SIDEBAR ========================= */
+        sidebar {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+            border-right: 2px solid #ff1493;
+            background-color: rgba(11, 11, 11, 0.9);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(255, 20, 147, 0.2);
+        }
+
+        .logo-area {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: #ff1493;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 0 10px #ff69b4;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
             color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 20, 147, 0.1);
+            border-left-color: #ff1493;
+            text-shadow: 0 0 5px #ff69b4;
+        }
+
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* ========================= MAIN CONTENT BODY ========================= */
+        main {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .welcome-title {
+            font-size: 54px;
+            font-weight: bold;
+            margin-bottom: 50px;
             text-shadow: 0 0 8px #ff69b4, 0 0 18px #ff1493;
         }
 
-        /* BUTTON */
-        .start-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 40px;
-            font-size: 22px;
-            font-weight: bold;
-            background: #ff1493;
-            color: white;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 0 15px #ff69b4;
-            transition: transform 0.2s ease;
+        /* GRID FOR MAIN FEATURE BUTTONS */
+        .card-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
         }
 
-        .start-button:hover {
-            transform: scale(1.05);
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 16px;
+            width: 240px;
+            padding: 30px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff1493;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+        }
+
+        .card-image-box {
+            width: 100%;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -76,15 +208,87 @@
         </filter>
     </svg>
 
-    <!-- MAIN CONTENT -->
-    <div class="container">
-        <h1 class="glow-text">
-            The Comic Relief Corner
-        </h1>
-        <a class="start-button" href="#">
-            Games
-        </a>
+    <!-- FULL PAGE LAYOUT WRAPPER -->
+    <div class="wrapper">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <sidebar>
+            <div class="logo-area">
+                <div class="logo-placeholder">Image</div>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">Img</div> Games
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">Img</div> Movies
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">Img</div> Chatroom
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">Img</div> Creators
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">Img</div> Discord
+                </a>
+            </nav>
+        </sidebar>
+
+        <!-- TOP BAR (DATE & TIME) -->
+        <header>
+            <div class="date-display" id="dateBox">YYYY/MM/DD</div>
+            <div class="time-display" id="timeBox">00:00:00</div>
+        </header>
+
+        <!-- MAIN DASHBOARD CONTENT -->
+        <main>
+            <h1 class="welcome-title">Welcome!</h1>
+            
+            <div class="card-grid">
+                <!-- Games Card -->
+                <a href="#" class="feature-card">
+                    <div class="card-image-box">(Image)</div>
+                    <div class="card-title">Games</div>
+                </a>
+
+                <!-- Movies Card -->
+                <a href="#" class="feature-card">
+                    <div class="card-image-box">(Image)</div>
+                    <div class="card-title">Movies</div>
+                </a>
+
+                <!-- Chatroom Card -->
+                <a href="#" class="feature-card">
+                    <div class="card-image-box">(Image)</div>
+                    <div class="card-title">Chatroom</div>
+                </a>
+            </div>
+        </main>
+
     </div>
+
+    <!-- LIVE CLOCK SCRIPT -->
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // Format Date: YYYY/MM/DD
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            document.getElementById('dateBox').textContent = `${yyyy}/${mm}/${dd}`;
+            
+            // Format Time: HH:MM:SS
+            const hrs = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('timeBox').textContent = `${hrs}:${mins}:${secs}`;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock(); // Run immediately on load
+    </script>
 
 </body>
 </html>

@@ -11,20 +11,21 @@
             overflow: hidden;
             font-family: Arial, sans-serif;
             background-color: #0b0b0b;
+            min-height: 100vh; /* Ensures the background color takes up the whole screen height */
             position: relative;
         }
 
         /* SVG GRAIN OVERLAY */
         body::before {
             content: "";
-            position: absolute;
+            position: fixed; /* Changed from absolute to fixed so it locks to the viewport edges */
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             /* Links to the SVG filter below */
             filter: url(#grainy-noise); 
-            opacity: 0.15; /* Adjust this value to make the grain sharper or softer */
+            opacity: 0.15; 
             pointer-events: none;
             z-index: 1;
         }
@@ -32,7 +33,7 @@
         /* ========================= MAIN UI ========================= */
         .container {
             position: relative;
-            z-index: 2; /* Sits above the grain layer so text stays sharp */
+            z-index: 2; 
             text-align: center;
             margin-top: 18vh;
         }
@@ -70,7 +71,6 @@
     <!-- SVG NOISE FILTER -->
     <svg style="display: none;">
         <filter id="grainy-noise">
-            <!-- baseFrequency sets the density/size of the grain particles -->
             <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
             <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" />
         </filter>

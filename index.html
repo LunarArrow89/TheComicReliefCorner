@@ -27,7 +27,7 @@
             filter: url(#grainy-noise); 
             opacity: 0.15; 
             pointer-events: none;
-            z-index: 10; /* Keeps grain over everything */
+            z-index: 10;
         }
 
         /* ========================= LAYOUT GRID ========================= */
@@ -50,18 +50,52 @@
             padding: 0 30px;
             border-bottom: 2px solid #ff1493;
             box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
+            overflow: hidden; /* Keeps scrolling text inside the header boundaries */
         }
 
         .date-display {
             font-size: 16px;
             color: #ff69b4;
             font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* RIGHT-SIDE CONTAINER FOR SCROLLING TEXT & TIME */
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            max-width: 60%;
+        }
+
+        /* SCROLLING TEXT TRACK */
+        .ticker-wrap {
+            width: 250px; /* Constrains display zone for the scrolling text */
+            overflow: hidden;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff69b4;
+            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
 
         .time-display {
             font-size: 20px;
             font-weight: bold;
             text-shadow: 0 0 8px #ff69b4;
+            line-height: 1;
         }
 
         /* ========================= SIDEBAR ========================= */
@@ -75,24 +109,26 @@
             box-shadow: 4px 0 15px rgba(255, 20, 147, 0.2);
         }
 
+        /* AREA AROUND LOGO SHAPED AS A SQUARE */
         .logo-area {
-            height: 80px;
+            width: 240px;
+            height: 240px; /* Equal height makes the bounding zone a perfect square */
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid rgba(255, 20, 147, 0.3);
+            border-bottom: 2px solid #ff1493;
+            background-color: rgba(255, 20, 147, 0.02);
+            box-sizing: border-box;
         }
 
-        .logo-placeholder {
-            width: 50px;
-            height: 50px;
-            background: #ff1493;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            box-shadow: 0 0 10px #ff69b4;
+        /* LOGO IMAGE MADE BIGGER */
+        .logo-image {
+            width: 180px;  /* Scaled up from 50px */
+            height: 180px; /* Scaled up from 50px */
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 0 20px #ff1493;
+            border: 1px solid rgba(255, 20, 147, 0.4);
         }
 
         .nav-links {
@@ -100,6 +136,7 @@
             flex-direction: column;
             padding: 20px 0;
             gap: 10px;
+            overflow-y: auto; /* Handles sidebar scrolling safely if menu grows */
         }
 
         .nav-item {
@@ -121,15 +158,11 @@
             text-shadow: 0 0 5px #ff69b4;
         }
 
-        .nav-icon {
+        .nav-icon-img {
             width: 30px;
             height: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            object-fit: cover;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
         }
 
         /* ========================= MAIN CONTENT BODY ========================= */
@@ -150,7 +183,6 @@
             text-shadow: 0 0 8px #ff69b4, 0 0 18px #ff1493;
         }
 
-        /* GRID FOR MAIN FEATURE BUTTONS */
         .card-grid {
             display: flex;
             justify-content: center;
@@ -179,17 +211,13 @@
             box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
         }
 
-        .card-image-box {
+        .card-image {
             width: 100%;
             height: 120px;
-            background: rgba(255, 255, 255, 0.07);
+            object-fit: cover;
             border-radius: 8px;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #aaa;
-            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .card-title {
@@ -214,31 +242,38 @@
         <!-- SIDEBAR NAVIGATION -->
         <sidebar>
             <div class="logo-area">
-                <div class="logo-placeholder">Image</div>
+                <img class="logo-image" src="https://unsplash.com" alt="Logo">
             </div>
             <nav class="nav-links">
                 <a href="#" class="nav-item">
-                    <div class="nav-icon">Img</div> Games
+                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Games
                 </a>
                 <a href="#" class="nav-item">
-                    <div class="nav-icon">Img</div> Movies
+                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Movies
                 </a>
                 <a href="#" class="nav-item">
-                    <div class="nav-icon">Img</div> Chatroom
+                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Chatroom
                 </a>
                 <a href="#" class="nav-item">
-                    <div class="nav-icon">Img</div> Creators
+                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Creators
                 </a>
                 <a href="#" class="nav-item">
-                    <div class="nav-icon">Img</div> Discord
+                    <img class="nav-icon-img" src="https://unsplash.com" alt=""> Discord
                 </a>
             </nav>
         </sidebar>
 
-        <!-- TOP BAR (DATE & TIME) -->
+        <!-- TOP BAR (DATE, TICKER, TIME) -->
         <header>
             <div class="date-display" id="dateBox">YYYY/MM/DD</div>
-            <div class="time-display" id="timeBox">00:00:00</div>
+            
+            <div class="header-right">
+                <!-- SCROLLING MARQUEE TEXT BLOCK -->
+                <div class="ticker-wrap">
+                    <div class="ticker-text">Welcome to the Comic Relief Corner! Stay updated!</div>
+                </div>
+                <div class="time-display" id="timeBox">00:00:00</div>
+            </div>
         </header>
 
         <!-- MAIN DASHBOARD CONTENT -->
@@ -248,19 +283,19 @@
             <div class="card-grid">
                 <!-- Games Card -->
                 <a href="#" class="feature-card">
-                    <div class="card-image-box">(Image)</div>
+                    <img class="card-image" src="https://unsplash.com" alt="Games">
                     <div class="card-title">Games</div>
                 </a>
 
                 <!-- Movies Card -->
                 <a href="#" class="feature-card">
-                    <div class="card-image-box">(Image)</div>
+                    <img class="card-image" src="https://unsplash.com" alt="Movies">
                     <div class="card-title">Movies</div>
                 </a>
 
                 <!-- Chatroom Card -->
                 <a href="#" class="feature-card">
-                    <div class="card-image-box">(Image)</div>
+                    <img class="card-image" src="https://unsplash.com" alt="Chatroom">
                     <div class="card-title">Chatroom</div>
                 </a>
             </div>
@@ -268,27 +303,3 @@
 
     </div>
 
-    <!-- LIVE CLOCK SCRIPT -->
-    <script>
-        function updateClock() {
-            const now = new Date();
-            
-            // Format Date: YYYY/MM/DD
-            const yyyy = now.getFullYear();
-            const mm = String(now.getMonth() + 1).padStart(2, '0');
-            const dd = String(now.getDate()).padStart(2, '0');
-            document.getElementById('dateBox').textContent = `${yyyy}/${mm}/${dd}`;
-            
-            // Format Time: HH:MM:SS
-            const hrs = String(now.getHours()).padStart(2, '0');
-            const mins = String(now.getMinutes()).padStart(2, '0');
-            const secs = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('timeBox').textContent = `${hrs}:${mins}:${secs}`;
-        }
-        
-        setInterval(updateClock, 1000);
-        updateClock(); // Run immediately on load
-    </script>
-
-</body>
-</html>

@@ -34,23 +34,25 @@
         .wrapper {
             display: grid;
             grid-template-columns: 240px 1fr;
-            grid-template-rows: 80px 1fr;
+            /* Top row matches the height of the square logo block area */
+            grid-template-rows: 240px 1fr; 
             height: 100vh;
             position: relative;
             z-index: 2;
         }
 
-        /* ========================= HEADER ========================= */
+        /* ========================= HEADER AREA ========================= */
         header {
             grid-column: 2 / 3;
             grid-row: 1 / 2;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 0 30px;
-            border-bottom: 2px solid #ff1493;
+            /* Matches the bottom border of the logo square block exactly */
+            border-bottom: 2px solid #ff1493; 
             box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
-            overflow: hidden; /* Keeps scrolling text inside the header boundaries */
+            overflow: hidden; 
+            position: relative;
         }
 
         .date-display {
@@ -58,43 +60,85 @@
             color: #ff69b4;
             font-weight: bold;
             white-space: nowrap;
+            z-index: 3; 
+            background-color: #0b0b0b; 
+            padding-right: 15px;
         }
 
-        /* RIGHT-SIDE CONTAINER FOR SCROLLING TEXT & TIME */
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 4px;
-            max-width: 60%;
-        }
-
-        /* SCROLLING TEXT TRACK */
+        /* WHOLE-WIDTH SCROLLING TEXT CONTAINER */
         .ticker-wrap {
-            width: 250px; /* Constrains display zone for the scrolling text */
+            position: absolute;
+            left: 140px; 
+            /* Pushes the end track zone back to avoid crashing into the new quick-link buttons */
+            right: 320px; 
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            z-index: 2;
         }
 
         .ticker-text {
             display: inline-block;
             white-space: nowrap;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: bold;
             color: #ff69b4;
             text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
-            animation: marquee 10s linear infinite;
+            animation: marquee 12s linear infinite;
+            padding-left: 100%; 
         }
 
         @keyframes marquee {
-            0% { transform: translate3d(100%, 0, 0); }
+            0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
         }
 
+        /* RIGHT PANEL FOR CLOCK & NEW LINKS */
+        .header-right-panel {
+            margin-left: auto; /* Snaps entire control cluster to the far right */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            z-index: 3;
+            background-color: #0b0b0b;
+            padding-left: 15px;
+        }
+
+        /* FOUR SQUARE QUICK LINKS WITH PADDED EDGES */
+        .quick-links-cluster {
+            display: flex;
+            gap: 10px;
+        }
+
+        .square-link-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 20, 147, 0.5);
+            border-radius: 6px; /* Smoothly padded/rounded corners */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .square-link-btn:hover {
+            background: #ff1493;
+            box-shadow: 0 0 10px #ff69b4;
+            transform: scale(1.05);
+        }
+
         .time-display {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             text-shadow: 0 0 8px #ff69b4;
+            white-space: nowrap;
             line-height: 1;
         }
 
@@ -109,10 +153,9 @@
             box-shadow: 4px 0 15px rgba(255, 20, 147, 0.2);
         }
 
-        /* AREA AROUND LOGO SHAPED AS A SQUARE */
         .logo-area {
             width: 240px;
-            height: 240px; /* Equal height makes the bounding zone a perfect square */
+            height: 240px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -121,10 +164,9 @@
             box-sizing: border-box;
         }
 
-        /* LOGO IMAGE MADE BIGGER */
         .logo-image {
-            width: 180px;  /* Scaled up from 50px */
-            height: 180px; /* Scaled up from 50px */
+            width: 180px;  
+            height: 180px; 
             object-fit: cover;
             border-radius: 12px;
             box-shadow: 0 0 20px #ff1493;
@@ -136,7 +178,7 @@
             flex-direction: column;
             padding: 20px 0;
             gap: 10px;
-            overflow-y: auto; /* Handles sidebar scrolling safely if menu grows */
+            overflow-y: auto; 
         }
 
         .nav-item {
@@ -263,43 +305,11 @@
             </nav>
         </sidebar>
 
-        <!-- TOP BAR (DATE, TICKER, TIME) -->
+        <!-- TOP BAR ROW (ALIGNED TO LOGO BLOCK SIZES) -->
         <header>
             <div class="date-display" id="dateBox">YYYY/MM/DD</div>
             
-            <div class="header-right">
-                <!-- SCROLLING MARQUEE TEXT BLOCK -->
-                <div class="ticker-wrap">
-                    <div class="ticker-text">Welcome to the Comic Relief Corner! Stay updated!</div>
-                </div>
-                <div class="time-display" id="timeBox">00:00:00</div>
+            <div class="ticker-wrap">
+                <div class="ticker-text">Welcome to the Comic Relief Corner! Enjoy your stay and explore our games, chatrooms, movies and communities!</div>
             </div>
-        </header>
-
-        <!-- MAIN DASHBOARD CONTENT -->
-        <main>
-            <h1 class="welcome-title">Welcome!</h1>
-            
-            <div class="card-grid">
-                <!-- Games Card -->
-                <a href="#" class="feature-card">
-                    <img class="card-image" src="https://unsplash.com" alt="Games">
-                    <div class="card-title">Games</div>
-                </a>
-
-                <!-- Movies Card -->
-                <a href="#" class="feature-card">
-                    <img class="card-image" src="https://unsplash.com" alt="Movies">
-                    <div class="card-title">Movies</div>
-                </a>
-
-                <!-- Chatroom Card -->
-                <a href="#" class="feature-card">
-                    <img class="card-image" src="https://unsplash.com" alt="Chatroom">
-                    <div class="card-title">Chatroom</div>
-                </a>
-            </div>
-        </main>
-
-    </div>
 

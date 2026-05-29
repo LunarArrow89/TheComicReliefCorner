@@ -8,92 +8,96 @@
 <style>
 
 /* =========================
-   BASE
+   BASE BACKGROUND (DARK + RED GLOW)
 ========================= */
 
 body {
     margin: 0;
+    height: 100vh;
     overflow: hidden;
-    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    background: #0b0b0f; /* deep soft base */
+    background: #0b0b0b;
+    font-family: Arial, sans-serif;
 }
 
-/* =========================
-   PAPER TEXTURE LAYER
-========================= */
-
-.paper {
+/* subtle grain texture */
+body::before {
+    content: "";
     position: fixed;
     inset: 0;
-    z-index: -2;
-
-    /* soft warm/dark paper tone */
-    background: radial-gradient(
-        circle at 20% 20%,
-        #14141a,
-        #0b0b0f 60%
-    );
-}
-
-/* subtle fiber noise (this is the “real” paper feel) */
-.paper::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    opacity: 0.08;
     pointer-events: none;
 
     background-image:
-        url("https://www.transparenttextures.com/patterns/noise.png");
+        radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
 
-    /* IMPORTANT: makes it feel like real paper, not dots */
-    mix-blend-mode: overlay;
+    background-size: 3px 3px;
+    opacity: 0.15;
+}
+
+/* red glow area (top-right vibe from image) */
+.glow {
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+
+    background: radial-gradient(circle,
+        rgba(255, 60, 60, 0.35),
+        transparent 60%
+    );
+
+    filter: blur(40px);
 }
 
 /* =========================
-   UI
+   CENTER UI
 ========================= */
 
 .container {
-    position: relative;
-    z-index: 2;
     text-align: center;
-    margin-top: 18vh;
+    z-index: 2;
 }
 
 /* TITLE */
-.glow-text {
+.title {
     font-size: 80px;
     font-weight: bold;
-    color: white;
+    color: #ff4d6d;
 
     text-shadow:
-        0 0 8px #ff69b4,
-        0 0 18px #ff1493;
+        0 0 10px rgba(255, 77, 109, 0.6),
+        0 0 25px rgba(255, 77, 109, 0.4);
 }
 
 /* BUTTON */
-.start-button {
+.button {
     display: inline-block;
-    margin-top: 30px;
-    padding: 15px 40px;
+    margin-top: 25px;
 
-    font-size: 22px;
-    font-weight: bold;
+    padding: 12px 40px;
+    font-size: 18px;
+    letter-spacing: 3px;
 
-    background: #ff1493;
     color: white;
-
-    border-radius: 30px;
     text-decoration: none;
 
-    box-shadow: 0 0 15px #ff69b4;
+    border: 2px solid #ff4d6d;
+    border-radius: 999px;
+
+    box-shadow:
+        0 0 10px rgba(255, 77, 109, 0.4);
+
+    transition: 0.3s;
 }
 
-.start-button:hover {
+.button:hover {
     transform: scale(1.05);
+    box-shadow:
+        0 0 20px rgba(255, 77, 109, 0.7);
 }
 
 </style>
@@ -101,13 +105,11 @@ body {
 
 <body>
 
-<!-- PAPER BACKGROUND -->
-<div class="paper"></div>
+<div class="glow"></div>
 
-<!-- MAIN UI -->
 <div class="container">
-    <h1 class="glow-text">The Comic Relief Corner</h1>
-    <a class="start-button" href="#">Games</a>
+    <div class="title">The Comic Relief Corner</div>
+    <a class="button" href="#">GAMES</a>
 </div>
 
 </body>

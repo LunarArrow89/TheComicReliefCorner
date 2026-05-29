@@ -1,15 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Comic Relief Corner</title>
+
+<style>
+
+/* =========================
+   BASE / PAPER BACKGROUND
+========================= */
+
 body {
     margin: 0;
     overflow: hidden;
     font-family: Arial, sans-serif;
 
-    /* solid base */
+    /* dark paper base */
     background-color: #0b0b0b;
 
-    /* real paper grain texture */
+    /* SIMPLE VISIBLE PAPER GRAIN */
     background-image:
-        radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
 
-    background-size: 3px 3px, 6px 6px;
+    background-size: 3px 3px, 7px 7px;
 }
+
+/* =========================
+   MAIN UI
+========================= */
+
+.container {
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+    margin-top: 18vh;
+}
+
+/* TITLE (STATIC) */
+.glow-text {
+    font-size: 80px;
+    font-weight: bold;
+    color: white;
+
+    text-shadow:
+        0 0 8px #ff69b4,
+        0 0 18px #ff1493;
+}
+
+/* BUTTON */
+.start-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 40px;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    background: #ff1493;
+    color: white;
+
+    border-radius: 30px;
+    text-decoration: none;
+
+    box-shadow: 0 0 15px #ff69b4;
+}
+
+.start-button:hover {
+    transform: scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <h1 class="glow-text">
+        The Comic Relief Corner
+    </h1>
+
+    <a class="start-button" href="#">
+        Games
+    </a>
+
+</div>
+
+</body>
+</html>

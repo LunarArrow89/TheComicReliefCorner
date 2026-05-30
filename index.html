@@ -12,18 +12,22 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Base cozy background tone */
+        /* Gray background with a crisp white grid pattern */
         body {
             display: flex;
             height: 100vh;
-            background-color: #e5b3bb;
+            background-color: #e2e8f0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
+            background-size: 24px 24px;
             padding: 15px;
             gap: 15px;
             position: relative;
             overflow: hidden;
         }
 
-        /* Stronger, tactile grainy paper texture overlay applied to EVERYTHING */
+        /* High-fidelity grainy texture layered directly over the grid and panels */
         body::before, aside::before, header::before, .content-body::before {
             content: "";
             position: absolute;
@@ -33,7 +37,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 10;
-            opacity: 0.45; /* Enhanced visibility for a heavy paper fiber feel */
+            opacity: 0.35;
             mix-blend-mode: multiply;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
@@ -41,7 +45,7 @@
         /* Left Navigation Sidebar */
         aside {
             width: 240px;
-            background-color: rgba(74, 30, 38, 0.9);
+            background-color: rgba(74, 30, 38, 0.92);
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -93,7 +97,7 @@
 
         /* Top Bar Container */
         header {
-            background-color: rgba(74, 30, 38, 0.9);
+            background-color: rgba(74, 30, 38, 0.92);
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -131,7 +135,7 @@
             100% { transform: translate3d(-100%, 0, 0); }
         }
 
-        /* Sub-Header Title styled beneath scrolling text */
+        /* Sub-Header Title */
         .header-title {
             color: #ffccd5;
             font-size: 1.5rem;
@@ -194,23 +198,23 @@
             box-shadow: 0 0 12px rgba(255, 143, 163, 0.4);
         }
 
-        /* Central Layout Content Window Frame */
+        /* Central Layout Display Panel Box */
         .content-body {
             flex: 1;
-            background-color: rgba(74, 30, 38, 0.9);
+            background-color: rgba(74, 30, 38, 0.92);
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            padding: 25px;
+            padding: 40px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start; /* Aligns title vertically toward the top */
+            justify-content: flex-start; /* Aligns title horizontally toward the left */
             position: relative;
             overflow: hidden;
         }
 
-        /* Glow Pink Base Title - Shifted upward slightly */
+        /* Glow Pink Title - Positioned Up and Left inside the box */
         .content-body h1 {
             font-size: 6rem;
             color: #fff;
@@ -221,7 +225,8 @@
                 0 0 40px #ff758f,
                 0 0 80px #ff758f;
             letter-spacing: 2px;
-            margin-bottom: 60px; /* Shifts the title upward from the exact center */
+            margin-top: 10px; /* Controls top spacing margin offset */
+            margin-left: 15px; /* Controls left spacing margin offset */
             z-index: 11;
         }
     </style>
@@ -280,7 +285,7 @@
 
         <!-- Central Display Window -->
         <section class="content-body">
-            <!-- Large Glowing Pink Title Content -->
+            <!-- Large Glowing Pink Title Content - Shifted Up-Left inside the box -->
             <h1>Home</h1>
         </section>
     </main>
@@ -292,9 +297,4 @@
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const dateStr = now.toLocaleDateString();
             document.getElementById('live-clock').textContent = `${timeStr} | ${dateStr}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
-</body>
-</html>
+}setInterval(updateClock, 1000);updateClock();

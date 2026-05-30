@@ -4,310 +4,461 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner - Home</title>
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
         }
 
-        /* Gray background with a crisp white grid pattern */
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: #e2e8f0;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
-            background-size: 24px 24px;
-            padding: 15px;
-            gap: 15px;
-            position: relative;
-            overflow: hidden;
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        body{
+            display:flex;
+            height:100vh;
+            background-color:#e2e8f0;
+
+            background-image:
+                linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px);
+
+            background-size:24px 24px;
+
+            padding:15px;
+            gap:15px;
+            position:relative;
+            overflow:hidden;
         }
 
-        /* High-fidelity grainy texture layered directly over the grid and panels */
-        body::before, aside::before, header::before, .content-body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0.35;
-            mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Grain Texture */
+
+        body::before,
+        aside::before,
+        header::before,
+        .content-body::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            pointer-events:none;
+            z-index:10;
+            opacity:0.35;
+            mix-blend-mode:multiply;
+
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Left Navigation Sidebar */
-/* Left Navigation Sidebar */
-    aside {
-            width: 240px;
-            background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
-            backdrop-filter: blur(8px);
-            border: 2px solid #b86271;
-            border-radius: 20px;
-            padding: 25px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            z-index: 1;
-            position: relative;
-            overflow: hidden;
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        aside{
+            width:240px;
+
+            background:rgba(30,10,15,0.45);
+
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
+
+            border:2px solid #b86271;
+            border-radius:20px;
+
+            padding:25px 15px;
+
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+
+            position:relative;
+            overflow:hidden;
         }
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            text-decoration: none;
-            color: #ffccd5;
-            font-weight: 600;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-            z-index: 11;
+        .nav-item{
+            display:flex;
+            align-items:center;
+            gap:12px;
+
+            padding:12px 15px;
+
+            text-decoration:none;
+
+            color:#ffccd5;
+            font-weight:600;
+
+            border-radius:12px;
+            border:1px solid transparent;
+
+            transition:all 0.2s ease;
+
+            z-index:11;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 182, 193, 0.2);
-            border-color: #ff8fa3;
-            transform: translateX(3px);
+        .nav-item:hover,
+        .nav-item.active{
+            background-color:rgba(255,182,193,0.15);
+            border-color:#ff8fa3;
+            transform:translateX(3px);
         }
 
-        .nav-item .img-placeholder {
-            width: 24px;
-            height: 24px;
-            background-color: #b86271;
-            border-radius: 6px;
+        .nav-item .img-placeholder{
+            width:24px;
+            height:24px;
+
+            background-color:#b86271;
+
+            border-radius:6px;
         }
 
-        /* Main Workspace Section */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1;
+        /* =========================
+           MAIN
+        ========================= */
+
+        main{
+            flex:1;
+
+            display:flex;
+            flex-direction:column;
+
+            gap:15px;
         }
 
-        /* Top Bar Container */
-    header {
-        background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
-            backdrop-filter: blur(8px);
-            border: 2px solid #b86271;
-            border-radius: 20px;
-            padding: 15px 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
+        /* =========================
+           HEADER
+        ========================= */
+
+        header{
+            background:rgba(30,10,15,0.45);
+
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
+
+            border:2px solid #b86271;
+            border-radius:20px;
+
+            padding:15px 20px;
+
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+
+            display:flex;
+            flex-direction:column;
+
+            gap:12px;
+
+            position:relative;
+            overflow:hidden;
         }
 
-        /* Scrolling Text Marquee Box */
-        .ticker-wrap {
-            width: 100%;
-            overflow: hidden;
-            background-color: #3d141a;
-            padding: 6px 0;
-            border-radius: 10px;
-            border: 1px solid #853744;
-            z-index: 11;
+        /* =========================
+           TICKER
+        ========================= */
+
+        .ticker-wrap{
+            width:100%;
+            overflow:hidden;
+
+            background-color:#3d141a;
+
+            padding:6px 0;
+
+            border-radius:10px;
+            border:1px solid #853744;
+
+            z-index:11;
         }
 
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            color: #ffccd5;
-            font-size: 14px;
-            font-weight: 500;
-            animation: marquee 25s linear infinite;
+        .ticker{
+            display:inline-block;
+            white-space:nowrap;
+
+            color:#ffccd5;
+
+            font-size:14px;
+            font-weight:500;
+
+            animation:marquee 25s linear infinite;
         }
 
-        @keyframes marquee {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+        @keyframes marquee{
+            0%{
+                transform:translate3d(100%,0,0);
+            }
+
+            100%{
+                transform:translate3d(-100%,0,0);
+            }
         }
 
-        /* Sub-Header Title */
-        .header-title {
-            color: #ffccd5;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(255, 117, 143, 0.6);
-            margin-top: 2px;
-            margin-bottom: -4px;
-            z-index: 11;
+        /* =========================
+           TITLE
+        ========================= */
+
+        .header-title{
+            color:#ffccd5;
+
+            font-size:1.5rem;
+            font-weight:700;
+
+            letter-spacing:1px;
+
+            text-shadow:0 0 8px rgba(255,117,143,0.6);
+
+            margin-top:2px;
+            margin-bottom:-4px;
+
+            z-index:11;
         }
 
-        /* Meta Row: Time/Date vs Square Buttons */
-        .meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 11;
+        /* =========================
+           META ROW
+        ========================= */
+
+        .meta-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            z-index:11;
         }
 
-        .datetime {
-            font-size: 14px;
-            font-weight: bold;
-            color: #ffccd5;
-            background-color: #3d141a;
-            padding: 6px 14px;
-            border-radius: 8px;
-            border: 1px solid #853744;
+        .datetime{
+            font-size:14px;
+            font-weight:bold;
+
+            color:#ffccd5;
+
+            background-color:#3d141a;
+
+            padding:6px 14px;
+
+            border-radius:8px;
+            border:1px solid #853744;
         }
 
-        .button-group {
-            display: flex;
-            gap: 10px;
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-group{
+            display:flex;
+            gap:10px;
         }
 
-        .square-btn {
-            width: 44px;
-            height: 44px;
-            background-color: #3d141a;
-            border: 1px solid #b86271;
-            border-radius: 10px;
-            cursor: pointer;
-            padding: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+        .square-btn{
+            width:44px;
+            height:44px;
+
+            background-color:#3d141a;
+
+            border:1px solid #b86271;
+            border-radius:10px;
+
+            cursor:pointer;
+
+            overflow:hidden;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            transition:all 0.2s ease;
         }
 
-        .square-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
+        .square-btn img{
+            width:100%;
+            height:100%;
+
+            object-fit:cover;
+
+            border-radius:8px;
         }
 
-        .square-btn:hover {
-            border-color: #ff8fa3;
-            transform: translateY(-2px);
-            box-shadow: 0 0 12px rgba(255, 143, 163, 0.4);
+        .square-btn:hover{
+            border-color:#ff8fa3;
+
+            transform:translateY(-2px);
+
+            box-shadow:0 0 12px rgba(255,143,163,0.4);
         }
 
-        /* Central Layout Display Panel Box */
-        .content-body {
-            flex: 1;
-            background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
-            backdrop-filter: blur(8px);
-            border: 2px solid #b86271;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            padding: 40px;
-            display: flex;
-            align-items: flex-start; /* Aligns title vertically toward the top */
-            justify-content: flex-start; /* Aligns title horizontally toward the left */
-            position: relative;
-            overflow: hidden;
+        /* =========================
+           CONTENT BODY
+        ========================= */
+
+        .content-body{
+            flex:1;
+
+            background:rgba(30,10,15,0.45);
+
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
+
+            border:2px solid #b86271;
+            border-radius:20px;
+
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+
+            padding:40px;
+
+            display:flex;
+            align-items:flex-start;
+            justify-content:flex-start;
+
+            position:relative;
+            overflow:hidden;
         }
 
-        /* Glow Pink Title - Positioned Up and Left inside the box */
-        .content-body h1 {
-            font-size: 6rem;
-            color: #fff;
-            font-weight: 700;
-            text-shadow: 
+        /* =========================
+           MAIN TITLE
+        ========================= */
+
+        .content-body h1{
+            font-size:6rem;
+
+            color:#fff;
+
+            font-weight:700;
+
+            text-shadow:
                 0 0 10px #ff4d6d,
                 0 0 20px #ff4d6d,
                 0 0 40px #ff758f,
                 0 0 80px #ff758f;
-            letter-spacing: 2px;
-            margin-top: 10px; /* Controls top spacing margin offset */
-            margin-left: 15px; /* Controls left spacing margin offset */
-            z-index: 11;
+
+            letter-spacing:2px;
+
+            margin-top:10px;
+            margin-left:15px;
+
+            z-index:11;
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Left Navigation Sidebar -->
+    <!-- SIDEBAR -->
+
     <aside>
+
         <a href="#" class="nav-item active">
             <div class="img-placeholder"></div>
             <span>Home</span>
         </a>
+
         <a href="#" class="nav-item">
             <div class="img-placeholder"></div>
             <span>Games</span>
         </a>
+
         <a href="#" class="nav-item">
             <div class="img-placeholder"></div>
             <span>Movies</span>
         </a>
+
         <a href="#" class="nav-item">
             <div class="img-placeholder"></div>
             <span>Chatroom</span>
         </a>
+
         <a href="#" class="nav-item">
             <div class="img-placeholder"></div>
             <span>Creators</span>
         </a>
+
     </aside>
 
-    <!-- Main Content Container Area -->
+    <!-- MAIN -->
+
     <main>
-        <!-- Top Header Area -->
+
+        <!-- HEADER -->
+
         <header>
-            <!-- Scrolling Text Announcement Bar -->
+
+            <!-- TICKER -->
+
             <div class="ticker-wrap">
                 <div class="ticker">
                     🌸 Welcome back to your cozy dashboard terminal. System is secure. Grab a hot beverage and settle in. 🌸
                 </div>
             </div>
 
-            <!-- Branding Subtitle -->
-            <div class="header-title">The Comic Relief Corner</div>
-            
-            <!-- Time/Date and Top-Right Square Image Buttons -->
-            <div class="meta-row">
-                <div class="datetime" id="live-clock">Loading Clock...</div>
-                <div class="button-group">
-                    <button class="square-btn" title="Button 1"><img src="https://unsplash.com" alt="Icon 1"></button>
-                    <button class="square-btn" title="Button 2"><img src="https://unsplash.com" alt="Icon 2"></button>
-                    <button class="square-btn" title="Button 3"><img src="https://unsplash.com" alt="Icon 3"></button>
-                    <button class="square-btn" title="Button 4"><img src="https://unsplash.com" alt="Icon 4"></button>
-                </div>
+            <!-- TITLE -->
+
+            <div class="header-title">
+                The Comic Relief Corner
             </div>
+
+            <!-- META -->
+
+            <div class="meta-row">
+
+                <div class="datetime" id="live-clock">
+                    Loading Clock...
+                </div>
+
+                <div class="button-group">
+
+                    <button class="square-btn">
+                        <img src="https://picsum.photos/100?1">
+                    </button>
+
+                    <button class="square-btn">
+                        <img src="https://picsum.photos/100?2">
+                    </button>
+
+                    <button class="square-btn">
+                        <img src="https://picsum.photos/100?3">
+                    </button>
+
+                    <button class="square-btn">
+                        <img src="https://picsum.photos/100?4">
+                    </button>
+
+                </div>
+
+            </div>
+
         </header>
 
-        <!-- Central Display Window -->
+        <!-- CONTENT -->
+
         <section class="content-body">
-            <!-- Large Glowing Pink Title Content - Shifted Up-Left inside the box -->
+
             <h1>Home</h1>
+
         </section>
+
     </main>
 
-<!-- Real-Time Clock Script -->
-<script>
-    function updateClock() {
-        const now = new Date();
+    <!-- CLOCK -->
 
-        const timeStr = now.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
+    <script>
+        function updateClock(){
 
-        const dateStr = now.toLocaleDateString();
+            const now = new Date();
 
-        document.getElementById('live-clock').textContent =
-            `${timeStr} | ${dateStr}`;
-    }
+            const timeStr = now.toLocaleTimeString([],{
+                hour:'2-digit',
+                minute:'2-digit',
+                second:'2-digit'
+            });
 
-    updateClock();
-    setInterval(updateClock, 1000);
-</script>
+            const dateStr = now.toLocaleDateString();
+
+            document.getElementById('live-clock').textContent =
+                `${timeStr} | ${dateStr}`;
+        }
+
+        updateClock();
+
+        setInterval(updateClock,1000);
+    </script>
+
+</body>
+</html>

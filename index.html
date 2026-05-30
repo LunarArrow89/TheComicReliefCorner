@@ -43,9 +43,10 @@
         }
 
         /* Left Navigation Sidebar */
-        aside {
+/* Left Navigation Sidebar */
+    aside {
             width: 240px;
-            background-color: rgba(74, 30, 38, 0.92);
+            background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -96,8 +97,8 @@
         }
 
         /* Top Bar Container */
-        header {
-            background-color: rgba(74, 30, 38, 0.92);
+    header {
+        background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -201,7 +202,7 @@
         /* Central Layout Display Panel Box */
         .content-body {
             flex: 1;
-            background-color: rgba(74, 30, 38, 0.92);
+            background-color: rgba(74, 30, 38, 0.72); /* CHANGED */
             backdrop-filter: blur(8px);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -290,11 +291,23 @@
         </section>
     </main>
 
-    <!-- Real-Time Clock Script -->
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const dateStr = now.toLocaleDateString();
-            document.getElementById('live-clock').textContent = `${timeStr} | ${dateStr}`;
-}setInterval(updateClock, 1000);updateClock();
+<!-- Real-Time Clock Script -->
+<script>
+    function updateClock() {
+        const now = new Date();
+
+        const timeStr = now.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+
+        const dateStr = now.toLocaleDateString();
+
+        document.getElementById('live-clock').textContent =
+            `${timeStr} | ${dateStr}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>

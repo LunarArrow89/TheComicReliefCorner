@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>The Comic Relief Corner</title>
-
 <style>
-
 /* ========================= BASE ========================= */
-
 body{
     margin:0;
     overflow:hidden;
@@ -19,9 +15,7 @@ body{
     min-height:100vh;
     position:relative;
 }
-
 /* ========================= GRAIN ========================= */
-
 body::before{
     content:"";
     position:fixed;
@@ -31,9 +25,7 @@ body::before{
     pointer-events:none;
     z-index:10;
 }
-
 /* ========================= LAYOUT ========================= */
-
 .wrapper{
     display:grid;
     grid-template-columns:240px 1fr;
@@ -42,360 +34,295 @@ body::before{
     position:relative;
     z-index:2;
 }
-
 /* ========================= HEADER ========================= */
-
 header{
     grid-column:2/3;
     grid-row:1/2;
-
     height:120px;
-
     display:flex;
     align-items:center;
-
     padding:0 25px;
-
     border-bottom:2px solid #ff1493;
-
     box-shadow:0 4px 15px rgba(255,20,147,0.2);
-
     overflow:hidden;
-
     position:relative;
 }
-
 /* ========================= TOP SCROLLING TEXT ========================= */
-
 .ticker-wrap{
     position:absolute;
-
     left:20px;
     right:20px;
-
     top:10px;
-
     overflow:hidden;
-
     height:24px;
-
     display:flex;
     align-items:center;
 }
-
 .ticker-text{
     white-space:nowrap;
-
     font-size:14px;
     font-weight:bold;
-
     color:#ff69b4;
-
     text-shadow:0 0 5px rgba(255,105,180,0.5);
-
     padding-left:100%;
-
     animation:marquee 14s linear infinite;
 }
-
 @keyframes marquee{
-
-    0%{
-        transform:translateX(0%);
-    }
-
-    100%{
-        transform:translateX(-100%);
-    }
-
+    0%{ transform:translateX(0%); }
+    100%{ transform:translateX(-100%); }
 }
-
 /* ========================= LEFT TIME ========================= */
-
 .header-left-time{
     position:absolute;
-
     left:20px;
     bottom:18px;
-
     display:flex;
     align-items:center;
-
     gap:10px;
-
     z-index:3;
 }
-
 /* ========================= RIGHT BUTTONS ========================= */
-
 .header-right-buttons{
     position:absolute;
-
     right:20px;
     bottom:18px;
-
     display:flex;
     align-items:center;
-
     gap:10px;
-
     z-index:3;
 }
-
 /* ========================= TIME ========================= */
-
 .time-display{
     font-size:22px;
     font-weight:bold;
-
     white-space:nowrap;
-
     text-shadow:0 0 8px #ff69b4;
-
     color:#ff69b4;
 }
-
 /* ========================= DATE ========================= */
-
 .date-display{
     font-size:22px;
     font-weight:bold;
-
     white-space:nowrap;
-
     color:#ff69b4;
-
     text-shadow:0 0 8px #ff69b4;
 }
-
 /* ========================= DIVIDER ========================= */
-
 .datetime-divider{
     width:1px;
     height:26px;
-
     background:rgba(180,180,180,0.5);
 }
-
 /* ========================= BUTTONS ========================= */
-
 .square-link-btn{
     width:34px;
     height:34px;
-
     border-radius:8px;
-
     overflow:hidden;
-
     border:1px solid rgba(255,20,147,0.5);
-
     background:rgba(255,255,255,0.03);
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     transition:0.2s ease;
-
     box-shadow:0 0 5px rgba(0,0,0,0.5);
 }
-
 .square-link-btn:hover{
     transform:scale(1.08);
-
     border-color:#ff1493;
-
     box-shadow:0 0 12px #ff69b4;
 }
-
 .square-link-btn img{
     width:100%;
     height:100%;
-
     object-fit:cover;
 }
-
 /* ========================= SIDEBAR ========================= */
-
 aside{
     grid-column:1/2;
     grid-row:1/3;
-
     border-right:2px solid #ff1493;
-
     background:rgba(11,11,11,0.9);
-
     display:flex;
     flex-direction:column;
-
     box-shadow:4px 0 15px rgba(255,20,147,0.2);
 }
-
 /* ========================= LOGO ========================= */
-
-/* ========================= LOGO ========================= */
-
 .logo-area{
     width:240px;
     height:120px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     background:transparent;
 }
-
 .logo-image{
     width:225px;
     height:225px;
-
     object-fit:cover;
     position:relative;
-
     top:20px;
     left:30px;
-
     pointer-events:none;
 }
-
 /* ========================= NAVIGATION ========================= */
-
 .nav-links{
     display:flex;
     flex-direction:column;
-
     padding:20px 0;
-
     gap:10px;
-
     overflow-y:auto;
 }
-
 .nav-item{
     display:flex;
     align-items:center;
-
     gap:15px;
-
     padding:12px 20px;
-
     color:white;
     text-decoration:none;
-
     font-weight:bold;
     font-size:15px;
-
     border-left:4px solid transparent;
-
     transition:0.2s ease;
 }
-
 .nav-item:hover{
     background:rgba(255,20,147,0.1);
-
     border-left-color:#ff1493;
-
     text-shadow:0 0 5px #ff69b4;
 }
-
 .nav-icon-img{
     width:30px;
     height:30px;
-
     object-fit:cover;
-
     border-radius:4px;
 }
-
 /* ========================= MAIN ========================= */
-
 main{
     grid-column:2/3;
     grid-row:2/3;
-
     padding:40px;
-
     overflow-y:auto;
-
     display:flex;
     flex-direction:column;
     align-items:center;
 }
-
 .welcome-title{
     font-size:54px;
     font-weight:bold;
-
     margin-bottom:50px;
-
     text-shadow:
         0 0 8px #ff69b4,
         0 0 18px #ff1493;
 }
-
 /* ========================= CARDS ========================= */
-
 .card-grid{
     display:flex;
     justify-content:center;
-
     gap:40px;
-
     width:100%;
     max-width:1000px;
-
     margin-top:20px;
 }
-
 .feature-card{
     background:rgba(255,255,255,0.03);
-
     border:1px solid rgba(255,20,147,0.3);
-
     border-radius:16px;
-
     width:240px;
-
     padding:30px 20px;
-
     text-align:center;
-
     text-decoration:none;
-
     color:white;
-
     transition:0.3s ease;
-
     box-shadow:0 4px 10px rgba(0,0,0,0.5);
 }
-
 .feature-card:hover{
     transform:translateY(-5px);
-
     border-color:#ff1493;
-
     box-shadow:0 0 20px rgba(255,20,147,0.4);
 }
-
 .card-image{
     width:100%;
     height:120px;
-
     object-fit:cover;
-
     border-radius:8px;
-
     margin-bottom:20px;
-
     border:1px solid rgba(255,255,255,0.1);
 }
-
 .card-title{
     font-size:22px;
     font-weight:bold;
 }
+</style>
+</head>
+<body>
 
+<!-- SVG GRAIN FILTER -->
+<svg style="display:none;">
+    <filter id="grainy-noise">
+        <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.65"
+            numOctaves="3"
+            stitchTiles="stitch"
+        />
+    </filter>
+</svg>
+
+<!-- WRAPPER -->
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <aside>
+        <!-- LOGO -->
+        <div class="logo-area">
+            <img class="logo-image" src="data:image/png;base64,YOUR_BASE64_HERE" alt="Logo">
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="nav-links">
+            <a href="#" class="nav-item"> 
+                <img class="nav-icon-img" src="data:image/png;base64,YOUR_BASE64_HERE" alt="Games"> 
+                Games 
+            </a> 
+            <a href="#" class="nav-item"> 
+                <img class="nav-icon-img" src="data:image/png;base64,YOUR_BASE64_HERE" alt="Movies">   
+                Movies 
+            </a> 
+            <a href="#" class="nav-item"> 
+                <img class="nav-icon-img" src="data:image/png;base64,YOUR_BASE64_HERE" alt="Creators"> 
+                Creators 
+            </a>
+        </div>
+    </aside>
+
+    <!-- HEADER (Required for grid layout row 1, col 2) -->
+    <header>
+        <div class="ticker-wrap">
+            <div class="ticker-text">Welcome to The Comic Relief Corner! Stay updated!</div>
+        </div>
+        <div class="header-left-time">
+            <div class="time-display">12:00 PM</div>
+            <div class="datetime-divider"></div>
+            <div class="date-display">May 30</div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT (Required for grid layout row 2, col 2) -->
+    <main>
+        <h1 class="welcome-title">The Comic Relief Corner</h1>
+        
+        <div class="card-grid">
+            <a href="#" class="feature-card">
+                <img class="card-image" src="data:image/png;base64,YOUR_BASE64_HERE" alt="Feature">
+                <div class="card-title">Featured Content</div>
+            </a>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>
 </style>
 </head>
 

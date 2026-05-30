@@ -3,82 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout Template</title>
+    <title>The Comic Relief Corner - Home</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* Base cozy background tone */
         body {
             display: flex;
             height: 100vh;
-            background-color: #f5f5f5;
+            background-color: #e5b3bb;
+            padding: 15px;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Left Sidebar Navigation */
+        /* Stronger, tactile grainy paper texture overlay applied to EVERYTHING */
+        body::before, aside::before, header::before, .content-body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.45; /* Enhanced visibility for a heavy paper fiber feel */
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Left Navigation Sidebar */
         aside {
-            width: 220px;
-            background-color: #ffffff;
-            border-right: 2px solid #333;
-            padding: 20px 10px;
+            width: 240px;
+            background-color: rgba(74, 30, 38, 0.9);
+            backdrop-filter: blur(8px);
+            border: 2px solid #b86271;
+            border-radius: 20px;
+            padding: 25px 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            position: relative;
+            overflow: hidden;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
+            gap: 12px;
+            padding: 12px 15px;
             text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background 0.2s;
+            color: #ffccd5;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            z-index: 11;
         }
 
-        .nav-item:hover {
-            background-color: #e0e0e0;
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 182, 193, 0.2);
+            border-color: #ff8fa3;
+            transform: translateX(3px);
         }
 
         .nav-item .img-placeholder {
             width: 24px;
             height: 24px;
-            background-color: #ccc;
-            border-radius: 4px;
+            background-color: #b86271;
+            border-radius: 6px;
         }
 
-        /* Main Content Container Area */
+        /* Main Workspace Section */
         main {
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 15px;
+            z-index: 1;
         }
 
-        /* Top Header Container */
+        /* Top Bar Container */
         header {
-            background-color: #ffffff;
-            border-bottom: 2px solid #333;
-            padding: 10px 20px;
+            background-color: rgba(74, 30, 38, 0.9);
+            backdrop-filter: blur(8px);
+            border: 2px solid #b86271;
+            border-radius: 20px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Scrolling Text Banner */
+        /* Scrolling Text Marquee Box */
         .ticker-wrap {
             width: 100%;
             overflow: hidden;
-            background-color: #eee;
-            padding: 4px 0;
-            margin-bottom: 10px;
+            background-color: #3d141a;
+            padding: 6px 0;
+            border-radius: 10px;
+            border: 1px solid #853744;
+            z-index: 11;
         }
 
         .ticker {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 15s linear infinite;
+            color: #ffccd5;
+            font-size: 14px;
+            font-weight: 500;
+            animation: marquee 25s linear infinite;
         }
 
         @keyframes marquee {
@@ -86,61 +131,106 @@
             100% { transform: translate3d(-100%, 0, 0); }
         }
 
-        /* Meta Row: Time/Date and Buttons */
+        /* Sub-Header Title styled beneath scrolling text */
+        .header-title {
+            color: #ffccd5;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255, 117, 143, 0.6);
+            margin-top: 2px;
+            margin-bottom: -4px;
+            z-index: 11;
+        }
+
+        /* Meta Row: Time/Date vs Square Buttons */
         .meta-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 11;
         }
 
         .datetime {
             font-size: 14px;
             font-weight: bold;
-            color: #444;
+            color: #ffccd5;
+            background-color: #3d141a;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid #853744;
         }
 
         .button-group {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .square-btn {
-            width: 40px;
-            height: 40px;
-            background-color: #ddd;
-            border: 1px solid #999;
-            border-radius: 4px;
+            width: 44px;
+            height: 44px;
+            background-color: #3d141a;
+            border: 1px solid #b86271;
+            border-radius: 10px;
             cursor: pointer;
+            padding: 0;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .square-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .square-btn:hover {
-            background-color: #ccc;
+            border-color: #ff8fa3;
+            transform: translateY(-2px);
+            box-shadow: 0 0 12px rgba(255, 143, 163, 0.4);
         }
 
-        /* Center Content Body */
+        /* Central Layout Content Window Frame */
         .content-body {
             flex: 1;
+            background-color: rgba(74, 30, 38, 0.9);
+            backdrop-filter: blur(8px);
+            border: 2px solid #b86271;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Glow Pink Base Title - Shifted upward slightly */
         .content-body h1 {
-            font-size: 4rem;
-            color: #111;
+            font-size: 6rem;
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 
+                0 0 10px #ff4d6d,
+                0 0 20px #ff4d6d,
+                0 0 40px #ff758f,
+                0 0 80px #ff758f;
+            letter-spacing: 2px;
+            margin-bottom: 60px; /* Shifts the title upward from the exact center */
+            z-index: 11;
         }
     </style>
 </head>
 <body>
 
-    <!-- Left Sidebar Navigation -->
+    <!-- Left Navigation Sidebar -->
     <aside>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item active">
             <div class="img-placeholder"></div>
             <span>Home</span>
         </a>
@@ -162,36 +252,40 @@
         </a>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Container Area -->
     <main>
         <!-- Top Header Area -->
         <header>
-            <!-- Scrolling Text -->
+            <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
                 <div class="ticker">
-                    Breaking News: Welcome to the new platform interface! Stay tuned for more updates.
+                    🌸 Welcome back to your cozy dashboard terminal. System is secure. Grab a hot beverage and settle in. 🌸
                 </div>
             </div>
+
+            <!-- Branding Subtitle -->
+            <div class="header-title">The Comic Relief Corner</div>
             
-            <!-- Time/Date and Square Action Buttons -->
+            <!-- Time/Date and Top-Right Square Image Buttons -->
             <div class="meta-row">
-                <div class="datetime" id="live-clock">Loading Time...</div>
+                <div class="datetime" id="live-clock">Loading Clock...</div>
                 <div class="button-group">
-                    <button class="square-btn" title="Button 1">■</button>
-                    <button class="square-btn" title="Button 2">■</button>
-                    <button class="square-btn" title="Button 3">■</button>
-                    <button class="square-btn" title="Button 4">■</button>
+                    <button class="square-btn" title="Button 1"><img src="https://unsplash.com" alt="Icon 1"></button>
+                    <button class="square-btn" title="Button 2"><img src="https://unsplash.com" alt="Icon 2"></button>
+                    <button class="square-btn" title="Button 3"><img src="https://unsplash.com" alt="Icon 3"></button>
+                    <button class="square-btn" title="Button 4"><img src="https://unsplash.com" alt="Icon 4"></button>
                 </div>
             </div>
         </header>
 
-        <!-- Main Center Display -->
+        <!-- Central Display Window -->
         <section class="content-body">
+            <!-- Large Glowing Pink Title Content -->
             <h1>Home</h1>
         </section>
     </main>
 
-    <!-- Optional JavaScript for a Real-Time Clock -->
+    <!-- Real-Time Clock Script -->
     <script>
         function updateClock() {
             const now = new Date();

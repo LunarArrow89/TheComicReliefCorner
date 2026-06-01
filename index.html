@@ -82,10 +82,6 @@
             transition: color 0.2s ease;
         }
 
-        .nav-item span {
-            display: inline-block;
-        }
-
         .nav-item:hover, .nav-item.active {
             background-color: rgba(255, 182, 193, 0.2);
             border-color: #ff8fa3;
@@ -120,7 +116,7 @@
             position: relative;
         }
 
-        /* Ticker Container Layout Rules */
+        /* Ticker Container Layout */
         .ticker-wrap {
             width: 100%;
             overflow: hidden;
@@ -128,31 +124,26 @@
             padding: 8px 0;
             border-radius: 10px;
             border: 1px solid #853744;
-            display: flex;
         }
 
-        /* CSS Grid structure allows single element looping cleanly */
+        /* Main sliding container holding the text elements */
         .ticker {
-            display: flex;
+            display: inline-block;
             white-space: nowrap;
             will-change: transform;
-            transform: translateZ(0);
+            transform: translate3d(0, 0, 0);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeSpeed;
-            animation: marquee 8s linear infinite;
+            text-rendering: geometricPrecision;
         }
 
+        /* Individual text span styling */
         .ticker span {
-            padding-right: 50px;
+            display: inline-block;
+            padding-right: 100px; /* Precise uniform gap space between sentences */
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
-        }
-
-        @keyframes marquee {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
         }
 
         /* Sub-Header Title */
@@ -233,9 +224,8 @@
         <header>
             <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
-                <!-- Using flex duplication with inner spans to write your line exactly once in HTML -->
-                <div class="ticker">
-                    <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸</span>
+                <!-- Keep just one sentence here. The script duplicates it seamlessly. -->
+                <div class="ticker" id="marqueeTicker">
                     <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸</span>
                 </div>
             </div>
@@ -252,6 +242,46 @@
         </div>
 
     </main>
+
+    <!-- Seamless Infinite Loop Script Engine -->
+    <script>
+        const ticker = document.getElementById('marqueeTicker');
+        const originalSpan = ticker.querySelector('span');
+        
+        // Dynamically clone and multiply spans until they overflow the viewport width.
+        // This ensures absolutely zero blank spaces or reset flashing on wide monitors.
+        const gapSpace = 100; // Matches CSS padding-right
+        let totalWidth = originalSpan.getBoundingClientRect().width + gapSpace;
+        
+        while (totalWidth < window.innerWidth * 2) {
+            const clone = originalSpan.cloneNode(true);
+            ticker.appendChild(clone);
+            totalWidth += originalSpan.getBoundingClientRect().width + gapSpace;
+        }
+
+        let currentPosition = 0;
+        const speed = 2.5; // Change this value to adjust speed (e.g., 1 = slower, 4 = faster)
+
+        function animate() {
+            // The magic fix: reset exactly when the length of ONE single block passes out of view
+            const singleBlockWidth = originalSpan.getBoundingClientRect().width + gapSpace;
+            
+            currentPosition -= speed;
+
+            // Reset smoothly without screen flashing or shifting positions
+            if (Math.abs(currentPosition) >= singleBlockWidth) {
+                currentPosition += singleBlockWidth;
+            }
+
+            ticker.style.transform = `translate3d(${currentPosition}px, 0, 0)`;
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize when font layers have fully loaded to get exact bounding metrics
+        window.addEventListener('load', () => {
+            requestAnimationFrame(animate);
+        });
+    </script>
 
 </body>
 </html>

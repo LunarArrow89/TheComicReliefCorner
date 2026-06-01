@@ -43,11 +43,11 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* FIXED SIDEBAR: Added flex-shrink and explicit layout rules */
+        /* Left Navigation Sidebar */
         aside {
             width: 260px;
-            min-width: 260px; /* Lock structural width */
-            flex-shrink: 0; /* Prevents main window from squishing the panel */
+            min-width: 260px; 
+            flex-shrink: 0; 
             background-color: rgba(74, 30, 38, 0.95);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -66,12 +66,12 @@
             padding: 14px 18px;
             text-decoration: none;
             color: #ffccd5;
-            font-size: 16px; /* Explicit font size layout scale */
+            font-size: 16px; 
             font-weight: 600;
             border-radius: 12px;
             transition: all 0.2s ease;
             border: 1px solid transparent;
-            white-space: nowrap; /* Forces links onto a single row */
+            white-space: nowrap; 
         }
 
         .nav-item i {
@@ -104,7 +104,7 @@
             flex-direction: column;
             gap: 15px;
             z-index: 1;
-            min-width: 0; /* Allows standard flex computing math safely */
+            min-width: 0; 
         }
 
         /* Top Bar Container */
@@ -120,7 +120,7 @@
             position: relative;
         }
 
-        /* Ticker Container */
+        /* Ticker Container Layout Rules */
         .ticker-wrap {
             width: 100%;
             overflow: hidden;
@@ -128,21 +128,26 @@
             padding: 8px 0;
             border-radius: 10px;
             border: 1px solid #853744;
+            display: flex;
         }
 
+        /* CSS Grid structure allows single element looping cleanly */
         .ticker {
-            display: inline-block;
+            display: flex;
             white-space: nowrap;
-            padding-right: 50px;
-            color: #ffccd5;
-            font-size: 14px;
-            font-weight: 500;
             will-change: transform;
             transform: translateZ(0);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeSpeed;
-            animation: marquee 15s linear infinite;
+            animation: marquee 8s linear infinite;
+        }
+
+        .ticker span {
+            padding-right: 50px;
+            color: #ffccd5;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         @keyframes marquee {
@@ -228,9 +233,10 @@
         <header>
             <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
+                <!-- Using flex duplication with inner spans to write your line exactly once in HTML -->
                 <div class="ticker">
-                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸 &nbsp;&nbsp;&nbsp;&nbsp;
-                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸
+                    <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸</span>
+                    <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸</span>
                 </div>
             </div>
 

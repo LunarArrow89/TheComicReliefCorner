@@ -30,17 +30,6 @@ body {
     overflow: hidden;
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0.20;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
 /* SIDEBAR (UNCHANGED) */
 aside {
     width: 260px;
@@ -57,7 +46,6 @@ aside {
     z-index: 11;
 }
 
-/* NAV ITEMS (UNCHANGED STRUCTURE) */
 .nav-item {
     display: flex;
     align-items: center;
@@ -75,7 +63,10 @@ aside {
     overflow: hidden;
 }
 
-/* ⭐ ONLY ADDITION: IMAGE + PINK FILTER */
+/* =========================
+   ONLY CHANGE: IMAGE LINKS
+   ========================= */
+
 .nav-item::before {
     content: "";
     position: absolute;
@@ -84,50 +75,9 @@ aside {
     background-position: center;
     opacity: 0.35;
     z-index: 0;
-
-    filter: grayscale(100%) brightness(0.85);
 }
 
-/* pink overlay layer */
-.nav-item::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 105, 180, 0.30);
-    z-index: 1;
-}
-
-/* keep text above overlays */
-.nav-item i,
-.nav-item span {
-    position: relative;
-    z-index: 2;
-}
-
-/* YOUR ORIGINAL ICON COLORS */
-.nav-item i {
-    font-size: 1.35rem;
-    width: 24px;
-    text-align: center;
-    color: #b86271;
-    transition: color 0.2s ease;
-}
-
-/* HOVER (UNCHANGED) */
-.nav-item:hover,
-.nav-item.active {
-    background-color: rgba(255, 182, 193, 0.2);
-    border-color: #ff8fa3;
-    transform: translateX(5px);
-}
-
-.nav-item:hover i,
-.nav-item.active i {
-    color: #ff8fa3;
-    text-shadow: 0 0 8px rgba(255, 143, 163, 0.6);
-}
-
-/* YOUR ORIGINAL IMAGE LINKS */
+/* IMAGE URLS (NO FILES, NO FOLDERS) */
 .home::before {
     background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800");
 }
@@ -148,48 +98,17 @@ aside {
     background-image: url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800");
 }
 
-/* EVERYTHING ELSE (UNCHANGED) */
-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    z-index: 1;
-    min-width: 0;
+/* KEEP TEXT ABOVE */
+.nav-item i,
+.nav-item span {
+    position: relative;
+    z-index: 2;
 }
 
-header {
-    background-color: rgba(74, 30, 38, 0.95);
-    border: 2px solid #b86271;
-    border-radius: 20px;
-    padding: 15px 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.content-body {
-    flex: 1;
-    background-color: rgba(74, 30, 38, 0.95);
-    border: 2px solid #b86271;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    padding: 40px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.content-body h1 {
-    font-size: 6rem;
-    color: #fff;
-    font-weight: 700;
-    text-shadow: 
-        0 0 10px #ff4d6d,
-        0 0 20px #ff4d6d,
-        0 0 40px #ff758f,
-        0 0 80px #ff758f;
+/* HOVER (UNCHANGED) */
+.nav-item:hover {
+    transform: translateX(5px);
+    border: 1px solid #ff8fa3;
 }
 </style>
 </head>
@@ -197,7 +116,8 @@ header {
 <body>
 
 <aside>
-    <a href="#" class="nav-item home active">
+
+    <a href="#" class="nav-item home">
         <i class="fa-solid fa-house"></i>
         <span>Home</span>
     </a>
@@ -221,46 +141,8 @@ header {
         <i class="fa-solid fa-user-astronaut"></i>
         <span>Creators</span>
     </a>
+
 </aside>
-
-<main>
-
-<header>
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <span>🌸 Welcome to the Comic Relief Corner!</span>
-        </div>
-    </div>
-
-    <div class="header-title">
-        The Comic Relief Corner
-    </div>
-
-    <div class="meta-row">
-        <div class="datetime" id="liveClock"></div>
-
-        <div class="button-group">
-            <button class="square-btn"><i class="fa-solid fa-gear"></i></button>
-            <button class="square-btn"><i class="fa-solid fa-bell"></i></button>
-        </div>
-    </div>
-</header>
-
-<div class="content-body">
-    <h1>Home</h1>
-</div>
-
-</main>
-
-<script>
-function updateClock() {
-    const now = new Date();
-    document.getElementById("liveClock").textContent =
-        now.toLocaleString();
-}
-setInterval(updateClock, 1000);
-updateClock();
-</script>
 
 </body>
 </html>

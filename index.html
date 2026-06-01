@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner - Home</title>
-    <!-- Font Awesome for clean, functional icons -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+
+    <!-- FIXED FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -40,14 +42,14 @@
             z-index: 10;
             opacity: 0.20;
             mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* Left Navigation Sidebar */
         aside {
             width: 260px;
-            min-width: 260px; 
-            flex-shrink: 0; 
+            min-width: 260px;
+            flex-shrink: 0;
             background-color: rgba(74, 30, 38, 0.95);
             border: 2px solid #b86271;
             border-radius: 20px;
@@ -66,30 +68,79 @@
             padding: 14px 18px;
             text-decoration: none;
             color: #ffccd5;
-            font-size: 16px; 
+            font-size: 16px;
             font-weight: 600;
             border-radius: 12px;
             transition: all 0.2s ease;
             border: 1px solid transparent;
-            white-space: nowrap; 
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* IMAGE BACKGROUND INSIDE BUTTON */
+        .nav-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.22;
+            z-index: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* DIFFERENT IMAGE FOR EACH BUTTON */
+        .home-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .games-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .movies-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .chat-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .creator-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .nav-item:hover::before,
+        .nav-item.active::before {
+            opacity: 0.38;
+        }
+
+        /* KEEP TEXT ABOVE IMAGE */
+        .nav-item i,
+        .nav-item span {
+            position: relative;
+            z-index: 2;
         }
 
         .nav-item i {
             font-size: 1.35rem;
             width: 24px;
             text-align: center;
-            color: #b86271;
+            color: #ffd7df;
             transition: color 0.2s ease;
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover,
+        .nav-item.active {
             background-color: rgba(255, 182, 193, 0.2);
             border-color: #ff8fa3;
             transform: translateX(5px);
         }
 
-        .nav-item:hover i, .nav-item.active i {
-            color: #ff8fa3;
+        .nav-item:hover i,
+        .nav-item.active i {
+            color: #ffffff;
             text-shadow: 0 0 8px rgba(255, 143, 163, 0.6);
         }
 
@@ -100,7 +151,7 @@
             flex-direction: column;
             gap: 15px;
             z-index: 1;
-            min-width: 0; 
+            min-width: 0;
         }
 
         /* Top Bar Container */
@@ -127,27 +178,24 @@
             display: flex;
         }
 
-        /* SMOOTH SCROLLING ENGINE */
         .ticker {
             display: flex;
             white-space: nowrap;
-            padding-left: 100%; /* Push text starting position to the far right */
+            padding-left: 100%;
             animation: smoothTicker 25s linear infinite;
         }
 
-        /* Pause animation on hover so users can read easily */
         .ticker-wrap:hover .ticker {
             animation-play-state: paused;
         }
 
         .ticker span {
-            padding-right: 50px; 
+            padding-right: 50px;
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
         }
 
-        /* CSS Animation Keyframes */
         @keyframes smoothTicker {
             0% {
                 transform: translate3d(0, 0, 0);
@@ -157,7 +205,6 @@
             }
         }
 
-        /* Sub-Header Title */
         .header-title {
             color: #ffccd5;
             font-size: 1.5rem;
@@ -168,7 +215,6 @@
             margin-bottom: -4px;
         }
 
-        /* RESTORED: Meta Row for Datetime & Buttons */
         .meta-row {
             display: flex;
             justify-content: space-between;
@@ -191,10 +237,10 @@
             gap: 10px;
         }
 
+        /* IMAGE BUTTONS */
         .square-btn {
             width: 44px;
             height: 44px;
-            background-color: #3d141a;
             border: 1px solid #b86271;
             border-radius: 10px;
             cursor: pointer;
@@ -203,18 +249,48 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            color: #ffccd5;
+            color: white;
             font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            background: none;
+        }
+
+        .square-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 0;
+            transition: 0.2s ease;
+        }
+
+        .settings-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .bell-btn::before {
+            background-image: url("https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop");
+        }
+
+        .square-btn i {
+            position: relative;
+            z-index: 2;
+        }
+
+        .square-btn:hover::before {
+            opacity: 0.8;
+            transform: scale(1.1);
         }
 
         .square-btn:hover {
             border-color: #ff8fa3;
-            color: #ff8fa3;
             transform: translateY(-2px);
             box-shadow: 0 0 12px rgba(255, 143, 163, 0.4);
         }
 
-        /* Central Layout Display Panel Box */
         .content-body {
             flex: 1;
             background-color: rgba(74, 30, 38, 0.95);
@@ -228,12 +304,11 @@
             position: relative;
         }
 
-        /* Glow Pink Title */
         .content-body h1 {
             font-size: 6rem;
             color: #fff;
             font-weight: 700;
-            text-shadow: 
+            text-shadow:
                 0 0 10px #ff4d6d,
                 0 0 20px #ff4d6d,
                 0 0 40px #ff758f,
@@ -248,84 +323,98 @@
 
     <!-- Left Navigation Sidebar -->
     <aside>
-        <a href="#" class="nav-item active">
+
+        <a href="#" class="nav-item home-btn active">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item games-btn">
             <i class="fa-solid fa-gamepad"></i>
             <span>Games</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item movies-btn">
             <i class="fa-solid fa-film"></i>
             <span>Movies</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item chat-btn">
             <i class="fa-solid fa-comments"></i>
             <span>Chatroom</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item creator-btn">
             <i class="fa-solid fa-user-astronaut"></i>
             <span>Creators</span>
         </a>
+
     </aside>
 
     <!-- Main Content Container Area -->
     <main>
 
-        <!-- Top Header Area -->
         <header>
-            <!-- Scrolling Text Announcement Bar -->
+
             <div class="ticker-wrap">
                 <div class="ticker" id="marqueeTicker">
-                    <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸</span>
+                    <span>🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!! 🌸</span>
                 </div>
             </div>
 
-            <!-- Branding Subtitle -->
             <div class="header-title">
                 The Comic Relief Corner
             </div>
 
-            <!-- Meta Row for Datetime & Buttons -->
             <div class="meta-row">
-                <div class="datetime" id="liveClock">Loading Date/Time...</div>
-                <div class="button-group">
-                    <button class="square-btn"><i class="fa-solid fa-gear"></i></button>
-                    <button class="square-btn"><i class="fa-solid fa-bell"></i></button>
+
+                <div class="datetime" id="liveClock">
+                    Loading Date/Time...
                 </div>
+
+                <div class="button-group">
+
+                    <button class="square-btn settings-btn">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+
+                    <button class="square-btn bell-btn">
+                        <i class="fa-solid fa-bell"></i>
+                    </button>
+
+                </div>
+
             </div>
+
         </header>
 
-        <!-- Central Layout Display Panel Box -->
         <div class="content-body">
             <h1>Home</h1>
         </div>
 
     </main>
 
-    <!-- Simple JavaScript for Interactive Elements -->
     <script>
-        // Real-time clock implementation
         function updateClock() {
             const now = new Date();
-            const options = { 
-                weekday: 'short', 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit' 
+
+            const options = {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
             };
-            document.getElementById('liveClock').textContent = now.toLocaleDateString('en-US', options);
+
+            document.getElementById('liveClock').textContent =
+                now.toLocaleDateString('en-US', options);
         }
+
         setInterval(updateClock, 1000);
         updateClock();
     </script>
+
 </body>
 </html>

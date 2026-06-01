@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner - Home</title>
-    <!-- Added Font Awesome for clean, functional icons -->
+    <!-- Font Awesome for clean, functional icons -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
@@ -29,11 +29,26 @@
             overflow: hidden;
         }
 
-        /* Left Navigation Sidebar */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.20;
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* FIXED SIDEBAR: Added flex-shrink and explicit layout rules */
         aside {
-            width: 240px;
-            background-color: rgba(74, 30, 38, 0.92);
-            backdrop-filter: blur(8px);
+            width: 260px;
+            min-width: 260px; /* Lock structural width */
+            flex-shrink: 0; /* Prevents main window from squishing the panel */
+            background-color: rgba(74, 30, 38, 0.95);
             border: 2px solid #b86271;
             border-radius: 20px;
             padding: 25px 15px;
@@ -41,31 +56,34 @@
             flex-direction: column;
             gap: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            z-index: 1;
-            position: relative;
-            overflow: hidden;
+            z-index: 11;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 12px 18px;
+            padding: 14px 18px;
             text-decoration: none;
             color: #ffccd5;
+            font-size: 16px; /* Explicit font size layout scale */
             font-weight: 600;
             border-radius: 12px;
             transition: all 0.2s ease;
             border: 1px solid transparent;
-            z-index: 11;
+            white-space: nowrap; /* Forces links onto a single row */
         }
 
         .nav-item i {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             width: 24px;
             text-align: center;
             color: #b86271;
             transition: color 0.2s ease;
+        }
+
+        .nav-item span {
+            display: inline-block;
         }
 
         .nav-item:hover, .nav-item.active {
@@ -86,12 +104,12 @@
             flex-direction: column;
             gap: 15px;
             z-index: 1;
+            min-width: 0; /* Allows standard flex computing math safely */
         }
 
         /* Top Bar Container */
         header {
-            background-color: rgba(74, 30, 38, 0.92);
-            backdrop-filter: blur(8px);
+            background-color: rgba(74, 30, 38, 0.95);
             border: 2px solid #b86271;
             border-radius: 20px;
             padding: 15px 20px;
@@ -100,18 +118,16 @@
             flex-direction: column;
             gap: 12px;
             position: relative;
-            overflow: hidden;
         }
 
-        /* Scrolling Text Marquee Box */
+        /* Ticker Container */
         .ticker-wrap {
             width: 100%;
             overflow: hidden;
             background-color: #3d141a;
-            padding: 6px 0;
+            padding: 8px 0;
             border-radius: 10px;
             border: 1px solid #853744;
-            z-index: 11;
         }
 
         .ticker {
@@ -121,7 +137,12 @@
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
-            animation: marquee 15s linear infinite;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
+            animation: marquee 30s linear infinite;
         }
 
         @keyframes marquee {
@@ -138,14 +159,12 @@
             text-shadow: 0 0 8px rgba(255, 117, 143, 0.6);
             margin-top: 2px;
             margin-bottom: -4px;
-            z-index: 11;
         }
 
         /* Central Layout Display Panel Box */
         .content-body {
             flex: 1;
-            background-color: rgba(74, 30, 38, 0.92);
-            backdrop-filter: blur(8px);
+            background-color: rgba(74, 30, 38, 0.95);
             border: 2px solid #b86271;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -154,7 +173,6 @@
             align-items: flex-start;
             justify-content: flex-start;
             position: relative;
-            overflow: hidden;
         }
 
         /* Glow Pink Title */
@@ -170,7 +188,6 @@
             letter-spacing: 2px;
             margin-top: 10px;
             margin-left: 15px;
-            z-index: 11;
         }
     </style>
 </head>
@@ -212,7 +229,7 @@
             <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
                 <div class="ticker">
-                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸 &nbsp;
+                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸 &nbsp;&nbsp;&nbsp;&nbsp;
                     🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸
                 </div>
             </div>

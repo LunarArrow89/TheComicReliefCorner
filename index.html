@@ -16,8 +16,7 @@
         body {
             display: flex;
             height: 100vh;
-            background-color: #303030
-            ;
+            background-color: #303030;
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
@@ -125,15 +124,16 @@
         .ticker {
             display: inline-block;
             white-space: nowrap;
+            padding-right: 50px; /* Gives space between loops */
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
-            animation: marquee 25s linear infinite;
+            animation: marquee 15s linear infinite;
         }
 
         @keyframes marquee {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
 
         /* Sub-Header Title */
@@ -146,57 +146,6 @@
             margin-top: 2px;
             margin-bottom: -4px;
             z-index: 11;
-        }
-
-        /* Meta Row: Time/Date vs Square Buttons */
-        .meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 11;
-        }
-
-        .datetime {
-            font-size: 14px;
-            font-weight: bold;
-            color: #ffccd5;
-            background-color: #3d141a;
-            padding: 6px 14px;
-            border-radius: 8px;
-            border: 1px solid #853744;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .square-btn {
-            width: 44px;
-            height: 44px;
-            background-color: #3d141a;
-            border: 1px solid #b86271;
-            border-radius: 10px;
-            cursor: pointer;
-            padding: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .square-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .square-btn:hover {
-            border-color: #ff8fa3;
-            transform: translateY(-2px);
-            box-shadow: 0 0 12px rgba(255, 143, 163, 0.4);
         }
 
         /* Central Layout Display Panel Box */
@@ -267,11 +216,12 @@
 
         <!-- Top Header Area -->
         <header>
-
             <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
+                <!-- Text block duplicated inside to allow smooth, uninterrupted looping -->
                 <div class="ticker">
-                    🌸 Welcome to the Comic Releif Corner!  Here you can play games, watch movies,or just hang out in the chat room!!🌸
+                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸 &nbsp;
+                    🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸
                 </div>
             </div>
 
@@ -279,69 +229,14 @@
             <div class="header-title">
                 The Comic Relief Corner
             </div>
-
-            <!-- Time/Date and Top-Right Square Image Buttons -->
-            <div class="meta-row">
-
-                <div class="datetime" id="live-clock">
-                    Loading Clock...
-                </div>
-
-                <div class="button-group">
-
-                    <button class="square-btn" title="Button 1">
-                        <img src="https://picsum.photos/100?1" alt="Icon 1">
-                    </button>
-
-                    <button class="square-btn" title="Button 2">
-                        <img src="https://picsum.photos/100?2" alt="Icon 2">
-                    </button>
-
-                    <button class="square-btn" title="Button 3">
-                        <img src="https://picsum.photos/100?3" alt="Icon 3">
-                    </button>
-
-                    <button class="square-btn" title="Button 4">
-                        <img src="https://picsum.photos/100?4" alt="Icon 4">
-                    </button>
-
-                </div>
-
-            </div>
-
         </header>
 
-        <!-- Central Display Window -->
-        <section class="content-body">
-
-            <h1>Home</h1>
-
-        </section>
+        <!-- Central Display Panel -->
+        <div class="content-body">
+            <h1>Welcome!</h1>
+        </div>
 
     </main>
-
-    <!-- Real-Time Clock Script -->
-    <script>
-        function updateClock() {
-
-            const now = new Date();
-
-            const timeStr = now.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-
-            const dateStr = now.toLocaleDateString();
-
-            document.getElementById('live-clock').textContent =
-                `${timeStr} | ${dateStr}`;
-        }
-
-        updateClock();
-
-        setInterval(updateClock, 1000);
-    </script>
 
 </body>
 </html>

@@ -56,30 +56,27 @@
             z-index: 11;
         }
 
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 14px 18px;
-    text-decoration: none;
-    color: #ffccd5;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    position: relative;
-    overflow: hidden;
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 18px;
+            text-decoration: none;
+            color: #ffccd5;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
 
-    /* REMOVE BACKGROUND */
-    background: transparent;
-    border: none;
-}
+            /* ⭐ ONLY CHANGE (requested) */
+            background: transparent;
+        }
 
-        /* =========================
-           ONLY CHANGE: IMAGE LINKS
-           ========================= */
-
+        /* IMAGE BACKGROUNDS (UNCHANGED) */
         .nav-item::before {
             content: "";
             position: absolute;
@@ -90,7 +87,6 @@
             z-index: 0;
         }
 
-        /* IMAGE URLS ONLY */
         .home::before {
             background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800");
         }
@@ -111,7 +107,7 @@
             background-image: url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800");
         }
 
-        /* KEEP TEXT ABOVE IMAGES */
+        /* KEEP TEXT ABOVE IMAGES (UNCHANGED) */
         .nav-item i,
         .nav-item span {
             position: relative;
@@ -146,6 +142,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            z-index: 1;
         }
 
         header {
@@ -154,6 +151,27 @@
             border-radius: 20px;
             padding: 15px 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ticker-wrap {
+            overflow: hidden;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .square-btn {
+            width: 44px;
+            height: 44px;
+            background-color: #3d141a;
+            border: 1px solid #b86271;
+            border-radius: 10px;
+            cursor: pointer;
         }
 
         .content-body {
@@ -172,51 +190,77 @@
                 0 0 20px #ff4d6d,
                 0 0 40px #ff758f;
         }
+
+        .datetime {
+            color: #ffccd5;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
 
-    <aside>
+<aside>
+    <a href="#" class="nav-item home active">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
 
-        <a href="#" class="nav-item home active">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+    <a href="#" class="nav-item games">
+        <i class="fa-solid fa-gamepad"></i>
+        <span>Games</span>
+    </a>
 
-        <a href="#" class="nav-item games">
-            <i class="fa-solid fa-gamepad"></i>
-            <span>Games</span>
-        </a>
+    <a href="#" class="nav-item movies">
+        <i class="fa-solid fa-film"></i>
+        <span>Movies</span>
+    </a>
 
-        <a href="#" class="nav-item movies">
-            <i class="fa-solid fa-film"></i>
-            <span>Movies</span>
-        </a>
+    <a href="#" class="nav-item chat">
+        <i class="fa-solid fa-comments"></i>
+        <span>Chatroom</span>
+    </a>
 
-        <a href="#" class="nav-item chat">
-            <i class="fa-solid fa-comments"></i>
-            <span>Chatroom</span>
-        </a>
+    <a href="#" class="nav-item creators">
+        <i class="fa-solid fa-user-astronaut"></i>
+        <span>Creators</span>
+    </a>
+</aside>
 
-        <a href="#" class="nav-item creators">
-            <i class="fa-solid fa-user-astronaut"></i>
-            <span>Creators</span>
-        </a>
+<main>
 
-    </aside>
+<header>
 
-    <main>
-
-        <header>
-            <div>The Comic Relief Corner</div>
-        </header>
-
-        <div class="content-body">
-            <h1>Home</h1>
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span>🌸 Welcome to the Comic Relief Corner!</span>
         </div>
+    </div>
 
-    </main>
+    <div class="datetime" id="liveClock"></div>
+
+    <div class="button-group">
+        <button class="square-btn"><i class="fa-solid fa-gear"></i></button>
+        <button class="square-btn"><i class="fa-solid fa-bell"></i></button>
+    </div>
+
+</header>
+
+<div class="content-body">
+    <h1>Home</h1>
+</div>
+
+</main>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    document.getElementById("liveClock").textContent =
+        now.toLocaleString();
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
 
 </body>
 </html>

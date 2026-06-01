@@ -121,27 +121,40 @@
             width: 100%;
             overflow: hidden;
             background-color: #3d141a;
-            padding: 8px 0;
+            padding: 10px 0;
             border-radius: 10px;
             border: 1px solid #853744;
+            display: flex;
         }
 
+        /* SMOOTH SCROLLING ENGINE */
         .ticker {
-            display: inline-block;
+            display: flex;
             white-space: nowrap;
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: geometricPrecision;
+            padding-left: 100%; /* Push text starting position to the far right */
+            animation: smoothTicker 25s linear infinite;
+        }
+
+        /* Pause animation on hover so users can read easily */
+        .ticker-wrap:hover .ticker {
+            animation-play-state: paused;
         }
 
         .ticker span {
-            display: inline-block;
-            padding-right: 100px; 
+            padding-right: 50px; 
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
+        }
+
+        /* CSS Animation Keyframes */
+        @keyframes smoothTicker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
         }
 
         /* Sub-Header Title */

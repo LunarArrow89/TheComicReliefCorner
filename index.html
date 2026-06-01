@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Comic Relief Corner - Home</title>
+    <!-- Added Font Awesome for clean, functional icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * {
             box-sizing: border-box;
@@ -47,8 +49,8 @@
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
+            gap: 15px;
+            padding: 12px 18px;
             text-decoration: none;
             color: #ffccd5;
             font-weight: 600;
@@ -58,17 +60,23 @@
             z-index: 11;
         }
 
+        .nav-item i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+            color: #b86271;
+            transition: color 0.2s ease;
+        }
+
         .nav-item:hover, .nav-item.active {
             background-color: rgba(255, 182, 193, 0.2);
             border-color: #ff8fa3;
-            transform: translateX(3px);
+            transform: translateX(5px);
         }
 
-        .nav-item .img-placeholder {
-            width: 24px;
-            height: 24px;
-            background-color: #b86271;
-            border-radius: 6px;
+        .nav-item:hover i, .nav-item.active i {
+            color: #ff8fa3;
+            text-shadow: 0 0 8px rgba(255, 143, 163, 0.6);
         }
 
         /* Main Workspace Section */
@@ -109,7 +117,7 @@
         .ticker {
             display: inline-block;
             white-space: nowrap;
-            padding-right: 50px; /* Gives space between loops */
+            padding-right: 50px;
             color: #ffccd5;
             font-size: 14px;
             font-weight: 500;
@@ -171,27 +179,27 @@
     <!-- Left Navigation Sidebar -->
     <aside>
         <a href="#" class="nav-item active">
-            <div class="img-placeholder"></div>
+            <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
 
         <a href="#" class="nav-item">
-            <div class="img-placeholder"></div>
+            <i class="fa-solid fa-gamepad"></i>
             <span>Games</span>
         </a>
 
         <a href="#" class="nav-item">
-            <div class="img-placeholder"></div>
+            <i class="fa-solid fa-film"></i>
             <span>Movies</span>
         </a>
 
         <a href="#" class="nav-item">
-            <div class="img-placeholder"></div>
+            <i class="fa-solid fa-comments"></i>
             <span>Chatroom</span>
         </a>
 
         <a href="#" class="nav-item">
-            <div class="img-placeholder"></div>
+            <i class="fa-solid fa-user-astronaut"></i>
             <span>Creators</span>
         </a>
     </aside>
@@ -203,7 +211,6 @@
         <header>
             <!-- Scrolling Text Announcement Bar -->
             <div class="ticker-wrap">
-                <!-- Text block duplicated inside to allow smooth, uninterrupted looping -->
                 <div class="ticker">
                     🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸 &nbsp;
                     🌸 Welcome to the Comic Relief Corner! Here you can play games, watch movies, or just hang out in the chat room!!🌸
@@ -218,7 +225,7 @@
 
         <!-- Central Display Panel -->
         <div class="content-body">
-            <h1>Welcome!</h1>
+            <h1>Home</h1>
         </div>
 
     </main>

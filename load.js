@@ -1,22 +1,38 @@
-async function loadComponent(id, file) {
-    try {
-        const res = await fetch(file);
+function loadHTML(id, file, callback) {
+    const xhr = new XMLHttpRequest();
 
-        if (!res.ok) {
-            console.error(`Failed to load ${file}: ${res.status}`);
-            return;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById(id).innerHTML = xhr.responseText;
+
+            if (callback) callback();
         }
+    };
 
-        const html = await res.text();
-        document.getElementById(id).innerHTML = html;
-
-    } catch (err) {
-        console.error(`Error loading ${file}:`, err);
-    }
+    xhr.open("GET", file, true);
+    xhr.send();
 }
 
-/* Load Sidebar */
-loadComponent("sidebar-container", "sidebar.html");
+/* Load sidebar */
+loadHTML("sidebar-container", "sidebar.html");
 
-/* Load Header */
-loadComponent("header-container", "header.html");
+/* Load header THEN start clock */
+loadHTML("header-container", "header.html", startClock);
+
+
+function startClock() {
+    function updateClock() {
+        const timeBox = document.getElementById("timeBox");
+        const dateBox = document.getElementById("dateBox");
+
+        if (!timeBox || !dateBox) return;
+
+        const now = new Date();
+
+        timeBox.innerText = now.toLocaleTimeString();
+        dateBox.innerText = now.toLocaleDateString();
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+}

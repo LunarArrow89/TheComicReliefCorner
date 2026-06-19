@@ -79,14 +79,17 @@ body{
 
 /* ICONS (SHARP GLOW) */
 .nav-icon{
-    width:24px;
-    text-align:center;
-
     color:#ff69b4;
 
     text-shadow:
-        0 0 2px #ff69b4,
-        0 0 4px #ff1493;
+        0 0 1px #ff69b4;
+}
+
+.nav-btn:hover .nav-icon{
+    color:white;
+
+    text-shadow:
+        0 0 1px white;
 }
 
 .nav-btn:hover .nav-icon{

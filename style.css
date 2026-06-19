@@ -30,7 +30,7 @@ body{
     padding:15px;
 }
 
-/* LOGO (WHITE + PINK GLOW) */
+/* LOGO (CLEAN GLOW) */
 .logo{
     text-align:center;
 
@@ -40,10 +40,8 @@ body{
     color:white;
 
     text-shadow:
-        0 0 5px #ff69b4,
-        0 0 10px #ff69b4,
-        0 0 20px #ff1493,
-        0 0 35px #ff1493;
+        0 0 3px #ff69b4,
+        0 0 6px #ff1493;
 
     margin-bottom:25px;
 }
@@ -66,8 +64,7 @@ body{
     text-decoration:none;
 
     box-shadow:
-        0 0 10px rgba(255,105,180,0.4),
-        0 0 20px rgba(255,20,147,0.2);
+        0 0 8px rgba(255,105,180,0.3);
 
     transition:0.2s ease;
 }
@@ -76,11 +73,11 @@ body{
     background:#ff69b4;
 
     box-shadow:
-        0 0 15px #ff69b4,
-        0 0 30px #ff1493;
+        0 0 12px #ff69b4,
+        0 0 20px #ff1493;
 }
 
-/* ICONS (NO EMOJIS - FONT AWESOME ONLY) */
+/* ICONS (SHARP GLOW) */
 .nav-icon{
     width:24px;
     text-align:center;
@@ -88,20 +85,16 @@ body{
     color:#ff69b4;
 
     text-shadow:
-        0 0 5px #ff69b4,
-        0 0 10px #ff69b4,
-        0 0 20px #ff1493;
-
-    font-size:18px;
+        0 0 2px #ff69b4,
+        0 0 4px #ff1493;
 }
 
 .nav-btn:hover .nav-icon{
     color:white;
 
     text-shadow:
-        0 0 5px white,
-        0 0 10px #ff69b4,
-        0 0 20px #ff1493;
+        0 0 3px white,
+        0 0 6px #ff69b4;
 }
 
 /* =========================
@@ -123,7 +116,7 @@ body{
     background:#252525;
     border-bottom:3px solid #ff69b4;
 
-    box-shadow:0 0 15px rgba(255,105,180,0.3);
+    box-shadow:0 0 10px rgba(255,105,180,0.25);
 
     z-index:1000;
 }
@@ -142,13 +135,11 @@ body{
 
     color:white;
 
-    box-shadow:
-        0 0 10px rgba(255,105,180,0.3),
-        0 0 15px rgba(255,20,147,0.2);
+    box-shadow:0 0 6px rgba(255,105,180,0.25);
 }
 
 /* =========================
-   TICKER (BOX GLOW ONLY)
+   TICKER (NO TEXT GLOW)
 ========================= */
 
 .ticker-wrap{
@@ -164,11 +155,9 @@ body{
     display:flex;
     align-items:center;
 
-    /* KEEP BOX GLOW */
-    box-shadow:0 0 10px rgba(255,105,180,0.2);
+    box-shadow:0 0 8px rgba(255,105,180,0.2);
 }
 
-/* TEXT ONLY - NO GLOW */
 .ticker{
     white-space:nowrap;
     padding-left:100%;
@@ -205,17 +194,15 @@ body{
 
     padding:25px;
 
-    box-shadow:0 0 15px rgba(255,105,180,0.3);
+    box-shadow:0 0 10px rgba(255,105,180,0.2);
 }
 
 .hero h1{
     color:white;
 
     text-shadow:
-        0 0 5px #ff69b4,
-        0 0 10px #ff69b4,
-        0 0 20px #ff1493,
-        0 0 30px #ff1493;
+        0 0 3px #ff69b4,
+        0 0 6px #ff1493;
 }
 
 /* NOTE BOX */
@@ -226,7 +213,5 @@ body{
     padding:20px;
     border-radius:15px;
 
-    box-shadow:
-        0 0 15px #ff69b4,
-        0 0 30px rgba(255,20,147,0.4);
+    box-shadow:0 0 12px rgba(255,20,147,0.25);
 }

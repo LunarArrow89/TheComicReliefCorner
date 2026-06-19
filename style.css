@@ -44,9 +44,9 @@ html, body{
     color:white;
 
     text-shadow:
-        0 0 2px #ff69b4;
-    
-    margin-bottom:25px;
+        0 0 3px #ff69b4,
+        0 0 8px #ff69b4,
+        0 0 12px #ff1493;
 }
 
 /* NAV BUTTONS */

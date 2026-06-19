@@ -1,5 +1,5 @@
 /* =========================
-   RESET
+   RESET + SAFETY
 ========================= */
 
 *{
@@ -9,7 +9,10 @@
     font-family:Segoe UI, sans-serif;
 }
 
-body{
+html, body{
+    width:100%;
+    height:100%;
+    overflow-x:hidden; /* 🚫 stops sideways scrolling */
     background:#303030;
     color:white;
 }
@@ -22,27 +25,27 @@ body{
     position:fixed;
     top:0;
     left:0;
+
     width:220px;
     height:100vh;
 
     background:#202020;
     border-right:3px solid #ff69b4;
+
     padding:15px;
 }
 
-/* LOGO (CLEAN GLOW) */
+/* LOGO */
 .logo{
     text-align:center;
-
     font-size:32px;
     font-weight:900;
 
     color:white;
 
     text-shadow:
-        0 0 3px #ff69b4,
-        0 0 6px #ff1493;
-
+        0 0 2px #ff69b4;
+    
     margin-bottom:25px;
 }
 
@@ -63,41 +66,28 @@ body{
     color:white;
     text-decoration:none;
 
-    box-shadow:
-        0 0 8px rgba(255,105,180,0.3);
+    box-shadow:0 0 6px rgba(255,105,180,0.25);
 
     transition:0.2s ease;
 }
 
 .nav-btn:hover{
     background:#ff69b4;
-
-    box-shadow:
-        0 0 12px #ff69b4,
-        0 0 20px #ff1493;
+    box-shadow:0 0 10px #ff69b4;
 }
 
-/* ICONS (SHARP GLOW) */
+/* ICONS (VERY LIGHT GLOW) */
 .nav-icon{
+    width:24px;
+    text-align:center;
+
     color:#ff69b4;
 
-    text-shadow:
-        0 0 1px #ff69b4;
+    text-shadow:0 0 1px #ff69b4;
 }
 
 .nav-btn:hover .nav-icon{
     color:white;
-
-    text-shadow:
-        0 0 1px white;
-}
-
-.nav-btn:hover .nav-icon{
-    color:white;
-
-    text-shadow:
-        0 0 3px white,
-        0 0 6px #ff69b4;
 }
 
 /* =========================
@@ -108,7 +98,9 @@ body{
     position:fixed;
     top:0;
     left:220px;
-    right:0;
+
+    width:calc(100% - 220px);
+    height:80px;
 
     display:flex;
     align-items:center;
@@ -119,30 +111,30 @@ body{
     background:#252525;
     border-bottom:3px solid #ff69b4;
 
-    box-shadow:0 0 10px rgba(255,105,180,0.25);
+    box-shadow:0 0 8px rgba(255,105,180,0.2);
 
     z-index:1000;
 }
 
-/* CLOCK BOXES */
+/* CLOCK */
 .time-box,
 .date-box{
     background:#1f1f1f;
     border:2px solid #ff69b4;
 
-    padding:10px 15px;
+    padding:8px 12px;
     border-radius:10px;
 
-    min-width:120px;
+    min-width:110px;
     text-align:center;
 
     color:white;
 
-    box-shadow:0 0 6px rgba(255,105,180,0.25);
+    box-shadow:0 0 6px rgba(255,105,180,0.2);
 }
 
 /* =========================
-   TICKER (NO TEXT GLOW)
+   TICKER (NO GLOW TEXT)
 ========================= */
 
 .ticker-wrap{
@@ -158,7 +150,7 @@ body{
     display:flex;
     align-items:center;
 
-    box-shadow:0 0 8px rgba(255,105,180,0.2);
+    box-shadow:0 0 6px rgba(255,105,180,0.15);
 }
 
 .ticker{
@@ -179,14 +171,18 @@ body{
 }
 
 /* =========================
-   MAIN CONTENT
+   MAIN CONTENT (SCREEN FIT FIX)
 ========================= */
 
 .main{
     margin-left:220px;
     margin-top:90px;
 
+    width:calc(100% - 220px);
+    max-width:100%;
+
     padding:20px;
+    box-sizing:border-box;
 }
 
 /* HERO */
@@ -197,15 +193,12 @@ body{
 
     padding:25px;
 
-    box-shadow:0 0 10px rgba(255,105,180,0.2);
+    box-shadow:0 0 8px rgba(255,105,180,0.2);
 }
 
 .hero h1{
     color:white;
-
-    text-shadow:
-        0 0 3px #ff69b4,
-        0 0 6px #ff1493;
+    text-shadow:0 0 2px #ff69b4;
 }
 
 /* NOTE BOX */
@@ -216,5 +209,14 @@ body{
     padding:20px;
     border-radius:15px;
 
-    box-shadow:0 0 12px rgba(255,20,147,0.25);
+    box-shadow:0 0 10px rgba(255,20,147,0.2);
+}
+
+/* =========================
+   MEDIA SAFETY (PREVENT OVERFLOW)
+========================= */
+
+img{
+    max-width:100%;
+    height:auto;
 }

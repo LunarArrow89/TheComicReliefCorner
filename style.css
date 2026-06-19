@@ -1,0 +1,232 @@
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#303030;
+    color:white;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:220px;
+    height:100vh;
+
+    background:#202020;
+    border-right:3px solid #ff69b4;
+    padding:15px;
+}
+
+/* LOGO (WHITE + PINK GLOW) */
+.logo{
+    text-align:center;
+
+    font-size:32px;
+    font-weight:900;
+
+    color:white;
+
+    text-shadow:
+        0 0 5px #ff69b4,
+        0 0 10px #ff69b4,
+        0 0 20px #ff1493,
+        0 0 35px #ff1493;
+
+    margin-bottom:25px;
+}
+
+/* NAV BUTTONS */
+.nav-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:12px;
+    margin-bottom:10px;
+
+    border-radius:10px;
+
+    background:#2b2b2b;
+    border:2px solid #ff69b4;
+
+    color:white;
+    text-decoration:none;
+
+    box-shadow:
+        0 0 10px rgba(255,105,180,0.4),
+        0 0 20px rgba(255,20,147,0.2);
+
+    transition:0.2s ease;
+}
+
+.nav-btn:hover{
+    background:#ff69b4;
+
+    box-shadow:
+        0 0 15px #ff69b4,
+        0 0 30px #ff1493;
+}
+
+/* ICONS (NO EMOJIS - FONT AWESOME ONLY) */
+.nav-icon{
+    width:24px;
+    text-align:center;
+
+    color:#ff69b4;
+
+    text-shadow:
+        0 0 5px #ff69b4,
+        0 0 10px #ff69b4,
+        0 0 20px #ff1493;
+
+    font-size:18px;
+}
+
+.nav-btn:hover .nav-icon{
+    color:white;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 10px #ff69b4,
+        0 0 20px #ff1493;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    position:fixed;
+    top:0;
+    left:220px;
+    right:0;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    padding:15px;
+
+    background:#252525;
+    border-bottom:3px solid #ff69b4;
+
+    box-shadow:0 0 15px rgba(255,105,180,0.3);
+
+    z-index:1000;
+}
+
+/* CLOCK BOXES */
+.time-box,
+.date-box{
+    background:#1f1f1f;
+    border:2px solid #ff69b4;
+
+    padding:10px 15px;
+    border-radius:10px;
+
+    min-width:120px;
+    text-align:center;
+
+    color:white;
+
+    box-shadow:
+        0 0 10px rgba(255,105,180,0.3),
+        0 0 15px rgba(255,20,147,0.2);
+}
+
+/* =========================
+   TICKER (BOX GLOW ONLY)
+========================= */
+
+.ticker-wrap{
+    flex:1;
+    overflow:hidden;
+
+    background:#1f1f1f;
+    border:2px solid #ff69b4;
+    border-radius:10px;
+
+    height:40px;
+
+    display:flex;
+    align-items:center;
+
+    /* KEEP BOX GLOW */
+    box-shadow:0 0 10px rgba(255,105,180,0.2);
+}
+
+/* TEXT ONLY - NO GLOW */
+.ticker{
+    white-space:nowrap;
+    padding-left:100%;
+
+    animation:scroll 18s linear infinite;
+
+    color:white;
+    font-weight:bold;
+
+    text-shadow:none;
+}
+
+@keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-100%);}
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.main{
+    margin-left:220px;
+    margin-top:90px;
+
+    padding:20px;
+}
+
+/* HERO */
+.hero{
+    background:#252525;
+    border:2px solid #ff69b4;
+    border-radius:15px;
+
+    padding:25px;
+
+    box-shadow:0 0 15px rgba(255,105,180,0.3);
+}
+
+.hero h1{
+    color:white;
+
+    text-shadow:
+        0 0 5px #ff69b4,
+        0 0 10px #ff69b4,
+        0 0 20px #ff1493,
+        0 0 30px #ff1493;
+}
+
+/* NOTE BOX */
+.note-box{
+    margin-top:15px;
+
+    background:#ff69b4;
+    padding:20px;
+    border-radius:15px;
+
+    box-shadow:
+        0 0 15px #ff69b4,
+        0 0 30px rgba(255,20,147,0.4);
+}

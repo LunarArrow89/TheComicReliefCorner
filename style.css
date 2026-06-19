@@ -187,18 +187,19 @@ html, body{
 
 /* HERO */
 .hero{
-    background:#252525;
-    border:2px solid #ff69b4;
-    border-radius:15px;
+    background:transparent;
+    border:none;
+    box-shadow:none;
 
-    padding:25px;
-
-    box-shadow:0 0 8px rgba(255,105,180,0.2);
+    padding:10px 0;
 }
 
 .hero h1{
     color:white;
-    text-shadow:0 0 2px #ff69b4;
+
+    text-shadow:
+        0 0 3px #ff69b4,
+        0 0 6px #ff1493;
 }
 
 /* NOTE BOX */

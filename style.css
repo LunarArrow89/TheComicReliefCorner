@@ -79,7 +79,7 @@ body{
 
 .nav-btn:hover{
     background:#ff69b4;
-    box-shadow:0 0 10px #ff69b4;
+    box-shadow:0 0 8px rgba(255,105,180,.25);
 }
 
 /* ICONS (VERY LIGHT GLOW) */

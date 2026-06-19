@@ -1,25 +1,32 @@
 /* =========================
-   RESET + SAFETY
+   RESET
 ========================= */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Segoe UI, sans-serif;
+    font-family:'Segoe UI', sans-serif;
 }
 
 html, body{
     width:100%;
     height:100%;
-    overflow-x:hidden; /* 🚫 stops sideways scrolling */
-body{
-    background:linear-gradient(
-        180deg,
-        #2f2a30 0%,
-        #262326 100%
-    );
+    overflow-x:hidden;
 }
+
+/* =========================
+   BODY
+========================= */
+
+body{
+    background:
+        linear-gradient(
+            180deg,
+            #312c32 0%,
+            #272427 100%
+        );
+
     color:white;
 }
 
@@ -35,65 +42,83 @@ body{
     width:220px;
     height:100vh;
 
-    background:#202020;
-    border-right:3px solid #ff69b4;
+    background:#2f2a30;
+
+    border-right:1px solid rgba(255,105,180,.25);
 
     padding:15px;
 }
 
-/* LOGO */
-.logo{
-    text-align:center;
-    font-size:32px;
-    font-weight:900;
+/* =========================
+   LOGO IMAGE
+========================= */
 
-    color:white;
+.logo-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    text-shadow:
-        0 0 3px #ff69b4,
-        0 0 8px #ff69b4,
-        0 0 12px #ff1493;
+    margin-bottom:25px;
 }
 
-/* NAV BUTTONS */
+.logo-image{
+    width:170px;
+    max-width:100%;
+    height:auto;
+
+    transition:.25s ease;
+
+    filter:
+        drop-shadow(0 0 3px rgba(255,105,180,.4))
+        drop-shadow(0 0 8px rgba(255,105,180,.15));
+}
+
+.logo-image:hover{
+    transform:scale(1.03);
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
+
 .nav-btn{
     display:flex;
     align-items:center;
     gap:12px;
 
-    padding:12px;
+    padding:14px;
     margin-bottom:10px;
 
-    border-radius:10px;
+    border-radius:16px;
 
-    background:#2b2b2b;
-    border:2px solid #ff69b4;
+    background:#3a343b;
+
+    border:1px solid rgba(255,105,180,.25);
 
     color:white;
     text-decoration:none;
 
-    box-shadow:0 0 6px rgba(255,105,180,0.25);
+    transition:.2s ease;
 
-    transition:0.2s ease;
+    box-shadow:
+        0 3px 10px rgba(0,0,0,.15);
 }
 
 .nav-btn:hover{
-    background:#ff69b4;
-    box-shadow:0 0 8px rgba(255,105,180,.25);
+    transform:translateX(4px);
+
+    background:#433b43;
+
+    border-color:#ff69b4;
+
+    box-shadow:
+        0 0 8px rgba(255,105,180,.15);
 }
 
-/* ICONS (VERY LIGHT GLOW) */
 .nav-icon{
+    color:#ff69b4;
     width:24px;
     text-align:center;
-
-    color:#ff69b4;
-
-    text-shadow:0 0 1px #ff69b4;
-}
-
-.nav-btn:hover .nav-icon{
-    color:white;
 }
 
 /* =========================
@@ -102,6 +127,7 @@ body{
 
 .header{
     position:fixed;
+
     top:0;
     left:220px;
 
@@ -114,116 +140,175 @@ body{
 
     padding:15px;
 
-    background:#252525;
-    border-bottom:3px solid #ff69b4;
+    background:#2f2a30;
 
-    box-shadow:0 0 8px rgba(255,105,180,0.2);
+    border-bottom:1px solid rgba(255,105,180,.25);
 
     z-index:1000;
 }
 
-/* CLOCK */
+/* =========================
+   TIME / DATE
+========================= */
+
 .time-box,
 .date-box{
-    background:#1f1f1f;
-    border:2px solid #ff69b4;
+    background:#3a343b;
 
-    padding:8px 12px;
-    border-radius:10px;
+    border:1px solid rgba(255,105,180,.25);
 
-    min-width:110px;
-    text-align:center;
+    border-radius:12px;
+
+    padding:10px 15px;
 
     color:white;
 
-    box-shadow:0 0 6px rgba(255,105,180,0.2);
+    min-width:120px;
+    text-align:center;
 }
 
 /* =========================
-   TICKER (NO GLOW TEXT)
+   TICKER
 ========================= */
 
 .ticker-wrap{
     flex:1;
+
     overflow:hidden;
 
-    background:#1f1f1f;
-    border:2px solid #ff69b4;
-    border-radius:10px;
+    background:#3a343b;
 
-    height:40px;
+    border:1px solid rgba(255,105,180,.25);
+
+    border-radius:12px;
+
+    height:42px;
 
     display:flex;
     align-items:center;
-
-    box-shadow:0 0 6px rgba(255,105,180,0.15);
 }
 
 .ticker{
     white-space:nowrap;
+
     padding-left:100%;
 
     animation:scroll 18s linear infinite;
 
     color:white;
-    font-weight:bold;
+    font-weight:600;
 
     text-shadow:none;
 }
 
 @keyframes scroll{
-    from{transform:translateX(0);}
-    to{transform:translateX(-100%);}
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-100%);
+    }
 }
 
 /* =========================
-   MAIN CONTENT (SCREEN FIT FIX)
+   MAIN CONTENT
 ========================= */
 
 .main{
     margin-left:220px;
-    margin-top:90px;
+    margin-top:95px;
+
+    padding:25px;
 
     width:calc(100% - 220px);
-    max-width:100%;
-
-    padding:20px;
-    box-sizing:border-box;
-}
-
-/* HERO */
-.hero{
-    background:transparent;
-    border:none;
-    box-shadow:none;
-
-    padding:10px 0;
-}
-
-.hero h1{
-    color:white;
-
-    text-shadow:
-        0 0 3px #ff69b4,
-        0 0 6px #ff1493;
-}
-
-/* NOTE BOX */
-.note-box{
-    margin-top:15px;
-
-    background:#ff69b4;
-    padding:20px;
-    border-radius:15px;
-
-    box-shadow:0 0 10px rgba(255,20,147,0.2);
 }
 
 /* =========================
-   MEDIA SAFETY (PREVENT OVERFLOW)
+   HOMEPAGE TITLE
+========================= */
+
+.hero{
+    padding:10px 0;
+
+    background:none;
+    border:none;
+    box-shadow:none;
+}
+
+.hero h1{
+    font-size:42px;
+    font-weight:800;
+
+    color:white;
+
+    text-shadow:
+        0 0 2px rgba(255,105,180,.6);
+}
+
+.hero p{
+    margin-top:8px;
+
+    color:#ddd;
+}
+
+/* =========================
+   NOTE BOX
+========================= */
+
+.note-box{
+    margin-top:20px;
+
+    background:#3a343b;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    border:1px solid rgba(255,105,180,.25);
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.2);
+}
+
+.note-box h2{
+    margin-bottom:10px;
+
+    color:white;
+}
+
+.note-box p{
+    color:#e7e7e7;
+    line-height:1.6;
+}
+
+/* =========================
+   IMAGES
 ========================= */
 
 img{
     max-width:100%;
     height:auto;
+    display:block;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#2a252a;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#ff69b4;
+    border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#ff85c2;
 }

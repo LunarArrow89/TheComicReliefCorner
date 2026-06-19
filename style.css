@@ -13,7 +13,13 @@ html, body{
     width:100%;
     height:100%;
     overflow-x:hidden; /* 🚫 stops sideways scrolling */
-    background:#303030;
+body{
+    background:linear-gradient(
+        180deg,
+        #2f2a30 0%,
+        #262326 100%
+    );
+}
     color:white;
 }
 

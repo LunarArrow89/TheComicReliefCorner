@@ -308,4 +308,18 @@ img{
     border-radius:999px;
 }
 
-cursor: url("cursor.png"), pointer;
+/* =========================
+   CUSTOM CURSOR
+========================= */
+
+body {
+    cursor: url("cursor-default.png"), auto;
+}
+
+a,
+button,
+.nav-btn,
+input,
+textarea {
+    cursor: url("cursor-hover.png"), pointer;
+}

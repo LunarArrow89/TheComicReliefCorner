@@ -312,23 +312,20 @@ img{
     border-radius:999px;
 }
 /* =========================
-   GLOBAL CUSTOM CURSOR
+   CUSTOM CURSOR FIX (GLOBAL)
 ========================= */
 
 /* Default cursor everywhere */
 body{
-    cursor: url("cursor-default.png") 16 16, auto;
+    cursor: url("./cursor-default.png") 16 16, auto !important;
 }
 
-/* Hover cursor for clickable elements */
-a:hover,
-button:hover,
-.nav-btn:hover,
-[onclick]:hover,
-input:hover,
-textarea:hover{
-    cursor: url("cursor-hover.png") 16 16, pointer;
-}
-::-webkit-scrollbar-thumb:hover{
-    background:#ff85c2;
+/* Hover cursor ONLY for clickable elements */
+a,
+button,
+.nav-btn,
+[onclick],
+input,
+textarea{
+    cursor: url("./cursor-hover.png") 16 16, pointer !important;
 }

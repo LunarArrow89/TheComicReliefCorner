@@ -204,7 +204,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   7. ROW SECTIONS: SQUARE (LEFT) & RECTANGLE (RIGHT)
+   7. SIDE-BY-SIDE SECTION: SQUARE (LEFT) & RECTANGLE (RIGHT)
    ========================================================================== */
 .feature-layout-row {
     display: flex;
@@ -213,7 +213,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     width: 100%;
 }
 
-/* Perfect separate square for the left image */
+/* Perfect separate square box for the left image content */
 .feature-box-square {
     width: 200px;
     height: 200px;
@@ -234,7 +234,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     display: block;
 }
 
-/* Long text rectangle for the right details */
+/* Long text rectangle box matching the wireframe layout dimensions */
 .feature-box-rectangle {
     flex: 1;
     background: #3a343b;
@@ -259,7 +259,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   8. THREE BOTTOM SQUARES GRID
+   8. THREE BOTTOM SQUARES GRID WITH CENTERING
    ========================================================================== */
 .three-square-grid {
     display: grid;
@@ -326,7 +326,6 @@ a, button, .nav-btn, input, textarea, [role="button"] {
         width: 100%;
     }
 
-    /* Stacks row vertically on phone screens */
     .feature-layout-row {
         flex-direction: column;
     }

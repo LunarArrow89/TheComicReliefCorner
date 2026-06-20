@@ -260,48 +260,54 @@ a, button, .nav-btn, input, textarea, [role="button"] {
    ========================================================================== */
 .three-square-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* Forces all 3 squares to be identical width */
     gap: 20px;
     margin: 25px auto 0 auto;
+    width: 100%;
 }
 
 .grid-square {
     background: #3a343b;
     border: 1px solid rgba(255,105,180,.25);
     border-radius: 20px;
-    padding: 20px;
+    padding: 25px;
     text-align: center;
     box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    
+    /* Layout properties to maintain consistent dimensions */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    aspect-ratio: 1 / 1;
+    justify-content: flex-start; /* Aligns content from the top uniformly */
+    min-height: 280px;           /* Gives them all the same fallback height */
     box-sizing: border-box;
     overflow: hidden;
 }
 
 .grid-square img {
-    width: 45%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
+    width: 80px;                 /* Fixed square size for game icons */
+    height: 80px;
+    object-fit: contain;
     border-radius: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    flex-shrink: 0;              /* Prevents images from getting crushed */
     filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
 }
 
 .grid-square h3 {
-    margin: 5px 0;
-    font-size: 1.1rem;
+    margin: 5px 0 8px 0;
+    font-size: 1.2rem;
     color: white;
 }
 
 .grid-square p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #e7e7e7;
     text-align: center;
+    line-height: 1.4;
 }
+
 
 /* ==========================================================================
    9. MOBILE RESPONSIVENESS LAYOUTS

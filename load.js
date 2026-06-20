@@ -1,9 +1,17 @@
+/* =========================
+   LOAD HTML COMPONENTS
+========================= */
+
 function loadHTML(id, file, callback) {
     const xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById(id).innerHTML = xhr.responseText;
+            const container = document.getElementById(id);
+
+            if (!container) return;
+
+            container.innerHTML = xhr.responseText;
 
             if (callback) callback();
         }
@@ -13,11 +21,21 @@ function loadHTML(id, file, callback) {
     xhr.send();
 }
 
-/* Load sidebar */
+/* =========================
+   LOAD SIDEBAR
+========================= */
+
 loadHTML("sidebar-container", "sidebar.html");
 
-/* Load header THEN start clock */
+/* =========================
+   LOAD HEADER + START CLOCK
+========================= */
+
 loadHTML("header-container", "header.html", startClock);
+
+/* =========================
+   CLOCK FUNCTION
+========================= */
 
 function startClock() {
     function updateClock() {

@@ -190,121 +190,49 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* NOTE BOX */
-.note-box {
-    margin-top: 20px;
-    background: #3a343b;
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255,105,180,.25);
-}
-
-.note-box p {
-    color: #e7e7e7;
-    line-height: 1.6;
-}
-
 /* ==========================================================================
-   7. SIDE-BY-SIDE SECTION: SQUARE (LEFT) & RECTANGLE (RIGHT)
+   UNIFIED CONTENT SPACING RULES
    ========================================================================== */
-.feature-layout-row {
-    display: flex;
-    gap: 20px;
-    margin-top: 25px;
-    width: 100%;
-}
 
-/* Perfect separate square box for the left image content */
-.feature-box-square {
-    width: 200px;
-    height: 200px;
-    flex-shrink: 0;
-    background: #3a343b;
-    border-radius: 20px;
-    border: 1px solid rgba(255,105,180,.25);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.feature-box-square img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Long text rectangle box matching the wireframe layout dimensions */
-.feature-box-rectangle {
-    flex: 1;
-    background: #3a343b;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid rgba(255,105,180,.25);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.feature-box-rectangle h2 {
+/* 1. Developer Note Spacing */
+.note-box h2 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 12px; /* Uniform Title Gap */
     color: white;
 }
+.note-box p {
+    margin: 0;
+    color: #e7e7e7;
+    line-height: 1.6; /* Uniform Line Spacing */
+}
 
+/* 2. Feature Rectangle Spacing */
+.feature-box-rectangle h2 {
+    margin-top: 0;
+    margin-bottom: 12px; /* Uniform Title Gap */
+    color: white;
+}
 .feature-box-rectangle p {
     margin: 0;
     color: #e7e7e7;
-    line-height: 1.6;
+    line-height: 1.6; /* Uniform Line Spacing */
 }
 
-/* ==========================================================================
-   8. THREE BOTTOM SQUARES GRID WITH CENTERING
-   ========================================================================== */
-.three-square-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin: 25px auto 0 auto;
-}
-
-.grid-square {
-    background: #3a343b;
-    border: 1px solid rgba(255,105,180,.25);
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1 / 1; 
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.grid-square img {
-    width: 45%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
-}
-
+/* 3. Three Bottom Squares Grid Spacing */
 .grid-square h3 {
-    margin: 5px 0;
+    margin-top: 0;
+    margin-bottom: 12px; /* Uniform Title Gap */
     font-size: 1.1rem;
     color: white;
 }
-
 .grid-square p {
     margin: 0;
     font-size: 0.9rem;
     color: #e7e7e7;
+    line-height: 1.6; /* Uniform Line Spacing */
     text-align: center;
 }
+
 
 /* ==========================================================================
    9. MOBILE RESPONSIVENESS LAYOUTS

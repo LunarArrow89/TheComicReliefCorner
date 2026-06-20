@@ -312,20 +312,20 @@ img{
     border-radius:999px;
 }
 /* =========================
-   CUSTOM CURSOR FIX (GLOBAL)
+   CUSTOM CURSOR (FIXED)
 ========================= */
 
-/* Default cursor everywhere */
+/* Normal cursor */
 body{
-    cursor: url("./cursor-default.png") 16 16, auto !important;
+    cursor: url("cursor-default.png"), auto !important;
 }
 
-/* Hover cursor ONLY for clickable elements */
+/* Hover cursor for clickable elements */
 a,
 button,
 .nav-btn,
 [onclick],
 input,
 textarea{
-    cursor: url("./cursor-hover.png") 16 16, pointer !important;
+    cursor: url("cursor-hover.png"), pointer !important;
 }

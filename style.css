@@ -5,23 +5,24 @@
 ==========================================================================
 */
 * {
- margin: 0;
- padding: 0;
- box-sizing: border-box;
- font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 html, body {
- width: 100%;
- height: 100%;
- overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
 /* ========================= BODY ========================= */
 body {
- background: 
- linear-gradient(rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.015)),
- url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
- linear-gradient(180deg, #312c32 0%, #272427 100%);
- color: white;
+  /* Combines your original color gradient with a soft, embedded paper grain texture overlay */
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.015)),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #312c32 0%, #272427 100%);
+  color: white;
 }
 /*
 ==========================================================================
@@ -30,10 +31,10 @@ body {
 ==========================================================================
 */
 body {
- cursor: url("/cursor-default.png") 0 0, auto !important;
+  cursor: url("/cursor-default.png") 0 0, auto !important;
 }
 a, button, .nav-btn, input, textarea, [role="button"] {
- cursor: url("/cursor-hover.png") 0 0, pointer !important;
+  cursor: url("/cursor-hover.png") 0 0, pointer !important;
 }
 /*
 ==========================================================================
@@ -42,14 +43,14 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 ==========================================================================
 */
 ::-webkit-scrollbar {
- width: 10px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
- background: #2a252a;
+  background: #2a252a;
 }
 ::-webkit-scrollbar-thumb {
- background: #ff69b4;
- border-radius: 999px;
+  background: #ff69b4;
+  border-radius: 999px;
 }
 /*
 ==========================================================================
@@ -58,56 +59,56 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 ==========================================================================
 */
 .sidebar {
- position: fixed;
- top: 0;
- left: 0;
- width: 220px;
- height: 100vh;
- background: #2f2a30;
- border-right: 1px solid rgba(255,105,180,.25);
- padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background: #2f2a30;
+  border-right: 1px solid rgba(255,105,180,.25);
+  padding: 15px;
 }
 /* LOGO */
 .logo-container {
- display: flex;
- justify-content: center;
- align-items: center;
- margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
 }
 .logo-image {
- width: 170px;
- max-width: 100%;
- height: auto;
- transition: .25s ease;
- filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
+  width: 170px;
+  max-width: 100%;
+  height: auto;
+  transition: .25s ease;
+  filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
 }
 .logo-image:hover {
- transform: scale(1.03);
+  transform: scale(1.03);
 }
 /* NAV BUTTONS */
 .nav-btn {
- display: flex;
- align-items: center;
- gap: 12px;
- padding: 14px;
- margin-bottom: 10px;
- border-radius: 16px;
- background: #3a343b;
- border: 1px solid rgba(255,105,180,.25);
- color: white;
- text-decoration: none;
- transition: .2s ease;
- box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  background: #3a343b;
+  border: 1px solid rgba(255,105,180,.25);
+  color: white;
+  text-decoration: none;
+  transition: .2s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,.15);
 }
 .nav-btn:hover {
- transform: translateX(4px);
- background: #433b43;
- border-color: #ff69b4;
+  transform: translateX(4px);
+  background: #433b43;
+  border-color: #ff69b4;
 }
 .nav-icon {
- color: #ff69b4;
- width: 24px;
- text-align: center;
+  color: #ff69b4;
+  width: 24px;
+  text-align: center;
 }
 /*
 ==========================================================================
@@ -116,49 +117,49 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 ==========================================================================
 */
 .header {
- position: fixed;
- top: 0;
- left: 220px;
- width: calc(100% - 220px);
- height: 80px;
- display: flex;
- align-items: center;
- gap: 15px;
- padding: 15px;
- background: #2f2a30;
- border-bottom: 1px solid rgba(255,105,180,.25);
- z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 220px;
+  width: calc(100% - 220px);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #2f2a30;
+  border-bottom: 1px solid rgba(255,105,180,.25);
+  z-index: 1000;
 }
 .time-box,
 .date-box {
- background: #3a343b;
- border: 1px solid rgba(255,105,180,.25);
- border-radius: 12px;
- padding: 10px 15px;
- color: white;
- min-width: 120px;
- text-align: center;
+  background: #3a343b;
+  border: 1px solid rgba(255,105,180,.25);
+  border-radius: 12px;
+  padding: 10px 15px;
+  color: white;
+  min-width: 120px;
+  text-align: center;
 }
 .ticker-wrap {
- flex: 1;
- overflow: hidden;
- background: #3a343b;
- border: 1px solid rgba(255,105,180,.25);
- border-radius: 12px;
- height: 42px;
- display: flex;
- align-items: center;
+  flex: 1;
+  overflow: hidden;
+  background: #3a343b;
+  border: 1px solid rgba(255,105,180,.25);
+  border-radius: 12px;
+  height: 42px;
+  display: flex;
+  align-items: center;
 }
 .ticker {
- white-space: nowrap;
- padding-left: 100%;
- animation: scroll 18s linear infinite;
- color: white;
- font-weight: 600;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: scroll 18s linear infinite;
+  color: white;
+  font-weight: 600;
 }
 @keyframes scroll {
- from { transform: translateX(0); }
- to { transform: translateX(-100%); }
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
 /*
 ==========================================================================
@@ -167,25 +168,25 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 ==========================================================================
 */
 .main {
- margin-left: 220px;
- margin-top: 95px;
- padding: 25px;
- width: calc(100% - 220px);
+  margin-left: 220px;
+  margin-top: 95px;
+  padding: 25px;
+  width: calc(100% - 220px);
 }
 .hero {
- padding: 10px 0;
+  padding: 10px 0;
 }
 .hero h1 {
- font-size: 56px;
- font-weight: 900;
- color: white;
- text-shadow:
- 0 0 3px #ff69b4,
- 0 0 8px rgba(255,105,180,.7);
+  font-size: 56px;
+  font-weight: 900;
+  color: white;
+  text-shadow:
+    0 0 3px #ff69b4,
+    0 0 8px rgba(255,105,180,.7);
 }
 .hero p {
- margin-top: 8px;
- color: #ddd;
+  margin-top: 8px;
+  color: #ddd;
 }
 /*
 ==========================================================================
@@ -195,96 +196,115 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 */
 /* 1. Developer Note Spacing & Card */
 .note-box {
- margin-top: 20px;
- background: #3a343b;
- border-radius: 20px;
- padding: 20px;
- border: 1px solid rgba(255,105,180,.25);
- box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  margin-top: 20px;
+  background: #3a343b;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255,105,180,.25);
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
 }
 .note-box h2 {
- margin-top: 0;
- margin-bottom: 12px;
- color: white;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: white;
 }
 .note-box p {
- margin: 0;
- color: #e7e7e7;
- line-height: 1.6;
+  margin: 0;
+  color: #e7e7e7;
+  line-height: 1.6;
 }
-/* 2. Feature Layout Row - SEPARATE SNUG BOX PATCH */
+/* 2. Feature Layout Row - SEPARATE SNUG BOXES */
 .feature-layout-row {
- display: flex;
- align-items: stretch; /* Forces both independent cards to sit beautifully uniform in height */
- gap: 20px;
- margin-top: 20px;
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  margin-top: 20px;
 }
 .feature-box-square {
- width: auto; /* Dynamically sizes container canvas width to perfectly hug your graphic bounds */
- background: #3a343b;
- border-radius: 20px;
- padding: 15px 25px; /* Tightly structured padding parameters */
- border: 1px solid rgba(255,105,180,.25);
- box-shadow: 0 4px 15px rgba(0,0,0,.2);
- display: flex;
- align-items: center;
- justify-content: center;
+  width: auto;
+  background: #3a343b;
+  border-radius: 20px;
+  padding: 15px 25px;
+  border: 1px solid rgba(255,105,180,.25);
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .feature-box-square img {
- height: 110px; /* Snug tracking baseline matching text metrics */
- width: auto;
- object-fit: contain;
- display: block;
- image-rendering: pixelated; /* Sharp sprite render tracking */
+  height: 110px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  image-rendering: pixelated;
 }
 .feature-box-rectangle {
- flex: 1;
- background: #3a343b;
- border-radius: 20px;
- padding: 20px;
- border: 1px solid rgba(255,105,180,.25);
- box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  flex: 1;
+  background: #3a343b;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255,105,180,.25);
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
 }
 .feature-box-rectangle h2 {
- margin-top: 0;
- margin-bottom: 12px;
- color: white;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: white;
 }
 .feature-box-rectangle p {
- margin: 0;
- color: #e7e7e7;
- line-height: 1.6;
+  margin: 0;
+  color: #e7e7e7;
+  line-height: 1.6;
 }
-/* 3. Three Bottom Squares Grid Spacing */
-.three-square-grid {
- display: grid;
- grid-template-columns: repeat(3, 1fr);
- gap: 20px;
- margin-top: 20px;
+/*
+==========================================================================
+ 7. HORIZONTAL BUTTON RESTRUCTURING (FOUR SQUARE GRID OVERRIDE)
+ 
+==========================================================================
+*/
+.four-square-grid {
+  display: flex !important;
+  flex-direction: column !important; /* Arranges the buttons into stackable rows */
+  gap: 15px !important; /* Snug vertical spacing between color rows */
+  margin-top: 20px !important;
+  width: 100% !important;
 }
-.grid-square {
- background: #3a343b;
- border-radius: 20px;
- padding: 20px;
- border: 1px solid rgba(255,105,180,.25);
- box-shadow: 0 4px 15px rgba(0,0,0,.2);
- display: flex;
- flex-direction: column;
- align-items: center;
- gap: 10px;
+.grid-tile-btn {
+  display: flex !important;
+  flex-direction: row !important; /* Aligns the inner square color and text side-by-side */
+  align-items: center !important;
+  width: 100% !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  padding: 0 !important; /* Removes outer margins so the square inner box flushes cleanly */
+  overflow: hidden !important;
+  background: #3a343b !important;
+  border: 1px solid rgba(255,105,180,.25) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,.2) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
-.grid-square h3 {
- margin-top: 0;
- margin-bottom: 12px;
- font-size: 1.1rem;
- color: white;
+.grid-tile-btn:hover {
+  transform: translateX(4px) !important; /* Elegant horizontal nudge on row hover */
+  border-color: #ff69b4 !important;
+  box-shadow: 0 4px 20px rgba(255,105,180,0.2) !important;
 }
-.grid-square p {
- margin: 0;
- font-size: 0.9rem;
- color: #e7e7e7;
- line-height: 1.6;
- text-align: center;
+.tile-emoji-box {
+  width: 50px !important; /* Fixed square dimension parameter matching your image sample */
+  height: 50px !important;
+  aspect-ratio: 1 / 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.5rem !important;
+  border-radius: 0 !important; /* Flushes the inner color box flat against the outer container edges */
+}
+.tile-label {
+  margin: 0 !important;
+  padding-left: 15px !important; /* Snug spacing pushing text cleanly away from the color block */
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: white !important;
+  text-align: left !important;
 }
 /*
 ==========================================================================
@@ -293,47 +313,39 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 ==========================================================================
 */
 @media (max-width: 768px) {
- .main {
- margin-left: 0;
- width: 100%;
- }
- .sidebar {
- position: relative;
- width: 100%;
- height: auto;
- }
- .header {
- left: 0;
- width: 100%;
- }
- .feature-layout-row {
- flex-direction: column;
- align-items: initial;
- }
- .feature-box-square {
- width: 100%;
- aspect-ratio: 1 / 1;
- height: auto;
- padding: 20px;
- }
- .feature-box-square img {
- height: 60%;
- }
- .three-square-grid {
- grid-template-columns: 1fr;
- }
- .grid-square {
- aspect-ratio: 1 / 1;
- max-width: 350px;
- margin: 0 auto;
- }
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .header {
+    left: 0;
+    width: 100%;
+  }
+  .feature-layout-row {
+    flex-direction: column;
+    align-items: initial;
+  }
+  .feature-box-square {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    padding: 20px;
+  }
+  .feature-box-square img {
+    height: 60%;
+  }
 }
 /* Custom Image Icon Styling for the Sidebar Buttons */
 .nav-icon-img {
- width: 24px;
- height: 24px;
- object-fit: contain;
- display: inline-block;
- vertical-align: middle;
- filter: drop-shadow(0 0 2px rgba(255,105,180,.4));
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 2px rgba(255,105,180,.4));
 }

@@ -212,39 +212,39 @@ a, button, .nav-btn, input, textarea, [role="button"] {
  color: #e7e7e7;
  line-height: 1.6;
 }
-/* 2. Feature Layout Row - DYNAMIC SIZING PATCH */
+/* 2. Feature Layout Row - COMPLETE HOUSING CONTAINER PATCH */
 .feature-layout-row {
- display: flex;
- align-items: stretch; /* Stretches the image box to match the rectangle text box */
- gap: 20px;
  margin-top: 20px;
+ background: #3a343b;
+ border-radius: 20px;
+ padding: 20px;
+ border: 1px solid rgba(255,105,180,.25);
+ box-shadow: 0 4px 15px rgba(0,0,0,.2);
+ display: block; /* Matches the note-box mechanics perfectly */
 }
 .feature-box-square {
- width: auto; /* Shrinks container width dynamically based on the image size */
- min-width: 150px;
- max-width: 300px;
- background: #3a343b;
- border-radius: 20px;
- padding: 20px;
- border: 1px solid rgba(255,105,180,.25);
+ float: left; /* Flushes character box tightly to the left side */
+ margin-right: 20px; /* Snug distance boundary to text blocks */
+ margin-bottom: 5px;
+ background: transparent; /* Removes background to avoid box-in-box stacking */
+ border: none;
+ padding: 0;
  display: flex;
- justify-content: center;
  align-items: center;
+ justify-content: center;
 }
 .feature-box-square img {
- height: 100%; /* Constraints image height perfectly to the parent box container */
+ height: 110px; /* Snug matching baseline scale for description blocks */
  width: auto;
- max-height: 160px; /* Safeguard ceiling height to match your text container scale */
  object-fit: contain;
  display: block;
- image-rendering: pixelated; /* Keeps your character sprite crisp and clear when resizing */
+ image-rendering: pixelated; /* Keeps pixel character sharp */
 }
 .feature-box-rectangle {
- flex: 1;
- background: #3a343b;
- border-radius: 20px;
- padding: 20px;
- border: 1px solid rgba(255,105,180,.25);
+ background: transparent; /* Removes double container wrapping */
+ border: none;
+ padding: 0;
+ display: block;
 }
 .feature-box-rectangle h2 {
  margin-top: 0;
@@ -255,6 +255,12 @@ a, button, .nav-btn, input, textarea, [role="button"] {
  margin: 0;
  color: #e7e7e7;
  line-height: 1.6;
+}
+/* Clearfix guard for floating structural elements */
+.feature-layout-row::after {
+ content: "";
+ display: table;
+ clear: both;
 }
 /* 3. Three Bottom Squares Grid Spacing */
 .three-square-grid {
@@ -306,19 +312,9 @@ a, button, .nav-btn, input, textarea, [role="button"] {
  left: 0;
  width: 100%;
  }
- .feature-layout-row {
- flex-direction: column;
- align-items: initial;
- }
  .feature-box-square {
- width: 100%;
- aspect-ratio: 1 / 1;
- height: auto;
- }
- .feature-box-square img {
- height: auto;
- width: 60%;
- max-height: none;
+ float: none;
+ margin: 0 auto 15px auto;
  }
  .three-square-grid {
  grid-template-columns: 1fr;

@@ -15,7 +15,10 @@ html, body {
 }
 
 body {
-    background: linear-gradient(180deg, #312c32 0%, #272427 100%);
+    /* Combined your background gradient with an embedded SVG noisy paper texture overlay */
+    background: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E"),
+        linear-gradient(180deg, #312c32 0%, #272427 100%);
     color: white;
 }
 
@@ -197,7 +200,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    height: 200px; /* Explicit height set here */
+    height: 200px;
 }
 
 .note-box h2 {
@@ -235,7 +238,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     justify-content: center;
     padding: 20px;
     width: 200px;  
-    height: 200px; /* Explicit height matches the row */
+    height: 200px;
     box-sizing: border-box;
 }
 
@@ -257,7 +260,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    height: 200px; /* Explicit height matching the Note Box exactly */
+    height: 200px;
 }
 
 .feature-box-rectangle h2 {
@@ -356,11 +359,11 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     
     .feature-box-rectangle {
         width: 100%;
-        height: auto; /* Allow auto fallback to prevent text squishing on mobile screens */
+        height: auto;
     }
 
     .note-box {
-        height: auto; /* Allow auto fallback to prevent text squishing on mobile screens */
+        height: auto;
     }
     
     .three-square-grid {

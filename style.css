@@ -315,11 +315,3 @@ img{
 body {
     cursor: url("cursor-default.png"), auto;
 }
-
-a,
-button,
-.nav-btn,
-input,
-textarea {
-    cursor: url("cursor-hover.png"), pointer;
-}

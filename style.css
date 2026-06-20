@@ -346,3 +346,14 @@ a, button, .nav-btn, input, textarea, [role="button"] {
         margin: 0 auto;
     }
 }
+
+/* Custom Image Icon Styling for the Sidebar Buttons */
+.nav-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+    /* Keeps the neat neon glow look from your layout theme */
+    filter: drop-shadow(0 0 2px rgba(255,105,180,.4));
+}

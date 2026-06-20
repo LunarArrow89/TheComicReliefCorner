@@ -201,19 +201,19 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   7. SIDE-BY-SIDE SECTION: HOST GRAPHIC & BIO TEXT BOX MATCHING
+   7. SIDE-BY-SIDE SECTION: SIZED BY TEXT CONTENT
    ========================================================================== */
 .feature-layout-row {
     display: flex;
     gap: 20px;
     margin-top: 25px;
     width: 100%;
-    align-items: stretch; /* Forces both blocks to stay identical in height */
+    align-items: stretch; /* Vertically matches both box heights perfectly */
 }
 
-/* Left image box balances evenly at 50% width */
+/* Left image box: Adapts strictly to the true dimensions of your gif */
 .feature-box-square {
-    flex: 1; 
+    flex: 0 0 auto; /* Stop the box from expanding larger than the image */
     background: #3a343b;
     border-radius: 20px;
     border: 1px solid rgba(255,105,180,.25);
@@ -221,17 +221,17 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 25px;
+    padding: 20px;
 }
 
 .feature-box-square img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Keeps pixel art perfectly proportioned and crisp */
+    width: 160px; /* Adjust this number to scale your host avatar up or down */
+    height: 160px;
+    object-fit: contain; 
     display: block;
 }
 
-/* Right text box balances evenly at 50% width */
+/* Right text box: Expands dynamically to consume all remaining space */
 .feature-box-rectangle {
     flex: 1; 
     background: #3a343b;
@@ -260,7 +260,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
    ========================================================================== */
 .three-square-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Divides available workspace into 3 perfectly equal columns */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin: 25px auto 0 auto;
     width: 100%;
@@ -274,12 +274,11 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     text-align: center;
     box-shadow: 0 3px 10px rgba(0,0,0,.15);
     
-    /* Layout properties to maintain completely symmetrical box dimensions */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 280px; /* Fallback baseline size preventing text from unevenly shrinking boxes */
+    min-height: 280px; 
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -330,6 +329,12 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     
     .feature-layout-row {
         flex-direction: column;
+        align-items: center;
+    }
+    
+    .feature-box-square {
+        width: 100%;
+        max-width: 200px;
     }
     
     .three-square-grid {

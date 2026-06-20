@@ -127,7 +127,6 @@ body{
 
 .header{
     position:fixed;
-
     top:0;
     left:220px;
 
@@ -223,7 +222,6 @@ body{
 
     width:calc(100% - 220px);
 }
-
 /* =========================
    HOMEPAGE TITLE
 ========================= */
@@ -251,7 +249,6 @@ body{
 
 .hero p{
     margin-top:8px;
-
     color:#ddd;
 }
 
@@ -276,7 +273,6 @@ body{
 
 .note-box h2{
     margin-bottom:10px;
-
     color:white;
 }
 
@@ -311,16 +307,15 @@ img{
     background:#ff69b4;
     border-radius:999px;
 }
+
 /* =========================
    CUSTOM CURSOR (FIXED)
 ========================= */
 
-/* Normal cursor */
 body{
     cursor: url("cursor-default.png"), auto !important;
 }
 
-/* Hover cursor for clickable elements */
 a,
 button,
 .nav-btn,

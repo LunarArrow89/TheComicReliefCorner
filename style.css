@@ -324,3 +324,7 @@ input,
 textarea{
     cursor: url("cursor-hover.png"), pointer !important;
 }
+
+body {
+    cursor: crosshair !important;
+}

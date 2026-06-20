@@ -197,6 +197,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
+    height: 200px; /* Explicit height set here */
 }
 
 .note-box h2 {
@@ -219,7 +220,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     gap: 20px;
     margin-top: 25px;
     width: 100%;
-    align-items: stretch; /* Forces the left graphic box and the right text box to have identical heights */
+    align-items: stretch;
 }
 
 /* Left image box: Adapts strictly to dimensions of your gif */
@@ -233,7 +234,8 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    width: 202px;  /* Keeps the image wrapper a perfect square */
+    width: 200px;  
+    height: 200px; /* Explicit height matches the row */
     box-sizing: border-box;
 }
 
@@ -255,6 +257,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
+    height: 200px; /* Explicit height matching the Note Box exactly */
 }
 
 .feature-box-rectangle h2 {
@@ -291,7 +294,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 280px; /* Forces all 3 lower grid blocks to have the exact same height */
+    height: 280px; 
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -348,6 +351,16 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     .feature-box-square {
         width: 100%;
         max-width: 200px;
+        height: 200px;
+    }
+    
+    .feature-box-rectangle {
+        width: 100%;
+        height: auto; /* Allow auto fallback to prevent text squishing on mobile screens */
+    }
+
+    .note-box {
+        height: auto; /* Allow auto fallback to prevent text squishing on mobile screens */
     }
     
     .three-square-grid {

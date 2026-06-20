@@ -309,9 +309,28 @@ img{
 }
 
 /* =========================
-   CUSTOM CURSOR
+   CUSTOM CURSOR (JS VERSION)
 ========================= */
 
 body {
-    cursor: url("cursor-default.png"), auto;
+    cursor: none;
+}
+
+#custom-cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    background: #ff69b4;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
+    z-index: 99999;
+    transition: transform 0.08s ease;
+}
+
+#custom-cursor.hover {
+    transform: translate(-50%, -50%) scale(2);
+    background: white;
+    box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493;
 }

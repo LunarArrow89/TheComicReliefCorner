@@ -308,9 +308,6 @@ img{
     border-radius:999px;
 }
 
-/* =========================
-   CUSTOM CURSOR (FIXED)
-========================= */
-body {
-    cursor: crosshair !important;
+body{
+    cursor: url("cursor-default.png"), auto !important;
 }

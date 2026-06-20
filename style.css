@@ -311,7 +311,24 @@ img{
     background:#ff69b4;
     border-radius:999px;
 }
+/* =========================
+   GLOBAL CUSTOM CURSOR
+========================= */
 
+/* Default cursor everywhere */
+body{
+    cursor: url("cursor-default.png") 16 16, auto;
+}
+
+/* Hover cursor for clickable elements */
+a:hover,
+button:hover,
+.nav-btn:hover,
+[onclick]:hover,
+input:hover,
+textarea:hover{
+    cursor: url("cursor-hover.png") 16 16, pointer;
+}
 ::-webkit-scrollbar-thumb:hover{
     background:#ff85c2;
 }

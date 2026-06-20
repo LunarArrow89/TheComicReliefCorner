@@ -15,12 +15,14 @@ html, body {
 }
 
 body {
-    /* Pure CSS paper micro-grain texture that guarantees visibility across all web browsers */
+    /* 
+       1. First Layer: Microscopic digital noise overlay matching your reference image.
+       2. Second Layer: Radial glowing vignette fading out to deep dark edges.
+    */
     background: 
-        repeating-linear-gradient(45deg, rgba(255,255,255, 0.015) 0px, rgba(255,255,255, 0.015) 1px, transparent 1px, transparent 4px),
-        repeating-linear-gradient(-45deg, rgba(0,0,0, 0.15) 0px, rgba(0,0,0, 0.15) 1px, transparent 1px, transparent 4px),
-        linear-gradient(180deg, #312c32 0%, #272427 100%);
-    background-size: auto, auto, 100% 100%;
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E"),
+        radial-gradient(circle at 50% 45%, #2a1115 0%, #150d11 60%, #0a080a 100%);
+    background-attachment: fixed;
     color: white;
 }
 
@@ -43,7 +45,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 ::-webkit-scrollbar-track {
-    background: #2a252a;
+    background: #150d11;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -60,8 +62,8 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     left: 0;
     width: 220px;
     height: 100vh;
-    background: #2f2a30;
-    border-right: 1px solid rgba(255,105,180,.25);
+    background: #11090c;
+    border-right: 1px solid rgba(255, 105, 180, 0.15);
     padding: 15px;
 }
 
@@ -93,17 +95,17 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     padding: 14px;
     margin-bottom: 10px;
     border-radius: 16px;
-    background: #3a343b;
-    border: 1px solid rgba(255,105,180,.25);
+    background: #1c1217;
+    border: 1px solid rgba(255, 105, 180, 0.15);
     color: white;
     text-decoration: none;
     transition: .2s ease;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    box-shadow: 0 3px 10px rgba(0,0,0,.3);
 }
 
 .nav-btn:hover {
     transform: translateX(4px);
-    background: #433b43;
+    background: #25181f;
     border-color: #ff69b4;
 }
 
@@ -126,14 +128,14 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     align-items: center;
     gap: 15px;
     padding: 15px;
-    background: #2f2a30;
-    border-bottom: 1px solid rgba(255,105,180,.25);
+    background: #11090c;
+    border-bottom: 1px solid rgba(255, 105, 180, 0.15);
     z-index: 1000;
 }
 
 .time-box, .date-box {
-    background: #3a343b;
-    border: 1px solid rgba(255,105,180,.25);
+    background: #1c1217;
+    border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
     padding: 10px 15px;
     color: white;
@@ -144,8 +146,8 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 .ticker-wrap {
     flex: 1;
     overflow: hidden;
-    background: #3a343b;
-    border: 1px solid rgba(255,105,180,.25);
+    background: #1c1217;
+    border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
     height: 42px;
     display: flex;
@@ -194,10 +196,10 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* NOTE BOX */
 .note-box {
     margin-top: 20px;
-    background: #3a343b;
+    background: #1c1217;
     border-radius: 20px;
     padding: 25px;
-    border: 1px solid rgba(255,105,180,.25);
+    border: 1px solid rgba(255, 105, 180, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -228,12 +230,12 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     align-items: stretch;
 }
 
-/* Left image box: Adapts strictly to dimensions of your gif */
+/* Left image box */
 .feature-box-square {
     flex: 0 0 auto;
-    background: #3a343b;
+    background: #1c1217;
     border-radius: 20px;
-    border: 1px solid rgba(255,105,180,.25);
+    border: 1px solid rgba(255, 105, 180, 0.15);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -251,13 +253,13 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     display: block;
 }
 
-/* Right text box: Expands dynamically to consume remaining space */
+/* Right text box */
 .feature-box-rectangle {
     flex: 1;
-    background: #3a343b;
+    background: #1c1217;
     border-radius: 20px;
     padding: 25px;
-    border: 1px solid rgba(255,105,180,.25);
+    border: 1px solid rgba(255, 105, 180, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -289,12 +291,12 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 .grid-square {
-    background: #3a343b;
-    border: 1px solid rgba(255,105,180,.25);
+    background: #1c1217;
+    border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 20px;
     padding: 25px;
     text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,.4);
     display: flex;
     flex-direction: column;
     align-items: center;

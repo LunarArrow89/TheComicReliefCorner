@@ -201,20 +201,19 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   7. SIDE-BY-SIDE SECTION: PERFECT SQUARE IMAGE + SNUG NATURAL TEXT
+   7. SIDE-BY-SIDE SECTION: SIZED BY TEXT CONTENT
    ========================================================================== */
 .feature-layout-row {
     display: flex;
     gap: 20px;
     margin-top: 25px;
     width: 100%;
-    align-items: stretch; /* Height of left box will stretch to match right box text height */
+    align-items: stretch; /* Vertically matches both box heights perfectly */
 }
 
-/* Left image box: A perfect 1:1 square that scales to the right box height */
+/* Left image box: Adapts strictly to the true dimensions of your gif */
 .feature-box-square {
-    flex: 0 0 auto;
-    aspect-ratio: 1 / 1; /* Forces box to stay a perfect square */
+    flex: 0 0 auto; /* Stop the box from expanding larger than the image */
     background: #3a343b;
     border-radius: 20px;
     border: 1px solid rgba(255,105,180,.25);
@@ -226,19 +225,22 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 .feature-box-square img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 160px; /* Adjust this number to scale your host avatar up or down */
+    height: 160px;
     object-fit: contain; 
     display: block;
 }
 
-/* Right text box: Snug layout matching the developer note styling */
+/* Right text box: Expands dynamically to consume all remaining space */
 .feature-box-rectangle {
     flex: 1; 
     background: #3a343b;
     border-radius: 20px;
-    padding: 20px; /* Snug styling layout padding */
+    padding: 25px;
     border: 1px solid rgba(255,105,180,.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .feature-box-rectangle h2 {

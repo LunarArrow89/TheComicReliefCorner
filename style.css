@@ -16,12 +16,12 @@ html, body {
 
 body {
     /* 
-       1. First Layer: Switched to pure chaos turbulence over a massive 256px grid to completely eliminate repeating line patterns.
-       2. Second Layer: The radial spotlight glow matching your image reference.
+       1. First Layer: Chaos turbulence SVG overlay for natural photo-grain look.
+       2. Second Layer: Radial-gradient centered spotlight shifting from hot pink down to deep near-black.
     */
     background: 
         url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.95' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.055'/%3E%3C/svg%3E"),
-        radial-gradient(circle at 50% 45%, #2a1115 0%, #150d11 60%, #0a080a 100%);
+        radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
     background-attachment: fixed;
     color: white;
 }
@@ -45,7 +45,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 ::-webkit-scrollbar-track {
-    background: #150d11;
+    background: #1a0d17;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -62,7 +62,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     left: 0;
     width: 220px;
     height: 100vh;
-    background: #11090c;
+    background: #120910;
     border-right: 1px solid rgba(255, 105, 180, 0.15);
     padding: 15px;
 }
@@ -95,7 +95,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     padding: 14px;
     margin-bottom: 10px;
     border-radius: 16px;
-    background: #1c1217;
+    background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     color: white;
     text-decoration: none;
@@ -105,7 +105,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 
 .nav-btn:hover {
     transform: translateX(4px);
-    background: #25181f;
+    background: #2a1825;
     border-color: #ff69b4;
 }
 
@@ -128,13 +128,13 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     align-items: center;
     gap: 15px;
     padding: 15px;
-    background: #11090c;
+    background: #120910;
     border-bottom: 1px solid rgba(255, 105, 180, 0.15);
     z-index: 1000;
 }
 
 .time-box, .date-box {
-    background: #1c1217;
+    background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
     padding: 10px 15px;
@@ -146,7 +146,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 .ticker-wrap {
     flex: 1;
     overflow: hidden;
-    background: #1c1217;
+    background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
     height: 42px;
@@ -196,7 +196,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* NOTE BOX */
 .note-box {
     margin-top: 20px;
-    background: #1c1217;
+    background: #1f121b;
     border-radius: 20px;
     padding: 25px;
     border: 1px solid rgba(255, 105, 180, 0.15);
@@ -233,7 +233,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* Left image box */
 .feature-box-square {
     flex: 0 0 auto;
-    background: #1c1217;
+    background: #1f121b;
     border-radius: 20px;
     border: 1px solid rgba(255, 105, 180, 0.15);
     overflow: hidden;
@@ -256,7 +256,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* Right text box */
 .feature-box-rectangle {
     flex: 1;
-    background: #1c1217;
+    background: #1f121b;
     border-radius: 20px;
     padding: 25px;
     border: 1px solid rgba(255, 105, 180, 0.15);
@@ -291,7 +291,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 .grid-square {
-    background: #1c1217;
+    background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 20px;
     padding: 25px;

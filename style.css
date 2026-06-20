@@ -191,11 +191,21 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     margin-top: 20px;
     background: #3a343b;
     border-radius: 20px;
-    padding: 20px;
+    padding: 25px;
     border: 1px solid rgba(255,105,180,.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.note-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: white;
 }
 
 .note-box p {
+    margin: 0;
     color: #e7e7e7;
     line-height: 1.6;
 }
@@ -208,12 +218,12 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     gap: 20px;
     margin-top: 25px;
     width: 100%;
-    align-items: stretch; /* Vertically matches both box heights perfectly */
+    align-items: stretch;
 }
 
-/* Left image box: Adapts strictly to the true dimensions of your gif */
+/* Left image box: Adapts strictly to dimensions of your gif */
 .feature-box-square {
-    flex: 0 0 auto; /* Stop the box from expanding larger than the image */
+    flex: 0 0 auto;
     background: #3a343b;
     border-radius: 20px;
     border: 1px solid rgba(255,105,180,.25);
@@ -225,15 +235,15 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 .feature-box-square img {
-    width: 160px; /* Adjust this number to scale your host avatar up or down */
+    width: 160px;
     height: 160px;
-    object-fit: contain; 
+    object-fit: contain;
     display: block;
 }
 
-/* Right text box: Expands dynamically to consume all remaining space */
+/* Right text box: Expands dynamically to consume remaining space */
 .feature-box-rectangle {
-    flex: 1; 
+    flex: 1;
     background: #3a343b;
     border-radius: 20px;
     padding: 25px;
@@ -273,12 +283,11 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     padding: 25px;
     text-align: center;
     box-shadow: 0 3px 10px rgba(0,0,0,.15);
-    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 280px; 
+    min-height: 280px;
     box-sizing: border-box;
     overflow: hidden;
 }

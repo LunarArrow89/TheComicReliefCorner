@@ -309,5 +309,14 @@ img{
 }
 
 body{
-    cursor: url("cursor-default.png"), auto !important;
+    cursor: url("https://LunarArrow89.github.io/TheComicReliefCorner/cursor-default.png"), auto !important;
+}
+
+a,
+button,
+.nav-btn,
+[onclick],
+input,
+textarea{
+    cursor: url("https://LunarArrow89.github.io/TheComicReliefCorner/cursor-hover.png"), pointer !important;
 }

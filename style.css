@@ -201,19 +201,19 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   7. SIDE-BY-SIDE SECTION: UPDATED TO MAKE BOTH BOXES UNIFORM
+   7. SIDE-BY-SIDE SECTION: HOST GRAPHIC & BIO TEXT BOX MATCHING
    ========================================================================== */
 .feature-layout-row {
     display: flex;
     gap: 20px;
     margin-top: 25px;
     width: 100%;
-    align-items: stretch; /* Forces both boxes to be the same height */
+    align-items: stretch; /* Forces both blocks to stay identical in height */
 }
 
-/* Left content box scaled up to match right box size */
+/* Left image box balances evenly at 50% width */
 .feature-box-square {
-    flex: 1; /* Shared 50/50 width distribution */
+    flex: 1; 
     background: #3a343b;
     border-radius: 20px;
     border: 1px solid rgba(255,105,180,.25);
@@ -227,13 +227,13 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 .feature-box-square img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Keeps pixel art proportions perfectly sharp */
+    object-fit: contain; /* Keeps pixel art perfectly proportioned and crisp */
     display: block;
 }
 
-/* Right text box */
+/* Right text box balances evenly at 50% width */
 .feature-box-rectangle {
-    flex: 1; /* Shared 50/50 width distribution */
+    flex: 1; 
     background: #3a343b;
     border-radius: 20px;
     padding: 25px;
@@ -256,11 +256,11 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 }
 
 /* ==========================================================================
-   8. THREE BOTTOM SQUARES GRID WITH CENTERING
+   8. THREE BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
    ========================================================================== */
 .three-square-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Forces all 3 squares to be identical width */
+    grid-template-columns: repeat(3, 1fr); /* Divides available workspace into 3 perfectly equal columns */
     gap: 20px;
     margin: 25px auto 0 auto;
     width: 100%;
@@ -274,23 +274,23 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     text-align: center;
     box-shadow: 0 3px 10px rgba(0,0,0,.15);
     
-    /* Layout properties to maintain consistent dimensions */
+    /* Layout properties to maintain completely symmetrical box dimensions */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Aligns content from the top uniformly */
-    min-height: 280px;           /* Gives them all the same fallback height */
+    justify-content: flex-start;
+    min-height: 280px; /* Fallback baseline size preventing text from unevenly shrinking boxes */
     box-sizing: border-box;
     overflow: hidden;
 }
 
 .grid-square img {
-    width: 80px;                 /* Fixed square size for game icons */
+    width: 80px;
     height: 80px;
     object-fit: contain;
     border-radius: 12px;
     margin-bottom: 15px;
-    flex-shrink: 0;              /* Prevents images from getting crushed */
+    flex-shrink: 0;
     filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
 }
 
@@ -307,7 +307,6 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     text-align: center;
     line-height: 1.4;
 }
-
 
 /* ==========================================================================
    9. MOBILE RESPONSIVENESS LAYOUTS
@@ -338,7 +337,6 @@ a, button, .nav-btn, input, textarea, [role="button"] {
     }
     
     .grid-square {
-        aspect-ratio: 1 / 1;
         max-width: 350px;
         margin: 0 auto;
     }

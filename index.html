@@ -3,65 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner - Home</title>
-    <!-- Font Awesome -->
+    <title>Dashboard</title>
+    <!-- Links your main stylesheet file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome icons for your sidebar elements -->
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your CSS (Forcing cache refresh for the new spacing rules) -->
-    <link rel="stylesheet" href="style.css?v=unified_spacing">
-    <!-- Loader Script -->
-    <script defer src="load.js"></script>
 </head>
 <body>
-    <!-- SIDEBAR LOADS HERE -->
-    <div id="sidebar-container"></div>
-    
-    <!-- HEADER LOADS HERE -->
-    <div id="header-container"></div>
 
-    <!-- MAIN CONTENT ONLY -->
-    <div class="main">
-        <div class="hero">
-            <h1>The Comic Relief Corner</h1>
-            <p>Your one-way ticket to entertainment.</p>
+    <!-- ========================= SIDEBAR PANEL ========================= -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <!-- Substitute 'logo.png' with your actual logo asset image path -->
+            <img src="logo.png" alt="Logo" class="logo-image">
         </div>
+        <nav>
+            <a href="#" class="nav-btn">
+                <i class="fa-solid var(--fa-house) nav-icon"></i>
+                <span>home</span>
+            </a>
+            <a href="#" class="nav-btn">
+                <i class="fa-solid fa-gamepad nav-icon"></i>
+                <span>games</span>
+            </a>
+            <a href="#" class="nav-btn">
+                <i class="fa-solid fa-wrench nav-icon"></i>
+                <span>proxy</span>
+            </a>
+            <a href="#" class="nav-btn">
+                <i class="fa-solid fa-gear nav-icon"></i>
+                <span>settings</span>
+            </a>
+        </nav>
+    </div>
 
-        <!-- 1. DEVELOPER NOTE (LONG RECTANGLE) -->
-        <div class="note-box">
-            <h2>Note From The Developer</h2>
-            <p>
-                Hello! This is the game developer Luna speaking! I worked hard on this website and it makes my soul happy when I see people use this. Thank you for supporting a life-long dream of mine. Have a great time, whether you're reading, gaming, or watching! With lots of love, Luna
-            </p>
-        </div>
-
-        <!-- 2. CORRECTED ROW: Square box with luna.gif (Left) + Rectangle box (Right) -->
-        <div class="feature-layout-row">
-            <div class="feature-box-square">
-                <img src="luna.gif" alt="Featured content graphic">
-            </div>
-            <div class="feature-box-rectangle">
-                <h2>Meet the host!</h2>
-                <p>Luna is a young coder that let's nothing get in their way! Luna started coding at 9 and since then has learned various coding languages. Luna made this website at 12 years old (In 2026) and will never stop designing their website. One pixel at a time!</p>
-            </div>
-        </div>
-
-        <!-- 3. THREE BOTTOM SQUARES GRID WITH LOCAL IMAGES -->
-        <div class="three-square-grid">
-            <div class="grid-square">
-                <img src="game1.png" alt="Game icon one">
-                <h3>Square Title 1</h3>
-                <p>Short description text.</p>
-            </div>
-            <div class="grid-square">
-                <img src="game2.png" alt="Game icon two">
-                <h3>Square Title 2</h3>
-                <p>Short description text.</p>
-            </div>
-            <div class="grid-square">
-                <img src="game3.png" alt="Game icon three">
-                <h3>Square Title 3</h3>
-                <p>Short description text.</p>
+    <!-- ========================= HEADER TRACK BAR ========================= -->
+    <div class="header">
+        <div class="time-box">12:00 PM</div>
+        <div class="date-box">06 / 20 / 2026</div>
+        <div class="ticker-wrap">
+            <div class="ticker">
+                🚀 Welcome back! All systems operational. Check out the latest proxy updates! 🌟 Enjoy unblocked gaming speed!
             </div>
         </div>
     </div>
+
+    <!-- ========================= WORKSPACE CANVAS ========================= -->
+    <div class="main">
+        
+        <!-- HERO SEGMENT SECTION -->
+        <div class="hero">
+            <h1>dashboard</h1>
+            <p>select an interface portal launcher module down below to begin your runtime workflow session.</p>
+        </div>
+
+        <!-- DEVELOPER NOTE SURROUND BOX -->
+        <div class="note-box">
+            <h2>system announcement</h2>
+            <p>welcome to your workspace environment hub. our proxy links have been updated to support faster connections. please verify your local canvas graphics settings if rendering speeds drop during emulation runs.</p>
+        </div>
+
+        <!-- CHARACTER SPRITE INTRO ROW CONTAINER -->
+        <div class="feature-layout-row">
+            <div class="feature-box-square">
+                <!-- Substitute 'character.png' with your pixel-art hero graphic sprite filename path -->
+                <img src="character.png" alt="Character Sprite">
+            </div>
+            <div class="feature-box-rectangle">
+                <h2>welcome user</h2>
+                <p>your custom profile runtime configurations have been verified and applied globally across your local session token space. edit parameters via the shortcut settings panels below or access your unblocked game launcher grids directly from the main sidebar navigators.</p>
+            </div>
+        </div>
+
+        <!-- ========================= REPLACED: FOUR SQUARE EMOTICON GRID ========================= -->
+        <div class="four-square-grid">
+            
+            <!-- Button Tile 1: Games -->
+            <a href="#" class="grid-tile-btn">
+                <!-- Inline variables handle custom colored background canvases and distinct glow styling signatures -->
+                <div class="tile-emoji-box" style="background: #00ffff; filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.65));">🎮</div>
+                <p class="tile-label">games</p>
+            </a>
+
+            <!-- Button Tile 2: Tools -->
+            <a href="#" class="grid-tile-btn">
+                <div class="tile-emoji-box" style="background: #ff69b4; filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.65));">🔧</div>
+                <p class="tile-label">apps</p>
+            </a>
+
+            <!-- Button Tile 3: Chat -->
+            <a href="#" class="grid-tile-btn">
+                <div class="tile-emoji-box" style="background: #9b51e0; filter: drop-shadow(0 0 8px rgba(155, 81, 224, 0.65));">💬</div>
+                <p class="tile-label">proxy</p>
+            </a>
+
+            <!-- Button Tile 4: Settings -->
+            <a href="#" class="grid-tile-btn">
+                <div class="tile-emoji-box" style="background: #27ae60; filter: drop-shadow(0 0 8px rgba(39, 174, 96, 0.65));">⚙️</div>
+                <p class="tile-label">settings</p>
+            </a>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

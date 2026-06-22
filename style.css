@@ -17,7 +17,7 @@ html, body {
 body {
   /* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
   /* Layer 2: Your existing radial spotlight gradient shifting to black */
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)'/%3E%3C/svg%3E"), radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
   /* Forces the texture to tile properly and stay fixed during scroll */
   background-repeat: repeat;
   background-attachment: fixed;
@@ -81,7 +81,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
   width: 210px;       /* Intentionally larger than the 170px main logo */
   height: auto;
   z-index: 1;         /* Keeps the ring layered safely behind the text logo */
-  pointer-events: none; /* Prevents the ring image from blocking button links */
+  pointer-events: none; /* CRITICAL: Allows mouse cursor to pass right through the ring area */
   filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
   animation: slow-turn 20s linear infinite; /* 20 second seamless turning loop */
 }
@@ -89,14 +89,16 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* MAIN LOGO OVERLAY */
 .logo-image {
   position: relative;
-  z-index: 2;         /* Locks main logo on top layer */
+  z-index: 2;         /* Locks main logo on top layer over the ring */
   width: 170px;
   max-width: 100%;
   height: auto;
   transition: .25s ease;
   filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
+  pointer-events: auto; /* Re-enables tracking specifically for this image asset */
 }
 
+/* TARGETED HOVER FIX: Only grows when hovering directly ON the logo image, NOT near it or the ring */
 .logo-image:hover {
   transform: scale(1.03);
 }

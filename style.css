@@ -78,7 +78,7 @@ a, button, .nav-btn, input, textarea, [role="button"] {
 /* ROTATING RING LOGO */
 .logo-ring {
   position: absolute;
-  width: 210px;       /* Intentionally larger than the 170px main logo */
+  width: 250px;       /* Intentionally larger than the 170px main logo */
   height: auto;
   z-index: 1;         /* Keeps the ring layered safely behind the text logo */
   pointer-events: none; /* CRITICAL: Allows mouse cursor to pass right through the ring area */

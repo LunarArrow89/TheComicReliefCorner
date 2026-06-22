@@ -25,17 +25,6 @@ body {
 }
 
 /* ==========================================================================
-   2. GLOBAL IMAGE CURSOR FIX
-   ========================================================================== */
-body {
-  cursor: url("/cursor-default.png") 0 0, auto !important;
-}
-
-a, button, .nav-btn, input, textarea, [role="button"] {
-  cursor: url("/cursor-hover.png") 0 0, pointer !important;
-}
-
-/* ==========================================================================
    3. SCROLLBAR
    ========================================================================== */
 ::-webkit-scrollbar {

@@ -394,5 +394,15 @@ body {
   object-fit: contain;
   display: inline-block;
   vertical-align: middle;
-  filter: drop-shadow(0 0 2px rgba(255,105,180,.4));
+  
+  /* CRITICAL: Turns black/dark icons into a vibrant hot pink (#ff69b4) */
+  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
+  
+  transition: filter 0.2s ease;
 }
+
+/* Optional: Makes the icons glow brighter pink when hovering over the button */
+.nav-btn:hover .nav-icon-img {
+  filter: invert(53%) sepia(93%) saturate(3000%) hue-rotate(301deg) brightness(110%) contrast(105%) drop-shadow(0 0 6px #ff69b4);
+}
+

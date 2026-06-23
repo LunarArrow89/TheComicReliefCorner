@@ -1,5 +1,3 @@
-/* PART 1: TOP CONFIGURATIONS THROUGH SPLIT BLOCK MODULE */
-
 /* ==========================================================================
    1. RESET & BASIC STYLES
    ========================================================================== */
@@ -299,8 +297,6 @@ body {
   color: #e7e7e7;
   line-height: 1.6;
 }
-/* PART 2: INTERACTIVE FOUR COLUMNS COMPONENT & RESPONSIVE LAYOUT ENGINES */
-
 /* ==========================================================================
    7. FOUR BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
    ========================================================================== */
@@ -313,7 +309,7 @@ body {
   width: 100%;
 }
 
-/* The Outer White-Border Card Link */
+/* The Outer White-Border Card Container (Forced 1:1 Aspect Ratio Box) */
 .grid-square {
   flex: 1;                      
   aspect-ratio: 1 / 1;          
@@ -324,7 +320,6 @@ body {
   text-align: center;
   box-sizing: border-box;
   overflow: hidden;
-  text-decoration: none;        
   
   /* Starting standard shadow dropped underneath the card */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -333,7 +328,7 @@ body {
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* HOVER EFFECT: Card moves higher and throws a deep, dramatic ambient shadow with a pink glow */
+/* INTERACTIVE HOVER EFFECT: Card moves higher and throws a deep ambient shadow */
 .grid-square:hover {
   transform: translateY(-8px);  /* Smoothly shifts the card up higher */
   border-color: #ff69b4;        
@@ -341,9 +336,8 @@ body {
               0 0 20px rgba(255, 105, 180, 0.2); /* Soft pink ambient under-glow footprint */
 }
 
-/* Inner Box container from your sketch */
+/* Inner Box container base setup */
 .grid-img-wrap {
-  background: #00ffff;  
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 14px;
   width: 100%;        
@@ -357,9 +351,18 @@ body {
   transition: background-color 0.25s ease;
 }
 
-.grid-square:hover .grid-img-wrap {
-  background: #33ffff;
-}
+/* INDIVIDUAL EMOJI BACKGROUND COLORS AND HOVER BRIGHTNESS STATES */
+.bg-games { background: #00ffff; } /* Neon Cyan */
+.grid-square:hover .bg-games { background: #33ffff; }
+
+.bg-movies { background: #ff69b4; } /* Pink Accent */
+.grid-square:hover .bg-movies { background: #ff85c2; }
+
+.bg-creators { background: #9b51e0; } /* Purple Tint */
+.grid-square:hover .bg-creators { background: #aa66cc; }
+
+.bg-proxy { background: #27ae60; } /* Emerald Green */
+.grid-square:hover .bg-proxy { background: #2ecc71; }
 
 /* Text Emoji Style Layer */
 .grid-inner-text {
@@ -367,7 +370,7 @@ body {
   line-height: 1;
   display: inline-block;
   user-select: none;            
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   transition: transform 0.25s ease;
 }
 

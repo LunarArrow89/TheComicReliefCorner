@@ -307,15 +307,18 @@ body {
    7. FOUR BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
    ========================================================================== */
 .four-square-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
+  display: flex;                /* Switched to flex to force same-row alignment */
+  flex-direction: row;          /* Lines items horizontally */
+  justify-content: space-between; /* Spreads items evenly across the container */
   gap: 20px;
   margin: 25px auto 0 auto;
   width: 100%;
 }
 
-/* Outer Border Card container */
+/* The Outer White-Border Card (Forced 1:1 Aspect Ratio Box) */
 .grid-square {
+  flex: 1;                      /* Forces columns to take up equal width */
+  aspect-ratio: 1 / 1;          /* CRITICAL: Enforces a perfect mathematical square shape */
   background: #1f121b;
   border: 1px solid rgba(255, 105, 180, 0.15); 
   border-radius: 20px;
@@ -326,18 +329,17 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 280px;        /* Height fits main title + secondary description row */
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* Inner Graphic Frame Box (From your uploaded mockup sketch) */
+/* Inner Graphic Frame Box (Proportionally shrunk to fit the new square space) */
 .grid-img-wrap {
-  background: #00ffff;  /* Sketch canvas bright cyan accent background fill */
+  background: #00ffff;  
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 14px;
   width: 100%;        
-  height: 160px;       
+  height: 60%;                  /* Scaled via percentage to maintain room for text */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,35 +350,53 @@ body {
 
 .grid-square img {
   width: auto;
-  height: 85px;       
+  height: 65%;                  /* Responsive sizing relative to inner frame height */
   object-fit: contain;
-  border-radius: 0px; 
   filter: drop-shadow(0 0 3px rgba(0,0,0,.3));
 }
 
 /* Main Text Label Header */
 .grid-square p {
   margin: 0;
-  margin-bottom: 4px;  
-  font-size: 1.1rem;
+  margin-bottom: 2px;  
+  font-size: 1rem;
   font-weight: bold;  
   color: #e7e7e7;
   text-align: center;
   line-height: 1.2;
+  white-space: nowrap;          /* Prevents headers from wrapping onto multiple lines */
+  overflow: hidden;
+  text-overflow: ellipsis;     /* Truncates text with '...' if title is too long */
+  width: 100%;
 }
 
 /* Secondary Smaller Text Description Layer */
 .grid-desc {
-  font-size: 0.85rem;  
+  font-size: 0.8rem;  
   color: #aaa;         
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.2;
   display: block;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;        /* Restricts layout descriptions to exactly 2 lines max */
+  -webkit-box-orient: vertical;
+  width: 100%;
 }
 
 /* ==========================================================================
    8. MOBILE RESPONSIVENESS RE-LAYOUTS
    ========================================================================== */
+@media (max-width: 992px) {
+  /* On tablets and smaller laptops, allow layout wrap to preserve square ratios */
+  .four-square-grid {
+    flex-wrap: wrap;
+  }
+  .grid-square {
+    flex: 1 0 calc(50% - 10px); /* Transitions cleanly into a balanced 2x2 grid */
+  }
+}
+
 @media (max-width: 768px) {
   .main {
     margin-left: 0;
@@ -407,16 +427,11 @@ body {
   .note-box {
     height: auto;
   }
-  .four-square-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
-  }
 }
 
 @media (max-width: 480px) {
-  .four-square-grid {
-    grid-template-columns: 1fr;          /* 1 column row on mobile phones */
-  }
   .grid-square {
+    flex: 1 0 100%;            /* Standard 1-column layout for small mobile phone viewports */
     max-width: 350px;
     margin: 0 auto;
   }

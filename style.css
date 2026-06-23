@@ -16,16 +16,15 @@ html, body {
 
 body {
   /* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
-  /* Layer 2: Your existing radial spotlight gradient shifting to black */
+  /* Layer 2: Radial spotlight gradient shifting from deep plum down to black */
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
-  /* Forces the texture to tile properly and stay fixed during scroll */
   background-repeat: repeat;
   background-attachment: fixed;
   color: white;
 }
 
 /* ==========================================================================
-   3. SCROLLBAR
+   2. SCROLLBAR
    ========================================================================== */
 ::-webkit-scrollbar {
   width: 10px;
@@ -41,7 +40,7 @@ body {
 }
 
 /* ==========================================================================
-   4. SIDEBAR
+   3. SIDEBAR NAVIGATION CONTROLS
    ========================================================================== */
 .sidebar {
   position: fixed;
@@ -52,57 +51,56 @@ body {
   background: #120910;
   border-right: 1px solid rgba(255, 105, 180, 0.15);
   padding: 15px;
+  
+  /* Overflow handling keeps sidebar elements scrollable on short viewports */
+  overflow-y: auto;          
+  overflow-x: hidden;         
 }
 
-/* LOGO CONTAINER */
+/* LOGO LAYER BLOCK */
 .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 25px;
-  position: relative; /* Anchor for absolute positioning */
-  height: 180px;      /* Explicit height prevents elements from shifting */
+  position: relative; 
+  height: 180px;      
 }
 
-/* ROTATING RING LOGO */
+/* ROTATING EMBLEM RING */
 .logo-ring {
   position: absolute;
-  width: 275px;       /* Intentionally larger than the 170px main logo */
+  width: 210px;       
   height: auto;
-  z-index: 1;         /* Keeps the ring layered safely behind the text logo */
-  pointer-events: none; /* CRITICAL: Allows mouse cursor to pass right through the ring area */
+  z-index: 1;         
+  pointer-events: none; /* Prevents larger layer boundary from swallowing pointer hits */
   filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
-  animation: slow-turn 20s linear infinite; /* 20 second seamless turning loop */
+  animation: slow-turn 20s linear infinite; 
 }
 
-/* MAIN LOGO OVERLAY */
+/* PRIMARY EMBLEM TEXT OVERLAY */
 .logo-image {
   position: relative;
-  z-index: 2;         /* Locks main logo on top layer over the ring */
+  z-index: 2;         
   width: 170px;
   max-width: 100%;
   height: auto;
   transition: .25s ease;
   filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
-  pointer-events: auto; /* Re-enables tracking specifically for this image asset */
+  pointer-events: auto; 
 }
 
-/* TARGETED HOVER FIX: Only grows when hovering directly ON the logo image, NOT near it or the ring */
+/* TARGETED HOVER STATE: Only triggers when mouse touches logo image pixels */
 .logo-image:hover {
   transform: scale(1.03);
 }
 
-/* KEYFRAMES FOR ROTATION ENGINE */
 @keyframes slow-turn {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* NAV BUTTONS */
+/* SIDEBAR LINK MODULES */
 .nav-btn {
   display: flex;
   align-items: center;
@@ -124,14 +122,28 @@ body {
   border-color: #ff69b4;
 }
 
-.nav-icon {
-  color: #ff69b4;
+/* BUTTON EMBEDDED GRAPHICS FILTER ENGINE */
+.nav-icon-img {
   width: 24px;
-  text-align: center;
+  height: 24px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  
+  /* Initial default muted pink layer profile */
+  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+/* ICON SOLID FILL ON HOVER */
+.nav-btn:hover .nav-icon-img {
+  /* Maximizes saturation and opacity to make silhouettes look fully lit up */
+  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
+  transform: scale(1.05); 
 }
 
 /* ==========================================================================
-   5. HEADER & TOP CONTENT
+   4. HEADER REGION & MARQUEE EMBED
    ========================================================================== */
 .header {
   position: fixed;
@@ -183,7 +195,7 @@ body {
 }
 
 /* ==========================================================================
-   6. MAIN WORKSPACE LAUNCHPAD
+   5. WORKSPACE HUB CONTENT
    ========================================================================== */
 .main {
   margin-left: 220px;
@@ -208,7 +220,6 @@ body {
   color: #ddd;
 }
 
-/* NOTE BOX */
 .note-box {
   margin-top: 20px;
   background: #1f121b;
@@ -235,7 +246,7 @@ body {
 }
 
 /* ==========================================================================
-   7. SIDE-BY-SIDE SECTION: SIZED BY TEXT CONTENT
+   6. SPLIT BLOCK COMPONENT
    ========================================================================== */
 .feature-layout-row {
   display: flex;
@@ -245,7 +256,6 @@ body {
   align-items: stretch;
 }
 
-/* Left image box */
 .feature-box-square {
   flex: 0 0 auto;
   background: #1f121b;
@@ -268,7 +278,6 @@ body {
   display: block;
 }
 
-/* Right text box */
 .feature-box-rectangle {
   flex: 1;
   background: #1f121b;
@@ -295,58 +304,78 @@ body {
 }
 
 /* ==========================================================================
-   8. THREE BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
+   7. FOUR BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
    ========================================================================== */
-.three-square-grid {
+.four-square-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr); 
   gap: 20px;
   margin: 25px auto 0 auto;
   width: 100%;
 }
 
+/* Outer Border Card container */
 .grid-square {
   background: #1f121b;
-  border: 1px solid rgba(255, 105, 180, 0.15);
+  border: 1px solid rgba(255, 105, 180, 0.15); 
   border-radius: 20px;
-  padding: 25px;
+  padding: 15px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 280px;
+  height: 280px;        /* Height fits main title + secondary description row */
   box-sizing: border-box;
   overflow: hidden;
 }
 
-.grid-square img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  border-radius: 12px;
-  margin-bottom: 15px;
+/* Inner Graphic Frame Box (From your uploaded mockup sketch) */
+.grid-img-wrap {
+  background: #00ffff;  /* Sketch canvas bright cyan accent background fill */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  width: 100%;        
+  height: 160px;       
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px; 
   flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
+  overflow: hidden;
 }
 
-.grid-square h3 {
-  margin: 5px 0 8px 0;
-  font-size: 1.2rem;
-  color: white;
+.grid-square img {
+  width: auto;
+  height: 85px;       
+  object-fit: contain;
+  border-radius: 0px; 
+  filter: drop-shadow(0 0 3px rgba(0,0,0,.3));
 }
 
+/* Main Text Label Header */
 .grid-square p {
   margin: 0;
-  font-size: 0.95rem;
+  margin-bottom: 4px;  
+  font-size: 1.1rem;
+  font-weight: bold;  
   color: #e7e7e7;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.2;
+}
+
+/* Secondary Smaller Text Description Layer */
+.grid-desc {
+  font-size: 0.85rem;  
+  color: #aaa;         
+  text-align: center;
+  line-height: 1.3;
+  display: block;
 }
 
 /* ==========================================================================
-   9. MOBILE RESPONSIVENESS LAYOUTS
+   8. MOBILE RESPONSIVENESS RE-LAYOUTS
    ========================================================================== */
 @media (max-width: 768px) {
   .main {
@@ -378,39 +407,17 @@ body {
   .note-box {
     height: auto;
   }
-  .three-square-grid {
-    grid-template-columns: 1fr;
+  .four-square-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .four-square-grid {
+    grid-template-columns: 1fr;          /* 1 column row on mobile phones */
   }
   .grid-square {
     max-width: 350px;
     margin: 0 auto;
   }
 }
-
-/* Custom Image Icon Styling for the Sidebar Buttons */
-.nav-icon-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  display: inline-block;
-  vertical-align: middle;
-  
-  /* Starting Pink (Slightly softer pink matching your borders) */
-  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
-  
-  /* Smooth transition between the base state and the filled hover state */
-  transition: filter 0.2s ease, transform 0.2s ease;
-}
-
-/* When hovering over the button, the icon fills with maximum vibrant pink */
-.nav-btn:hover .nav-icon-img {
-  /* Maximizes saturation and brightness to completely fill the silhouette with neon pink */
-  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
-  
-  /* Subtle physical nudge forward to match the filled effect */
-  transform: scale(1.05); 
-}
-
-  filter: invert(53%) sepia(93%) saturate(3000%) hue-rotate(301deg) brightness(110%) contrast(105%) drop-shadow(0 0 6px #ff69b4);
-}
-

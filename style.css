@@ -395,14 +395,22 @@ body {
   display: inline-block;
   vertical-align: middle;
   
-  /* CRITICAL: Turns black/dark icons into a vibrant hot pink (#ff69b4) */
+  /* Starting Pink (Slightly softer pink matching your borders) */
   filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
   
-  transition: filter 0.2s ease;
+  /* Smooth transition between the base state and the filled hover state */
+  transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-/* Optional: Makes the icons glow brighter pink when hovering over the button */
+/* When hovering over the button, the icon fills with maximum vibrant pink */
 .nav-btn:hover .nav-icon-img {
+  /* Maximizes saturation and brightness to completely fill the silhouette with neon pink */
+  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
+  
+  /* Subtle physical nudge forward to match the filled effect */
+  transform: scale(1.05); 
+}
+
   filter: invert(53%) sepia(93%) saturate(3000%) hue-rotate(301deg) brightness(110%) contrast(105%) drop-shadow(0 0 6px #ff69b4);
 }
 

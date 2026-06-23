@@ -70,7 +70,7 @@ body {
 /* ROTATING EMBLEM RING */
 .logo-ring {
   position: absolute;
-  width: 210px;       
+  width: 275px;       
   height: auto;
   z-index: 1;         
   pointer-events: none; /* Prevents larger layer boundary from swallowing pointer hits */

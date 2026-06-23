@@ -1,78 +1,128 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-<meta charset="UTF-8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>The Comic Relief Corner - Home</title> 
-<!-- Font Awesome --> 
-<link rel="stylesheet" href="https://cloudflare.com"> 
-<!-- Your CSS (Unified Spacing Architecture) --> 
-<link rel="stylesheet" href="style.css?v=unified_spacing"> 
-<!-- Loader Script --> 
-<script defer src="load.js"></script> 
-</head> 
-<body> 
-<!-- SIDEBAR LOADS HERE --> 
-<div id="sidebar-container"></div> 
-<!-- HEADER LOADS HERE --> 
-<div id="header-container"></div> 
-<!-- MAIN CONTENT ONLY --> 
-<div class="main"> 
-<div class="hero"> 
-<h1>The Comic Relief Corner</h1> 
-<p>Your one-way ticket to entertainment.</p> 
-</div> 
-<!-- 1. DEVELOPER NOTE (LONG RECTANGLE) --> 
-<div class="note-box"> 
-<h2>Note From The Developer</h2> 
-<p>Hello! This is Luna, the developer speaking. I just want to say thank you for using my website! It genuienly makes my soul happy seeing people using it. I hope you a great time, whether you are reading, watching, gaming, or just hanging out! </p> 
-</div> 
-<!-- 2. SIDE-BY-SIDE FEATURE BLOCK --> 
-<div class="feature-layout-row"> 
-<div class="feature-box-square"> 
-<img src="luna.gif" alt="Featured content graphic"> 
-</div> 
-<div class="feature-box-rectangle"> 
-<h2>Meet the host!</h2> 
-<p>Luna is a young coder that lets nothing get in their way! Luna started coding at 9 and since then has learned various coding languages. Luna made this website at 12 years old (In 2026) and will never stop designing their website. One pixel at a time!</p> 
-</div> 
-</div> 
-<!-- 3. THREE BOTTOM SQUARES GRID WITH UNIFORM BALANCED DIMENSIONS --> 
-<div class="four-square-grid">
-  <!-- BOX 1 -->
-  <div class="grid-square">
-    <div class="grid-img-wrap">
-      <img src="your-image1.png" alt="Emoji 1">
-    </div>
-    <p>Play Games</p>
-    <span class="grid-desc">Over 50 games!</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Comic Relief Corner</title>
+  <!-- Favicon handles target image mapping globally via standard asset referencing -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       SIDEBAR INTERFACE
+       ========================================== -->
+  <div class="sidebar"> 
+    <!-- LOGO IMAGE & ROTATING RING --> 
+    <div class="logo-container"> 
+      <img src="logo-ring.png" alt="Logo Ring" class="logo-ring">
+      <img src="logo.png" alt="The Comic Relief Corner" class="logo-image"> 
+    </div> 
+
+    <!-- HOME BUTTON --> 
+    <a href="index.html" class="nav-btn"> 
+      <img src="home-icon.png" alt="Home" class="nav-icon-img"> Home 
+    </a> 
+
+    <!-- GAMES BUTTON --> 
+    <a href="games.html" class="nav-btn"> 
+      <img src="games-icon.png" alt="Games" class="nav-icon-img"> Games 
+    </a> 
+
+    <!-- MOVIES BUTTON --> 
+    <a href="movies.html" class="nav-btn"> 
+      <img src="movies-icon.png" alt="Movies" class="nav-icon-img"> Movies 
+    </a> 
+
+    <!-- CREATORS BUTTON --> 
+    <a href="creators.html" class="nav-btn"> 
+      <img src="creators-icon.png" alt="Creators" class="nav-icon-img"> Creators 
+    </a> 
+
+    <!-- PROXY BUTTON --> 
+    <a href="proxy.html" class="nav-btn"> 
+      <img src="proxy-icon.png" alt="Proxy" class="nav-icon-img"> Proxy 
+    </a> 
   </div>
 
-  <!-- BOX 2 -->
-  <div class="grid-square">
-    <div class="grid-img-wrap">
-      <img src="your-image2.png" alt="Emoji 2">
+  <!-- ==========================================
+       HEADER MARQUEE BANNER
+       ========================================== -->
+  <div class="header">
+    <div class="time-box">12:00 PM</div>
+    <div class="date-box">June 22, 2026</div>
+    <div class="ticker-wrap">
+      <div class="ticker">WELCOME TO THE COMIC RELIEF CORNER! EXPLORE GAMES, MOVIES, CREATORS AND CONTENT UPDATES LIVE!</div>
     </div>
-    <p>Watch Movies</p>
-    <span class="grid-desc">Over 25 movies!</span>
   </div>
 
-  <!-- BOX 3 -->
-  <div class="grid-square">
-    <div class="grid-img-wrap">
-      <img src="your-image3.png" alt="Emoji 3">
+  <!-- ==========================================
+       MAIN LAUNCHPAD VIEWPORT 
+       ========================================== -->
+  <div class="main">
+    <div class="hero">
+      <h1>The Launchpad</h1>
+      <p>Your portal to digital relief, interactive media utilities, and creator archives.</p>
     </div>
-    <p>Listen to Music</p>
-    <span class="grid-desc">Over 100 songs!</span>
+
+    <!-- MAIN HERO CONTENT SECTION -->
+    <div class="note-box">
+      <h2>System Announcements</h2>
+      <p>Cloudflare caching updates have finished propagating across regional endpoints. Live workspace modules are operating properly. The updated four-column shortcut arrays have successfully replaced the legacy grid matrices below.</p>
+    </div>
+
+    <div class="feature-layout-row">
+      <div class="feature-box-square">
+        <img src="logo.png" alt="Spotlight Thumbnail">
+      </div>
+      <div class="feature-box-rectangle">
+        <h2>Featured Segment</h2>
+        <p>Explore this designated segment for featured files, updates, and key resources. It uses an adaptive flexible box layout that stretches fluidly alongside your customized assets.</p>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         FOUR COLUMN INTERACTIVE SQUARE SHORTCUTS
+         ========================================== -->
+    <div class="four-square-grid">
+      <!-- SQUARE CONTAINER 1: GAMES -->
+      <div class="grid-square">
+        <div class="grid-img-wrap bg-games">
+          <span class="grid-inner-text">🎮</span>
+        </div>
+        <p>Games</p>
+        <span class="grid-desc">Launch retro games and interactive media utilities.</span>
+      </div>
+
+      <!-- SQUARE CONTAINER 2: MOVIES -->
+      <div class="grid-square">
+        <div class="grid-img-wrap bg-movies">
+          <span class="grid-inner-text">🎬</span>
+        </div>
+        <p>Movies</p>
+        <span class="grid-desc">Browse community video streams and theater archives.</span>
+      </div>
+
+      <!-- SQUARE CONTAINER 3: CREATORS -->
+      <div class="grid-square">
+        <div class="grid-img-wrap bg-creators">
+          <span class="grid-inner-text">✨</span>
+        </div>
+        <p>Creators</p>
+        <span class="grid-desc">Meet the development team and platform artists.</span>
+      </div>
+
+      <!-- SQUARE CONTAINER 4: PROXY -->
+      <div class="grid-square">
+        <div class="grid-img-wrap bg-proxy">
+          <span class="grid-inner-text">🔒</span>
+        </div>
+        <p>Proxy</p>
+        <span class="grid-desc">Access secure network routing and mirror nodes.</span>
+      </div>
+    </div>
   </div>
 
-  <!-- BOX 4 -->
-  <div class="grid-square">
-    <div class="grid-img-wrap">
-      <img src="your-image4.png" alt="Emoji 4">
-    </div>
-    <p>Browse the web</p>
-    <span class="grid-desc">Endless possibilities!</span>
-  </div>
-</div>
-
+</body>
+</html>

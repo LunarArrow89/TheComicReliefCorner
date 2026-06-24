@@ -1,325 +1,313 @@
 /* PART 1: TOP CONFIGURATIONS THROUGH SPLIT BLOCK MODULE */
 /*
 ==========================================================================
- 1. RESET & BASIC STYLES
- 
+1. RESET & BASIC STYLES
 ==========================================================================
 */
 * {
- margin: 0;
- padding: 0;
- box-sizing: border-box;
- font-family: 'Segoe UI', sans-serif;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', sans-serif;
 }
 html, body {
- width: 100%;
- height: 100%;
- overflow-x: hidden;
+width: 100%;
+height: 100%;
+overflow-x: hidden;
 }
 body {
- /* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
- /* Layer 2: Radial spotlight gradient shifting from deep plum down to black */
- background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
- background-repeat: repeat;
- background-attachment: fixed;
- color: white;
+/* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
+/* Layer 2: Radial spotlight gradient shifting from deep plum down to black */
+background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
+background-repeat: repeat;
+background-attachment: fixed;
+color: white;
 }
 /*
 ==========================================================================
- 2. SCROLLBAR
- 
+2. SCROLLBAR
 ==========================================================================
 */
 ::-webkit-scrollbar {
- width: 10px;
+width: 10px;
 }
 ::-webkit-scrollbar-track {
- background: #1a0d17;
+background: #1a0d17;
 }
 ::-webkit-scrollbar-thumb {
- background: #ff69b4;
- border-radius: 999px;
+background: #ff69b4;
+border-radius: 999px;
 }
 /*
 ==========================================================================
- 3. SIDEBAR NAVIGATION CONTROLS
- 
+3. SIDEBAR NAVIGATION CONTROLS
 ==========================================================================
 */
 .sidebar {
- position: fixed;
- top: 0;
- left: 0;
- width: 220px;
- height: 100vh;
- background: #120910;
- border-right: 1px solid rgba(255, 105, 180, 0.15);
- padding: 15px;
- overflow-y: auto; 
- overflow-x: hidden; 
+position: fixed;
+top: 0;
+left: 0;
+width: 220px;
+height: 100vh;
+background: #120910;
+border-right: 1px solid rgba(255, 105, 180, 0.15);
+padding: 15px;
+overflow-y: auto; 
+overflow-x: hidden; 
 }
 /* LOGO LAYER BLOCK */
 .logo-container {
- display: flex;
- justify-content: center;
- align-items: center;
- margin-bottom: 25px;
- position: relative; 
- height: 180px; 
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 25px;
+position: relative; 
+height: 180px; 
 }
 /* LOCKED ROTATING EMBLEM RING */
 .logo-ring {
- position: absolute;
- width: 275px; /* LOCKED AT YOUR CUSTOM VALUE */
- height: auto;
- z-index: 1; 
- pointer-events: none; 
- filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
- animation: slow-turn 20s linear infinite; 
+position: absolute;
+width: 275px; /* LOCKED AT YOUR CUSTOM VALUE */
+height: auto;
+z-index: 1; 
+pointer-events: none; 
+filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
+animation: slow-turn 20s linear infinite; 
 }
 /* PRIMARY EMBLEM TEXT OVERLAY */
 .logo-image {
- position: relative;
- z-index: 2; 
- width: 170px;
- max-width: 100%;
- height: auto;
- transition: .25s ease;
- filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
- pointer-events: auto; 
+position: relative;
+z-index: 2; 
+width: 170px;
+max-width: 100%;
+height: auto;
+transition: .25s ease;
+filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
+pointer-events: auto; 
 }
 /* TARGETED HOVER STATE: Only triggers when mouse touches logo image pixels */
 .logo-image:hover {
- transform: scale(1.03);
+transform: scale(1.03);
 }
 @keyframes slow-turn {
- from { transform: rotate(0deg); }
- to { transform: rotate(360deg); }
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
 }
 /* SIDEBAR LINK MODULES */
 .nav-btn {
- display: flex;
- align-items: center;
- gap: 12px;
- padding: 14px;
- margin-bottom: 10px;
- border-radius: 16px;
- background: #1f121b;
- border: 1px solid rgba(255, 105, 180, 0.15);
- color: white;
- text-decoration: none;
- transition: .2s ease;
- box-shadow: 0 3px 10px rgba(0,0,0,.3);
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px;
+margin-bottom: 10px;
+border-radius: 16px;
+background: #1f121b;
+border: 1px solid rgba(255, 105, 180, 0.15);
+color: white;
+text-decoration: none;
+transition: .2s ease;
+box-shadow: 0 3px 10px rgba(0,0,0,.3);
 }
 .nav-btn:hover {
- transform: translateX(4px);
- background: #2a1825;
- border-color: #ff69b4;
+transform: translateX(4px);
+background: #2a1825;
+border-color: #ff69b4;
 }
 /* BUTTON EMBEDDED GRAPHICS FILTER ENGINE */
 .nav-icon-img {
- width: 24px;
- height: 24px;
- object-fit: contain;
- display: inline-block;
- vertical-align: middle;
- filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
- transition: filter 0.2s ease, transform 0.2s ease;
+width: 24px;
+height: 24px;
+object-fit: contain;
+display: inline-block;
+vertical-align: middle;
+filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
+transition: filter 0.2s ease, transform 0.2s ease;
 }
 /* ICON SOLID FILL ON HOVER */
 .nav-btn:hover .nav-icon-img {
- filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
- transform: scale(1.05); 
+filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
+transform: scale(1.05); 
 }
 /*
 ==========================================================================
- 4. HEADER REGION & MARQUEE EMBED
- 
+4. HEADER REGION & MARQUEE EMBED
 ==========================================================================
 */
 .header {
- position: fixed;
- top: 0;
- left: 220px;
- width: calc(100% - 220px);
- height: 80px;
- display: flex;
- align-items: center;
- gap: 15px;
- padding: 15px;
- background: #120910;
- border-bottom: 1px solid rgba(255, 105, 180, 0.15);
- z-index: 1000;
+position: fixed;
+top: 0;
+left: 220px;
+width: calc(100% - 220px);
+height: 80px;
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 15px;
+background: #120910;
+border-bottom: 1px solid rgba(255, 105, 180, 0.15);
+z-index: 1000;
 }
 .time-box, .date-box {
- background: #1f121b;
- border: 1px solid rgba(255, 105, 180, 0.15);
- border-radius: 12px;
- padding: 10px 15px;
- color: white;
- min-width: 120px;
- text-align: center;
+background: #1f121b;
+border: 1px solid rgba(255, 105, 180, 0.15);
+border-radius: 12px;
+padding: 10px 15px;
+color: white;
+min-width: 120px;
+text-align: center;
 }
 .ticker-wrap {
- flex: 1;
- overflow: hidden;
- background: #1f121b;
- border: 1px solid rgba(255, 105, 180, 0.15);
- border-radius: 12px;
- height: 42px;
- display: flex;
- align-items: center;
+flex: 1;
+overflow: hidden;
+background: #1f121b;
+border: 1px solid rgba(255, 105, 180, 0.15);
+border-radius: 12px;
+height: 42px;
+display: flex;
+align-items: center;
 }
 .ticker {
- white-space: nowrap;
- padding-left: 100%;
- animation: scroll 18s linear infinite;
- color: white;
- font-weight: 600;
+white-space: nowrap;
+padding-left: 100%;
+animation: scroll 18s linear infinite;
+color: white;
+font-weight: 600;
 }
 @keyframes scroll {
- from { transform: translateX(0); }
- to { transform: translateX(-100%); }
+from { transform: translateX(0); }
+to { transform: translateX(-100%); }
 }
 /*
 ==========================================================================
- 5. WORKSPACE HUB CONTENT
- 
+5. WORKSPACE HUB CONTENT
 ==========================================================================
 */
 .main {
- margin-left: 220px;
- margin-top: 95px;
- padding: 25px;
- width: calc(100% - 220px);
+margin-left: 220px;
+margin-top: 95px;
+padding: 25px;
+width: calc(100% - 220px);
 }
 .hero {
- padding: 10px 0;
+padding: 10px 0;
 }
 .hero h1 {
- font-size: 56px;
- font-weight: 900;
- color: white;
- text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
+font-size: 56px;
+font-weight: 900;
+color: white;
+text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
 }
 .hero p {
- margin-top: 8px;
- color: #ddd;
+margin-top: 8px;
+color: #ddd;
 }
 .note-box {
- margin-top: 20px;
- background: #1f121b;
- border-radius: 20px;
- padding: 25px;
- border: 1px solid rgba(255, 105, 180, 0.15);
- display: flex;
- flex-direction: column;
- justify-content: center;
- box-sizing: border-box;
- height: 200px;
+margin-top: 20px;
+background: #1f121b;
+border-radius: 20px;
+padding: 25px;
+border: 1px solid rgba(255, 105, 180, 0.15);
+display: flex;
+flex-direction: column;
+justify-content: center;
+box-sizing: border-box;
+height: 200px;
 }
 .note-box h2 {
- margin-top: 0;
- margin-bottom: 10px;
- color: white;
+margin-top: 0;
+margin-bottom: 10px;
+color: white;
 }
 .note-box p {
- margin: 0;
- color: #e7e7e7;
- line-height: 1.6;
+margin: 0;
+color: #e7e7e7;
+line-height: 1.6;
 }
 /*
-/*
 ==========================================================================
- 6. SPLIT BLOCK COMPONENT
- 
+6. SPLIT BLOCK COMPONENT
 ==========================================================================
 */
 .feature-layout-row {
- display: flex;
- gap: 20px;
- margin-top: 25px;
- width: 100%;
- align-items: stretch;
+display: flex;
+gap: 20px;
+margin-top: 25px;
+width: 100%;
+align-items: stretch;
 }
 .feature-box-square {
- flex: 0 0 auto;
- background: #1f121b;
- border-radius: 20px;
- border: 1px solid rgba(255, 105, 180, 0.15);
- overflow: hidden;
- display: flex;
- align-items: center;
- justify-content: center;
- padding: 20px;
- width: 200px;
- height: 200px;
- box-sizing: border-box;
+flex: 0 0 auto;
+background: #1f121b;
+border-radius: 20px;
+border: 1px solid rgba(255, 105, 180, 0.15);
+overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+width: 200px;
+height: 200px;
+box-sizing: border-box;
 }
-
 /* FIX: Keeps your luna.gif scaled perfectly inside the 200x200 container */
 .feature-box-square img {
- width: 100%;
- height: 100%;
- max-width: 160px;  /* Prevents it from getting too big */
- max-height: 160px; /* Accounts for the 20px box padding */
- object-fit: contain;
- display: block;
+width: 100%;
+height: 100%;
+max-width: 160px; /* Prevents it from getting too big */
+max-height: 160px; /* Accounts for the 20px box padding */
+object-fit: contain;
+display: block;
 }
-
 .feature-box-rectangle {
- flex: 1;
- background: #1f121b;
- border-radius: 20px;
- padding: 25px;
- border: 1px solid rgba(255, 105, 180, 0.15);
- display: flex;
- flex-direction: column;
- justify-content: center;
- box-sizing: border-box;
- height: 200px;
+flex: 1;
+background: #1f121b;
+border-radius: 20px;
+padding: 25px;
+border: 1px solid rgba(255, 105, 180, 0.15);
+display: flex;
+flex-direction: column;
+justify-content: center;
+box-sizing: border-box;
+height: 200px;
 }
 .feature-box-rectangle h2 {
- margin-top: 0;
- margin-bottom: 10px;
- color: white;
+margin-top: 0;
+margin-bottom: 10px;
+color: white;
 }
 .feature-box-rectangle p {
- margin: 0;
- color: #e7e7e7;
- line-height: 1.6;
+margin: 0;
+color: #e7e7e7;
+line-height: 1.6;
 }
-
 /* PART 2: INTERACTIVE FOUR COLUMNS COMPONENT & RESPONSIVE LAYOUT ENGINES */
 /*
 ==========================================================================
- 7. FOUR BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
- 
+7. FOUR BOTTOM SQUARES GRID WITH UNIFORM ALIGNED DIMENSIONS
 ==========================================================================
 */
 .four-square-grid {
- display: flex; 
- flex-direction: row; 
- justify-content: space-between; 
- gap: 20px;
- margin: 25px auto 0 auto;
- width: 100%;
+display: flex; 
+flex-direction: row; 
+justify-content: space-between; 
+gap: 20px;
+margin: 25px auto 0 auto;
+width: 100%;
 }
 /* The Outer White-Border Card Link Base Style */
 .grid-square {
- flex: 1; 
- aspect-ratio: 1 / 1; 
- border: 1px solid rgba(255, 105, 180, 0.15); 
- border-radius: 20px;
- padding: 15px;
- text-align: center;
- box-sizing: border-box;
- overflow: hidden;
- text-decoration: none; 
- box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
- transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+flex: 1; 
+aspect-ratio: 1 / 1; 
+border: 1px solid rgba(255, 105, 180, 0.15); 
+border-radius: 20px;
+padding: 15px;
+text-align: center;
+box-sizing: border-box;
+overflow: hidden;
+text-decoration: none; 
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
-
 /* UNIQUE BACKGROUND CONFIGURATIONS FOR EACH CARD */
 /* Card 1: Deep Violet */
 .grid-square:nth-child(1) { background: #261120; }
@@ -329,464 +317,213 @@ body {
 .grid-square:nth-child(3) { background: #0f2116; }
 /* Card 4: Deep Charcoal Amber */
 .grid-square:nth-child(4) { background: #261911; }
-
 /* DYNAMIC GLOW HOVER MODULE FOR THE UNIQUE CARDS */
 .grid-square:hover {
- transform: translateY(-8px);
+transform: translateY(-8px);
 }
 .grid-square:nth-child(1):hover {
- border-color: #ff69b4; 
- box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.25);
+border-color: #ff69b4; 
+box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.25);
 }
 .grid-square:nth-child(2):hover {
- border-color: #00bfff; 
- box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 191, 255, 0.25);
+border-color: #00bfff; 
+box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 191, 255, 0.25);
 }
 .grid-square:nth-child(3):hover {
- border-color: #00ff7f; 
- box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 127, 0.25);
+border-color: #00ff7f; 
+box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 127, 0.25);
 }
 .grid-square:nth-child(4):hover {
- border-color: #ffd700; 
- box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.25);
+border-color: #ffd700; 
+box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.25);
 }
-
 /* Inner Box container from your sketch */
 .grid-img-wrap {
- border: 1px solid rgba(0, 0, 0, 0.2);
- border-radius: 14px;
- width: 100%; 
- height: 60%; 
- display: flex;
- align-items: center;
- justify-content: center;
- margin-bottom: 12px; 
- flex-shrink: 0;
- overflow: hidden;
- transition: background-color 0.25s ease;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 14px;
+width: 100%; 
+height: 60%; 
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 12px; 
+flex-shrink: 0;
+overflow: hidden;
+transition: background-color 0.25s ease;
 }
-
 /* INDEPENDENT WORKSPACE: Clean, dedicated styling for the 4 grid inner-text emojis */
 .grid-inner-text {
- font-size: 3.5rem; 
- line-height: 1;
- display: inline-block;
- user-select: none; 
- filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
- transition: transform 0.25s ease;
+font-size: 3.5rem; 
+line-height: 1;
+display: inline-block;
+user-select: none; 
+filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+transition: transform 0.25s ease;
 }
 .grid-square:hover .grid-inner-text {
- transform: scale(1.1);
+transform: scale(1.1);
 }
-
 /* UNIQUE COLORS FOR THE INSIDE GRID PARTS */
 /* Inside 1: Soft Purple/Pink */
 .grid-square:nth-child(1) .grid-img-wrap { background: #ff85c2; }
 .grid-square:nth-child(1):hover .grid-img-wrap { background: #ffb3d9; }
-
 /* Inside 2: Vibrant Blue */
 .grid-square:nth-child(2) .grid-img-wrap { background: #3399ff; }
 .grid-square:nth-child(2):hover .grid-img-wrap { background: #66b2ff; }
-
 /* Inside 3: Minty Green */
 .grid-square:nth-child(3) .grid-img-wrap { background: #29e68a; }
 .grid-square:nth-child(3):hover .grid-img-wrap { background: #66ffb3; }
-
 /* Inside 4: Warm Orange/Gold */
 .grid-square:nth-child(4) .grid-img-wrap { background: #ffaa44; }
 .grid-square:nth-child(4):hover .grid-img-wrap { background: #ffcc88; }
-
 /* Main Text Label Header */
 .grid-square p {
- margin: 0;
- margin-bottom: 2px; 
- font-size: 1.1rem;
- font-weight: bold; 
- color: #e7e7e7;
- text-align: center;
- line-height: 1.2;
- white-space: nowrap; 
- overflow: hidden;
- text-overflow: ellipsis; 
- width: 100%;
+margin: 0;
+margin-bottom: 2px; 
+font-size: 1.1rem;
+font-weight: bold; 
+color: #e7e7e7;
+text-align: center;
+line-height: 1.2;
+white-space: nowrap; 
+overflow: hidden;
+text-overflow: ellipsis; 
+width: 100%;
 }
 /* Secondary Smaller Text Description Layer */
 .grid-desc {
- font-size: 0.8rem; 
- color: #aaa; 
- text-align: center;
- line-height: 1.2;
- display: block;
- overflow: hidden;
- display: -webkit-box;
- -webkit-line-clamp: 2; 
- -webkit-box-orient: vertical;
- width: 100%;
+font-size: 0.8rem; 
+color: #aaa; 
+text-align: center;
+line-height: 1.2;
+display: block;
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2; 
+-webkit-box-orient: vertical;
+width: 100%;
 }
 /*
 ==========================================================================
- 8. MOBILE RESPONSIVENESS RE-LAYOUTS
- 
+8. MOBILE RESPONSIVENESS RE-LAYOUTS
 ==========================================================================
 */
 @media (max-width: 992px) {
- .four-square-grid {
- flex-wrap: wrap;
- }
- .grid-square {
- flex: 1 0 calc(50% - 10px); 
- }
+.four-square-grid {
+flex-wrap: wrap;
+}
+.grid-square {
+flex: 1 0 calc(50% - 10px); 
+}
 }
 @media (max-width: 768px) {
- .main {
- margin-left: 0;
- width: 100%;
- }
- .sidebar {
- position: relative;
- width: 100%;
- height: auto;
- }
- .header {
- left: 0;
- width: 100%;
- }
- .feature-layout-row {
- flex-direction: column;
- align-items: center;
- }
- .feature-box-square {
- width: 100%;
- max-width: 200px;
- height: 200px;
- }
- .feature-box-rectangle {
- width: 100%;
- height: auto;
- }
- .note-box {
- height: auto;
- }
+.main {
+margin-left: 0;
+width: 100%;
+}
+.sidebar {
+position: relative;
+width: 100%;
+height: auto;
+}
+.header {
+left: 0;
+width: 100%;
+}
+.feature-layout-row {
+flex-direction: column;
+align-items: center;
+}
+.feature-box-square {
+width: 100%;
+max-width: 200px;
+height: 200px;
+}
+.feature-box-rectangle {
+width: 100%;
+height: auto;
+}
+.note-box {
+height: auto;
+}
+.movie-poster-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.poster-card { border-radius: 16px; }
 }
 @media (max-width: 480px) {
- .grid-square {
- flex: 1 0 100%; 
- max-width: 350px;
- margin: 0 auto;
- }
+.grid-square {
+flex: 1 0 100%; 
+max-width: 350px;
+margin: 0 auto;
 }
-/*
-/*
-==========================================================================
- 10. CINEMA & MOVIE PAGE COMPONENT SYSTEM
- 
-==========================================================================
-*/
-/* Featured Theater Widescreen Block */
-.featured-theater-block {
- display: flex;
- gap: 25px;
- background: #1f121b;
- border: 1px solid rgba(255, 105, 180, 0.15);
- border-radius: 20px;
- padding: 25px;
- margin-top: 25px;
- align-items: center;
- width: 100%;
- box-sizing: border-box;
-}
-.theater-display-screen {
- flex: 0 0 auto;
- width: 320px;
- height: 180px;
- background: #0a0509;
- border-radius: 14px;
- border: 1px solid rgba(255, 105, 180, 0.2);
- display: flex;
- align-items: center;
- justify-content: center;
- overflow: hidden; /* Keeps image edges locked within the corners */
- box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+.movie-poster-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* FIXED IMAGE ENG: Scaled cleanly to fill the preview monitor monitor frame */
-.theater-img {
- width: 100%;
- height: 100%;
- object-fit: cover;
- display: block;
-}
-
-.theater-display-details {
- flex: 1;
-}
-.trending-badge {
- font-size: 0.7rem;
- font-weight: 900;
- background: #ff69b4;
- color: #120910;
- padding: 4px 10px;
- border-radius: 6px;
- letter-spacing: 1px;
- display: inline-block;
- margin-bottom: 10px;
- box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-}
-.theater-display-details h2 {
- font-size: 1.8rem;
- margin-bottom: 8px;
- color: white;
-}
-.theater-display-details p {
- color: #ddd;
- font-size: 0.95rem;
- line-height: 1.5;
- margin-bottom: 15px;
-}
-.watch-now-btn {
- display: inline-block;
- background: transparent;
- border: 1px solid #ff69b4;
- color: #ff69b4;
- padding: 10px 20px;
- border-radius: 10px;
- font-weight: bold;
- text-decoration: none;
- transition: all 0.25s ease;
-}
-.watch-now-btn:hover {
- background: #ff69b4;
- color: #120910;
- box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
-}
-
-/* Movie Filter Navigation Controls */
-.theater-filter-bar {
- display: flex;
- flex-wrap: wrap;
- gap: 15px;
- margin-top: 30px;
- margin-bottom: 25px;
- align-items: center;
- justify-content: space-between;
-}
-.movie-search-input {
- background: #1f121b;
- border: 1px solid rgba(255, 105, 180, 0.2);
- border-radius: 12px;
- padding: 12px 20px;
- color: white;
- font-size: 1rem;
- width: 300px;
- max-width: 100%;
- outline: none;
- transition: border-color 0.25s ease;
-}
-.movie-search-input:focus {
- border-color: #ff69b4;
- box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
-}
-.movie-category-pills {
- display: flex;
- gap: 10px;
- flex-wrap: wrap;
-}
-.movie-pill {
- background: #120910;
- border: 1px solid rgba(255, 105, 180, 0.15);
- padding: 8px 16px;
- border-radius: 999px;
- cursor: pointer;
- font-size: 0.9rem;
- font-weight: bold;
- user-select: none;
- transition: all 0.2s ease;
-}
-.movie-pill:hover,
-.movie-pill.active {
- background: #ff69b4;
- border-color: #ff69b4;
- color: #120910;
- box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
-}
-
-/* Cinema Grid Matrix Layout */
-.movie-grid {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
- gap: 25px;
- width: 100%;
-}
-.movie-card {
- background: #1a0d17;
- border: 1px solid rgba(255, 105, 180, 0.15);
- border-radius: 20px;
- overflow: hidden;
- display: flex;
- flex-direction: column;
- text-decoration: none;
- box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
- transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-.movie-card:hover {
- transform: translateY(-6px);
- border-color: rgba(255, 105, 180, 0.4);
- box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
-}
-.movie-thumbnail {
- height: 150px;
- display: flex;
- align-items: center;
- justify-content: center;
- border-bottom: 1px solid rgba(0, 0, 0, 0.2);
- overflow: hidden; /* Caps internal oversized poster scaling */
- padding: 15px; /* Adds space around your asset images */
- transition: background-color 0.25s ease;
-}
-
-/* FIXED POSTER ENG: Anchors your custom thumb images safely inside card blocks */
-.grid-movie-img {
- width: auto;
- height: 100%;
- max-width: 100%;
- object-fit: contain;
- display: block;
- transition: transform 0.25s ease;
-}
-.movie-card:hover .grid-movie-img {
- transform: scale(1.06);
-}
-
-/* Cinema Color Channels */
-.neon-plum { background: #261120; }
-.movie-card:hover .neon-plum { background: #3b1931; }
-.neon-sapphire { background: #111a2d; }
-.movie-card:hover .neon-sapphire { background: #192742; }
-.neon-emerald { background: #0f2116; }
-.movie-card:hover .neon-emerald { background: #173322; }
-.neon-amber { background: #261911; }
-.movie-card:hover .neon-amber { background: #3b271a; }
-
-/* Text Content Area inside Movie Cards */
-.movie-info {
- padding: 18px;
- display: flex;
- flex-direction: column;
- flex-grow: 1;
-}
-.movie-info h3 {
- margin: 0 0 4px 0;
- font-size: 1.15rem;
- color: white;
-}
-.movie-meta {
- font-size: 0.75rem;
- color: #ff69b4;
- font-weight: bold;
- margin-bottom: 10px;
-}
-.movie-info p {
- margin: 0;
- font-size: 0.85rem;
- color: #aaa;
- line-height: 1.4;
- display: -webkit-box;
- -webkit-line-clamp: 3;
- -webkit-box-orient: vertical;
- overflow: hidden;
-}
-
-/* Responsive Overrides for Movie Page Modules */
-@media (max-width: 768px) {
- .featured-theater-block {
-     flex-direction: column;
-     text-align: center;
- }
- .theater-display-screen {
-     width: 100%;
-     max-width: 320px;
- }
-}
 /*
 ==========================================================================
- 10. POSTER-STYLE MOVIE COMPONENT GRID
- 
+10. POSTER-STYLE MOVIE COMPONENT GRID
 ==========================================================================
 */
 /* Dense 6-Column Grid Framework */
 .movie-poster-grid {
- display: grid;
- grid-template-columns: repeat(6, 1fr);
- gap: 16px;
- width: 100%;
- margin-top: 25px;
- box-sizing: border-box;
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+gap: 16px;
+width: 100%;
+margin-top: 25px;
+box-sizing: border-box;
 }
-
 /* Card Base Structure with Vertical Aspect Ratio */
 .poster-card {
- position: relative;
- aspect-ratio: 2 / 3; /* Perfect vertical movie poster proportions */
- background: #120910;
- border-radius: 24px; /* Matches the highly rounded corners in your image */
- overflow: hidden;
- border: 1px solid rgba(255, 105, 180, 0.05);
- text-decoration: none;
- box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
- transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+position: relative;
+aspect-ratio: 2 / 3; /* Perfect vertical movie poster proportions */
+background: #120910;
+border-radius: 24px; /* Matches the highly rounded corners in your image */
+overflow: hidden;
+border: 1px solid rgba(255, 105, 180, 0.05);
+text-decoration: none;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-
 /* Interactive Hover States */
 .poster-card:hover {
- transform: scale(1.04);
- border-color: rgba(255, 105, 180, 0.3);
- box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
- z-index: 10;
+transform: scale(1.04);
+border-color: rgba(255, 105, 180, 0.3);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+z-index: 10;
 }
-
 /* Poster Image Positioning Engine */
 .poster-card img {
- width: 100%;
- height: 100%;
- object-fit: cover;
- display: block;
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
 }
-
 /* Bottom Text Overlay with Dark Linear Masking */
 .poster-info {
- position: absolute;
- bottom: 0;
- left: 0;
- width: 100%;
- padding: 25px 16px 16px 16px;
- box-sizing: border-box;
- /* Seamless dark gradient to make the white text readable over bright posters */
- background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+padding: 25px 16px 16px 16px;
+box-sizing: border-box;
+/* Seamless dark gradient to make the white text readable over bright posters */
+background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
 }
-
 /* Typography Matching Your Mockup */
 .poster-info h3 {
- margin: 0;
- font-size: 0.85rem;
- font-weight: 800;
- color: #ffffff;
- text-transform: uppercase; /* Automatically forces capital letters */
- letter-spacing: 0.5px;
- text-align: left;
- line-height: 1.3;
- white-space: nowrap;
- overflow: hidden;
- text-overflow: ellipsis; /* Safely cuts off text with '...' if it is too long */
+margin: 0;
+font-size: 0.85rem;
+font-weight: 800;
+color: #ffffff;
+text-transform: uppercase; /* Automatically forces capital letters */
+letter-spacing: 0.5px;
+text-align: left;
+line-height: 1.3;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis; /* Safely cuts off text with '...' if it is too long */
 }
-
 /* Responsive Re-arrangements for Smaller Windows */
 @media (max-width: 1200px) {
- .movie-poster-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 768px) {
- .movie-poster-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
- .poster-card { border-radius: 16px; }
-}
-@media (max-width: 480px) {
- .movie-poster-grid { grid-template-columns: repeat(2, 1fr); }
+.movie-poster-grid { grid-template-columns: repeat(4, 1fr); }
 }

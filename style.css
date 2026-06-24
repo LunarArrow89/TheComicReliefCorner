@@ -448,6 +448,8 @@ height: auto;
 }
 .movie-poster-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .poster-card { border-radius: 16px; }
+.featured-theater-block { flex-direction: column; text-align: center; }
+.theater-display-screen { width: 100%; max-width: 320px; }
 }
 @media (max-width: 480px) {
 .grid-square {
@@ -460,10 +462,144 @@ margin: 0 auto;
 
 /*
 ==========================================================================
+9. CINEMA COMPONENT CONTAINER SYSTEM
+==========================================================================
+*/
+/* Restores your main background box wrap */
+.featured-theater-block {
+display: flex;
+gap: 25px;
+background: #1f121b;
+border: 1px solid rgba(255, 105, 180, 0.15);
+border-radius: 20px;
+padding: 25px;
+margin-top: 25px;
+align-items: center;
+width: 100%;
+box-sizing: border-box;
+}
+.theater-display-screen {
+flex: 0 0 auto;
+width: 320px;
+height: 180px;
+background: #0a0509;
+border-radius: 14px;
+border: 1px solid rgba(255, 105, 180, 0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.theater-img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+.theater-display-details {
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+}
+.trending-badge {
+font-size: 0.7rem;
+font-weight: 900;
+background: #ff69b4;
+color: #120910;
+padding: 4px 10px;
+border-radius: 6px;
+letter-spacing: 1px;
+display: inline-block;
+margin-bottom: 10px;
+box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+}
+.theater-display-details h2 {
+font-size: 1.8rem;
+margin-bottom: 8px;
+color: white;
+}
+.theater-display-details p {
+color: #ddd;
+font-size: 0.95rem;
+line-height: 1.5;
+margin-bottom: 15px;
+text-align: left;
+}
+.watch-now-btn {
+display: inline-block;
+background: transparent;
+border: 1px solid #ff69b4;
+color: #ff69b4;
+padding: 10px 20px;
+border-radius: 10px;
+font-weight: bold;
+text-decoration: none;
+transition: all 0.25s ease;
+}
+.watch-now-btn:hover {
+background: #ff69b4;
+color: #120910;
+box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+/* Movie Filter Navigation Controls */
+.theater-filter-bar {
+display: flex;
+flex-wrap: wrap;
+gap: 15px;
+margin-top: 30px;
+margin-bottom: 25px;
+align-items: center;
+justify-content: space-between;
+}
+.movie-search-input {
+background: #1f121b;
+border: 1px solid rgba(255, 105, 180, 0.2);
+border-radius: 12px;
+padding: 12px 20px;
+color: white;
+font-size: 1rem;
+width: 300px;
+max-width: 100%;
+outline: none;
+transition: border-color 0.25s ease;
+}
+.movie-search-input:focus {
+border-color: #ff69b4;
+box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
+}
+.movie-category-pills {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+}
+.movie-pill {
+background: #120910;
+border: 1px solid rgba(255, 105, 180, 0.15);
+padding: 8px 16px;
+border-radius: 999px;
+cursor: pointer;
+font-size: 0.9rem;
+font-weight: bold;
+user-select: none;
+transition: all 0.2s ease;
+color: white;
+}
+.movie-pill:hover,
+.movie-pill.active {
+background: #ff69b4;
+border-color: #ff69b4;
+color: #120910;
+box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+/*
+==========================================================================
 10. POSTER-STYLE MOVIE COMPONENT GRID
 ==========================================================================
 */
-/* Dense 6-Column Grid Framework */
 .movie-poster-grid {
 display: grid;
 grid-template-columns: repeat(6, 1fr);
@@ -472,33 +608,29 @@ width: 100%;
 margin-top: 25px;
 box-sizing: border-box;
 }
-/* Card Base Structure with Vertical Aspect Ratio */
 .poster-card {
 position: relative;
-aspect-ratio: 2 / 3; /* Perfect vertical movie poster proportions */
+aspect-ratio: 2 / 3; 
 background: #120910;
-border-radius: 24px; /* Matches the highly rounded corners in your image */
+border-radius: 24px; 
 overflow: hidden;
 border: 1px solid rgba(255, 105, 180, 0.05);
 text-decoration: none;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-/* Interactive Hover States */
 .poster-card:hover {
 transform: scale(1.04);
 border-color: rgba(255, 105, 180, 0.3);
 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 z-index: 10;
 }
-/* Poster Image Positioning Engine */
 .poster-card img {
 width: 100%;
 height: 100%;
 object-fit: cover;
 display: block;
 }
-/* Bottom Text Overlay with Dark Linear Masking */
 .poster-info {
 position: absolute;
 bottom: 0;
@@ -506,24 +638,24 @@ left: 0;
 width: 100%;
 padding: 25px 16px 16px 16px;
 box-sizing: border-box;
-/* Seamless dark gradient to make the white text readable over bright posters */
 background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
 }
-/* Typography Matching Your Mockup */
 .poster-info h3 {
 margin: 0;
 font-size: 0.85rem;
 font-weight: 800;
 color: #ffffff;
-text-transform: uppercase; /* Automatically forces capital letters */
+text-transform: uppercase; 
 letter-spacing: 0.5px;
 text-align: left;
 line-height: 1.3;
 white-space: nowrap;
 overflow: hidden;
-text-overflow: ellipsis; /* Safely cuts off text with '...' if it is too long */
+text-overflow: ellipsis; 
 }
-/* Responsive Re-arrangements for Smaller Windows */
 @media (max-width: 1200px) {
+.movie-poster-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
 .movie-poster-grid { grid-template-columns: repeat(4, 1fr); }
 }

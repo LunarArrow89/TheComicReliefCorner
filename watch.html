@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comic Relief Corner - Player</title>
+    <!-- Your Style Sheet Link -->
+    <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Loader Script -->
+    <script defer src="load.js"></script>
+</head>
+<body>
+
+    <!-- SIDEBAR & HEADER ASSETS LOAD AUTOMATICALLY -->
+    <div id="sidebar-container"></div>
+    <div id="header-container"></div>
+
+    <div class="main">
+        <div class="hero">
+            <!-- JavaScript writes the movie name here automatically -->
+            <h1 id="dynamic-title">Loading Video...</h1>
+            <a href="movies.html" style="color: #ff69b4; text-decoration: none; font-weight: bold;">← Back to Theater</a>
+        </div>
+
+        <!-- THE UNBLOCKED CINEMATIC PLAYER CONTAINER -->
+        <div class="movie-player-wrapper">
+            <video id="dynamic-player" controls preload="auto">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- FIREWALL BYPASS LOGIC ENGINE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Grab parameters directly from the browser's address bar
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieTitle = urlParams.get('title');
+            const movieFileUrl = urlParams.get('file');
+
+            const titleElement = document.getElementById('dynamic-title');
+            const player = document.getElementById('dynamic-player');
+
+            // 2. Set the window and page heading titles
+            if (movieTitle) {
+                titleElement.innerText = "Now Playing: " + movieTitle;
+                document.title = "Watching: " + movieTitle;
+            }
+
+            // 3. Convert raw data stream to hide the link from your school filter
+            if (movieFileUrl) {
+                fetch(movieFileUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network restriction error");
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        // Creates a safe local object URL that firewall checkers can't inspect
+                        const unblockedBlobUrl = URL.createObjectURL(blob);
+                        player.src = unblockedBlobUrl;
+                    })
+                    .catch(error => {
+                        console.error("Playback stopped by school filter:", error);
+                        titleElement.innerText = "⚠️ VIDEO LINK BLOCKED OR EXPIRED";
+                        titleElement.style.color = "#ff4444";
+                    });
+            } else {
+                titleElement.innerText = "No video link provided.";
+            }
+        });
+    </script>
+
+</body>
+</html>

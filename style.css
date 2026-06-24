@@ -446,7 +446,7 @@ height: auto;
 .note-box {
 height: auto;
 }
-.movie-poster-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.movie-poster-grid { grid-template-columns: repeat(6, 1fr); gap: 12px; }
 .poster-card { border-radius: 16px; }
 .featured-theater-block { flex-direction: column; text-align: center; }
 .theater-display-screen { width: 100%; max-width: 320px; }

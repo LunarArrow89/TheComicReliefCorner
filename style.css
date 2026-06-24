@@ -229,6 +229,7 @@ body {
  line-height: 1.6;
 }
 /*
+/*
 ==========================================================================
  6. SPLIT BLOCK COMPONENT
  
@@ -256,10 +257,10 @@ body {
  box-sizing: border-box;
 }
 
-/* CHANGED FROM IMG TO TEXT FOR THE SQUARE AREA */
+/* TARGETED FIX: Controlled size specifically for the Host Icon text/emoji */
 .feature-box-square p,
 .feature-box-square span {
- font-size: 3.5rem;
+ font-size: 5rem;                  /* Adjust this value up or down to change the size! */
  line-height: 1;
  text-align: center;
  font-weight: bold;
@@ -290,6 +291,7 @@ body {
  color: #e7e7e7;
  line-height: 1.6;
 }
+
 /* PART 2: INTERACTIVE FOUR COLUMNS COMPONENT & RESPONSIVE LAYOUT ENGINES */
 /*
 ==========================================================================

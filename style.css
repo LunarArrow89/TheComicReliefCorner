@@ -600,25 +600,29 @@ box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 10. POSTER-STYLE MOVIE COMPONENT GRID
 ==========================================================================
 */
+/* Dense Grid Framework - Increased to 7 columns to make cards smaller */
 .movie-poster-grid {
-display: grid;
-grid-template-columns: repeat(6, 1fr);
-gap: 16px;
-width: 100%;
-margin-top: 25px;
-box-sizing: border-box;
+ display: grid;
+ grid-template-columns: repeat(7, 1fr);  /* Changed from 6 to 7 to shrink individual cards */
+ gap: 14px;                              /* Tighter padding between smaller boxes */
+ width: 100%;
+ margin-top: 25px;
+ box-sizing: border-box;
 }
+
+/* Card Base Structure with Vertical Aspect Ratio */
 .poster-card {
-position: relative;
-aspect-ratio: 2 / 3; 
-background: #120910;
-border-radius: 24px; 
-overflow: hidden;
-border: 1px solid rgba(255, 105, 180, 0.05);
-text-decoration: none;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+ position: relative;
+ aspect-ratio: 2 / 3; 
+ background: #120910;
+ border-radius: 18px;                    /* Slightly reduced corner radius to match smaller size */
+ overflow: hidden;
+ border: 1px solid rgba(255, 105, 180, 0.05);
+ text-decoration: none;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+ transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
+
 .poster-card:hover {
 transform: scale(1.04);
 border-color: rgba(255, 105, 180, 0.3);

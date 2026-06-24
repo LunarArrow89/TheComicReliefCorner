@@ -346,7 +346,6 @@ body {
 
 /* Inner Box container from your sketch */
 .grid-img-wrap {
- background: #00ffff; 
  border: 1px solid rgba(0, 0, 0, 0.2);
  border-radius: 14px;
  width: 100%; 
@@ -359,9 +358,25 @@ body {
  overflow: hidden;
  transition: background-color 0.25s ease;
 }
-.grid-square:hover .grid-img-wrap {
- background: #33ffff;
-}
+
+/* UNIQUE COLORS FOR THE INSIDE BLUE PARTS */
+/* Inside 1: Soft Purple/Pink */
+.grid-square:nth-child(1) .grid-img-wrap { background: #ff85c2; }
+.grid-square:nth-child(1):hover .grid-img-wrap { background: #ffb3d9; }
+
+/* Inside 2: Vibrant Blue */
+.grid-square:nth-child(2) .grid-img-wrap { background: #3399ff; }
+.grid-square:nth-child(2):hover .grid-img-wrap { background: #66b2ff; }
+
+/* Inside 3: Minty Green */
+.grid-square:nth-child(3) .grid-img-wrap { background: #29e68a; }
+.grid-square:nth-child(3):hover .grid-img-wrap { background: #66ffb3; }
+
+/* Inside 4: Warm Orange/Gold */
+.grid-square:nth-child(4) .grid-img-wrap { background: #ffaa44; }
+.grid-square:nth-child(4):hover .grid-img-wrap { background: #ffcc88; }
+
+
 /* Text Emoji Style Layer */
 .grid-inner-text {
  font-size: 3.5rem; 

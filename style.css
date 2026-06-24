@@ -640,19 +640,23 @@ padding: 25px 16px 16px 16px;
 box-sizing: border-box;
 background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
 }
+/* Typography Matching Your Mockup */
 .poster-info h3 {
-margin: 0;
-font-size: 0.85rem;
-font-weight: 800;
-color: #ffffff;
-text-transform: uppercase; 
-letter-spacing: 0.5px;
-text-align: left;
-line-height: 1.3;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis; 
+ margin: 0;
+ font-size: 0.85rem;
+ font-weight: 800;
+ color: #ffffff;
+ text-transform: uppercase; 
+ letter-spacing: 0.5px;
+ text-align: left;
+ line-height: 1.3;
+ 
+ /* FIXED FOR MULTI-LINE WRAPPING */
+ white-space: normal;      /* Allows the text to break into a new line */
+ overflow: visible;       /* Ensures the wrapped lines are fully visible */
+ text-overflow: clip;     /* Completely drops the three dots text feature */
 }
+
 @media (max-width: 1200px) {
 .movie-poster-grid { grid-template-columns: repeat(4, 1fr); }
 }

@@ -255,12 +255,19 @@ body {
  height: 200px;
  box-sizing: border-box;
 }
-.feature-box-square img {
- width: 160px;
- height: 160px;
- object-fit: contain;
- display: block;
+
+/* CHANGED FROM IMG TO TEXT FOR THE SQUARE AREA */
+.feature-box-square p,
+.feature-box-square span {
+ font-size: 3.5rem;
+ line-height: 1;
+ text-align: center;
+ font-weight: bold;
+ color: white;
+ filter: drop-shadow(0 0 6px #ff69b4);
+ user-select: none;
 }
+
 .feature-box-rectangle {
  flex: 1;
  background: #1f121b;

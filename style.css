@@ -229,7 +229,6 @@ body {
  line-height: 1.6;
 }
 /*
-/*
 ==========================================================================
  6. SPLIT BLOCK COMPONENT
  
@@ -257,16 +256,12 @@ body {
  box-sizing: border-box;
 }
 
-/* TARGETED FIX: Controlled size specifically for the Host Icon text/emoji */
-.feature-box-square p,
-.feature-box-square span {
- font-size: 5rem;                  /* Adjust this value up or down to change the size! */
- line-height: 1;
- text-align: center;
- font-weight: bold;
- color: white;
- filter: drop-shadow(0 0 6px #ff69b4);
- user-select: none;
+/* SEPARATE WORKSPACE: Styled strictly for your host GIF image layout */
+.feature-box-square img {
+ width: 160px;
+ height: 160px;
+ object-fit: contain;
+ display: block;
 }
 
 .feature-box-rectangle {
@@ -291,7 +286,6 @@ body {
  color: #e7e7e7;
  line-height: 1.6;
 }
-
 /* PART 2: INTERACTIVE FOUR COLUMNS COMPONENT & RESPONSIVE LAYOUT ENGINES */
 /*
 ==========================================================================
@@ -323,13 +317,13 @@ body {
 }
 
 /* UNIQUE BACKGROUND CONFIGURATIONS FOR EACH CARD */
-/* Card 1: Deep Violet / Dark Magenta Plum */
+/* Card 1: Deep Violet */
 .grid-square:nth-child(1) { background: #261120; }
-/* Card 2: Deep Indigo Sky / Navy */
+/* Card 2: Deep Indigo Sky */
 .grid-square:nth-child(2) { background: #111a2d; }
-/* Card 3: Deep Forest Moss / Emerald */
+/* Card 3: Deep Forest Moss */
 .grid-square:nth-child(3) { background: #0f2116; }
-/* Card 4: Deep Charcoal / Burned Amber */
+/* Card 4: Deep Charcoal Amber */
 .grid-square:nth-child(4) { background: #261911; }
 
 /* DYNAMIC GLOW HOVER MODULE FOR THE UNIQUE CARDS */
@@ -368,7 +362,20 @@ body {
  transition: background-color 0.25s ease;
 }
 
-/* UNIQUE COLORS FOR THE INSIDE BLUE PARTS */
+/* INDEPENDENT WORKSPACE: Clean, dedicated styling for the 4 grid inner-text emojis */
+.grid-inner-text {
+ font-size: 3.5rem; 
+ line-height: 1;
+ display: inline-block;
+ user-select: none; 
+ filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+ transition: transform 0.25s ease;
+}
+.grid-square:hover .grid-inner-text {
+ transform: scale(1.1);
+}
+
+/* UNIQUE COLORS FOR THE INSIDE GRID PARTS */
 /* Inside 1: Soft Purple/Pink */
 .grid-square:nth-child(1) .grid-img-wrap { background: #ff85c2; }
 .grid-square:nth-child(1):hover .grid-img-wrap { background: #ffb3d9; }
@@ -385,19 +392,6 @@ body {
 .grid-square:nth-child(4) .grid-img-wrap { background: #ffaa44; }
 .grid-square:nth-child(4):hover .grid-img-wrap { background: #ffcc88; }
 
-
-/* Text Emoji Style Layer */
-.grid-inner-text {
- font-size: 3.5rem; 
- line-height: 1;
- display: inline-block;
- user-select: none; 
- filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
- transition: transform 0.25s ease;
-}
-.grid-square:hover .grid-inner-text {
- transform: scale(1.1);
-}
 /* Main Text Label Header */
 .grid-square p {
  margin: 0;

@@ -22,15 +22,15 @@
             <a href="movies.html" style="color: #ff69b4; text-decoration: none; font-weight: bold;">← Back to Theater</a>
         </div>
 
-        <!-- THE UNBLOCKED CINEMATIC PLAYER CONTAINER -->
+        <!-- THE NATURAL UNBLOCKED PLAYER CONTAINER -->
         <div class="movie-player-wrapper">
-            <video id="dynamic-player" controls preload="auto">
+            <video id="dynamic-player" controls preload="metadata">
                 Your browser does not support the video tag.
             </video>
         </div>
     </div>
 
-    <!-- FIREWALL BYPASS LOGIC ENGINE -->
+    <!-- STANDARD URL INJECTION ROUTER -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // 1. Grab parameters directly from the browser's address bar
@@ -47,25 +47,9 @@
                 document.title = "Watching: " + movieTitle;
             }
 
-            // 3. Convert raw data stream to hide the link from your school filter
+            // 3. Direct stream routing bypassing the background fetch block
             if (movieFileUrl) {
-                fetch(movieFileUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Network restriction error");
-                        }
-                        return response.blob();
-                    })
-                    .then(blob => {
-                        // Creates a safe local object URL that firewall checkers can't inspect
-                        const unblockedBlobUrl = URL.createObjectURL(blob);
-                        player.src = unblockedBlobUrl;
-                    })
-                    .catch(error => {
-                        console.error("Playback stopped by school filter:", error);
-                        titleElement.innerText = "⚠️ VIDEO LINK BLOCKED OR EXPIRED";
-                        titleElement.style.color = "#ff4444";
-                    });
+                player.src = movieFileUrl;
             } else {
                 titleElement.innerText = "No video link provided.";
             }

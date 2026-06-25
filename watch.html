@@ -10,7 +10,6 @@
     <script defer src="load.js"></script>
 </head>
 <body>
-
     <!-- SIDEBAR & HEADER ASSETS LOAD AUTOMATICALLY -->
     <div id="sidebar-container"></div>
     <div id="header-container"></div>
@@ -32,29 +31,27 @@
 
     <!-- STANDARD URL INJECTION ROUTER -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // 1. Grab parameters directly from the browser's address bar
-            const urlParams = new URLSearchParams(window.location.search);
-            const movieTitle = urlParams.get('title');
-            const movieFileUrl = urlParams.get('file');
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Grab parameters directly from the browser's address bar
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieTitle = urlParams.get('title');
+        const movieFileUrl = urlParams.get('file');
+        const titleElement = document.getElementById('dynamic-title');
+        const player = document.getElementById('dynamic-player');
 
-            const titleElement = document.getElementById('dynamic-title');
-            const player = document.getElementById('dynamic-player');
+        // 2. Set the window and page heading titles
+        if (movieTitle) {
+            titleElement.innerText = "Now Playing: " + movieTitle;
+            document.title = "Watching: " + movieTitle;
+        }
 
-            // 2. Set the window and page heading titles
-            if (movieTitle) {
-                titleElement.innerText = "Now Playing: " + movieTitle;
-                document.title = "Watching: " + movieTitle;
-            }
-
-            // 3. Direct stream routing bypassing the background fetch block
-            if (movieFileUrl) {
-                player.src = movieFileUrl;
-            } else {
-                titleElement.innerText = "No video link provided.";
-            }
-        });
+        // 3. Direct stream routing bypassing the background fetch block
+        if (movieFileUrl) {
+            player.src = movieFileUrl;
+        } else {
+            titleElement.innerText = "No video link provided.";
+        }
+    });
     </script>
-
 </body>
 </html>

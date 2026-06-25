@@ -12,10 +12,8 @@
     <script defer src="load.js"></script>
 </head>
 <body>
-
     <!-- SIDEBAR LOADS HERE -->
     <div id="sidebar-container"></div>
-
     <!-- HEADER LOADS HERE -->
     <div id="header-container"></div>
 
@@ -55,7 +53,6 @@
 
         <!-- AUTOMATED 6-COLUMN POSTER GRID (NO EXTRA CODES NEEDED) -->
         <div class="movie-poster-grid">
-            
             <!-- CARD 1: BOSS BABY -->
             <a href="watch.html?title=BOSS BABY&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/backrooms.png" alt="Boss Baby">
@@ -63,17 +60,13 @@
                     <h3>Boss Baby</h3>
                 </div>
             </a>
-
-<!-- CARD 2: IRON LUNG --> 
-<a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz/file/Lp5GFITI#FW7wGVmNcW4zgja7Dl05v2MAEtk57mUzFdn8GrvTSVg" class="poster-card"> 
-    <img src="Sonic3.jpeg" alt="Sonic the Hedgehog 3"> 
-    <div class="poster-info"> 
-        <h3>Sonic the Hedgehog 3</h3> 
-    </div> 
-</a>
-
-
-
+            <!-- CARD 2: IRON LUNG -->
+            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz/file/Lp5GFITI#FW7wGVmNcW4zgja7Dl05v2MAEtk57mUzFdn8GrvTSVg" class="poster-card">
+                <img src="posters/digital-circus.png" alt="Sonic the Hedgehog 3">
+                <div class="poster-info">
+                    <h3>Sonic the Hedgehog 3</h3>
+                </div>
+            </a>
             <!-- CARD 3: DUNE PART 1 -->
             <a href="watch.html?title=DUNE PART 1&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/devil-wears-prada.png" alt="Dune Part 1">
@@ -81,7 +74,6 @@
                     <h3>Dune Part 1</h3>
                 </div>
             </a>
-
             <!-- CARD 4: DUNE PART 2 -->
             <a href="watch.html?title=DUNE PART 2&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/mandalorian.png" alt="Dune Part 2">
@@ -89,7 +81,6 @@
                     <h3>Dune Part 2</h3>
                 </div>
             </a>
-
             <!-- CARD 5: FINDING NEMO -->
             <a href="watch.html?title=FINDING NEMO&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/obsession.png" alt="Finding Nemo">
@@ -97,7 +88,6 @@
                     <h3>Finding Nemo</h3>
                 </div>
             </a>
-
             <!-- CARD 6: CORALINE -->
             <a href="watch.html?title=CORALINE&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="swapped.png" alt="Coraline">
@@ -105,7 +95,6 @@
                     <h3>Coraline</h3>
                 </div>
             </a>
-
             <!-- CARD 7: BACKROOMS -->
             <a href="watch.html?title=BACKROOMS&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/backrooms.png" alt="Backrooms">
@@ -113,7 +102,6 @@
                     <h3>BACKROOMS</h3>
                 </div>
             </a>
-
             <!-- CARD 8: WHIPLASH -->
             <a href="watch.html?title=WHIPLASH&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/whiplash.png" alt="Whiplash">
@@ -121,7 +109,6 @@
                     <h3>WHIPLASH</h3>
                 </div>
             </a>
-
             <!-- CARD 9: AGGRETSUKO -->
             <a href="watch.html?title=AGGRETSUKO&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/aggretsuko.png" alt="Aggretsuko">
@@ -129,7 +116,6 @@
                     <h3>AGGRETSUKO</h3>
                 </div>
             </a>
-
             <!-- CARD 10: SPIDER-MAN: FAR FROM HOME -->
             <a href="watch.html?title=SPIDER-MAN: FAR FROM HOME&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/spiderman.png" alt="Spider-Man: Far From Home">
@@ -137,7 +123,6 @@
                     <h3>SPIDER-MAN: FAR FROM HOME</h3>
                 </div>
             </a>
-
             <!-- CARD 11: MICHAEL -->
             <a href="watch.html?title=MICHAEL&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/michael.png" alt="Michael">
@@ -145,7 +130,6 @@
                     <h3>MICHAEL</h3>
                 </div>
             </a>
-
             <!-- CARD 12: THE MATRIX REBOOT -->
             <a href="watch.html?title=THE MATRIX REBOOT&file=PASTE_LINK_HERE" class="poster-card">
                 <img src="posters/matrix.png" alt="The Matrix Reboot">
@@ -153,9 +137,88 @@
                     <h3>THE MATRIX REBOOT</h3>
                 </div>
             </a>
+        </div>
+    </div>
+    <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+    <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+        <!-- Modal Inner Card Content Window Box -->
+        <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
+            
+            <!-- X Close Button (Positioned at Top-Left per your layout image sketch) -->
+            <button id="close-modal-btn" style="position: absolute; top: -45px; left: 0; background: transparent; border: none; color: #ff69b4; font-size: 2.2rem; font-weight: bold; cursor: pointer; padding: 0; transition: transform 0.2s ease; line-height: 1;">✕</button>
+            
+            <!-- Movie Header Title Block -->
+            <div class="hero" style="padding: 0 0 15px 0;">
+                <h1 id="dynamic-title" style="font-size: 28px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+            </div>
 
+            <!-- Video HTML5 Native Player Element Canvas -->
+            <div class="movie-player-wrapper">
+                <video id="dynamic-player" controls preload="metadata" style="width: 100%; border-radius: 12px; max-height: 65vh; background: #000; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
     </div>
 
+    <!-- CODE INTERCEPTOR & MODAL ROUTING SCRIPT -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("movie-modal");
+        const titleElement = document.getElementById("dynamic-title");
+        const player = document.getElementById("dynamic-player");
+        const closeBtn = document.getElementById("close-modal-btn");
+
+        // Grab all clickable targets (Widescreen Feature button + Poster card links)
+        const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+
+        movieLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault(); // Stop secondary tab/window redirection completely
+
+                const hrefAttr = this.getAttribute("href");
+                if (hrefAttr && hrefAttr.includes("watch.html")) {
+                    // Extract data parameters out of URL string array
+                    const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+                    const movieTitle = urlData.get('title');
+                    const movieFileUrl = urlData.get('file');
+
+                    // Bind active query values straight inside internal interface framework
+                    if (movieTitle) {
+                        titleElement.innerText = "Now Playing: " + movieTitle;
+                    }
+                    if (movieFileUrl) {
+                        player.src = movieFileUrl;
+                        player.load(); // Boots local buffered video asset link stream
+                    } else {
+                        titleElement.innerText = "No video link provided.";
+                    }
+
+                    // Present screen backdrop view layers
+                    modal.style.display = "flex";
+                    document.body.style.overflow = "hidden"; // Freeze background window scaling movements
+                }
+            });
+        });
+
+        // Close configuration function execution sequence
+        function closeModalWindow() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
+            player.pause();
+            player.src = ""; // Flushes layout link references out of memory buffer arrays
+        }
+
+        // Click actions triggers
+        closeBtn.addEventListener("click", closeModalWindow);
+        
+        // Background Dimmed Space Click dismiss setup rule
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                closeModalWindow();
+            }
+        });
+    });
+    </script>
 </body>
 </html>

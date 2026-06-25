@@ -61,7 +61,7 @@
                 </div>
             </a>
             <!-- CARD 2: IRON LUNG -->
-            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz/file/Lp5GFITI#FW7wGVmNcW4zgja7Dl05v2MAEtk57mUzFdn8GrvTSVg" class="poster-card">
+            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz" class="poster-card">
                 <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
                 <div class="poster-info">
                     <h3>Sonic the Hedgehog 3</h3>
@@ -140,7 +140,6 @@
         </div>
     </div>
     <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
-        <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
     <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
         <!-- Modal Inner Card Content Window Box -->
         <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
@@ -173,18 +172,18 @@
         const player = document.getElementById("dynamic-player");
         const closeBtn = document.getElementById("close-modal-btn");
 
-        let activeBlobUrl = null; // Tracks active video memory leaks
+        let activeBlobUrl = null; // Tracks memory space allocation leaks
 
-        // Grab all movie cards and feature trigger elements
+        // Grab all clickable targets (Widescreen Feature button + Poster card links)
         const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
 
         movieLinks.forEach(link => {
             link.addEventListener("click", function(e) {
-                e.preventDefault(); // Lock standard web address navigation redirects
+                e.preventDefault(); // Stop secondary tab/window redirection completely
 
                 const hrefAttr = this.getAttribute("href");
                 if (hrefAttr && hrefAttr.includes("watch.html")) {
-                    // Extract URL parameter tokens
+                    // Extract data parameters out of URL string array
                     const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
                     const movieTitle = urlData.get('title');
                     let movieFileUrl = urlData.get('file');
@@ -196,7 +195,7 @@
                     }
 
                     // --- GOOGLE DRIVE RAW SOURCE LINK REWRITER ---
-                    // If a Google Drive link is used, rewrite it to access the direct download pipeline
+                    // Rewrites standard drive share links to point to the secure download gateway
                     if (movieFileUrl.includes("://google.com")) {
                         const fileIdMatch = movieFileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                         if (fileIdMatch && fileIdMatch[1]) {
@@ -204,20 +203,20 @@
                         }
                     }
 
-                    // Open up base modal layout frames instantly
+                    // Present layout placeholder properties immediately
                     titleElement.innerText = "Preparing Sandbox Environment...";
                     statusElement.innerText = "Bypassing firewall tracks... 0%";
                     statusElement.style.display = "block";
                     modal.style.display = "flex";
-                    document.body.style.overflow = "hidden"; // Stop base template scrolling track
+                    document.body.style.overflow = "hidden"; // Freeze canvas page movements
 
                     // --- CHUNKED BINARY STREAM FETCHER ---
-                    // Fetch the file as text/data blobs to slide completely past firewalls
+                    // Pull file as pure unflagged stream bytes to bypass file-type extension rules
                     fetch(movieFileUrl)
                         .then(response => {
                             if (!response.ok) throw new Error("Firewall blocked connection source.");
                             
-                            // Track streaming response headers for tracking download percentages
+                            // Check header arrays for download progress computations
                             const contentLength = response.headers.get('content-length');
                             if (!contentLength) {
                                 statusElement.innerText = "Streaming unblocked data stack... please hold.";
@@ -227,7 +226,7 @@
                             const totalBytes = parseInt(contentLength, 10);
                             let loadedBytes = 0;
 
-                            // Create an interactive reader stream track
+                            // Open a stream reader to compile chunks on the fly
                             const reader = response.body.getReader();
                             return new Response(
                                 new ReadableStream({
@@ -251,20 +250,20 @@
                             ).blob();
                         })
                         .then(movieBlob => {
-                            // Clean old instances out of local cache pipelines to drop memory loads
+                            // Wipe previous cache properties from working memory
                             if (activeBlobUrl) {
                                 URL.revokeObjectURL(activeBlobUrl);
                             }
 
-                            // Generate an unblocked, temporary browser memory reference link
+                            // Package compiled raw file data into an anonymous local memory link
                             activeBlobUrl = URL.createObjectURL(movieBlob);
                             
-                            // Inject clean system path variable straight into HTML5 stream canvas
+                            // Mount memory blob direct to HTML5 video layer
                             player.src = activeBlobUrl;
                             player.load();
                             
                             titleElement.innerText = "Now Playing: " + (movieTitle || "Movie");
-                            statusElement.style.display = "none"; // Clear loader out of layout view
+                            statusElement.style.display = "none"; // Hide loading status text
                         })
                         .catch(err => {
                             titleElement.innerText = "Stream Bypasser Rejected";
@@ -275,14 +274,14 @@
             });
         });
 
-        // Safe closure wrapper function execution rules
+        // Close configuration function execution sequence
         function closeModalWindow() {
             modal.style.display = "none";
-            document.body.style.overflow = "auto"; // Re-enable frame scrolling
+            document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
             player.pause();
-            player.src = ""; // Flush current video elements
+            player.src = ""; // Flushes layout link references out of memory buffer arrays
             
-            // Wipe active browser blob leaks out of active RAM allocations
+            // Clean browser RAM space references to avoid system crashes on giant movie assets
             if (activeBlobUrl) {
                 URL.revokeObjectURL(activeBlobUrl);
                 activeBlobUrl = null;
@@ -290,8 +289,10 @@
             statusElement.style.display = "none";
         }
 
+        // Click actions triggers
         closeBtn.addEventListener("click", closeModalWindow);
         
+        // Background Dimmed Space Click dismiss setup rule
         modal.addEventListener("click", function(e) {
             if (e.target === modal) {
                 closeModalWindow();

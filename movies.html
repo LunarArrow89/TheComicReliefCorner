@@ -140,6 +140,7 @@
         </div>
     </div>
     <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+        <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
     <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
         <!-- Modal Inner Card Content Window Box -->
         <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
@@ -149,11 +150,13 @@
             
             <!-- Movie Header Title Block -->
             <div class="hero" style="padding: 0 0 15px 0;">
-                <h1 id="dynamic-title" style="font-size: 28px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+                <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+                <!-- Loading Progress Indicator Track -->
+                <p id="loading-status" style="color: #ff69b4; font-size: 0.9rem; margin: 5px 0 0 0; font-weight: bold; display: none;">Bypassing firewall filters... 0%</p>
             </div>
 
             <!-- Video HTML5 Native Player Element Canvas -->
-            <div class="movie-player-wrapper">
+            <div class="movie-player-wrapper" style="position: relative;">
                 <video id="dynamic-player" controls preload="metadata" style="width: 100%; border-radius: 12px; max-height: 65vh; background: #000; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
                     Your browser does not support the video tag.
                 </video>
@@ -161,58 +164,134 @@
         </div>
     </div>
 
-    <!-- CODE INTERCEPTOR & MODAL ROUTING SCRIPT -->
+    <!-- FIREWALL BYPASSING BLOB CHUNKER SCRIPT -->
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const modal = document.getElementById("movie-modal");
         const titleElement = document.getElementById("dynamic-title");
+        const statusElement = document.getElementById("loading-status");
         const player = document.getElementById("dynamic-player");
         const closeBtn = document.getElementById("close-modal-btn");
 
-        // Grab all clickable targets (Widescreen Feature button + Poster card links)
+        let activeBlobUrl = null; // Tracks active video memory leaks
+
+        // Grab all movie cards and feature trigger elements
         const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
 
         movieLinks.forEach(link => {
             link.addEventListener("click", function(e) {
-                e.preventDefault(); // Stop secondary tab/window redirection completely
+                e.preventDefault(); // Lock standard web address navigation redirects
 
                 const hrefAttr = this.getAttribute("href");
                 if (hrefAttr && hrefAttr.includes("watch.html")) {
-                    // Extract data parameters out of URL string array
+                    // Extract URL parameter tokens
                     const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
                     const movieTitle = urlData.get('title');
-                    const movieFileUrl = urlData.get('file');
+                    let movieFileUrl = urlData.get('file');
 
-                    // Bind active query values straight inside internal interface framework
-                    if (movieTitle) {
-                        titleElement.innerText = "Now Playing: " + movieTitle;
-                    }
-                    if (movieFileUrl) {
-                        player.src = movieFileUrl;
-                        player.load(); // Boots local buffered video asset link stream
-                    } else {
+                    if (!movieFileUrl || movieFileUrl === "PASTE_LINK_HERE") {
                         titleElement.innerText = "No video link provided.";
+                        modal.style.display = "flex";
+                        return;
                     }
 
-                    // Present screen backdrop view layers
+                    // --- GOOGLE DRIVE RAW SOURCE LINK REWRITER ---
+                    // If a Google Drive link is used, rewrite it to access the direct download pipeline
+                    if (movieFileUrl.includes("://google.com")) {
+                        const fileIdMatch = movieFileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                        if (fileIdMatch && fileIdMatch[1]) {
+                            movieFileUrl = `https://google.com{fileIdMatch[1]}`;
+                        }
+                    }
+
+                    // Open up base modal layout frames instantly
+                    titleElement.innerText = "Preparing Sandbox Environment...";
+                    statusElement.innerText = "Bypassing firewall tracks... 0%";
+                    statusElement.style.display = "block";
                     modal.style.display = "flex";
-                    document.body.style.overflow = "hidden"; // Freeze background window scaling movements
+                    document.body.style.overflow = "hidden"; // Stop base template scrolling track
+
+                    // --- CHUNKED BINARY STREAM FETCHER ---
+                    // Fetch the file as text/data blobs to slide completely past firewalls
+                    fetch(movieFileUrl)
+                        .then(response => {
+                            if (!response.ok) throw new Error("Firewall blocked connection source.");
+                            
+                            // Track streaming response headers for tracking download percentages
+                            const contentLength = response.headers.get('content-length');
+                            if (!contentLength) {
+                                statusElement.innerText = "Streaming unblocked data stack... please hold.";
+                                return response.blob();
+                            }
+
+                            const totalBytes = parseInt(contentLength, 10);
+                            let loadedBytes = 0;
+
+                            // Create an interactive reader stream track
+                            const reader = response.body.getReader();
+                            return new Response(
+                                new ReadableStream({
+                                    start(controller) {
+                                        function readChunk() {
+                                            reader.read().then(({ done, value }) => {
+                                                if (done) {
+                                                    controller.close();
+                                                    return;
+                                                }
+                                                loadedBytes += value.byteLength;
+                                                const pct = Math.round((loadedBytes / totalBytes) * 100);
+                                                statusElement.innerText = `Assembling file shards in memory cache... ${pct}%`;
+                                                controller.enqueue(value);
+                                                readChunk();
+                                            }).catch(err => controller.error(err));
+                                        }
+                                        readChunk();
+                                    }
+                                })
+                            ).blob();
+                        })
+                        .then(movieBlob => {
+                            // Clean old instances out of local cache pipelines to drop memory loads
+                            if (activeBlobUrl) {
+                                URL.revokeObjectURL(activeBlobUrl);
+                            }
+
+                            // Generate an unblocked, temporary browser memory reference link
+                            activeBlobUrl = URL.createObjectURL(movieBlob);
+                            
+                            // Inject clean system path variable straight into HTML5 stream canvas
+                            player.src = activeBlobUrl;
+                            player.load();
+                            
+                            titleElement.innerText = "Now Playing: " + (movieTitle || "Movie");
+                            statusElement.style.display = "none"; // Clear loader out of layout view
+                        })
+                        .catch(err => {
+                            titleElement.innerText = "Stream Bypasser Rejected";
+                            statusElement.innerText = "Error: File source blocked cross-origin configurations or domain is unreachable.";
+                            console.error(err);
+                        });
                 }
             });
         });
 
-        // Close configuration function execution sequence
+        // Safe closure wrapper function execution rules
         function closeModalWindow() {
             modal.style.display = "none";
-            document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
+            document.body.style.overflow = "auto"; // Re-enable frame scrolling
             player.pause();
-            player.src = ""; // Flushes layout link references out of memory buffer arrays
+            player.src = ""; // Flush current video elements
+            
+            // Wipe active browser blob leaks out of active RAM allocations
+            if (activeBlobUrl) {
+                URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = null;
+            }
+            statusElement.style.display = "none";
         }
 
-        // Click actions triggers
         closeBtn.addEventListener("click", closeModalWindow);
         
-        // Background Dimmed Space Click dismiss setup rule
         modal.addEventListener("click", function(e) {
             if (e.target === modal) {
                 closeModalWindow();

@@ -61,7 +61,7 @@
                 </div>
             </a>
             <!-- CARD 2: IRON LUNG -->
-            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/view?usp=sharing" class="poster-card">
+            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview" class="poster-card">
                 <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
                 <div class="poster-info">
                     <h3>Sonic the Hedgehog 3</h3>
@@ -139,7 +139,7 @@
             </a>
         </div>
     </div>
-    <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+       <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
     <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
         <!-- Modal Inner Card Content Window Box -->
         <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
@@ -169,119 +169,138 @@
         const modal = document.getElementById("movie-modal");
         const titleElement = document.getElementById("dynamic-title");
         const statusElement = document.getElementById("loading-status");
-        const player = document.getElementById("dynamic-player");
+        const player = document.getElementById("dynamic-player"); // Native <video> tag
         const closeBtn = document.getElementById("close-modal-btn");
 
-        let activeBlobUrl = null; // Tracks memory space allocation leaks
+        let activeBlobUrl = null;
 
-        // Grab all clickable targets (Widescreen Feature button + Poster card links)
         const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
 
         movieLinks.forEach(link => {
             link.addEventListener("click", function(e) {
-                e.preventDefault(); // Stop secondary tab/window redirection completely
+                e.preventDefault();
 
                 const hrefAttr = this.getAttribute("href");
                 if (hrefAttr && hrefAttr.includes("watch.html")) {
-                    // Extract data parameters out of URL string array
                     const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
                     const movieTitle = urlData.get('title');
                     let movieFileUrl = urlData.get('file');
 
-                    if (!movieFileUrl || movieFileUrl === "PASTE_LINK_HERE") {
+                    if (!movieFileUrl || movieFileUrl === "https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview") {
                         titleElement.innerText = "No video link provided.";
                         modal.style.display = "flex";
                         return;
                     }
 
-                    // --- GOOGLE DRIVE RAW SOURCE LINK REWRITER ---
-                    // Rewrites standard drive share links to point to the secure download gateway
-                    if (movieFileUrl.includes("://google.com")) {
+                    // Setup loading UI
+                    titleElement.innerText = "Initiating Firewall Bypass...";
+                    statusElement.innerText = "Handling Google verification tokens... 0%";
+                    statusElement.style.display = "block";
+                    modal.style.display = "flex";
+                    document.body.style.overflow = "hidden";
+
+                    // --- ADVANCED GOOGLE DRIVE BYPASS FOR LARGE FILES ---
+                    // FIXED: Changed string matching check to capture standard drive domains properly
+                    if (movieFileUrl.includes("://google.com") || movieFileUrl.includes("https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview")) {
                         const fileIdMatch = movieFileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
                         if (fileIdMatch && fileIdMatch[1]) {
-                            movieFileUrl = `https://google.com{fileIdMatch[1]}`;
+                            const fileId = fileIdMatch[1];
+                            
+                            // FIXED: Added missing forward slash and fixed endpoint URL interpolation parameters
+                            const proxyUrl = "https://allorigins.win" + encodeURIComponent(`https://google.com{fileId}`);
+                            
+                            fetch(proxyUrl)
+                                .then(res => {
+                                    if (!res.ok) throw new Error("Proxy connection failed.");
+                                    return res.json();
+                                })
+                                .then(proxyData => {
+                                    const htmlText = proxyData.contents;
+                                    const tokenMatch = htmlText.match(/confirm=([a-zA-Z0-9_-]+)/);
+                                    
+                                    // FIXED: Rewrote path string to point straight to the actual Google Docs download engine
+                                    let finalDownloadUrl = `https://google.com{fileId}`;
+                                    if (tokenMatch && tokenMatch[1]) {
+                                        finalDownloadUrl += `&confirm=${tokenMatch[1]}`;
+                                    }
+                                    
+                                    executeBinaryChunker(finalDownloadUrl, movieTitle);
+                                })
+                                .catch(err => {
+                                    titleElement.innerText = "Token Handshake Failed";
+                                    statusElement.innerText = "Could not reach verification proxy server.";
+                                    console.error(err);
+                                });
+                            return; 
                         }
                     }
 
-                    // Present layout placeholder properties immediately
-                    titleElement.innerText = "Preparing Sandbox Environment...";
-                    statusElement.innerText = "Bypassing firewall tracks... 0%";
-                    statusElement.style.display = "block";
-                    modal.style.display = "flex";
-                    document.body.style.overflow = "hidden"; // Freeze canvas page movements
-
-                    // --- CHUNKED BINARY STREAM FETCHER ---
-                    // Pull file as pure unflagged stream bytes to bypass file-type extension rules
-                    fetch(movieFileUrl)
-                        .then(response => {
-                            if (!response.ok) throw new Error("Firewall blocked connection source.");
-                            
-                            // Check header arrays for download progress computations
-                            const contentLength = response.headers.get('content-length');
-                            if (!contentLength) {
-                                statusElement.innerText = "Streaming unblocked data stack... please hold.";
-                                return response.blob();
-                            }
-
-                            const totalBytes = parseInt(contentLength, 10);
-                            let loadedBytes = 0;
-
-                            // Open a stream reader to compile chunks on the fly
-                            const reader = response.body.getReader();
-                            return new Response(
-                                new ReadableStream({
-                                    start(controller) {
-                                        function readChunk() {
-                                            reader.read().then(({ done, value }) => {
-                                                if (done) {
-                                                    controller.close();
-                                                    return;
-                                                }
-                                                loadedBytes += value.byteLength;
-                                                const pct = Math.round((loadedBytes / totalBytes) * 100);
-                                                statusElement.innerText = `Assembling file shards in memory cache... ${pct}%`;
-                                                controller.enqueue(value);
-                                                readChunk();
-                                            }).catch(err => controller.error(err));
-                                        }
-                                        readChunk();
-                                    }
-                                })
-                            ).blob();
-                        })
-                        .then(movieBlob => {
-                            // Wipe previous cache properties from working memory
-                            if (activeBlobUrl) {
-                                URL.revokeObjectURL(activeBlobUrl);
-                            }
-
-                            // Package compiled raw file data into an anonymous local memory link
-                            activeBlobUrl = URL.createObjectURL(movieBlob);
-                            
-                            // Mount memory blob direct to HTML5 video layer
-                            player.src = activeBlobUrl;
-                            player.load();
-                            
-                            titleElement.innerText = "Now Playing: " + (movieTitle || "Movie");
-                            statusElement.style.display = "none"; // Hide loading status text
-                        })
-                        .catch(err => {
-                            titleElement.innerText = "Stream Bypasser Rejected";
-                            statusElement.innerText = "Error: File source blocked cross-origin configurations or domain is unreachable.";
-                            console.error(err);
-                        });
+                    // Fallback for non-Google direct links
+                    executeBinaryChunker(movieFileUrl, movieTitle);
                 }
             });
         });
 
-        // Close configuration function execution sequence
+        // --- CORE BINARY STREAM COMPILER ENGINE ---
+        function executeBinaryChunker(targetUrl, movieTitle) {
+            fetch(targetUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error("Connection dropped by target network gateway.");
+                    
+                    const contentLength = response.headers.get('content-length');
+                    if (!contentLength) {
+                        statusElement.innerText = "Buffering data payload blocks...";
+                        return response.blob();
+                    }
+
+                    const totalBytes = parseInt(contentLength, 10);
+                    let loadedBytes = 0;
+                    const reader = response.body.getReader();
+
+                    return new Response(
+                        new ReadableStream({
+                            start(controller) {
+                                function read() {
+                                    reader.read().then(({ done, value }) => {
+                                        if (done) {
+                                            controller.close();
+                                            return;
+                                        }
+                                        loadedBytes += value.byteLength;
+                                        const pct = Math.round((loadedBytes / totalBytes) * 100);
+                                        statusElement.innerText = `Assembling unblocked video cache... ${pct}%`;
+                                        controller.enqueue(value);
+                                        read();
+                                    }).catch(err => controller.error(err));
+                                }
+                                read();
+                            }
+                        })
+                    ).blob();
+                })
+                .then(movieBlob => {
+                    if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+
+                    activeBlobUrl = URL.createObjectURL(movieBlob);
+                    
+                    player.src = activeBlobUrl;
+                    player.load();
+                    
+                    titleElement.innerText = "Now Playing: " + (movieTitle || "Movie");
+                    statusElement.style.display = "none";
+                })
+                .catch(err => {
+                    titleElement.innerText = "Bypass System Interrupted";
+                    statusElement.innerText = "Error: Stream blocked by cross-origin policies (CORS) or network filters.";
+                    console.error(err);
+                });
+        }
+
         function closeModalWindow() {
             modal.style.display = "none";
-            document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
+            document.body.style.overflow = "auto";
             player.pause();
-            player.src = ""; // Flushes layout link references out of memory buffer arrays
-            
-            // Clean browser RAM space references to avoid system crashes on giant movie assets
+            player.src = "";
             if (activeBlobUrl) {
                 URL.revokeObjectURL(activeBlobUrl);
                 activeBlobUrl = null;
@@ -289,14 +308,9 @@
             statusElement.style.display = "none";
         }
 
-        // Click actions triggers
         closeBtn.addEventListener("click", closeModalWindow);
-        
-        // Background Dimmed Space Click dismiss setup rule
         modal.addEventListener("click", function(e) {
-            if (e.target === modal) {
-                closeModalWindow();
-            }
+            if (e.target === modal) closeModalWindow();
         });
     });
     </script>

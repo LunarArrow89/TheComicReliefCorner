@@ -61,7 +61,7 @@
                 </div>
             </a>
             <!-- CARD 2: IRON LUNG -->
-            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview" class="poster-card">
+            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://archive.org/details/sonic3_202606" class="poster-card">
                 <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
                 <div class="poster-info">
                     <h3>Sonic the Hedgehog 3</h3>
@@ -165,154 +165,79 @@
 
     <!-- FIREWALL BYPASSING BLOB CHUNKER SCRIPT -->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const modal = document.getElementById("movie-modal");
-        const titleElement = document.getElementById("dynamic-title");
-        const statusElement = document.getElementById("loading-status");
-        const player = document.getElementById("dynamic-player"); // Native <video> tag
-        const closeBtn = document.getElementById("close-modal-btn");
+ <!-- CODE INTERCEPTOR & MODAL ROUTING SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById("movie-modal");
+    const titleElement = document.getElementById("dynamic-title");
+    const player = document.getElementById("dynamic-player"); // Native HTML5 <video> tag
+    const closeBtn = document.getElementById("close-modal-btn");
 
-        let activeBlobUrl = null;
+    // Grab all movie trigger targets (Widescreen Feature button + Poster card links)
+    const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
 
-        const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+    movieLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault(); // Stop secondary tab/window redirection completely
 
-        movieLinks.forEach(link => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
+            const hrefAttr = this.getAttribute("href");
+            if (hrefAttr && hrefAttr.includes("watch.html")) {
+                // Extract data parameters out of URL query string array
+                const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+                const movieTitle = urlData.get('title');
+                let movieFileUrl = urlData.get('file');
 
-                const hrefAttr = this.getAttribute("href");
-                if (hrefAttr && hrefAttr.includes("watch.html")) {
-                    const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
-                    const movieTitle = urlData.get('title');
-                    let movieFileUrl = urlData.get('file');
+                // Bind active title name straight inside internal interface framework
+                if (movieTitle) {
+                    titleElement.innerText = "Now Playing: " + movieTitle;
+                }
 
-                    if (!movieFileUrl || movieFileUrl === "https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview") {
-                        titleElement.innerText = "No video link provided.";
-                        modal.style.display = "flex";
-                        return;
-                    }
-
-                    // Setup loading UI
-                    titleElement.innerText = "Initiating Firewall Bypass...";
-                    statusElement.innerText = "Handling Google verification tokens... 0%";
-                    statusElement.style.display = "block";
-                    modal.style.display = "flex";
-                    document.body.style.overflow = "hidden";
-
-                    // --- ADVANCED GOOGLE DRIVE BYPASS FOR LARGE FILES ---
-                    // FIXED: Changed string matching check to capture standard drive domains properly
-                    if (movieFileUrl.includes("://google.com") || movieFileUrl.includes("https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/preview")) {
-                        const fileIdMatch = movieFileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                        if (fileIdMatch && fileIdMatch[1]) {
-                            const fileId = fileIdMatch[1];
-                            
-                            // FIXED: Added missing forward slash and fixed endpoint URL interpolation parameters
-                            const proxyUrl = "https://allorigins.win" + encodeURIComponent(`https://google.com{fileId}`);
-                            
-                            fetch(proxyUrl)
-                                .then(res => {
-                                    if (!res.ok) throw new Error("Proxy connection failed.");
-                                    return res.json();
-                                })
-                                .then(proxyData => {
-                                    const htmlText = proxyData.contents;
-                                    const tokenMatch = htmlText.match(/confirm=([a-zA-Z0-9_-]+)/);
-                                    
-                                    // FIXED: Rewrote path string to point straight to the actual Google Docs download engine
-                                    let finalDownloadUrl = `https://google.com{fileId}`;
-                                    if (tokenMatch && tokenMatch[1]) {
-                                        finalDownloadUrl += `&confirm=${tokenMatch[1]}`;
-                                    }
-                                    
-                                    executeBinaryChunker(finalDownloadUrl, movieTitle);
-                                })
-                                .catch(err => {
-                                    titleElement.innerText = "Token Handshake Failed";
-                                    statusElement.innerText = "Could not reach verification proxy server.";
-                                    console.error(err);
-                                });
-                            return; 
+                if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+                    // DYNAMIC REWRITER FOR INTERNET ARCHIVE LINKS:
+                    // If you accidentally paste the details page link, this converts it to a raw stream link dynamically
+                    if (movieFileUrl.includes("archive.org/details/")) {
+                        movieFileUrl = movieFileUrl.replace("archive.org/details/", "archive.org/download/");
+                        
+                        // If the link doesn't end with .mp4 already, append the file name to complete the path track
+                        const identifier = movieFileUrl.split('/').filter(Boolean).pop();
+                        if (!movieFileUrl.toLowerCase().endsWith('.mp4')) {
+                            movieFileUrl = `${movieFileUrl}/${identifier}.mp4`;
                         }
                     }
 
-                    // Fallback for non-Google direct links
-                    executeBinaryChunker(movieFileUrl, movieTitle);
+                    // Feed raw video streaming asset straight to video tag canvas
+                    player.src = movieFileUrl;
+                    player.load(); // Boots immediate stream allocations inside player engine
+                } else {
+                    titleElement.innerText = "No video link provided.";
                 }
-            });
-        });
 
-        // --- CORE BINARY STREAM COMPILER ENGINE ---
-        function executeBinaryChunker(targetUrl, movieTitle) {
-            fetch(targetUrl)
-                .then(response => {
-                    if (!response.ok) throw new Error("Connection dropped by target network gateway.");
-                    
-                    const contentLength = response.headers.get('content-length');
-                    if (!contentLength) {
-                        statusElement.innerText = "Buffering data payload blocks...";
-                        return response.blob();
-                    }
-
-                    const totalBytes = parseInt(contentLength, 10);
-                    let loadedBytes = 0;
-                    const reader = response.body.getReader();
-
-                    return new Response(
-                        new ReadableStream({
-                            start(controller) {
-                                function read() {
-                                    reader.read().then(({ done, value }) => {
-                                        if (done) {
-                                            controller.close();
-                                            return;
-                                        }
-                                        loadedBytes += value.byteLength;
-                                        const pct = Math.round((loadedBytes / totalBytes) * 100);
-                                        statusElement.innerText = `Assembling unblocked video cache... ${pct}%`;
-                                        controller.enqueue(value);
-                                        read();
-                                    }).catch(err => controller.error(err));
-                                }
-                                read();
-                            }
-                        })
-                    ).blob();
-                })
-                .then(movieBlob => {
-                    if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
-
-                    activeBlobUrl = URL.createObjectURL(movieBlob);
-                    
-                    player.src = activeBlobUrl;
-                    player.load();
-                    
-                    titleElement.innerText = "Now Playing: " + (movieTitle || "Movie");
-                    statusElement.style.display = "none";
-                })
-                .catch(err => {
-                    titleElement.innerText = "Bypass System Interrupted";
-                    statusElement.innerText = "Error: Stream blocked by cross-origin policies (CORS) or network filters.";
-                    console.error(err);
-                });
-        }
-
-        function closeModalWindow() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-            player.pause();
-            player.src = "";
-            if (activeBlobUrl) {
-                URL.revokeObjectURL(activeBlobUrl);
-                activeBlobUrl = null;
+                // Present modal background backdrop view layers
+                modal.style.display = "flex";
+                document.body.style.overflow = "hidden"; // Freeze background window scaling tracks
             }
-            statusElement.style.display = "none";
-        }
-
-        closeBtn.addEventListener("click", closeModalWindow);
-        modal.addEventListener("click", function(e) {
-            if (e.target === modal) closeModalWindow();
         });
     });
+
+    // Close configuration function execution sequence
+    function closeModalWindow() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
+        player.pause();
+        player.src = ""; // Flushes layout link references out of browser memory buffer arrays
+    }
+
+    // Direct interface click listeners
+    closeBtn.addEventListener("click", closeModalWindow);
+    
+    // Background Dimmed Space Click dismiss layout rule
+    modal.addEventListener("click", function(e) {
+        if (e.target === modal) {
+            closeModalWindow();
+        }
+    });
+});
+
     </script>
 </body>
 </html>

@@ -1,145 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner - Movies</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your Style Sheet Link -->
-    <link rel="stylesheet" href="style.css?v=unified_spacing">
-    <!-- Loader Script -->
-    <script defer src="load.js"></script>
-</head>
-<body>
-    <!-- SIDEBAR LOADS HERE -->
-    <div id="sidebar-container"></div>
-    <!-- HEADER LOADS HERE -->
-    <div id="header-container"></div>
-
-    <!-- MAIN CONTENT ONLY -->
-    <div class="main">
-        <div class="hero">
-            <h1>Movies</h1>
-            <p>Grab your popcorn!</p>
-        </div>
-
-        <!-- FEATURED WIDESCREEN CINEMA BOX -->
-        <div class="featured-theater-block">
-            <div class="theater-display-screen">
-                <!-- CHANGED TO IMAGE: Wide cinematic display artwork -->
-                <img src="coraline.jpeg" alt="Now Screening Feature" class="theater-img">
-            </div>
-            <div class="theater-display-details">
-                <span class="trending-badge">Host's Favorite</span>
-                <h2>Coraline</h2>
-                <p>Coraline is a masterfully-made claymation film about being carefful what you wish for "Because when you're scared but you still do it anyway, that's brave"</p>
-                <a href="watch.html?title=CORALINE&file=PASTE_LINK_HERE" class="watch-now-btn">Watch now</a>
-            </div>
-        </div>
-
-        <!-- SEARCH & MOVIE CATEGORY BAR -->
-        <div class="theater-filter-bar">
-            <input type="text" placeholder="Search movies..." class="movie-search-input">
-            <div class="movie-category-pills">
-                <span class="movie-pill active">All</span>
-                <span class="movie-pill">Comedy</span>
-                <span class="movie-pill">Animation</span>
-                <span class="movie-pill">Action</span>
-                <span class="movie-pill">Sci-Fi</span>
-                <span class="movie-pill">Horror</span>
-            </div>
-        </div>
-
-        <!-- AUTOMATED 6-COLUMN POSTER GRID (NO EXTRA CODES NEEDED) -->
-        <div class="movie-poster-grid">
-            <!-- CARD 1: BOSS BABY -->
-            <a href="watch.html?title=BOSS BABY&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="bossbaby.jpeg" alt="Boss Baby">
-                <div class="poster-info">
-                    <h3>Boss Baby</h3>
-                </div>
-            </a>
-            <!-- CARD 2: IRON LUNG -->
-            <a href="watch.html?title=Sonic the Hedgehog 3&file=https://archive.org/details/sonic3_202606" class="poster-card">
-                <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
-                <div class="poster-info">
-                    <h3>Sonic the Hedgehog 3</h3>
-                </div>
-            </a>
-            <!-- CARD 3: DUNE PART 1 -->
-            <a href="watch.html?title=DUNE PART 1&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="dune1.jpeg" alt="Dune Part 1">
-                <div class="poster-info">
-                    <h3>Dune Part 1</h3>
-                </div>
-            </a>
-            <!-- CARD 4: DUNE PART 2 -->
-            <a href="watch.html?title=DUNE PART 2&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="dune2.jpeg" alt="Dune Part 2">
-                <div class="poster-info">
-                    <h3>Dune Part 2</h3>
-                </div>
-            </a>
-            <!-- CARD 5: FINDING NEMO -->
-            <a href="watch.html?title=FINDING NEMO&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="findingnemo.jpeg" alt="Finding Nemo">
-                <div class="poster-info">
-                    <h3>Finding Nemo</h3>
-                </div>
-            </a>
-            <!-- CARD 6: CORALINE -->
-            <a href="watch.html?title=CORALINE&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="coraline2.jpeg" alt="Coraline">
-                <div class="poster-info">
-                    <h3>Coraline</h3>
-                </div>
-            </a>
-            <!-- CARD 7: BACKROOMS -->
-            <a href="watch.html?title=BACKROOMS&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="backrooms.jpeg" alt="Backrooms">
-                <div class="poster-info">
-                    <h3>Backrooms</h3>
-                </div>
-            </a>
-            <!-- CARD 8: WHIPLASH -->
-            <a href="watch.html?title=WHIPLASH&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="posters/whiplash.png" alt="Whiplash">
-                <div class="poster-info">
-                    <h3>WHIPLASH</h3>
-                </div>
-            </a>
-            <!-- CARD 9: AGGRETSUKO -->
-            <a href="watch.html?title=AGGRETSUKO&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="posters/aggretsuko.png" alt="Aggretsuko">
-                <div class="poster-info">
-                    <h3>AGGRETSUKO</h3>
-                </div>
-            </a>
-            <!-- CARD 10: SPIDER-MAN: FAR FROM HOME -->
-            <a href="watch.html?title=SPIDER-MAN: FAR FROM HOME&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="posters/spiderman.png" alt="Spider-Man: Far From Home">
-                <div class="poster-info">
-                    <h3>SPIDER-MAN: FAR FROM HOME</h3>
-                </div>
-            </a>
-            <!-- CARD 11: MICHAEL -->
-            <a href="watch.html?title=MICHAEL&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="posters/michael.png" alt="Michael">
-                <div class="poster-info">
-                    <h3>MICHAEL</h3>
-                </div>
-            </a>
-            <!-- CARD 12: THE MATRIX REBOOT -->
-            <a href="watch.html?title=THE MATRIX REBOOT&file=PASTE_LINK_HERE" class="poster-card">
-                <img src="posters/matrix.png" alt="The Matrix Reboot">
-                <div class="poster-info">
-                    <h3>THE MATRIX REBOOT</h3>
-                </div>
-            </a>
-        </div>
-    </div>
-       <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+    <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
     <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
         <!-- Modal Inner Card Content Window Box -->
         <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
@@ -150,94 +9,174 @@
             <!-- Movie Header Title Block -->
             <div class="hero" style="padding: 0 0 15px 0;">
                 <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
-                <!-- Loading Progress Indicator Track -->
-                <p id="loading-status" style="color: #ff69b4; font-size: 0.9rem; margin: 5px 0 0 0; font-weight: bold; display: none;">Bypassing firewall filters... 0%</p>
             </div>
 
-            <!-- Video HTML5 Native Player Element Canvas -->
-            <div class="movie-player-wrapper" style="position: relative;">
-                <video id="dynamic-player" controls preload="metadata" style="width: 100%; border-radius: 12px; max-height: 65vh; background: #000; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
-                    Your browser does not support the video tag.
-                </video>
+            <!-- HIDDEN SANDBOX CANVAS FRAME (Reads your custom data URI format perfectly) -->
+            <div class="movie-player-wrapper" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+                <iframe id="dynamic-player" src="" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- FIREWALL BYPASSING BLOB CHUNKER SCRIPT -->
+    <!-- CLOAKED EMBED INTERCEPTOR ENGINE -->
     <script>
- <!-- CODE INTERCEPTOR & MODAL ROUTING SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const modal = document.getElementById("movie-modal");
-    const titleElement = document.getElementById("dynamic-title");
-    const player = document.getElementById("dynamic-player"); // Native HTML5 <video> tag
-    const closeBtn = document.getElementById("close-modal-btn");
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("movie-modal");
+        const titleElement = document.getElementById("dynamic-title");
+        const player = document.getElementById("dynamic-player"); 
+        const closeBtn = document.getElementById("close-modal-btn");
 
-    // Grab all movie trigger targets (Widescreen Feature button + Poster card links)
-    const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+        const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
 
-    movieLinks.forEach(link => {
-        link.addEventListener("click", function(e) {
-            e.preventDefault(); // Stop secondary tab/window redirection completely
+        movieLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault(); // Block standard window/tab redirect actions
 
-            const hrefAttr = this.getAttribute("href");
-            if (hrefAttr && hrefAttr.includes("watch.html")) {
-                // Extract data parameters out of URL query string array
-                const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
-                const movieTitle = urlData.get('title');
-                let movieFileUrl = urlData.get('file');
+                const hrefAttr = this.getAttribute("href");
+                if (hrefAttr && hrefAttr.includes("watch.html")) {
+                    const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+                    const movieTitle = urlData.get('title');
+                    let movieFileUrl = urlData.get('file');
 
-                // Bind active title name straight inside internal interface framework
-                if (movieTitle) {
-                    titleElement.innerText = "Now Playing: " + movieTitle;
-                }
+                    if (movieTitle) {
+                        titleElement.innerText = "Now Playing: " + movieTitle;
+                    }
+                    
+                    if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+                        // AUTOMATED DATA-URI CONVERTER:
+                        // Scrapes out the target link tokens and wraps them in your invisible template layout
+                        if (movieFileUrl.includes("archive.org")) {
+                            let identifier = "";
+                            
+                            if (movieFileUrl.includes("/details/")) {
+                                identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
+                            } else if (movieFileUrl.includes("/download/")) {
+                                identifier = movieFileUrl.split("/download/")[1].split("/")[0];
+                            } else if (movieFileUrl.includes("/embed/")) {
+                                identifier = movieFileUrl.split("/embed/")[1].split(/[?#]/)[0];
+                            }
 
-                if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
-                    // DYNAMIC REWRITER FOR INTERNET ARCHIVE LINKS:
-                    // If you accidentally paste the details page link, this converts it to a raw stream link dynamically
-                    if (movieFileUrl.includes("archive.org/details/")) {
-                        movieFileUrl = movieFileUrl.replace("archive.org/details/", "archive.org/download/");
-                        
-                        // If the link doesn't end with .mp4 already, append the file name to complete the path track
-                        const identifier = movieFileUrl.split('/').filter(Boolean).pop();
-                        if (!movieFileUrl.toLowerCase().endsWith('.mp4')) {
-                            movieFileUrl = `${movieFileUrl}/${identifier}.mp4`;
+                            if (identifier) {
+                                // Encodes your unblocked iframe environment into pure localized variables
+                                movieFileUrl = `data:text/html,<html><body style="margin:0;overflow:hidden;"><iframe src="https://archive.org{identifier}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></body></html>`;
+                            }
                         }
+                        
+                        player.src = movieFileUrl; // Execute data track injection
+                    } else {
+                        titleElement.innerText = "No video link provided.";
                     }
 
-                    // Feed raw video streaming asset straight to video tag canvas
-                    player.src = movieFileUrl;
-                    player.load(); // Boots immediate stream allocations inside player engine
-                } else {
-                    titleElement.innerText = "No video link provided.";
+                    modal.style.display = "flex";
+                    document.body.style.overflow = "hidden"; // Freeze backdrop navigation rails
                 }
+            });
+        });
 
-                // Present modal background backdrop view layers
-                modal.style.display = "flex";
-                document.body.style.overflow = "hidden"; // Freeze background window scaling tracks
+        function closeModalWindow() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // Unlock page layout tracks
+            player.src = ""; // Instantly flushes the variable buffer data to stop playback tracks
+        }
+
+        closeBtn.addEventListener("click", closeModalWindow);
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                closeModalWindow();
             }
         });
     });
+    </script>
+</body>
+</html>
+    <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+    <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+        <!-- Modal Inner Card Content Window Box -->
+        <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
+            
+            <!-- X Close Button (Positioned at Top-Left per your layout image sketch) -->
+            <button id="close-modal-btn" style="position: absolute; top: -45px; left: 0; background: transparent; border: none; color: #ff69b4; font-size: 2.2rem; font-weight: bold; cursor: pointer; padding: 0; transition: transform 0.2s ease; line-height: 1;">✕</button>
+            
+            <!-- Movie Header Title Block -->
+            <div class="hero" style="padding: 0 0 15px 0;">
+                <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+            </div>
 
-    // Close configuration function execution sequence
-    function closeModalWindow() {
-        modal.style.display = "none";
-        document.body.style.overflow = "auto"; // Unlock base webpage panel navigation tracks
-        player.pause();
-        player.src = ""; // Flushes layout link references out of browser memory buffer arrays
-    }
+            <!-- HIDDEN SANDBOX CANVAS FRAME (Reads your custom data URI format perfectly) -->
+            <div class="movie-player-wrapper" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+                <iframe id="dynamic-player" src="" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;"></iframe>
+            </div>
+        </div>
+    </div>
 
-    // Direct interface click listeners
-    closeBtn.addEventListener("click", closeModalWindow);
-    
-    // Background Dimmed Space Click dismiss layout rule
-    modal.addEventListener("click", function(e) {
-        if (e.target === modal) {
-            closeModalWindow();
+    <!-- CLOAKED EMBED INTERCEPTOR ENGINE -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("movie-modal");
+        const titleElement = document.getElementById("dynamic-title");
+        const player = document.getElementById("dynamic-player"); 
+        const closeBtn = document.getElementById("close-modal-btn");
+
+        const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+
+        movieLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault(); // Block standard window/tab redirect actions
+
+                const hrefAttr = this.getAttribute("href");
+                if (hrefAttr && hrefAttr.includes("watch.html")) {
+                    const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+                    const movieTitle = urlData.get('title');
+                    let movieFileUrl = urlData.get('file');
+
+                    if (movieTitle) {
+                        titleElement.innerText = "Now Playing: " + movieTitle;
+                    }
+                    
+                    if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+                        // AUTOMATED DATA-URI CONVERTER:
+                        // Scrapes out the target link tokens and wraps them in your invisible template layout
+                        if (movieFileUrl.includes("archive.org")) {
+                            let identifier = "";
+                            
+                            if (movieFileUrl.includes("/details/")) {
+                                identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
+                            } else if (movieFileUrl.includes("/download/")) {
+                                identifier = movieFileUrl.split("/download/")[1].split("/")[0];
+                            } else if (movieFileUrl.includes("/embed/")) {
+                                identifier = movieFileUrl.split("/embed/")[1].split(/[?#]/)[0];
+                            }
+
+                            if (identifier) {
+                                // Encodes your unblocked iframe environment into pure localized variables
+                                movieFileUrl = `data:text/html,<html><body style="margin:0;overflow:hidden;"><iframe src="https://archive.org{identifier}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></body></html>`;
+                            }
+                        }
+                        
+                        player.src = movieFileUrl; // Execute data track injection
+                    } else {
+                        titleElement.innerText = "No video link provided.";
+                    }
+
+                    modal.style.display = "flex";
+                    document.body.style.overflow = "hidden"; // Freeze backdrop navigation rails
+                }
+            });
+        });
+
+        function closeModalWindow() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // Unlock page layout tracks
+            player.src = ""; // Instantly flushes the variable buffer data to stop playback tracks
         }
-    });
-});
 
+        closeBtn.addEventListener("click", closeModalWindow);
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) {
+                closeModalWindow();
+            }
+        });
+    });
     </script>
 </body>
 </html>

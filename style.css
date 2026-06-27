@@ -28,16 +28,42 @@ color: white;
 2. SCROLLBAR
 ==========================================================================
 */
+/* Custom Neon Needle Scrollbar System */
+
+/* 1. Base Container Dimensioning */
 ::-webkit-scrollbar {
-width: 10px;
+    width: 12px; /* Set slightly wider bounding box to safely pad the inner steps */
 }
+
+/* 2. Hidden Backdrop Track */
 ::-webkit-scrollbar-track {
-background: #1a0d17;
+    background: transparent; 
 }
+
+/* 3. The Stepped Needle Thumb (Matching your layout graphic precisely) */
 ::-webkit-scrollbar-thumb {
-background: #ff69b4;
-border-radius: 999px;
+    background: #c30083; /* Rich dark purple-pink base spine core */
+    background: linear-gradient(to right, #6b0047 0%, #ff1493 50%, #6b0047 100%); /* Simulates the vertical metallic reflection */
+    border-radius: 4px; /* Softly edges the capsule container ends */
+    
+    /* Transparent padding steps down the active visible layout handle size */
+    border-left: 4px solid transparent; 
+    border-right: 4px solid transparent;
+    border-top: 15px solid transparent; 
+    border-bottom: 15px solid transparent;
+    background-clip: padding-box; /* Constrains background fills strictly within the borders */
+    
+    box-shadow: 0 0 12px rgba(255, 20, 147, 0.6); /* Ambient highlight glow */
 }
+
+/* 4. Active Dragging Accent Shift */
+::-webkit-scrollbar-thumb:hover, 
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(to right, #a00062 0%, #ff69b4 50%, #a00062 100%);
+    border-left: 3px solid transparent; /* Expands slightly when grabbed */
+    border-right: 3px solid transparent;
+}
+
 /*
 ==========================================================================
 3. SIDEBAR NAVIGATION CONTROLS

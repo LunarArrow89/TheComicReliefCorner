@@ -955,3 +955,108 @@ text-overflow: clip;
         width: 100%;
     }
 }
+/* ==========================================================================
+12. GLOBAL TOP-RIGHT MINI FLOATING MEDIA PLAYER CONTROLLER
+========================================================================== */
+.global-mini-player {
+    position: fixed;
+    top: 95px; /* Sits perfectly right beneath your 80px master header line */
+    right: 25px;
+    width: 260px;
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.25);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.15), 0 8px 24px rgba(0, 0, 0, 0.6);
+    z-index: 2000; /* Stays floating safely over page items */
+    transition: all 0.3s ease;
+}
+
+/* Header line layout container */
+.mini-player-top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+/* Small rounded preview box matching your wireframe drawing */
+.mini-cover-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: #120910;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.mini-cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Title text block layout alignment */
+.mini-details-wrap {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mini-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Inline status cue text descriptor label */
+.mini-status-tag {
+    font-size: 0.7rem;
+    color: #ff69b4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* Mini custom action controls layer alignment button grid */
+.mini-btn {
+    background: transparent;
+    border: none;
+    color: #ff69b4;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.mini-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Underline tracker container line bar matching your wireframe sketch */
+.mini-progress-line-bar {
+    width: 100%;
+    height: 3px;
+    background: #120910;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* The neon needle fill line mapping time tracker status visually */
+.mini-progress-fill-node {
+    width: 35%; /* This element's percentage matches audio playback location */
+    height: 100%;
+    background: linear-gradient(to right, #ff1493, #ff69b4);
+    box-shadow: 0 0 8px #ff69b4;
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}

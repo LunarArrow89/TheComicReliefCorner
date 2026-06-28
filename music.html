@@ -1,106 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner - Music</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your CSS (Unified Spacing Architecture) -->
-    <link rel="stylesheet" href="style.css?v=unified_spacing">
-    <!-- Loader Script -->
-    <script defer src="load.js"></script>
-</head>
-<body>
-
-    <!-- SIDEBAR LOADS HERE -->
-    <div id="sidebar-container"></div>
-
-    <!-- HEADER LOADS HERE -->
-    <div id="header-container"></div>
-
-    <!-- MAIN CONTENT ONLY -->
-    <div class="main">
-        <div class="hero">
-            <h1>The Music Lounge</h1>
-            <p>Turn up the volume and vibeeeee.</p>
-        </div>
-
-        <!-- FEATURED BANNER PLAYER -->
-        <div class="featured-theater-block">
-            <div class="theater-display-screen">
-                <!-- Replace with your choice of GIF or Album Art -->
-                <img src="luna.gif" class="theater-img" alt="Album Art">
-            </div>
-            <div class="theater-display-details">
-                <span class="trending-badge">NOW STREAMING</span>
-                <h2>Lofi Beats for Coding</h2>
-                <p>The perfect soundtrack for building web pages one pixel at a time.</p>
-                
-                <!-- Native Audio Player styled to fit the layout -->
-                <audio controls class="music-audio-player">
-                    <source src="your-song.mp3" type="audio/mpeg">
-                    Your browser does not support audio playback!
-                </audio>
-            </div>
-        </div>
-
-        <!-- TRACK FILTER / SEARCH BAR -->
-        <div class="theater-filter-bar">
-            <input type="text" class="movie-search-input" placeholder="Search tracklist...">
-            <div class="movie-category-pills">
-                <span class="movie-pill active">All Songs</span>
-                <span class="movie-pill">8-Bit Gaming</span>
-                <span class="movie-pill">Chillwave</span>
-                <span class="movie-pill">Anime OSTs</span>
-            </div>
-        </div>
-
-        <!-- ALBUM/SONG GRID (Recycled from your Cinema layout) -->
-        <div class="movie-poster-grid">
+        <!-- UPDATED WIREFRAME LAYOUT -->
+        <div class="split-player-layout">
             
-            <!-- TRACK CARD 1 -->
-            <div class="poster-card">
-                <img src="https://placeholder.com" alt="Track Cover">
-                <div class="poster-info">
-                    <h3>Cyberpunk Dreams</h3>
+            <!-- LEFT COLUMN: Search + Square Grid -->
+            <div class="music-library-column">
+                
+                <!-- SEARCH BAR UNIT -->
+                <div class="music-search-wrap">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
                 </div>
-            </div>
 
-            <!-- TRACK CARD 2 -->
-            <div class="poster-card">
-                <img src="https://placeholder.com" alt="Track Cover">
-                <div class="poster-info">
-                    <h3>Synthwave Sunsets</h3>
-                </div>
-            </div>
+                <!-- SQUARE BUTTON GRID CONTAINER -->
+                <div class="square-song-grid">
+                    
+                    <!-- SQUARE TILE 1 -->
+                    <div class="square-song-tile active" data-src="song1.mp3" data-title="Cyberpunk Dreams" data-img="cover1.jpg">
+                        <div class="tile-art">
+                            <i class="fa-solid fa-play tile-play-overlay"></i>
+                            <img src="cover1.jpg" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Cyberpunk Dreams</p>
+                    </div>
 
-            <!-- TRACK CARD 3 -->
-            <div class="poster-card">
-                <img src="https://placeholder.com" alt="Track Cover">
-                <div class="poster-info">
-                    <h3>Pixel Adventure</h3>
-                </div>
-            </div>
+                    <!-- SQUARE TILE 2 -->
+                    <div class="square-song-tile" data-src="song2.mp3" data-title="Synthwave Sunsets" data-img="cover2.jpg">
+                        <div class="tile-art">
+                            <i class="fa-solid fa-play tile-play-overlay"></i>
+                            <img src="cover2.jpg" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Synthwave Sunsets</p>
+                    </div>
 
-            <!-- TRACK CARD 4 -->
-            <div class="poster-card">
-                <img src="https://placeholder.com" alt="Track Cover">
-                <div class="poster-info">
-                    <h3>Chill Code Vibes</h3>
-                </div>
-            </div>
+                    <!-- SQUARE TILE 3 -->
+                    <div class="square-song-tile" data-src="song3.mp3" data-title="Pixel Adventure" data-img="cover3.jpg">
+                        <div class="tile-art">
+                            <i class="fa-solid fa-play tile-play-overlay"></i>
+                            <img src="cover3.jpg" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Pixel Adventure</p>
+                    </div>
 
-            <!-- TRACK CARD 5 -->
-            <div class="poster-card">
-                <img src="https://placeholder.com" alt="Track Cover">
-                <div class="poster-info">
-                    <h3>Luna's Theme</h3>
+                    <!-- SQUARE TILE 4 -->
+                    <div class="square-song-tile" data-src="song4.mp3" data-title="Luna's Theme" data-img="cover4.jpg">
+                        <div class="tile-art">
+                            <i class="fa-solid fa-play tile-play-overlay"></i>
+                            <img src="cover4.jpg" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Luna's Theme</p>
+                    </div>
+
                 </div>
+
+            <!-- RIGHT COLUMN: Now Playing Showcase Box & Control Strip -->
+            <div class="now-playing-column">
+                
+                <!-- Main Showcase Display Box -->
+                <div class="showcase-box">
+                    <span class="showcase-header">Now Playing...</span>
+                    <div class="showcase-img-wrap">
+                        <img src="luna.gif" id="display-cover" alt="Song Image">
+                    </div>
+                    <h2 id="display-title" class="showcase-title">Cyberpunk Dreams</h2>
+                </div>
+
+                <!-- Custom Bottom Audio Control Bar -->
+                <div class="custom-control-bar">
+                    <div class="playback-btn-wrap">
+                        <button id="play-pause-btn" class="control-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                    <div class="progress-container">
+                        <span id="current-time-label" class="time-stamp">0:00</span>
+                        <input type="range" id="progress-slider" min="0" max="100" value="0">
+                    </div>
+                </div>
+
+                <!-- Hidden Master Audio Native Tag -->
+                <audio id="master-audio-element" src="song1.mp3"></audio>
+
             </div>
 
         </div>
-    </div>
-
-</body>
-</html>

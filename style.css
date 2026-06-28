@@ -690,3 +690,21 @@ text-overflow: clip;
 @media (max-width: 1200px) {
 .movie-poster-grid { grid-template-columns: repeat(5, 1fr); }
 }
+/* Custom Additions for Audio Player Control */
+.music-audio-player {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+    border-radius: 10px;
+    outline: none;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+}
+
+/* Optional custom style adjustment if you want track images square instead of movie ratio */
+.poster-card img {
+    transition: filter 0.3s ease;
+}
+
+.poster-card:hover img {
+    filter: brightness(0.8);
+}

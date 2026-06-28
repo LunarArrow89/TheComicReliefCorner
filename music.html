@@ -1,60 +1,87 @@
-        <!-- UPDATED WIREFRAME LAYOUT -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comic Relief Corner - Music</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Your Unified CSS -->
+    <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Loader Script -->
+    <script defer src="load.js"></script>
+</head>
+<body>
+
+    <!-- SIDEBAR LOADS HERE -->
+    <div id="sidebar-container"></div>
+
+    <!-- HEADER LOADS HERE -->
+    <div id="header-container"></div>
+
+    <!-- MAIN CONTENT MODULE -->
+    <div class="main">
+        
+        <div class="hero">
+            <h1>The Music Lounge</h1>
+            <p>Turn up the volume and vibe.</p>
+        </div>
+
+        <!-- SPLIT GRID ARCHITECTURE -->
         <div class="split-player-layout">
             
-            <!-- LEFT COLUMN: Search + Square Grid -->
+            <!-- LEFT COLUMN: SEARCH & SQUARE IMAGES -->
             <div class="music-library-column">
                 
-                <!-- SEARCH BAR UNIT -->
                 <div class="music-search-wrap">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                     <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
                 </div>
 
-                <!-- SQUARE BUTTON GRID CONTAINER -->
                 <div class="square-song-grid">
                     
-                    <!-- SQUARE TILE 1 -->
-                    <div class="square-song-tile active" data-src="song1.mp3" data-title="Cyberpunk Dreams" data-img="cover1.jpg">
+                    <!-- SONG TILE 1 -->
+                    <div class="square-song-tile active" data-src="song1.mp3" data-title="Cyberpunk Dreams" data-img="luna.gif">
                         <div class="tile-art">
                             <i class="fa-solid fa-play tile-play-overlay"></i>
-                            <img src="cover1.jpg" class="tile-img" alt="Track Cover">
+                            <img src="luna.gif" class="tile-img" alt="Track Cover">
                         </div>
                         <p class="tile-title">Cyberpunk Dreams</p>
                     </div>
 
-                    <!-- SQUARE TILE 2 -->
-                    <div class="square-song-tile" data-src="song2.mp3" data-title="Synthwave Sunsets" data-img="cover2.jpg">
+                    <!-- SONG TILE 2 -->
+                    <div class="square-song-tile" data-src="song2.mp3" data-title="Synthwave Sunsets" data-img="luna.gif">
                         <div class="tile-art">
                             <i class="fa-solid fa-play tile-play-overlay"></i>
-                            <img src="cover2.jpg" class="tile-img" alt="Track Cover">
+                            <img src="luna.gif" class="tile-img" alt="Track Cover">
                         </div>
                         <p class="tile-title">Synthwave Sunsets</p>
                     </div>
 
-                    <!-- SQUARE TILE 3 -->
-                    <div class="square-song-tile" data-src="song3.mp3" data-title="Pixel Adventure" data-img="cover3.jpg">
+                    <!-- SONG TILE 3 -->
+                    <div class="square-song-tile" data-src="song3.mp3" data-title="Pixel Adventure" data-img="luna.gif">
                         <div class="tile-art">
                             <i class="fa-solid fa-play tile-play-overlay"></i>
-                            <img src="cover3.jpg" class="tile-img" alt="Track Cover">
+                            <img src="luna.gif" class="tile-img" alt="Track Cover">
                         </div>
                         <p class="tile-title">Pixel Adventure</p>
                     </div>
 
-                    <!-- SQUARE TILE 4 -->
-                    <div class="square-song-tile" data-src="song4.mp3" data-title="Luna's Theme" data-img="cover4.jpg">
+                    <!-- SONG TILE 4 -->
+                    <div class="square-song-tile" data-src="song4.mp3" data-title="Luna's Theme" data-img="luna.gif">
                         <div class="tile-art">
                             <i class="fa-solid fa-play tile-play-overlay"></i>
-                            <img src="cover4.jpg" class="tile-img" alt="Track Cover">
+                            <img src="luna.gif" class="tile-img" alt="Track Cover">
                         </div>
                         <p class="tile-title">Luna's Theme</p>
                     </div>
 
                 </div>
+            </div> <!-- CLOSE LEFT COLUMN -->
 
-            <!-- RIGHT COLUMN: Now Playing Showcase Box & Control Strip -->
+            <!-- RIGHT COLUMN: NOW PLAYING WINDOW & TIMELINE -->
             <div class="now-playing-column">
                 
-                <!-- Main Showcase Display Box -->
                 <div class="showcase-box">
                     <span class="showcase-header">Now Playing...</span>
                     <div class="showcase-img-wrap">
@@ -63,7 +90,6 @@
                     <h2 id="display-title" class="showcase-title">Cyberpunk Dreams</h2>
                 </div>
 
-                <!-- Custom Bottom Audio Control Bar -->
                 <div class="custom-control-bar">
                     <div class="playback-btn-wrap">
                         <button id="play-pause-btn" class="control-btn">
@@ -76,9 +102,85 @@
                     </div>
                 </div>
 
-                <!-- Hidden Master Audio Native Tag -->
+                <!-- Hidden audio tag engine -->
                 <audio id="master-audio-element" src="song1.mp3"></audio>
 
-            </div>
+            </div> <!-- CLOSE RIGHT COLUMN -->
 
-        </div>
+        </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
+        
+    </div> <!-- CLOSE MAIN -->
+
+    <!-- PLAYBACK ENGINE SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const audio = document.getElementById("master-audio-element");
+            const playBtn = document.getElementById("play-pause-btn");
+            const slider = document.getElementById("progress-slider");
+            const timeLabel = document.getElementById("current-time-label");
+            const tiles = document.querySelectorAll(".square-song-tile");
+            const displayCover = document.getElementById("display-cover");
+            const displayTitle = document.getElementById("display-title");
+            const searchBox = document.getElementById("song-search");
+
+            // Play / Pause switch control
+            playBtn.addEventListener("click", () => {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                }
+            });
+
+            // Swap song details on click
+            tiles.forEach(tile => {
+                tile.addEventListener("click", () => {
+                    tiles.forEach(t => t.classList.remove("active"));
+                    tile.classList.add("active");
+
+                    const src = tile.getAttribute("data-src");
+                    const title = tile.getAttribute("data-title");
+                    const img = tile.getAttribute("data-img");
+
+                    audio.src = src;
+                    displayTitle.textContent = title;
+                    if(img) displayCover.src = img;
+
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                });
+            });
+
+            // Live progress tracker updates
+            audio.addEventListener("timeupdate", () => {
+                if (!isNaN(audio.duration)) {
+                    slider.value = (audio.currentTime / audio.duration) * 100;
+                    let mins = Math.floor(audio.currentTime / 60);
+                    let secs = Math.floor(audio.currentTime % 60);
+                    if (secs < 10) secs = '0' + secs;
+                    timeLabel.textContent = `${mins}:${secs}`;
+                }
+            });
+
+            slider.addEventListener("input", () => {
+                audio.currentTime = (slider.value / 100) * audio.duration;
+            });
+
+            // INSTANT SEARCH FUNCTIONALITY 🔍
+            searchBox.addEventListener("input", () => {
+                const query = searchBox.value.toLowerCase();
+                tiles.forEach(tile => {
+                    const titleText = tile.getAttribute("data-title").toLowerCase();
+                    if (titleText.includes(query)) {
+                        tile.style.display = "flex";
+                    } else {
+                        tile.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

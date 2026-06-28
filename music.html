@@ -1,18 +1,106 @@
-/* Custom Additions for Audio Player Control */
-.music-audio-player {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 10px;
-    border-radius: 10px;
-    outline: none;
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comic Relief Corner - Music</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Your CSS (Unified Spacing Architecture) -->
+    <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Loader Script -->
+    <script defer src="load.js"></script>
+</head>
+<body>
 
-/* Optional custom style adjustment if you want track images square instead of movie ratio */
-.poster-card img {
-    transition: filter 0.3s ease;
-}
+    <!-- SIDEBAR LOADS HERE -->
+    <div id="sidebar-container"></div>
 
-.poster-card:hover img {
-    filter: brightness(0.8);
-}
+    <!-- HEADER LOADS HERE -->
+    <div id="header-container"></div>
+
+    <!-- MAIN CONTENT ONLY -->
+    <div class="main">
+        <div class="hero">
+            <h1>The Music Lounge</h1>
+            <p>Turn up the volume and vibeeeee.</p>
+        </div>
+
+        <!-- FEATURED BANNER PLAYER -->
+        <div class="featured-theater-block">
+            <div class="theater-display-screen">
+                <!-- Replace with your choice of GIF or Album Art -->
+                <img src="luna.gif" class="theater-img" alt="Album Art">
+            </div>
+            <div class="theater-display-details">
+                <span class="trending-badge">NOW STREAMING</span>
+                <h2>Lofi Beats for Coding</h2>
+                <p>The perfect soundtrack for building web pages one pixel at a time.</p>
+                
+                <!-- Native Audio Player styled to fit the layout -->
+                <audio controls class="music-audio-player">
+                    <source src="your-song.mp3" type="audio/mpeg">
+                    Your browser does not support audio playback!
+                </audio>
+            </div>
+        </div>
+
+        <!-- TRACK FILTER / SEARCH BAR -->
+        <div class="theater-filter-bar">
+            <input type="text" class="movie-search-input" placeholder="Search tracklist...">
+            <div class="movie-category-pills">
+                <span class="movie-pill active">All Songs</span>
+                <span class="movie-pill">8-Bit Gaming</span>
+                <span class="movie-pill">Chillwave</span>
+                <span class="movie-pill">Anime OSTs</span>
+            </div>
+        </div>
+
+        <!-- ALBUM/SONG GRID (Recycled from your Cinema layout) -->
+        <div class="movie-poster-grid">
+            
+            <!-- TRACK CARD 1 -->
+            <div class="poster-card">
+                <img src="https://placeholder.com" alt="Track Cover">
+                <div class="poster-info">
+                    <h3>Cyberpunk Dreams</h3>
+                </div>
+            </div>
+
+            <!-- TRACK CARD 2 -->
+            <div class="poster-card">
+                <img src="https://placeholder.com" alt="Track Cover">
+                <div class="poster-info">
+                    <h3>Synthwave Sunsets</h3>
+                </div>
+            </div>
+
+            <!-- TRACK CARD 3 -->
+            <div class="poster-card">
+                <img src="https://placeholder.com" alt="Track Cover">
+                <div class="poster-info">
+                    <h3>Pixel Adventure</h3>
+                </div>
+            </div>
+
+            <!-- TRACK CARD 4 -->
+            <div class="poster-card">
+                <img src="https://placeholder.com" alt="Track Cover">
+                <div class="poster-info">
+                    <h3>Chill Code Vibes</h3>
+                </div>
+            </div>
+
+            <!-- TRACK CARD 5 -->
+            <div class="poster-card">
+                <img src="https://placeholder.com" alt="Track Cover">
+                <div class="poster-info">
+                    <h3>Luna's Theme</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

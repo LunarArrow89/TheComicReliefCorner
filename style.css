@@ -708,3 +708,250 @@ text-overflow: clip;
 .poster-card:hover img {
     filter: brightness(0.8);
 }
+/* ==========================================================================
+11. SPLIT COLUMN MUSIC INTERFACE DESIGN (WITH SQUARE IMAGE GRID)
+========================================================================== */
+.split-player-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 25px;
+    width: 100%;
+}
+
+/* Left side container structure */
+.music-library-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Wireframe Search Bar Container Layout */
+.music-search-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.music-search-box {
+    width: 100%;
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 14px;
+    padding: 14px 20px 14px 45px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.music-search-box:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 12px rgba(255, 105, 180, 0.25);
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 105, 180, 0.6);
+}
+
+/* Square Card Layout Grid Framework */
+.square-song-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+/* Square Card Interactive Tile Base Style */
+.square-song-tile {
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    border-radius: 20px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.square-song-tile:hover,
+.square-song-tile.active {
+    transform: translateY(-5px);
+    border-color: #ff69b4;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+    background: #2a1825;
+}
+
+/* Inner 1:1 Aspect Box for Covers */
+.tile-art {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #120910;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Image scaling logic for your square graphics */
+.tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+/* Dim and scale image slightly when hovered */
+.square-song-tile:hover .tile-img {
+    filter: brightness(0.4) blur(1px);
+    transform: scale(1.05);
+}
+
+/* Hover overlay action button indicator */
+.tile-play-overlay {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #ff69b4;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.square-song-tile:hover .tile-play-overlay {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tile-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #e7e7e7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Right Column Architecture matching your previous wireframe layout */
+.now-playing-column {
+    width: 340px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.showcase-box {
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.showcase-header {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #aaa;
+    margin-bottom: 15px;
+    align-self: flex-start;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.showcase-img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #0a0509;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.showcase-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.showcase-title {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: 700;
+}
+
+.custom-control-bar {
+    background: #120910;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 14px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: #ff69b4;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.progress-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-stamp {
+    font-size: 0.8rem;
+    color: #aaa;
+    font-variant-numeric: tabular-nums;
+    min-width: 32px;
+}
+
+#progress-slider {
+    flex: 1;
+    accent-color: #ff69b4;
+    height: 4px;
+    cursor: pointer;
+}
+
+/* Responsiveness overrides for tablets/mobile screen sizes */
+@media (max-width: 900px) {
+    .split-player-layout {
+        flex-direction: column-reverse;
+    }
+    .now-playing-column {
+        width: 100%;
+    }
+}

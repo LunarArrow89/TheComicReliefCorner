@@ -20,188 +20,237 @@
     <div id="header-container"></div>
 
     <!-- MAIN INTERFACE SECTION BODY CONTENT -->
-<!-- MAIN CONTENT MODULE CONTAINER -->
-<div class="main">
-    <div class="hero">
-        <h1>The Music Lounge</h1>
-        <p>Turn up the volume, adjust your position, and lock the groove.</p>
-    </div>
-
-    <!-- SPLIT MATRIX PLAYBACK WRAPPER -->
-    <div class="split-player-layout">
-        
-        <!-- LEFT LAYOUT STREAM COLUMN: FILTERS & COVER MATRIX -->
-        <div class="music-library-column">
-            <div class="music-search-wrap">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
-            </div>
-
-            <div class="square-song-grid">
-                <!-- SONG TILE 1 -->
-                <div class="square-song-tile active" data-src="Popstar.mp4" data-title="Popstar Theme" data-img="popstar.jpeg">
-                    <div class="tile-art">
-                        <div class="tile-play-overlay-geo"></div>
-                        <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
-                    </div>
-                    <p class="tile-title">Popstar Theme</p>
-                </div>
-                
-                <!-- SONG TILE 2 -->
-                <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
-                    <div class="tile-art">
-                        <div class="tile-play-overlay-geo"></div>
-                        <img src="luna.gif" class="tile-img" alt="Track Cover">
-                    </div>
-                    <p class="tile-title">Synthwave Sunsets</p>
-                </div>
-            </div>
+    <div class="main">
+        <div class="hero">
+            <h1>The Music Lounge</h1>
+            <p>Turn up the volume, adjust your position, and lock the groove.</p>
         </div>
 
-        <!-- RIGHT LAYOUT STREAM COLUMN: THEATER SHOWCASE CORE MODULE -->
-        <div class="now-playing-column">
-            <div class="showcase-box">
-                <span class="showcase-header">Now Playing...</span>
-                <div class="showcase-img-wrap">
-                    <img src="popstar.jpeg" id="display-cover" alt="Song Image">
-                </div>
-                <h2 id="display-title" class="showcase-title">Popstar Theme</h2>
-            </div>
-
-            <!-- DECK BAR CONTROL STATIONS PANEL -->
-            <div class="custom-control-bar">
-                <div class="playback-btn-wrap">
-                    <button id="play-pause-btn" class="custom-geo-btn">
-                        <div id="btn-shape" class="play-state-shape triangle"></div>
-                    </button>
-                </div>
-                
-                <!-- INTERACTIVE TIMELINE POSITION SCRUBBER -->
-                <div class="progress-container">
-                    <span id="current-time-label" class="time-stamp">0:00</span>
-                    <input type="range" id="progress-slider" min="0" max="100" value="0">
+        <!-- SPLIT MATRIX PLAYBACK WRAPPER -->
+        <div class="split-player-layout">
+            
+            <!-- LEFT LAYOUT STREAM COLUMN: FILTERS & COVER MATRIX -->
+            <div class="music-library-column">
+                <div class="music-search-wrap">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
                 </div>
 
-                <!-- NEW LOOP SYSTEM TOGGLE NODE -->
-                <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
-                    <i class="fa-solid fa-repeat"></i>
-                </button>
-            </div>
-        </div>
+                <div class="square-song-grid">
+                    <!-- SONG TILE 1 -->
+                    <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
+                        <div class="tile-art">
+                            <div class="tile-play-overlay-geo"></div>
+                            <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Popstar Theme</p>
+                    </div>
+                    
+                    <!-- SONG TILE 2 -->
+                    <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
+                        <div class="tile-art">
+                            <div class="tile-play-overlay-geo"></div>
+                            <img src="luna.gif" class="tile-img" alt="Track Cover">
+                        </div>
+                        <p class="tile-title">Synthwave Sunsets</p>
+                    </div>
+                </div>
+            </div> <!-- CLOSE LEFT LAYOUT COLUMN -->
 
-    </div> 
-</div>
-                
-                <!-- SHOWCASE ART FRAME CONTAINER OBJECT -->
+            <!-- RIGHT LAYOUT STREAM COLUMN: THEATER SHOWCASE CORE MODULE -->
+            <div class="now-playing-column">
                 <div class="showcase-box">
                     <span class="showcase-header">Now Playing...</span>
                     <div class="showcase-img-wrap">
-                        <img src="luna.gif" id="display-cover" alt="Song Image">
+                        <img src="popstar.jpeg" id="display-cover" alt="Song Image">
                     </div>
-                    <h2 id="display-title" class="showcase-title">Cyberpunk Dreams</h2>
+                    <h2 id="display-title" class="showcase-title">Popstar Theme</h2>
                 </div>
 
-                <!-- DECK BAR SYSTEM COMPONENT ROW PANEL MODULE -->
+                <!-- DECK BAR CONTROL STATIONS PANEL -->
                 <div class="custom-control-bar">
                     <div class="playback-btn-wrap">
-                        <!-- GEOMETRIC PLAYBACK TOGGLER SYSTEM CONTROL CORE -->
                         <button id="play-pause-btn" class="custom-geo-btn">
                             <div id="btn-shape" class="play-state-shape triangle"></div>
                         </button>
                     </div>
+                    
+                    <!-- INTERACTIVE TIMELINE POSITION SCRUBBER -->
                     <div class="progress-container">
                         <span id="current-time-label" class="time-stamp">0:00</span>
                         <input type="range" id="progress-slider" min="0" max="100" value="0">
                     </div>
+
+                    <!-- TOGGLE LOOP MODE SYSTEM NODE -->
+                    <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
                 </div>
+            </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
 
-                <!-- HIDDEN BACKEND AUDIO MEDIA STREAM NODE CORE -->
-                <audio id="master-audio-element" src="https://soundhelix.com"></audio>
-
-            </div> <!-- CLOSE RIGHT LAYOUT MODULE ROW SCREEN -->
-
-        </div> <!-- CLOSE MAIN GRID SPLIT FLEXBOX CONTAINER UNIT -->
-        
-    </div> <!-- CLOSE PRIMARY VIEWPORT CONTENT MAIN PANEL CANVAS -->
-
-    <!-- CORE PLAYBACK CONTROL ARCHITECTURE JAVASCRIPT LOADER ENGINE -->
+        </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
+    </div> <!-- CLOSE MAIN -->
+    <!-- UNIVERSAL ARCHITECTURE CONTROL ENGINE SCRIPT -->
     <script>
+        // Use a window-bound master audio container instance so it stays globally persistent
+        window.audioEngine = window.audioEngine || new Audio();
+        window.isAudioLooping = window.isAudioLooping || false;
+
         document.addEventListener("DOMContentLoaded", () => {
-            const audio = document.getElementById("master-audio-element");
+            const audio = window.audioEngine;
             const playBtn = document.getElementById("play-pause-btn");
             const shape = document.getElementById("btn-shape");
             const slider = document.getElementById("progress-slider");
             const timeLabel = document.getElementById("current-time-label");
+            const loopBtn = document.getElementById("loop-toggle-btn");
             const tiles = document.querySelectorAll(".square-song-tile");
-            
             const displayCover = document.getElementById("display-cover");
             const displayTitle = document.getElementById("display-title");
             const searchBox = document.getElementById("song-search");
 
-            // Play / Pause Master Execution System Toggle Route
-            playBtn.addEventListener("click", () => {
-                if (audio.paused) {
-                    audio.play();
-                    shape.className = "play-state-shape pause-bars";
-                } else {
-                    audio.pause();
-                    shape.className = "play-state-shape triangle";
-                }
-            });
+            // Set initial stream tracker if completely empty
+            if (!audio.src && tiles.length > 0) {
+                audio.src = tiles[0].getAttribute("data-src");
+            }
 
-            // Tile Selection Node Click Controller Interceptor Loop
+            // Sync structural UI play status if audio is running out-of-tab
+            if (!audio.paused && shape) {
+                shape.className = "play-state-shape pause-bars";
+            }
+            if (window.isAudioLooping && loopBtn) {
+                loopBtn.classList.add("loop-active");
+            }
+
+            // Play / Pause Master Execution System Toggle
+            if (playBtn) {
+                playBtn.addEventListener("click", () => {
+                    if (audio.paused) {
+                        audio.play();
+                        if (shape) shape.className = "play-state-shape pause-bars";
+                    } else {
+                        audio.pause();
+                        if (shape) shape.className = "play-state-shape triangle";
+                    }
+                });
+            }
+
+            // Toggle Loop Engine Mode
+            if (loopBtn) {
+                loopBtn.addEventListener("click", () => {
+                    window.isAudioLooping = !window.isAudioLooping;
+                    audio.loop = window.isAudioLooping;
+                    loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+                });
+            }
+
+            // Position Timeline Location Track Scrubber Drag Router
+            if (slider) {
+                slider.addEventListener("input", () => {
+                    if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+                        audio.currentTime = (slider.value / 100) * audio.duration;
+                    }
+                });
+
+                // Main Clock Progress Bar Track Processing Update
+                audio.addEventListener("timeupdate", () => {
+                    if (!isNaN(audio.duration) && !slider.matches(":focus")) {
+                        slider.value = (audio.currentTime / audio.duration) * 100;
+                        let mins = Math.floor(audio.currentTime / 60);
+                        let secs = Math.floor(audio.currentTime % 60);
+                        if (secs < 10) secs = '0' + secs;
+                        if (timeLabel) timeLabel.textContent = mins + ":" + secs;
+                    }
+                });
+            }
+
+            // Grid Tile Selection Node Click Route Loader
             tiles.forEach(tile => {
                 tile.addEventListener("click", () => {
                     tiles.forEach(t => t.classList.remove("active"));
                     tile.classList.add("active");
 
-                    // Load Target Data Properties Meta Mapping Strings
                     const songSrc = tile.getAttribute("data-src");
                     const songTitle = tile.getAttribute("data-title");
                     const songImg = tile.getAttribute("data-img");
 
-                    // Target Node Inner Data Overwrites Redirection Routine
                     audio.src = songSrc;
-                    displayTitle.textContent = songTitle;
-                    if(songImg) displayCover.src = songImg;
+                    if (displayTitle) displayTitle.textContent = songTitle;
+                    if (displayCover && songImg) displayCover.src = songImg;
 
+                    audio.loop = window.isAudioLooping;
                     audio.play();
-                    shape.className = "play-state-shape pause-bars";
+                    if (shape) shape.className = "play-state-shape pause-bars";
                 });
             });
 
-            // Main Runtime Clock Stream Timeline Processing Calculation Core
-            audio.addEventListener("timeupdate", () => {
-                if (!isNaN(audio.duration)) {
-                    const progressPercent = (audio.currentTime / audio.duration) * 100;
-                    slider.value = progressPercent;
+            // Instant Live Search Bar Setup
+            if (searchBox) {
+                searchBox.addEventListener("input", () => {
+                    const query = searchBox.value.toLowerCase();
+                    tiles.forEach(tile => {
+                        const titleText = tile.getAttribute("data-title").toLowerCase();
+                        tile.style.display = titleText.includes(query) ? "flex" : "none";
+                    });
+                });
+            }
 
-                    // Display Value Digital Clock Node Format Render Engine Mapping
-                    let mins = Math.floor(audio.currentTime / 60);
-                    let secs = Math.floor(audio.currentTime % 60);
-                    if (secs < 10) secs = '0' + secs;
-                    timeLabel.textContent = `${mins}:${secs}`;
-                }
-            });
+            // DETACHED MULTI-TAB MINI-PLAYER AUTOMATION INJECTION ENGINE
+            function processMiniplayerVisibilities() {
+                const isInMusicTab = document.getElementById("song-search") !== null;
+                let miniPlayer = document.getElementById("shared-global-mini-deck");
 
-            // Manual Timeline Progress Navigation Input Core Controller Router
-            slider.addEventListener("input", () => {
-                const manualSeekTime = (slider.value / 100) * audio.duration;
-                audio.currentTime = manualSeekTime;
-            });
+                if (!isInMusicTab && !audio.paused) {
+                    if (!miniPlayer) {
+                        const currentImg = displayCover ? displayCover.src : "popstar.jpeg";
+                        const currentTitle = displayTitle ? displayTitle.textContent : "Popstar Theme";
 
-            // Instant Live Grid Title String Filter Text Search Engine Routine
-            searchBox.addEventListener("input", () => {
-                const stringQueryText = searchBox.value.toLowerCase();
-                tiles.forEach(tile => {
-                    const attributeTitle = tile.getAttribute("data-title").toLowerCase();
-                    if (attributeTitle.includes(stringQueryText)) {
-                        tile.style.display = "flex";
-                    } else {
-                        tile.style.display = "none";
+                        let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+                        markup += '  <div class="mini-player-top-row">';
+                        markup += '    <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
+                        markup += '    <div class="mini-details-wrap">';
+                        markup += '      <span class="mini-status-tag">Lounge Streaming</span>';
+                        markup += '      <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
+                        markup += '    </div>';
+                        markup += '    <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
+                        markup += '  </div>';
+                        markup += '  <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
+                        markup += '</div>';
+
+                        document.body.insertAdjacentHTML("beforeend", markup);
+                        miniPlayer = document.getElementById("shared-global-mini-deck");
+                        
+                        const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+                        if (miniPauseBtn) {
+                            miniPauseBtn.addEventListener("click", () => {
+                                if (!audio.paused) {
+                                    audio.pause();
+                                    miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                                } else {
+                                    audio.play();
+                                    miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                                }
+                            });
+                        }
                     }
-                });
-            });
+                    
+                    audio.addEventListener("timeupdate", () => {
+                        const fillNode = document.getElementById("mini-deck-fill");
+                        if (fillNode && !isNaN(audio.duration)) {
+                            fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+                        }
+                    });
+                } else if ((isInMusicTab || audio.paused) && miniPlayer) {
+                    miniPlayer.remove();
+                }
+            }
+
+            audio.addEventListener("pause", processMiniplayerVisibilities);
+            audio.addEventListener("play", processMiniplayerVisibilities);
+            
+            const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
+            const contentNode = document.querySelector(".main") || document.body;
+            pipelineObserver.observe(contentNode, { childList: true, subtree: true });
+            processMiniplayerVisibilities();
         });
     </script>
 </body>

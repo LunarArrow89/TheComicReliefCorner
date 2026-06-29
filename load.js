@@ -18,13 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
             fetch("sidebar.html")
                 .then(res => res.text())
-                .then(html => { sidebarWrap.innerHTML = html; })
+                .then(html => {
+                    sidebarWrap.innerHTML = html;
+                })
                 .catch(err => console.error("Error loading sidebar layout:", err));
         }
+
         if (headerWrap && headerWrap.innerHTML.trim() === "") {
             fetch("header.html")
                 .then(res => res.text())
-                .then(html => { 
+                .then(html => {
                     headerWrap.innerHTML = html;
                     executeSystemTimeTicks(); // Instantly update clock elements as soon as header mounts
                 })
@@ -37,15 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
     function executeSystemTimeTicks() {
         const timeBox = document.querySelector(".time-box");
         const dateBox = document.querySelector(".date-box");
-        
+
         if (timeBox || dateBox) {
             const now = new Date();
-            
+
             // Render hours and minutes string configurations cleanly
             if (timeBox) {
                 timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             }
-            
+
             // Format calendar matrix matching your deep plum visual headers
             if (dateBox) {
                 const choices = { month: 'short', day: 'numeric' };
@@ -56,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fire engines immediately on window compilation load loops
     executeGlobalTemplateLighter();
-    setInterval(executeSystemTimeTicks, 1000);
 
     // Core Music Interface Layout Element Mappings
     const playBtn = document.getElementById("play-pause-btn");
@@ -76,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playBtn && shape && !audio.paused) {
         shape.className = "play-state-shape pause-bars";
     }
+
     if (loopBtn && window.isAudioLooping) {
         loopBtn.classList.add("loop-active");
     }
@@ -121,9 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-/* ==========================================================================
-   PART 2: TILE SELECTION INTERCEPTORS, SEARCH MATRIX & MINIPLAYER INTERFACES
-   ========================================================================== */
+    /* ==========================================================================
+       PART 2: TILE SELECTION INTERCEPTORS, SEARCH MATRIX & MINIPLAYER INTERFACES
+       ========================================================================== */
 
     // Theater Deck Grid Song Tile Selection Router Loop
     tiles.forEach(tile => {
@@ -136,10 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const songImg = tile.getAttribute("data-img");
 
             audio.src = songSrc;
-            
+
             const displayTitleNode = document.getElementById("display-title");
             const displayCoverNode = document.getElementById("display-cover");
-            
+
             if (displayTitleNode) displayTitleNode.textContent = songTitle;
             if (displayCoverNode && songImg) displayCoverNode.src = songImg;
 
@@ -169,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!miniPlayer) {
                 const displayCoverNode = document.getElementById("display-cover");
                 const displayTitleNode = document.getElementById("display-title");
-                
                 const currentImg = displayCoverNode ? displayCoverNode.src : "popstar.jpeg";
                 const currentTitle = displayTitleNode ? displayTitleNode.textContent : "Popstar Theme";
 
@@ -209,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
                 }
             });
+
         } else if ((isInMusicTab || audio.paused) && miniPlayer) {
             miniPlayer.remove();
         }
@@ -218,18 +221,23 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.addEventListener("pause", processMiniplayerVisibilities);
     audio.addEventListener("play", processMiniplayerVisibilities);
 
-    // 🛠️ THE SYSTEM RECOVERY OBSERVER NODE
-    // Constantly checks the DOM for mutations. If navigation shifts or containers are cleared,
-    // it automatically triggers a hot reload of sidebar and header files instantly!
+    // 🛠️ THE SYSTEM RECOVERY OBSERVER NODE (Fixed Infinite Loop Configuration)
+    // Constantly checks the DOM for mutations safely by temporarily pausing its own listener.
     const pipelineObserver = new MutationObserver(() => {
+        // Disconnect to avoid catching mutations made by our own engine functions
+        pipelineObserver.disconnect();
+
         executeGlobalTemplateLighter();
         executeSystemTimeTicks();
         processMiniplayerVisibilities();
+
+        // Reconnect after updates finish executing
+        pipelineObserver.observe(document.body, { childList: true, subtree: true });
     });
-    
+
     // We target the root document element body so it captures structural updates on ANY tab
     pipelineObserver.observe(document.body, { childList: true, subtree: true });
-    
+
     // Initial runtime scan audit check on page compile
     processMiniplayerVisibilities();
 });

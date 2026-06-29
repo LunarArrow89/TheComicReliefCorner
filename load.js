@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PART 1: GLOBAL COMPONENT LOADER MODULE & PLAYER ENGINE HOOKS
+   PART 1: ASYNCHRONOUS COMPONENT LOADER & TARGET REAL-TIME CLOCK ENGINE
    ========================================================================== */
 
 // Mount variables onto global browser window namespace to survive async tab swaps
@@ -24,13 +24,39 @@ document.addEventListener("DOMContentLoaded", () => {
         if (headerWrap && headerWrap.innerHTML.trim() === "") {
             fetch("header.html")
                 .then(res => res.text())
-                .then(html => { headerWrap.innerHTML = html; })
+                .then(html => { 
+                    headerWrap.innerHTML = html;
+                    executeSystemTimeTicks(); // Instantly update clock elements as soon as header mounts
+                })
                 .catch(err => console.error("Error loading header layout:", err));
         }
     }
 
-    // Fire template engine immediately on compile
+    // 🕒 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK RENDER INTERVAL
+    // Direct selector mapping targeting your exact .time-box and .date-box template cards
+    function executeSystemTimeTicks() {
+        const timeBox = document.querySelector(".time-box");
+        const dateBox = document.querySelector(".date-box");
+        
+        if (timeBox || dateBox) {
+            const now = new Date();
+            
+            // Render hours and minutes string configurations cleanly
+            if (timeBox) {
+                timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+            
+            // Format calendar matrix matching your deep plum visual headers
+            if (dateBox) {
+                const choices = { month: 'short', day: 'numeric' };
+                dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
+            }
+        }
+    }
+
+    // Fire engines immediately on window compilation load loops
     executeGlobalTemplateLighter();
+    setInterval(executeSystemTimeTicks, 1000);
 
     // Core Music Interface Layout Element Mappings
     const playBtn = document.getElementById("play-pause-btn");
@@ -192,16 +218,18 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.addEventListener("pause", processMiniplayerVisibilities);
     audio.addEventListener("play", processMiniplayerVisibilities);
 
-    // Dynamic MutationObserver loop forces the layout reloader to execute template checks 
-    // every time load.js processes tab modifications or alters page contents!
+    // 🛠️ THE SYSTEM RECOVERY OBSERVER NODE
+    // Constantly checks the DOM for mutations. If navigation shifts or containers are cleared,
+    // it automatically triggers a hot reload of sidebar and header files instantly!
     const pipelineObserver = new MutationObserver(() => {
         executeGlobalTemplateLighter();
+        executeSystemTimeTicks();
         processMiniplayerVisibilities();
     });
     
-    const contentNode = document.body;
-    pipelineObserver.observe(contentNode, { childList: true, subtree: true });
+    // We target the root document element body so it captures structural updates on ANY tab
+    pipelineObserver.observe(document.body, { childList: true, subtree: true });
     
-    // Fire initial layout visibility scan audit on page mount compilation
+    // Initial runtime scan audit check on page compile
     processMiniplayerVisibilities();
 });

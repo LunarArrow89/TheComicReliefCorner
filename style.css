@@ -1182,3 +1182,40 @@ document.addEventListener("DOMContentLoaded", () => {
     pipelineObserver.observe(contentNode, { childList: true, subtree: true });
     processMiniplayerVisibilities();
 });
+/* ==========================================================================
+   13. MASTER ASYNCHRONOUS COMPONENT POSITIONING CONNECTOR PATCH
+   ========================================================================== */
+
+/* Anchor the structural landing target so the navigation stays locked left */
+#sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    z-index: 1100;
+}
+
+/* Ensure the fixed header panel expands and spans across your screen area */
+#header-container {
+    position: fixed;
+    top: 0;
+    left: 220px;
+    width: calc(100% - 220px);
+    height: 80px;
+    z-index: 1000;
+}
+
+/* Smooth fallback adjustments if screen viewports shrink down or fold */
+@media (max-width: 768px) {
+    #sidebar-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+    #header-container {
+        position: fixed;
+        left: 0;
+        width: 100%;
+    }
+}

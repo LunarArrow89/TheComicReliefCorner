@@ -20,69 +20,77 @@
     <div id="header-container"></div>
 
     <!-- MAIN INTERFACE SECTION BODY CONTENT -->
-    <div class="main">
+<!-- MAIN CONTENT MODULE CONTAINER -->
+<div class="main">
+    <div class="hero">
+        <h1>The Music Lounge</h1>
+        <p>Turn up the volume, adjust your position, and lock the groove.</p>
+    </div>
+
+    <!-- SPLIT MATRIX PLAYBACK WRAPPER -->
+    <div class="split-player-layout">
         
-        <div class="hero">
-            <h1>The Music Lounge</h1>
-            <p>Turn up the volume and vibe.</p>
+        <!-- LEFT LAYOUT STREAM COLUMN: FILTERS & COVER MATRIX -->
+        <div class="music-library-column">
+            <div class="music-search-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
+            </div>
+
+            <div class="square-song-grid">
+                <!-- SONG TILE 1 -->
+                <div class="square-song-tile active" data-src="Popstar.mp4" data-title="Popstar Theme" data-img="popstar.jpeg">
+                    <div class="tile-art">
+                        <div class="tile-play-overlay-geo"></div>
+                        <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
+                    </div>
+                    <p class="tile-title">Popstar Theme</p>
+                </div>
+                
+                <!-- SONG TILE 2 -->
+                <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
+                    <div class="tile-art">
+                        <div class="tile-play-overlay-geo"></div>
+                        <img src="luna.gif" class="tile-img" alt="Track Cover">
+                    </div>
+                    <p class="tile-title">Synthwave Sunsets</p>
+                </div>
+            </div>
         </div>
 
-        <!-- SPLIT MATRIX COLUMN VIEWPORT PLAYBACK WRAPPER -->
-        <div class="split-player-layout">
-            
-            <!-- LEFT LAYOUT STREAM COLUMN: FILTERS & COVER MATRIX -->
-            <div class="music-library-column">
+        <!-- RIGHT LAYOUT STREAM COLUMN: THEATER SHOWCASE CORE MODULE -->
+        <div class="now-playing-column">
+            <div class="showcase-box">
+                <span class="showcase-header">Now Playing...</span>
+                <div class="showcase-img-wrap">
+                    <img src="popstar.jpeg" id="display-cover" alt="Song Image">
+                </div>
+                <h2 id="display-title" class="showcase-title">Popstar Theme</h2>
+            </div>
+
+            <!-- DECK BAR CONTROL STATIONS PANEL -->
+            <div class="custom-control-bar">
+                <div class="playback-btn-wrap">
+                    <button id="play-pause-btn" class="custom-geo-btn">
+                        <div id="btn-shape" class="play-state-shape triangle"></div>
+                    </button>
+                </div>
                 
-                <!-- LIVE TEXT PATTERN FILTER ELEMENT CONTAINER -->
-                <div class="music-search-wrap">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
+                <!-- INTERACTIVE TIMELINE POSITION SCRUBBER -->
+                <div class="progress-container">
+                    <span id="current-time-label" class="time-stamp">0:00</span>
+                    <input type="range" id="progress-slider" min="0" max="100" value="0">
                 </div>
 
-                <!-- SQUARE GRID ITERATOR DISPLAY MATRICES -->
-                <div class="square-song-grid">
-                    
-                    <!-- MASTER GRID TRACK OBJECT ELEMENT ITEM 1 -->
-                    <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
-                        <div class="tile-art">
-                            <div class="tile-play-overlay-geo"></div>
-                            <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
-                        </div>
-                        <p class="tile-title">Popstar Theme</p>
-                    </div>
+                <!-- NEW LOOP SYSTEM TOGGLE NODE -->
+                <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
+                    <i class="fa-solid fa-repeat"></i>
+                </button>
+            </div>
+        </div>
 
-                    <!-- MASTER GRID TRACK OBJECT ELEMENT ITEM 2 -->
-                    <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
-                        <div class="tile-art">
-                            <div class="tile-play-overlay-geo"></div>
-                            <img src="luna.gif" class="tile-img" alt="Track Cover">
-                        </div>
-                        <p class="tile-title">Synthwave Sunsets</p>
-                    </div>
-
-                    <!-- MASTER GRID TRACK OBJECT ELEMENT ITEM 3 -->
-                    <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Pixel Adventure" data-img="luna.gif">
-                        <div class="tile-art">
-                            <div class="tile-play-overlay-geo"></div>
-                            <img src="luna.gif" class="tile-img" alt="Track Cover">
-                        </div>
-                        <p class="tile-title">Pixel Adventure</p>
-                    </div>
-
-                    <!-- MASTER GRID TRACK OBJECT ELEMENT ITEM 4 -->
-                    <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Luna's Theme" data-img="luna.gif">
-                        <div class="tile-art">
-                            <div class="tile-play-overlay-geo"></div>
-                            <img src="luna.gif" class="tile-img" alt="Track Cover">
-                        </div>
-                        <p class="tile-title">Luna's Theme</p>
-                    </div>
-
-                </div>
-            </div> <!-- CLOSE LEFT LAYOUT MATRIX COLUMN VIEWPORT -->
-
-            <!-- RIGHT LAYOUT STREAM COLUMN: THEATER SHOWCASE CORE MODULE -->
-            <div class="now-playing-column">
+    </div> 
+</div>
                 
                 <!-- SHOWCASE ART FRAME CONTAINER OBJECT -->
                 <div class="showcase-box">

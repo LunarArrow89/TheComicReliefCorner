@@ -6,44 +6,18 @@
     <title>The Comic Relief Corner - Music</title>
     <!-- Font Awesome Vectors -->
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your Style Sheet Link -->
+    <!-- Your Unified CSS Styling Engine -->
     <link rel="stylesheet" href="style.css?v=unified_spacing">
-    <!-- Loader Script Link -->
+    <!-- Loader Script Engine Link -->
     <script defer src="load.js"></script>
 </head>
 <body>
 
-    <!-- 1. FULL UNIFIED SIDEBAR NAVIGATION SHELL -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <!-- Animated Rotating Outer Accent Ring -->
-            <img src="ring.png" class="logo-ring" alt="Ring Accent">
-            <!-- Central Comic Relief Branding Graphic -->
-            <img src="logo.png" class="logo-image" alt="Comic Relief Logo">
-        </div>
-        
-        <a href="index.html" class="nav-btn">
-            <img src="home-icon.png" class="nav-icon-img" alt="Home"> Home
-        </a>
-        <a href="cinema.html" class="nav-btn">
-            <img src="cinema-icon.png" class="nav-icon-img" alt="Cinema"> Cinema
-        </a>
-        <a href="music.html" class="nav-btn" style="border-color: #ff69b4; background: #2a1825;">
-            <img src="music-icon.png" class="nav-icon-img" alt="Music" style="filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);"> 
-            <span style="color: #ff69b4; font-weight: bold;">Music</span>
-        </a>
-    </div>
+    <!-- TARGET LAYOUT MODULE BOX CONTAINERS (Referenced by component scripts) -->
+    <div id="sidebar-container"></div>
+    <div id="header-container"></div>
 
-    <!-- 2. FULL FIXED TOP HEADER SECTION PANELS -->
-    <div class="header">
-        <div class="time-box" id="global-clock-node">12:00 PM</div>
-        <div class="date-box" id="global-date-node">JUNE 29</div>
-        <div class="ticker-wrap">
-            <div class="ticker">✨ Welcome to the Comic Relief Corner Music Lounge! Select a track below to start streaming... ✨</div>
-        </div>
-    </div>
-
-    <!-- 3. CENTRAL MAIN WORKSPACE MODULE CANVAS -->
+    <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
     <div class="main">
         <div class="hero">
             <h1>The Music Lounge</h1>
@@ -81,7 +55,7 @@
                 </div>
             </div> <!-- CLOSE LEFT LAYOUT COLUMN -->
 
-            <!-- RIGHT COLUMN: NOW PLAYING THEATER WINDOW & TIMELINE SCRUBBER DECK -->
+            <!-- RIGHT COLUMN: NOW PLAYING THEATER WINDOW & TIMELINE DECK -->
             <div class="now-playing-column">
                 <div class="showcase-box">
                     <span class="showcase-header">Now Playing...</span>
@@ -91,7 +65,7 @@
                     <h2 id="display-title" class="showcase-title">Popstar Theme</h2>
                 </div>
 
-                <!-- SYSTEM DECK AUDIO CONTROLLER SYSTEM STRIP -->
+                <!-- DECK BAR SYSTEM COMPONENT PANEL ROW PANEL MODULE -->
                 <div class="custom-control-bar">
                     <div class="playback-btn-wrap">
                         <button id="play-pause-btn" class="custom-geo-btn">
@@ -112,11 +86,10 @@
                 </div>
             </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
 
-        </div> <!-- CLOSE SPLIT PLAYER LAYOUT FLUID MATRICES -->
+        </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
     </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
     <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
     <script>
-        // Mount variables onto the parent global browser window namespace to survive load.js swaps
         window.audioEngine = window.audioEngine || new Audio();
         window.isAudioLooping = window.isAudioLooping || false;
 
@@ -132,12 +105,26 @@
             const displayTitle = document.getElementById("display-title");
             const searchBox = document.getElementById("song-search");
 
-            // Safe fallback directory track parsing initializer
-            if (!audio.src && tiles.length > 0) {
-                audio.src = tiles[0].getAttribute("data-src");
+            // 🛠️ COMPONENT AUTO-LOADER FALLBACK PATCH
+            // If load.js wiped the page, fetch your real HTML component files right back into place!
+            const sidebarWrap = document.getElementById("sidebar-container");
+            const headerWrap = document.getElementById("header-container");
+
+            if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
+                fetch("sidebar.html")
+                    .then(res => res.text())
+                    .then(html => { sidebarWrap.innerHTML = html; });
+            }
+            if (headerWrap && headerWrap.innerHTML.trim() === "") {
+                fetch("header.html")
+                    .then(res => res.text())
+                    .then(html => { headerWrap.innerHTML = html; });
             }
 
-            // Sync visual button state indicators on render if music is already active from outside tabs
+            if (!audio.src && tiles.length > 0) {
+                audio.src = tiles.getAttribute("data-src");
+            }
+
             if (!audio.paused && shape) {
                 shape.className = "play-state-shape pause-bars";
             }
@@ -145,7 +132,6 @@
                 loopBtn.classList.add("loop-active");
             }
 
-            // Play / Pause Vector Morph Logic
             if (playBtn) {
                 playBtn.addEventListener("click", () => {
                     if (audio.paused) {
@@ -158,7 +144,6 @@
                 });
             }
 
-            // Toggle Audio Cycle Loops Control Engine
             if (loopBtn) {
                 loopBtn.addEventListener("click", () => {
                     window.isAudioLooping = !window.isAudioLooping;
@@ -167,7 +152,6 @@
                 });
             }
 
-            // Interactive Position Adjuster Slider Handler
             if (slider) {
                 slider.addEventListener("input", () => {
                     if (!isNaN(audio.duration) && isFinite(audio.duration)) {
@@ -175,7 +159,6 @@
                     }
                 });
 
-                // Continuous running song track clock timeline interval updates callback
                 audio.addEventListener("timeupdate", () => {
                     if (!isNaN(audio.duration) && !slider.matches(":focus")) {
                         slider.value = (audio.currentTime / audio.duration) * 100;
@@ -187,7 +170,6 @@
                 });
             }
 
-            // Song Grid Interactive Matrix Card Items Click Listener Router Loop
             tiles.forEach(tile => {
                 tile.addEventListener("click", () => {
                     tiles.forEach(t => t.classList.remove("active"));
@@ -207,7 +189,6 @@
                 });
             });
 
-            // Live Grid String Submatch Query Search Filter Lookups
             if (searchBox) {
                 searchBox.addEventListener("input", () => {
                     const query = searchBox.value.toLowerCase();
@@ -217,24 +198,6 @@
                     });
                 });
             }
-
-            // Header Accessory Support: Clock Panel Value Format String Mapping Engine
-            function executeSystemTimeTicks() {
-                const clockNode = document.getElementById("global-clock-node");
-                const dateNode = document.getElementById("global-date-node");
-                if (clockNode || dateNode) {
-                    const now = new Date();
-                    if (clockNode) {
-                        clockNode.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    }
-                    if (dateNode) {
-                        const options = { month: 'short', day: 'numeric' };
-                        dateNode.textContent = now.toLocaleDateString([], options).toUpperCase();
-                    }
-                }
-            }
-            setInterval(executeSystemTimeTicks, 1000);
-            executeSystemTimeTicks();
 
             // DETACHED AUTOMATIC TAB SWAP FLOATING MINIPLAYER WIDGET INJECTOR ROUTINE
             function processMiniplayerVisibilities() {

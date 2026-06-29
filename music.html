@@ -92,7 +92,6 @@
     </div> <!-- CLOSE MAIN -->
     <!-- UNIVERSAL ARCHITECTURE CONTROL ENGINE SCRIPT -->
     <script>
-        // Use a window-bound master audio container instance so it stays globally persistent
         window.audioEngine = window.audioEngine || new Audio();
         window.isAudioLooping = window.isAudioLooping || false;
 
@@ -108,12 +107,10 @@
             const displayTitle = document.getElementById("display-title");
             const searchBox = document.getElementById("song-search");
 
-            // Set initial stream tracker if completely empty
             if (!audio.src && tiles.length > 0) {
                 audio.src = tiles[0].getAttribute("data-src");
             }
 
-            // Sync structural UI play status if audio is running out-of-tab
             if (!audio.paused && shape) {
                 shape.className = "play-state-shape pause-bars";
             }
@@ -121,7 +118,6 @@
                 loopBtn.classList.add("loop-active");
             }
 
-            // Play / Pause Master Execution System Toggle
             if (playBtn) {
                 playBtn.addEventListener("click", () => {
                     if (audio.paused) {
@@ -134,7 +130,6 @@
                 });
             }
 
-            // Toggle Loop Engine Mode
             if (loopBtn) {
                 loopBtn.addEventListener("click", () => {
                     window.isAudioLooping = !window.isAudioLooping;
@@ -143,7 +138,6 @@
                 });
             }
 
-            // Position Timeline Location Track Scrubber Drag Router
             if (slider) {
                 slider.addEventListener("input", () => {
                     if (!isNaN(audio.duration) && isFinite(audio.duration)) {
@@ -151,7 +145,6 @@
                     }
                 });
 
-                // Main Clock Progress Bar Track Processing Update
                 audio.addEventListener("timeupdate", () => {
                     if (!isNaN(audio.duration) && !slider.matches(":focus")) {
                         slider.value = (audio.currentTime / audio.duration) * 100;
@@ -163,7 +156,6 @@
                 });
             }
 
-            // Grid Tile Selection Node Click Route Loader
             tiles.forEach(tile => {
                 tile.addEventListener("click", () => {
                     tiles.forEach(t => t.classList.remove("active"));
@@ -183,7 +175,6 @@
                 });
             });
 
-            // Instant Live Search Bar Setup
             if (searchBox) {
                 searchBox.addEventListener("input", () => {
                     const query = searchBox.value.toLowerCase();
@@ -194,7 +185,6 @@
                 });
             }
 
-            // DETACHED MULTI-TAB MINI-PLAYER AUTOMATION INJECTION ENGINE
             function processMiniplayerVisibilities() {
                 const isInMusicTab = document.getElementById("song-search") !== null;
                 let miniPlayer = document.getElementById("shared-global-mini-deck");

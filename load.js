@@ -1,11 +1,38 @@
-// UNIVERSAL STATE ENGINE INTERFACES
+/* ==========================================================================
+   PART 1: GLOBAL COMPONENT LOADER MODULE & PLAYER ENGINE HOOKS
+   ========================================================================== */
+
+// Mount variables onto global browser window namespace to survive async tab swaps
 window.audioEngine = window.audioEngine || new Audio();
 window.isAudioLooping = window.isAudioLooping || false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const audio = window.audioEngine;
-    
-    // Core Layout Element Mappings
+
+    // 🛠️ 1. GLOBAL ASYNCHRONOUS SIDENAV & HEADER LOADER ENGINE
+    // Automatically checks every single tab you visit and loads your clean component files
+    function executeGlobalTemplateLighter() {
+        const sidebarWrap = document.getElementById("sidebar-container");
+        const headerWrap = document.getElementById("header-container");
+
+        if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
+            fetch("sidebar.html")
+                .then(res => res.text())
+                .then(html => { sidebarWrap.innerHTML = html; })
+                .catch(err => console.error("Error loading sidebar layout:", err));
+        }
+        if (headerWrap && headerWrap.innerHTML.trim() === "") {
+            fetch("header.html")
+                .then(res => res.text())
+                .then(html => { headerWrap.innerHTML = html; })
+                .catch(err => console.error("Error loading header layout:", err));
+        }
+    }
+
+    // Fire template engine immediately on compile
+    executeGlobalTemplateLighter();
+
+    // Core Music Interface Layout Element Mappings
     const playBtn = document.getElementById("play-pause-btn");
     const shape = document.getElementById("btn-shape");
     const slider = document.getElementById("progress-slider");
@@ -14,33 +41,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const tiles = document.querySelectorAll(".square-song-tile");
     const searchBox = document.getElementById("song-search");
 
-    // Initialize Default Media Source if blank
+    // Initialize Default Media Directory Track if blank
     if (!audio.src && tiles.length > 0) {
         audio.src = tiles[0].getAttribute("data-src");
     }
 
-    // 1. DYNAMIC INITIALIZATION CHECKS 
-    // Synchronize UI if song is already running when tab opens
-    if (playBtn && shape) {
-        if (!audio.paused) {
-            shape.className = "play-state-shape pause-bars";
-        }
-        
+    // Synchronize UI visual states if track is already running out-of-tab
+    if (playBtn && shape && !audio.paused) {
+        shape.className = "play-state-shape pause-bars";
+    }
+    if (loopBtn && window.isAudioLooping) {
+        loopBtn.classList.add("loop-active");
+    }
+
+    // Dynamic Master Play / Pause Geometric Toggles
+    if (playBtn) {
         playBtn.addEventListener("click", () => {
             if (audio.paused) {
                 audio.play();
-                shape.className = "play-state-shape pause-bars";
+                if (shape) shape.className = "play-state-shape pause-bars";
             } else {
                 audio.pause();
-                shape.className = "play-state-shape triangle";
+                if (shape) shape.className = "play-state-shape triangle";
             }
         });
     }
 
-    // 2. TOGGLEABLE GROOVE LOOP ENGINE
+    // Toggle Groove Infinite Looping Modifiers
     if (loopBtn) {
-        if (window.isAudioLooping) loopBtn.classList.add("loop-active");
-        
         loopBtn.addEventListener("click", () => {
             window.isAudioLooping = !window.isAudioLooping;
             audio.loop = window.isAudioLooping;
@@ -48,36 +76,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. SEAMLESS RE-POSITIONING TIMELINE TRACK SCRUBBER
+    // Seamless Position Timeline Location Track Scrubber Input Controls
     if (slider) {
-        // Change audio location instantly on input adjustments or timeline clicks
         slider.addEventListener("input", () => {
             if (!isNaN(audio.duration) && isFinite(audio.duration)) {
                 audio.currentTime = (slider.value / 100) * audio.duration;
             }
         });
 
-        // Continuous state updater loop callback
         audio.addEventListener("timeupdate", () => {
             if (!isNaN(audio.duration) && !slider.matches(":focus")) {
                 slider.value = (audio.currentTime / audio.duration) * 100;
-                
                 let mins = Math.floor(audio.currentTime / 60);
                 let secs = Math.floor(audio.currentTime % 60);
-                timeLabel.textContent = `${mins}:${secs < 10 ? '0' + secs : secs}`;
+                if (timeLabel) {
+                    timeLabel.textContent = mins + ":" + (secs < 10 ? '0' + secs : secs);
+                }
             }
         });
     }
+/* ==========================================================================
+   PART 2: TILE SELECTION INTERCEPTORS, SEARCH MATRIX & MINIPLAYER INTERFACES
+   ========================================================================== */
 
-    // 4. THEATER DECK TILE LOAD INITIALIZER INTERCEPTORS
+    // Theater Deck Grid Song Tile Selection Router Loop
     tiles.forEach(tile => {
         tile.addEventListener("click", () => {
             tiles.forEach(t => t.classList.remove("active"));
             tile.classList.add("active");
 
-            audio.src = tile.getAttribute("data-src");
-            document.getElementById("display-title").textContent = tile.getAttribute("data-title");
-            document.getElementById("display-cover").src = tile.getAttribute("data-img");
+            const songSrc = tile.getAttribute("data-src");
+            const songTitle = tile.getAttribute("data-title");
+            const songImg = tile.getAttribute("data-img");
+
+            audio.src = songSrc;
+            
+            const displayTitleNode = document.getElementById("display-title");
+            const displayCoverNode = document.getElementById("display-cover");
+            
+            if (displayTitleNode) displayTitleNode.textContent = songTitle;
+            if (displayCoverNode && songImg) displayCoverNode.src = songImg;
 
             audio.loop = window.isAudioLooping;
             audio.play();
@@ -85,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 5. LIVE MATRIX INTERFACE LOOKUP STRING PATTERNS
+    // Instant Live String Pattern Query Search Filter Lookups
     if (searchBox) {
         searchBox.addEventListener("input", () => {
             const query = searchBox.value.toLowerCase();
@@ -96,63 +134,74 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 6. DETACHED MULTI-TAB MINI-PLAYER CORNER CORE RENDERS
-    // Automatically generates a global miniature container if it's missing on other routing layers
+    // DETACHED AUTOMATIC TAB SWAP FLOATING MINIPLAYER WIDGET INJECTOR ROUTINE
     function processMiniplayerVisibilities() {
-        // Detects if the current viewpoint tab is our master audio lounge viewport hub
         const isInMusicTab = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
 
         if (!isInMusicTab && !audio.paused) {
-            // Generate standard structural nodes dynamically if they aren't embedded directly into page headers
             if (!miniPlayer) {
-                const markup = `
-                    <div id="shared-global-mini-deck" class="global-mini-player">
-                        <div class="mini-player-top-row">
-                            <div class="mini-cover-wrap"><img id="mini-deck-img" src="${document.getElementById("display-cover")?.src || 'popstar.jpeg'}" alt="Mini Cover"></div>
-                            <div class="mini-details-wrap">
-                                <span class="mini-status-tag">Playing Outside Lounge</span>
-                                <p id="mini-deck-title" class="mini-title">${document.getElementById("display-title")?.textContent || 'Popstar Theme'}</p>
-                            </div>
-                            <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>
-                        </div>
-                        <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>
-                    </div>`;
+                const displayCoverNode = document.getElementById("display-cover");
+                const displayTitleNode = document.getElementById("display-title");
+                
+                const currentImg = displayCoverNode ? displayCoverNode.src : "popstar.jpeg";
+                const currentTitle = displayTitleNode ? displayTitleNode.textContent : "Popstar Theme";
+
+                let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+                markup += '  <div class="mini-player-top-row">';
+                markup += '    <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
+                markup += '    <div class="mini-details-wrap">';
+                markup += '      <span class="mini-status-tag">Playing Outside Lounge</span>';
+                markup += '      <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
+                markup += '    </div>';
+                markup += '    <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
+                markup += '  </div>';
+                markup += '  <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
+                markup += '</div>';
+
                 document.body.insertAdjacentHTML("beforeend", markup);
                 miniPlayer = document.getElementById("shared-global-mini-deck");
-                
-                // Active Mini Control Interactions Toggles
-                document.getElementById("mini-deck-pause-btn").addEventListener("click", () => {
-                    if (!audio.paused) {
-                        audio.pause();
-                        document.getElementById("mini-deck-pause-btn").innerHTML = '<i class="fa-solid fa-play"></i>';
-                    } else {
-                        audio.play();
-                        document.getElementById("mini-deck-pause-btn").innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    }
-                });
+
+                const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+                if (miniPauseBtn) {
+                    miniPauseBtn.addEventListener("click", () => {
+                        if (!audio.paused) {
+                            audio.pause();
+                            miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        } else {
+                            audio.play();
+                            miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                        }
+                    });
+                }
             }
-            
-            // Sync mini timeline fill lines node location intervals
+
+            // Sync mini progress timeline fill line node percentages
             audio.addEventListener("timeupdate", () => {
                 const fillNode = document.getElementById("mini-deck-fill");
                 if (fillNode && !isNaN(audio.duration)) {
-                    fillNode.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+                    fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
                 }
             });
         } else if ((isInMusicTab || audio.paused) && miniPlayer) {
-            // Remove float container elements cleanly if user runs back home to the primary playback panel
             miniPlayer.remove();
         }
     }
 
-    // Attach checking hooks into navigation state modifications listeners loops
+    // Attach visibility evaluation checking triggers to audio play stream parameters
     audio.addEventListener("pause", processMiniplayerVisibilities);
     audio.addEventListener("play", processMiniplayerVisibilities);
+
+    // Dynamic MutationObserver loop forces the layout reloader to execute template checks 
+    // every time load.js processes tab modifications or alters page contents!
+    const pipelineObserver = new MutationObserver(() => {
+        executeGlobalTemplateLighter();
+        processMiniplayerVisibilities();
+    });
     
-    // Execute a visibility frame rendering assessment every single time layout routing updates inside load.js
-    const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
-    const contentNode = document.querySelector(".main") || document.body;
+    const contentNode = document.body;
     pipelineObserver.observe(contentNode, { childList: true, subtree: true });
+    
+    // Fire initial layout visibility scan audit on page mount compilation
     processMiniplayerVisibilities();
 });

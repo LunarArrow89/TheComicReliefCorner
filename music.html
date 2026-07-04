@@ -90,173 +90,173 @@
     </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
     <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
     <script>
-        window.audioEngine = window.audioEngine || new Audio();
-        window.isAudioLooping = window.isAudioLooping || false;
+window.audioEngine = window.audioEngine || new Audio();
+window.isAudioLooping = window.isAudioLooping || false;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const audio = window.audioEngine;
-            const playBtn = document.getElementById("play-pause-btn");
-            const shape = document.getElementById("btn-shape");
-            const slider = document.getElementById("progress-slider");
-            const timeLabel = document.getElementById("current-time-label");
-            const loopBtn = document.getElementById("loop-toggle-btn");
-            const tiles = document.querySelectorAll(".square-song-tile");
-            const displayCover = document.getElementById("display-cover");
-            const displayTitle = document.getElementById("display-title");
-            const searchBox = document.getElementById("song-search");
+document.addEventListener("DOMContentLoaded", () => {
+  const audio = window.audioEngine;
+  const playBtn = document.getElementById("play-pause-btn");
+  const shape = document.getElementById("btn-shape");
+  const slider = document.getElementById("progress-slider");
+  const timeLabel = document.getElementById("current-time-label");
+  const loopBtn = document.getElementById("loop-toggle-btn");
+  const tiles = document.querySelectorAll(".square-song-tile");
+  const displayCover = document.getElementById("display-cover");
+  const displayTitle = document.getElementById("display-title");
+  const searchBox = document.getElementById("song-search");
 
-            // 🛠️ COMPONENT AUTO-LOADER FALLBACK PATCH
-            // If load.js wiped the page, fetch your real HTML component files right back into place!
-            const sidebarWrap = document.getElementById("sidebar-container");
-            const headerWrap = document.getElementById("header-container");
+  // COMPONENT AUTO-LOADER FALLBACK PATCH
+  const sidebarWrap = document.getElementById("sidebar-container");
+  const headerWrap = document.getElementById("header-container");
 
-            if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-                fetch("sidebar.html")
-                    .then(res => res.text())
-                    .then(html => { sidebarWrap.innerHTML = html; });
+  if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
+    fetch("sidebar.html")
+      .then(res => res.text())
+      .then(html => { sidebarWrap.innerHTML = html; });
+  }
+  if (headerWrap && headerWrap.innerHTML.trim() === "") {
+    fetch("header.html")
+      .then(res => res.text())
+      .then(html => { headerWrap.innerHTML = html; });
+  }
+
+  // FIX: Safe check on the first element of the NodeList collection
+  if (!audio.src && tiles.length > 0) {
+    audio.src = tiles[0].getAttribute("data-src");
+  }
+
+  if (!audio.paused && shape) {
+    shape.className = "play-state-shape pause-bars";
+  }
+
+  if (window.isAudioLooping && loopBtn) {
+    loopBtn.classList.add("loop-active");
+  }
+
+  if (playBtn) {
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        if (shape) shape.className = "play-state-shape pause-bars";
+      } else {
+        audio.pause();
+        if (shape) shape.className = "play-state-shape triangle";
+      }
+    });
+  }
+
+  // FIX: Re-synced loop state and forced Native Audio Node loop syncing
+  if (loopBtn) {
+    loopBtn.addEventListener("click", () => {
+      window.isAudioLooping = !window.isAudioLooping;
+      audio.loop = window.isAudioLooping; 
+      loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+    });
+  }
+
+  if (slider) {
+    const updateTimeFromSlider = () => {
+      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+        audio.currentTime = (slider.value / 100) * audio.duration;
+      }
+    };
+
+    slider.addEventListener("input", updateTimeFromSlider);
+    slider.addEventListener("change", updateTimeFromSlider);
+
+    audio.addEventListener("timeupdate", () => {
+      if (!isNaN(audio.duration) && !slider.matches(":focus")) {
+        slider.value = (audio.currentTime / audio.duration) * 100;
+        let mins = Math.floor(audio.currentTime / 60);
+        let secs = Math.floor(audio.currentTime % 60);
+        if (secs < 10) secs = '0' + secs;
+        if (timeLabel) timeLabel.textContent = mins + ":" + secs;
+      }
+    });
+  }
+
+  tiles.forEach(tile => {
+    tile.addEventListener("click", () => {
+      tiles.forEach(t => t.classList.remove("active"));
+      tile.classList.add("active");
+      const songSrc = tile.getAttribute("data-src");
+      const songTitle = tile.getAttribute("data-title");
+      const songImg = tile.getAttribute("data-img");
+      
+      audio.src = songSrc;
+      if (displayTitle) displayTitle.textContent = songTitle;
+      if (displayCover && songImg) displayCover.src = songImg;
+      
+      audio.loop = window.isAudioLooping;
+      audio.play();
+      if (shape) shape.className = "play-state-shape pause-bars";
+    });
+  });
+
+  if (searchBox) {
+    searchBox.addEventListener("input", () => {
+      const query = searchBox.value.toLowerCase();
+      tiles.forEach(tile => {
+        const titleText = tile.getAttribute("data-title").toLowerCase();
+        tile.style.display = titleText.includes(query) ? "flex" : "none";
+      });
+    });
+  }
+
+  function processMiniplayerVisibilities() {
+    const isInMusicTab = document.getElementById("song-search") !== null;
+    let miniPlayer = document.getElementById("shared-global-mini-deck");
+
+    if (!isInMusicTab && !audio.paused) {
+      if (!miniPlayer) {
+        const currentImg = displayCover ? displayCover.src : "popstar.jpeg";
+        const currentTitle = displayTitle ? displayTitle.textContent : "Popstar Theme";
+        let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+        markup += ' <div class="mini-player-top-row">';
+        markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
+        markup += ' <div class="mini-details-wrap">';
+        markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
+        markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
+        markup += ' </div>';
+        markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
+        markup += ' </div>';
+        markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
+        markup += '</div>';
+        document.body.insertAdjacentHTML("beforeend", markup);
+        miniPlayer = document.getElementById("shared-global-mini-deck");
+
+        const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+        if (miniPauseBtn) {
+          miniPauseBtn.addEventListener("click", () => {
+            if (!audio.paused) {
+              audio.pause();
+              miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            } else {
+              audio.play();
+              miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
             }
-            if (headerWrap && headerWrap.innerHTML.trim() === "") {
-                fetch("header.html")
-                    .then(res => res.text())
-                    .then(html => { headerWrap.innerHTML = html; });
-            }
+          });
+        }
+      }
+      
+      audio.addEventListener("timeupdate", () => {
+        const fillNode = document.getElementById("mini-deck-fill");
+        if (fillNode && !isNaN(audio.duration)) {
+          fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+        }
+      });
+    } else if ((isInMusicTab || audio.paused) && miniPlayer) {
+      miniPlayer.remove();
+    }
+  }
 
-            if (!audio.src && tiles.length > 0) {
-                audio.src = tiles.getAttribute("data-src");
-            }
+  audio.addEventListener("pause", processMiniplayerVisibilities);
+  audio.addEventListener("play", processMiniplayerVisibilities);
 
-            if (!audio.paused && shape) {
-                shape.className = "play-state-shape pause-bars";
-            }
-            if (window.isAudioLooping && loopBtn) {
-                loopBtn.classList.add("loop-active");
-            }
-
-            if (playBtn) {
-                playBtn.addEventListener("click", () => {
-                    if (audio.paused) {
-                        audio.play();
-                        if (shape) shape.className = "play-state-shape pause-bars";
-                    } else {
-                        audio.pause();
-                        if (shape) shape.className = "play-state-shape triangle";
-                    }
-                });
-            }
-
-            if (loopBtn) {
-                loopBtn.addEventListener("click", () => {
-                    window.isAudioLooping = !window.isAudioLooping;
-                    audio.loop = window.isAudioLooping;
-                    loopBtn.classList.toggle("loop-active", window.isAudioLooping);
-                });
-            }
-
-            if (slider) {
-                slider.addEventListener("input", () => {
-                    if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-                        audio.currentTime = (slider.value / 100) * audio.duration;
-                    }
-                });
-
-                audio.addEventListener("timeupdate", () => {
-                    if (!isNaN(audio.duration) && !slider.matches(":focus")) {
-                        slider.value = (audio.currentTime / audio.duration) * 100;
-                        let mins = Math.floor(audio.currentTime / 60);
-                        let secs = Math.floor(audio.currentTime % 60);
-                        if (secs < 10) secs = '0' + secs;
-                        if (timeLabel) timeLabel.textContent = mins + ":" + secs;
-                    }
-                });
-            }
-
-            tiles.forEach(tile => {
-                tile.addEventListener("click", () => {
-                    tiles.forEach(t => t.classList.remove("active"));
-                    tile.classList.add("active");
-
-                    const songSrc = tile.getAttribute("data-src");
-                    const songTitle = tile.getAttribute("data-title");
-                    const songImg = tile.getAttribute("data-img");
-
-                    audio.src = songSrc;
-                    if (displayTitle) displayTitle.textContent = songTitle;
-                    if (displayCover && songImg) displayCover.src = songImg;
-
-                    audio.loop = window.isAudioLooping;
-                    audio.play();
-                    if (shape) shape.className = "play-state-shape pause-bars";
-                });
-            });
-
-            if (searchBox) {
-                searchBox.addEventListener("input", () => {
-                    const query = searchBox.value.toLowerCase();
-                    tiles.forEach(tile => {
-                        const titleText = tile.getAttribute("data-title").toLowerCase();
-                        tile.style.display = titleText.includes(query) ? "flex" : "none";
-                    });
-                });
-            }
-
-            // DETACHED AUTOMATIC TAB SWAP FLOATING MINIPLAYER WIDGET INJECTOR ROUTINE
-            function processMiniplayerVisibilities() {
-                const isInMusicTab = document.getElementById("song-search") !== null;
-                let miniPlayer = document.getElementById("shared-global-mini-deck");
-
-                if (!isInMusicTab && !audio.paused) {
-                    if (!miniPlayer) {
-                        const currentImg = displayCover ? displayCover.src : "popstar.jpeg";
-                        const currentTitle = displayTitle ? displayTitle.textContent : "Popstar Theme";
-
-                        let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
-                        markup += '  <div class="mini-player-top-row">';
-                        markup += '    <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
-                        markup += '    <div class="mini-details-wrap">';
-                        markup += '      <span class="mini-status-tag">Lounge Streaming</span>';
-                        markup += '      <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
-                        markup += '    </div>';
-                        markup += '    <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
-                        markup += '  </div>';
-                        markup += '  <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
-                        markup += '</div>';
-
-                        document.body.insertAdjacentHTML("beforeend", markup);
-                        miniPlayer = document.getElementById("shared-global-mini-deck");
-                        
-                        const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
-                        if (miniPauseBtn) {
-                            miniPauseBtn.addEventListener("click", () => {
-                                if (!audio.paused) {
-                                    audio.pause();
-                                    miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                                } else {
-                                    audio.play();
-                                    miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                                }
-                            });
-                        }
-                    }
-                    
-                    audio.addEventListener("timeupdate", () => {
-                        const fillNode = document.getElementById("mini-deck-fill");
-                        if (fillNode && !isNaN(audio.duration)) {
-                            fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
-                        }
-                    });
-                } else if ((isInMusicTab || audio.paused) && miniPlayer) {
-                    miniPlayer.remove();
-                }
-            }
-
-            audio.addEventListener("pause", processMiniplayerVisibilities);
-            audio.addEventListener("play", processMiniplayerVisibilities);
-            
-            const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
-            const contentNode = document.body;
-            pipelineObserver.observe(contentNode, { childList: true, subtree: true });
-            processMiniplayerVisibilities();
-        });
+  const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
+  pipelineObserver.observe(document.body, { childList: true, subtree: true });
+  processMiniplayerVisibilities();
+});
     </script>
 </body>
 </html>

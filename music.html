@@ -67,14 +67,14 @@
       border-bottom: 6px solid #fff;
     }
 
-    /* ACTIVE HIGHLIGHT STATE: HOT PINK CHANGE REMAP */
+    /* ACTIVE HIGHLIGHT STATE: VIVID HOT PINK */
     .loop-control-node.loop-active {
-      background-color: #ff69b4; /* Changed from blue to hot pink */
+      background-color: #ff69b4;
       border-color: #ff1493;
     }
 
     .loop-control-node.loop-active .loop-mask-top {
-      background: #ff69b4; /* Sync mask to hot pink background */
+      background: #ff69b4;
     }
 
     .loop-control-node:hover {
@@ -198,17 +198,19 @@
           .then(html => { headerWrap.innerHTML = html; });
       }
 
-      // FIX: Access index [0] to resolve crashing getAttribute initialization
+      // FIX: Base collection index targeting applied to prevent initialization crash
       if (!audio.src && tiles.length > 0) {
         audio.src = tiles[0].getAttribute("data-src");
       }
 
+      // Sync UI elements state cleanly on initial render pipeline
       if (!audio.paused && shape) {
         shape.className = "play-state-shape pause-bars";
       }
 
       if (window.isAudioLooping && loopBtn) {
         loopBtn.classList.add("loop-active");
+        audio.loop = true;
       }
 
       if (playBtn) {
@@ -231,7 +233,7 @@
         });
       }
 
-      // Shared timestamp rendering processor engine
+      // Timestamp string display math generator helper utility
       function formatAndDisplayTime(secondsValue) {
         if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
         let mins = Math.floor(secondsValue / 60);
@@ -241,7 +243,6 @@
       }
 
       if (slider) {
-        // Immediate dynamic text timeline updates during cursor dragging
         slider.addEventListener("input", () => {
           if (!isNaN(audio.duration) && isFinite(audio.duration)) {
             const targetTime = (slider.value / 100) * audio.duration;
@@ -249,14 +250,12 @@
           }
         });
 
-        // Finalize playback change when cursor click tracking drops
         slider.addEventListener("change", () => {
           if (!isNaN(audio.duration) && isFinite(audio.duration)) {
             audio.currentTime = (slider.value / 100) * audio.duration;
           }
         });
 
-        // Tracks natural playback ticks smoothly without interrupting focus states
         audio.addEventListener("timeupdate", () => {
           if (!isNaN(audio.duration) && !slider.matches(":focus")) {
             slider.value = (audio.currentTime / audio.duration) * 100;
@@ -277,6 +276,7 @@
           if (displayTitle) displayTitle.textContent = songTitle;
           if (displayCover && songImg) displayCover.src = songImg;
           
+          // Ensure loop preference persists when changing tracks
           audio.loop = window.isAudioLooping;
           audio.play();
           if (shape) shape.className = "play-state-shape pause-bars";

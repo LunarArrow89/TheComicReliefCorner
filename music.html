@@ -67,14 +67,14 @@
       border-bottom: 6px solid #fff;
     }
 
-    /* Active Highlight States */
+    /* ACTIVE HIGHLIGHT STATE: HOT PINK CHANGE REMAP */
     .loop-control-node.loop-active {
-      background-color: #007bff;
-      border-color: #0056b3;
+      background-color: #ff69b4; /* Changed from blue to hot pink */
+      border-color: #ff1493;
     }
 
     .loop-control-node.loop-active .loop-mask-top {
-      background: #007bff;
+      background: #ff69b4; /* Sync mask to hot pink background */
     }
 
     .loop-control-node:hover {
@@ -82,7 +82,7 @@
     }
 
     .loop-control-node.loop-active:hover {
-      background-color: #0069d9;
+      background-color: #ff1493;
     }
   </style>
 </head>
@@ -198,7 +198,7 @@
           .then(html => { headerWrap.innerHTML = html; });
       }
 
-      // Safe initialization for first track 
+      // FIX: Access index [0] to resolve crashing getAttribute initialization
       if (!audio.src && tiles.length > 0) {
         audio.src = tiles[0].getAttribute("data-src");
       }

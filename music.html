@@ -10,6 +10,44 @@
   <script defer src="load.js"></script>
   
   <style>
+    /* MATCHING YOUR SKETCH MOCKUP STACK ORDER */
+    .showcase-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* Force the header or text below the image wrapper */
+    .showcase-img-wrap {
+      order: 1; /* Puts image first */
+      margin-bottom: 15px;
+    }
+
+    .showcase-title {
+      order: 2; /* Puts text directly beneath the image */
+      margin: 0;
+    }
+
+    /* Completely hide the header tag element from view */
+    .showcase-header {
+      display: none !important;
+    }
+
+    /* CONTROL DECK VISIBILITY MODIFIER */
+    .custom-control-bar {
+      display: none; /* Hidden by default until a track is chosen */
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    /* CSS Class triggered via JavaScript engine when a track becomes active */
+    .custom-control-bar.deck-visible {
+      display: flex !important;
+    }
+
     /* PURE HTML/CSS DRAWN LOOP ARROW BUTTON */
     .loop-control-node {
       background: #2a2a2a;
@@ -25,14 +63,12 @@
       position: relative;
     }
 
-    /* CSS Custom Arrow Layout */
     .loop-html-container {
       width: 22px;
       height: 16px;
       position: relative;
     }
 
-    /* The looping rectangular track body */
     .loop-track {
       position: absolute;
       top: 2px;
@@ -44,7 +80,6 @@
       background: transparent;
     }
 
-    /* Mask to cut a hole in the rectangle, turning it into an open loop */
     .loop-mask-top {
       position: absolute;
       top: 0px;
@@ -55,7 +90,6 @@
       transition: background 0.2s ease;
     }
 
-    /* Arrowhead shape built using pure CSS border geometries */
     .loop-arrowhead {
       position: absolute;
       top: -2px;
@@ -140,7 +174,7 @@
         </div>
 
         <!-- DECK BAR SYSTEM COMPONENT PANEL ROW PANEL MODULE -->
-        <div class="custom-control-bar">
+        <div id="control-deck-bar" class="custom-control-bar">
           <div class="playback-btn-wrap">
             <button id="play-pause-btn" class="custom-geo-btn">
               <div id="btn-shape" class="play-state-shape triangle"></div>
@@ -182,19 +216,24 @@
       const displayCover = document.getElementById("display-cover");
       const displayTitle = document.getElementById("display-title");
       const searchBox = document.getElementById("song-search");
+      const deckBar = document.getElementById("control-deck-bar");
 
       // Set up UI states based on active background stream status
-      if (!audio.paused && audio.src) {
+      if (!audio.paused && audio.src && audio.src !== window.location.href) {
         if (shape) shape.className = "play-state-shape pause-bars";
+        if (deckBar) deckBar.classList.add("deck-visible");
+        
         const activeTile = document.querySelector(".square-song-tile.active");
         if (activeTile) {
           if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
           if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
         }
       } else {
+        // Enforce your clean mockup illustration state on initial generation loops
         if (displayTitle) displayTitle.textContent = "No song is playing";
         if (displayCover) displayCover.src = "music-icon.png";
         if (shape) shape.className = "play-state-shape triangle";
+        if (deckBar) deckBar.classList.remove("deck-visible");
       }
 
       if (window.isAudioLooping && loopBtn) {
@@ -202,29 +241,10 @@
         audio.loop = true;
       }
 
-      // Master play controller connection
+      // Master play/pause controller connection
       if (playBtn) {
         playBtn.addEventListener("click", () => {
-          // If player has no asset seeded, pull down properties from active collection item
-          if (!audio.src) {
-            const currentSelected = document.querySelector(".square-song-tile.active") || tiles[0];
-            if (currentSelected) {
-              audio.src = currentSelected.getAttribute("data-src");
-              if (displayTitle) displayTitle.textContent = currentSelected.getAttribute("data-title");
-              if (displayCover) displayCover.src = currentSelected.getAttribute("data-img");
-            }
-          }
-
           if (audio.paused) {
-            // Restore song detail info text fields when shifting back out of default view mode
-            if (displayTitle && displayTitle.textContent === "No song is playing") {
-              const lastActive = document.querySelector(".square-song-tile.active") || tiles[0];
-              if (lastActive) {
-                displayTitle.textContent = lastActive.getAttribute("data-title");
-                displayCover.src = lastActive.getAttribute("data-img");
-                audio.src = lastActive.getAttribute("data-src");
-              }
-            }
             audio.play().catch(err => console.log("Playback failed:", err));
             if (shape) shape.className = "play-state-shape pause-bars";
           } else {
@@ -286,6 +306,9 @@
           if (displayTitle) displayTitle.textContent = songTitle;
           if (displayCover && songImg) displayCover.src = songImg;
 
+          // Reveal control deck container layout now that a track has been picked
+          if (deckBar) deckBar.classList.add("deck-visible");
+
           audio.loop = window.isAudioLooping;
           audio.play().catch(err => console.log("Tile play crash:", err));
           if (shape) shape.className = "play-state-shape pause-bars";
@@ -302,7 +325,6 @@
         });
       }
 
-      // Shared Global Mini Player Visibility Manager Engine Routine
       function processMiniplayerVisibilities() {
         const isInMusicTab = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");

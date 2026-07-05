@@ -57,7 +57,7 @@
  </div>
  </a>
  
- <!-- CARD 2: SONIC THE HEDGEHOG 3 -->
+ <!-- CARD 2: SONIC THE HEDGEHOG 3 (MEGA LINK) -->
  <a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz" class="poster-card">
  <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
  <div class="poster-info">
@@ -167,7 +167,7 @@
  </div>
  </div>
 
- <!-- CODE INTERCEPTOR & SRC-DOC CLOAKING SCRIPT -->
+ <!-- CODE INTERCEPTOR & BLANK-TAB CLOAKING SCRIPT -->
  <script>
  document.addEventListener("DOMContentLoaded", function() {
  const modal = document.getElementById("movie-modal");
@@ -213,29 +213,56 @@
  </body>
  </html>`;
  player.srcdoc = cloakedHTML; 
+ modal.style.display = "flex";
+ document.body.style.overflow = "hidden"; 
  }
- // CASE 2: MEGA.NZ INTERCEPTOR ENGINE
+ 
+ // CASE 2: SCHOOL BYPASS FOR MEGA.NZ (Cloaked Tab Engine)
  } else if (movieFileUrl.includes("mega.nz")) {
- player.removeAttribute("src");
+ // Suppress the modal overlay so it doesn't leave a loading screen on your site
+ modal.style.display = "none";
+ document.body.style.overflow = "auto";
+ 
+ // Ensure link uses structural embed format
  let correctMegaUrl = movieFileUrl.replace("/file/", "/embed/");
- const cloakedMegaHTML = `
+ 
+ // Open a blank browser frame context that extensions lose visibility over
+ const stealthWindow = window.open("about:blank", "_blank");
+ 
+ if (stealthWindow) {
+ stealthWindow.document.write(`
  <!DOCTYPE html>
- <html>
- <body style="margin:0; padding:0; background:#000; overflow:hidden;">
- <iframe src="${correctMegaUrl}" width="100%" height="100%" frameborder="0" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <title>Viewing Player: ${movieTitle || 'Movie'}</title>
+ <style>
+ html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+ iframe { width: 100%; height: 100%; border: none; }
+ </style>
+ </head>
+ <body>
+ <iframe src="${correctMegaUrl}" allowfullscreen></iframe>
  </body>
- </html>`;
- player.srcdoc = cloakedMegaHTML;
+ </html>
+ `);
+ stealthWindow.document.close();
+ } else {
+ alert("Pop-up blocked! Please click the icon in your address bar to allow pop-ups for this site.");
+ }
+
  // CASE 3: FALLBACK RUNTIME TRACKS
  } else {
  player.removeAttribute("srcdoc");
  player.src = movieFileUrl;
+ modal.style.display = "flex";
+ document.body.style.overflow = "hidden"; 
  }
  } else {
  titleElement.innerText = "No video link provided.";
- }
  modal.style.display = "flex";
  document.body.style.overflow = "hidden"; 
+ }
  }
  });
  });

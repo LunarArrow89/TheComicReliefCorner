@@ -1,286 +1,192 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Comic Relief Corner - Movies</title>
-<link rel="stylesheet" href="https://cloudflare.com">
-<link rel="stylesheet" href="style.css?v=unified_spacing">
-<script defer src="load.js"></script>
-</head>
-<body>
-<!-- SIDEBAR-->
-<div id="sidebar-container"></div>
-<!-- HEADER-->
-<div id="header-container"></div>
+  <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+  <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+    <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
+      
+      <!-- X Close Button -->
+      <button id="close-modal-btn" style="position: absolute; top: 15px; left: 20px; background: transparent; border: none; color: #ff69b4; font-size: 2rem; font-weight: bold; cursor: pointer; padding: 0; line-height: 1; z-index: 11000;">✕</button>
+      
+      <!-- Movie Header Title Block -->
+      <div class="hero" style="padding: 0 0 15px 40px;">
+        <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+      </div>
+      
+      <!-- NATIVE UNBLOCKED SHADOW WORKSPACE VIEWPORT LAYER -->
+      <div id="shadow-player-host" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+        <!-- Unblocked content frames inject programmatically right here -->
+      </div>
+    </div>
+  </div>
 
-<!--TITLE AND STUFF-->
-<div class="main">
-<div class="hero">
-<h1>Movies</h1>
-<p>Grab your popcorn!</p>
-</div>
-
-<!-- FEATURED WIDESCREEN CINEMA BOX -->
-<div class="featured-theater-block">
-<div class="theater-display-screen">
-<!-- CHANGED TO IMAGE: Wide cinematic display artwork -->
-<img src="coraline.jpeg" alt="Now Screening Feature" class="theater-img">
-</div>
-<div class="theater-display-details">
-<span class="trending-badge">Host's Favorite</span>
-<h2>Coraline</h2>
-
-<p>Coraline is a masterfully-made claymation film about being carefful what you wish for
-"Because when you're scared but you still do it anyway, that's brave"</p>
-<a href="watch.html?title=CORALINE&file=https://archive.org" class="watch-nowbtn">Watch now</a>
-</div>
-</div>
-
-<!-- SEARCH & MOVIE CATEGORY BAR -->
-<div class="theater-filter-bar">
-<input type="text" placeholder="Search movies..." class="movie-search-input">
-<div class="movie-category-pills">
-<span class="movie-pill active">All</span>
-<span class="movie-pill">Comedy</span>
-<span class="movie-pill">Animation</span>
-<span class="movie-pill">Action</span>
-<span class="movie-pill">Sci-Fi</span>
-<span class="movie-pill">Horror</span>
-</div>
-</div>
-
-<!-- AUTOMATED 6-COLUMN POSTER GRID (NO EXTRA CODES NEEDED) -->
-<div class="movie-poster-grid">
-<!-- CARD 1: BOSS BABY -->
-<a href="watch.html?title=BOSS BABY&file=https://archive.org" class="poster-card">
-<img src="bossbaby.jpeg" alt="Boss Baby">
-<div class="poster-info">
-<h3>Boss Baby</h3>
-</div>
-</a>
-<!-- CARD 2: IRON LUNG -->
-<a href="watch.html?title=Sonic the Hedgehog
-3&file=https://mega.nz/embed/Lp5GFITI#FW7wGVmNcW4zgja7Dl05v2MAEtk57mUzFdn8GrvTSVg"
-class="poster-card">
-
-<img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
-<div class="poster-info">
-<h3>Sonic the Hedgehog 3</h3>
-</div>
-</a>
-<!-- CARD 3: DUNE PART 1 -->
-<a href="watch.html?title=DUNE PART
-1&file=https://archive.org/details/dune.-2021.1080p.-blu-ray.x-264.-aac-5.1-yts.-mx" class="postercard">
-<img src="dune1.jpeg" alt="Dune Part 1">
-<div class="poster-info">
-<h3>Dune Part 1</h3>
-</div>
-</a>
-<!-- CARD 4: DUNE PART 2 -->
-<a href="watch.html?title=DUNE PART 2&file=https://archive.org" class="poster-card">
-<img src="dune2.jpeg" alt="Dune Part 2">
-<div class="poster-info">
-<h3>Dune Part 2</h3>
-</div>
-</a>
-<!-- CARD 5: FINDING NEMO -->
-<a href="watch.html?title=FINDING NEMO&file=https://archive.org" class="poster-card">
-<img src="findingnemo.jpeg" alt="Finding Nemo">
-<div class="poster-info">
-<h3>Finding Nemo</h3>
-</div>
-</a>
-<!-- CARD 6: CORALINE -->
-<a href="watch.html?title=CORALINE&file=https://archive.org" class="poster-card">
-<img src="swapped.png" alt="Coraline">
-<div class="poster-info">
-<h3>Coraline</h3>
-
-</div>
-</a>
-<!-- CARD 7: BACKROOMS -->
-<a href="watch.html?title=BACKROOMS&file=https://archive.org" class="poster-card">
-<img src="posters/backrooms.png" alt="Backrooms">
-<div class="poster-info">
-<h3>Backrooms</h3>
-</div>
-</a>
-<!-- CARD 8: WHIPLASH -->
-<a href="watch.html?title=WHIPLASH&file=https://archive.org" class="poster-card">
-<img src="posters/whiplash.png" alt="Whiplash">
-<div class="poster-info">
-<h3>Whiplash</h3>
-</div>
-</a>
-<!-- CARD 9: AGGRETSUKO -->
-<a href="watch.html?title=AGGRETSUKO&file=https://archive.org" class="poster-card">
-<img src="posters/aggretsuko.png" alt="Aggretsuko">
-<div class="poster-info">
-<h3>Aggretsuko</h3>
-</div>
-</a>
-<!-- CARD 10: SPIDER-MAN: FAR FROM HOME -->
-<a href="watch.html?title=SPIDER-MAN: FAR FROM HOME&file=https://archive.org"
-class="poster-card">
-<img src="posters/spiderman.png" alt="Spider-Man: Far From Home">
-<div class="poster-info">
-<h3>Spider-Man: Far From Home</h3>
-</div>
-</a>
-<!-- CARD 11: MICHAEL -->
-<a href="watch.html?title=MICHAEL&file=https://archive.org" class="poster-card">
-
-<img src="posters/michael.png" alt="Michael">
-<div class="poster-info">
-<h3>Michael</h3>
-</div>
-</a>
-<!-- CARD 12: THE MATRIX REBOOT -->
-<a href="watch.html?title=THE MATRIX REBOOT&file=https://archive.org" class="postercard">
-<img src="posters/matrix.png" alt="The Matrix Reboot">
-<div class="poster-info">
-<h3>The Matrix Reboot</h3>
-</div>
-</a>
-</div>
-</div>
-<!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
-<!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
-<div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height:
-100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items:
-center; justify-content: center;">
-<!-- Modal Inner Card Content Window Box -->
-<div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius:
-20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px
-rgba(0, 0, 0, 0.7);">
-
-<!-- X Close Button (Positioned at Top-Left per your layout image sketch) -->
-<button id="close-modal-btn" style="position: absolute; top: 15px; left: 20px; background:
-transparent; border: none; color: #ff69b4; font-size: 2rem; font-weight: bold; cursor: pointer;
-padding: 0; line-height: 1; z-index: 11000;">✕</button>
-
-<!-- Movie Header Title Block -->
-<div class="hero" style="padding: 0 0 15px 40px;">
-<h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px
-rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
-
-</div>
-
-<!-- DYNAMIC CLOAKING VIEWPORT CONTAINER -->
-<div class="movie-player-wrapper" style="position: relative; width: 100%; padding-top:
-56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px
-rgba(0,0,0,0.4);">
-<!-- Sandbox flags added to block cross-origin extensions from monitoring embedded
-frame assets -->
-<iframe id="dynamic-player" sandbox="allow-scripts allow-same-origin allow-forms"
-allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%;
-height: 100%; border: none; background: #000;"></iframe>
-</div>
-</div>
-</div>
-
-<!-- CODE INTERCEPTOR & SRC-DOC CLOAKING SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-const modal = document.getElementById("movie-modal");
-const titleElement = document.getElementById("dynamic-title");
-const player = document.getElementById("dynamic-player");
-const closeBtn = document.getElementById("close-modal-btn");
-
-// Scan document workspace for clickable card anchors
-const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
-
-movieLinks.forEach(link => {
-link.addEventListener("click", function(e) {
-e.preventDefault(); // Stop secondary tab/window navigation redirects entirely
-
-const hrefAttr = this.getAttribute("href");
-if (hrefAttr && hrefAttr.includes("watch.html")) {
-// Extract parameters from URL target arrays
-
-const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
-const movieTitle = urlData.get('title');
-let movieFileUrl = urlData.get('file');
-
-if (movieTitle) {
-titleElement.innerText = "Now Playing: " + movieTitle;
-}
-
-if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
-// AUTOMATED SRC-DOC ENCODER ENGINE:
-if (movieFileUrl.includes("archive.org")) {
-let identifier = "";
-
-if (movieFileUrl.includes("/details/")) {
-identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
-} else if (movieFileUrl.includes("/download/")) {
-identifier = movieFileUrl.split("/download/")[1].split("/")[0];
-} else if (movieFileUrl.includes("/embed/")) {
-identifier = movieFileUrl.split("/embed/")[1].split(/[?#]/)[0];
-} else {
-identifier = movieFileUrl.split('/').filter(Boolean).pop();
-}
-
-if (identifier) {
-player.removeAttribute("src"); // Clear memory references
-
-// FIXED: Removed the stray backslash so the template literal runs perfectly
-now!
-const cloakedHTML = `
-<!DOCTYPE html>
-<html>
-<body style="margin:0; padding:0; background:#000; overflow:hidden;">
-<iframe src="https://archive.org/embed/${identifier}"
-
-width="100%"
-height="100%"
-frameborder="0"
-webkitallowfullscreen="true"
-mozallowfullscreen="true"
-allowfullscreen
-style="position:absolute; top:0; left:0; width:100%; height:100%;
-border:none;">
-</iframe>
+  <!-- NATIVE COMPONENT ISOLATION Script ENGINE -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const modal = document.getElementById("movie-modal");
+      const titleElement = document.getElementById("dynamic-title");
+      const playerHost = document.getElementById("shadow-player-host"); 
+      const closeBtn = document.getElementById("close-modal-btn");
+      const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+      
+      // Initialize an isolated open shadow root domain inside your structural element block
+      const shadowContainer = playerHost.attachShadow({ mode: 'open' });
+      
+      movieLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault(); 
+          const hrefAttr = this.getAttribute("href");
+          
+          if (hrefAttr && hrefAttr.includes("watch.html")) {
+            const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+            const movieTitle = urlData.get('title');
+            let movieFileUrl = urlData.get('file');
+            
+            if (movieTitle) {
+              titleElement.innerText = "Now Playing: " + movieTitle;
+            }
+            
+            if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+              // Extract unique URL parameters safely
+              if (movieFileUrl.includes("archive.org") && !movieFileUrl.includes("/embed/")) {
+                let identifier = "";
+                if (movieFileUrl.includes("/details/")) {
+                  identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
+                } else if (movieFileUrl.includes("/download/")) {
+                  identifier = movieFileUrl.split("/download/")[1].split("/")[0];
+                } else {
+                  identifier = movieFileUrl.split('/').filter(Boolean).pop();
+                }
+                if (identifier) {
+                  movieFileUrl = `https://archive.org{identifier}`;
+                }
+              }
+              
+              // FIX: Build an unblocked sandbox-free streaming layout via the Shadow DOM context
+              shadowContainer.innerHTML = `
+                <iframe src="${movieFileUrl}" 
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture" 
+                        allowfullscreen 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;">
+                </iframe>
+              `;
+            } else {
+              titleElement.innerText = "No video link provided.";
+              shadowContainer.innerHTML = "";
+            }
+            
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; 
+          }
+        });
+      });
+      
+      function closeModalWindow() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; 
+        shadowContainer.innerHTML = ""; // Clear active browser stream cache instantly
+      }
+      
+      closeBtn.addEventListener("click", closeModalWindow);
+      modal.addEventListener("click", function(e) {
+        if (e.target === modal) {
+          closeModalWindow();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
-`;
+  <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+  <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+    <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
+      
+      <!-- X Close Button -->
+      <button id="close-modal-btn" style="position: absolute; top: 15px; left: 20px; background: transparent; border: none; color: #ff69b4; font-size: 2rem; font-weight: bold; cursor: pointer; padding: 0; line-height: 1; z-index: 11000;">✕</button>
+      
+      <!-- Movie Header Title Block -->
+      <div class="hero" style="padding: 0 0 15px 40px;">
+        <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
+      </div>
+      
+      <!-- NATIVE UNBLOCKED SHADOW WORKSPACE VIEWPORT LAYER -->
+      <div id="shadow-player-host" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
+        <!-- Unblocked content frames inject programmatically right here -->
+      </div>
+    </div>
+  </div>
 
-player.srcdoc = cloakedHTML; // Execute programmatic string assignment
-}
-} else {
-// Non-Archive fallback handling tracks
-player.removeAttribute("srcdoc");
-player.src = movieFileUrl;
-}
-} else {
-titleElement.innerText = "No video link provided.";
-}
-
-modal.style.display = "flex";
-document.body.style.overflow = "hidden"; // Freeze backdrop workspace scroll rails
-}
-});
-});
-
-// Close configuration function execution blocks
-function closeModalWindow() {
-modal.style.display = "none";
-
-document.body.style.overflow = "auto"; // Re-enable frame window navigation
-player.removeAttribute("srcdoc"); // Flushes the inline wrapper payload from cache memory
-player.src = ""; // Clears backup stream variable references
-}
-
-closeBtn.addEventListener("click", closeModalWindow);
-modal.addEventListener("click", function(e) {
-if (e.target === modal) {
-closeModalWindow();
-}
-});
-});
-</script>
+  <!-- NATIVE COMPONENT ISOLATION Script ENGINE -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const modal = document.getElementById("movie-modal");
+      const titleElement = document.getElementById("dynamic-title");
+      const playerHost = document.getElementById("shadow-player-host"); 
+      const closeBtn = document.getElementById("close-modal-btn");
+      const movieLinks = document.querySelectorAll(".watch-now-btn, .poster-card");
+      
+      // Initialize an isolated open shadow root domain inside your structural element block
+      const shadowContainer = playerHost.attachShadow({ mode: 'open' });
+      
+      movieLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault(); 
+          const hrefAttr = this.getAttribute("href");
+          
+          if (hrefAttr && hrefAttr.includes("watch.html")) {
+            const urlData = new URLSearchParams(hrefAttr.substring(hrefAttr.indexOf('?')));
+            const movieTitle = urlData.get('title');
+            let movieFileUrl = urlData.get('file');
+            
+            if (movieTitle) {
+              titleElement.innerText = "Now Playing: " + movieTitle;
+            }
+            
+            if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+              // Extract unique URL parameters safely
+              if (movieFileUrl.includes("archive.org") && !movieFileUrl.includes("/embed/")) {
+                let identifier = "";
+                if (movieFileUrl.includes("/details/")) {
+                  identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
+                } else if (movieFileUrl.includes("/download/")) {
+                  identifier = movieFileUrl.split("/download/")[1].split("/")[0];
+                } else {
+                  identifier = movieFileUrl.split('/').filter(Boolean).pop();
+                }
+                if (identifier) {
+                  movieFileUrl = `https://archive.org{identifier}`;
+                }
+              }
+              
+              // FIX: Build an unblocked sandbox-free streaming layout via the Shadow DOM context
+              shadowContainer.innerHTML = `
+                <iframe src="${movieFileUrl}" 
+                        allow="autoplay; fullscreen; encrypted-media; picture-in-picture" 
+                        allowfullscreen 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;">
+                </iframe>
+              `;
+            } else {
+              titleElement.innerText = "No video link provided.";
+              shadowContainer.innerHTML = "";
+            }
+            
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; 
+          }
+        });
+      });
+      
+      function closeModalWindow() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto"; 
+        shadowContainer.innerHTML = ""; // Clear active browser stream cache instantly
+      }
+      
+      closeBtn.addEventListener("click", closeModalWindow);
+      modal.addEventListener("click", function(e) {
+        if (e.target === modal) {
+          closeModalWindow();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
-
-

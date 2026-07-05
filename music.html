@@ -229,7 +229,6 @@
           if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
         }
       } else {
-        // Enforce your clean mockup illustration state on initial generation loops
         if (displayTitle) displayTitle.textContent = "No song is playing";
         if (displayCover) displayCover.src = "music-icon.png";
         if (shape) shape.className = "play-state-shape triangle";
@@ -262,6 +261,7 @@
         });
       }
 
+      // Shared timestamp UI text rendering helper utility function
       function formatAndDisplayTime(secondsValue) {
         if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
         let mins = Math.floor(secondsValue / 60);
@@ -272,6 +272,7 @@
       }
 
       if (slider) {
+        // FIX: Calculates and renders matching time stamps instantly while dragging slider handle
         slider.addEventListener("input", () => {
           if (!isNaN(audio.duration) && isFinite(audio.duration)) {
             const targetTime = (slider.value / 100) * audio.duration;
@@ -279,12 +280,14 @@
           }
         });
 
+        // Commits final position calculation directly into the audio player engine on release
         slider.addEventListener("change", () => {
           if (!isNaN(audio.duration) && isFinite(audio.duration)) {
             audio.currentTime = (slider.value / 100) * audio.duration;
           }
         });
 
+        // Tracks natural playback progression tick updates smoothly without stealing focus
         audio.addEventListener("timeupdate", () => {
           if (!isNaN(audio.duration) && !slider.matches(":focus")) {
             slider.value = (audio.currentTime / audio.duration) * 100;

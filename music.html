@@ -134,7 +134,6 @@
         <div class="showcase-box">
           <span class="showcase-header">Now Playing...</span>
           <div class="showcase-img-wrap">
-            <!-- DEFAULT INITIALIZED STATE MODIFIERS -->
             <img src="music-icon.png" id="display-cover" alt="Song Image">
           </div>
           <h2 id="display-title" class="showcase-title">No song is playing</h2>
@@ -184,37 +183,15 @@
       const displayTitle = document.getElementById("display-title");
       const searchBox = document.getElementById("song-search");
 
-      // COMPONENT AUTO-LOADER FALLBACK PATCH
-      const sidebarWrap = document.getElementById("sidebar-container");
-      const headerWrap = document.getElementById("header-container");
-
-      if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-        fetch("sidebar.html")
-          .then(res => res.text())
-          .then(html => { sidebarWrap.innerHTML = html; });
-      }
-      if (headerWrap && headerWrap.innerHTML.trim() === "") {
-        fetch("header.html")
-          .then(res => res.text())
-          .then(html => { headerWrap.innerHTML = html; });
-      }
-
-      // FIX: Array element targeted cleanly by index to prevent execution crashes
-      if (!audio.src && tiles.length > 0) {
-        audio.src = tiles[0].getAttribute("data-src");
-      }
-
-      // Restore active UI engine values during route tracking transitions
-      if (!audio.paused) {
+      // Set up UI states based on active background stream status
+      if (!audio.paused && audio.src) {
         if (shape) shape.className = "play-state-shape pause-bars";
-        
-        const currentActiveTile = document.querySelector(".square-song-tile.active");
-        if (currentActiveTile) {
-          if (displayTitle) displayTitle.textContent = currentActiveTile.getAttribute("data-title");
-          if (displayCover) displayCover.src = currentActiveTile.getAttribute("data-img");
+        const activeTile = document.querySelector(".square-song-tile.active");
+        if (activeTile) {
+          if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
+          if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
         }
       } else {
-        // Safe placeholder values applied strictly when page initializes completely blank
         if (displayTitle) displayTitle.textContent = "No song is playing";
         if (displayCover) displayCover.src = "music-icon.png";
         if (shape) shape.className = "play-state-shape triangle";
@@ -225,33 +202,32 @@
         audio.loop = true;
       }
 
+      // Master play controller connection
       if (playBtn) {
         playBtn.addEventListener("click", () => {
-          // Fallback seeding routine for active file path addresses
+          // If player has no asset seeded, pull down properties from active collection item
           if (!audio.src) {
-            const activeTile = document.querySelector(".square-song-tile.active") || tiles[0];
-            if (activeTile) {
-              audio.src = activeTile.getAttribute("data-src");
-              if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
-              if (displayCover) displayCover.src = activeTile.getAttribute("data-img") || "music-icon.png";
+            const currentSelected = document.querySelector(".square-song-tile.active") || tiles[0];
+            if (currentSelected) {
+              audio.src = currentSelected.getAttribute("data-src");
+              if (displayTitle) displayTitle.textContent = currentSelected.getAttribute("data-title");
+              if (displayCover) displayCover.src = currentSelected.getAttribute("data-img");
             }
           }
-          
+
           if (audio.paused) {
-            // If explicit empty track title exists, load active catalog variables
+            // Restore song detail info text fields when shifting back out of default view mode
             if (displayTitle && displayTitle.textContent === "No song is playing") {
-              const currentActive = document.querySelector(".square-song-tile.active") || tiles[0];
-              if (currentActive) {
-                displayTitle.textContent = currentActive.getAttribute("data-title");
-                displayCover.src = currentActive.getAttribute("data-img");
-                audio.src = currentActive.getAttribute("data-src");
+              const lastActive = document.querySelector(".square-song-tile.active") || tiles[0];
+              if (lastActive) {
+                displayTitle.textContent = lastActive.getAttribute("data-title");
+                displayCover.src = lastActive.getAttribute("data-img");
+                audio.src = lastActive.getAttribute("data-src");
               }
             }
-            
-            audio.play().catch(e => console.log("Playback error:", e));
+            audio.play().catch(err => console.log("Playback failed:", err));
             if (shape) shape.className = "play-state-shape pause-bars";
           } else {
-            // FIX: Removed the buggy text clearing behavior so pause actions work flawlessly
             audio.pause();
             if (shape) shape.className = "play-state-shape triangle";
           }
@@ -270,8 +246,9 @@
         if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
         let mins = Math.floor(secondsValue / 60);
         let secs = Math.floor(secondsValue % 60);
-        if (secs < 10) secs = "0" + secs;
-        if (timeLabel) timeLabel.textContent = mins + ":" + secs;
+        if (timeLabel) {
+          timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+        }
       }
 
       if (slider) {
@@ -300,16 +277,17 @@
         tile.addEventListener("click", () => {
           tiles.forEach(t => t.classList.remove("active"));
           tile.classList.add("active");
+          
           const songSrc = tile.getAttribute("data-src");
           const songTitle = tile.getAttribute("data-title");
           const songImg = tile.getAttribute("data-img");
-          
+
           audio.src = songSrc;
           if (displayTitle) displayTitle.textContent = songTitle;
           if (displayCover && songImg) displayCover.src = songImg;
-          
+
           audio.loop = window.isAudioLooping;
-          audio.play().catch(e => console.log("Tile playback error:", e));
+          audio.play().catch(err => console.log("Tile play crash:", err));
           if (shape) shape.className = "play-state-shape pause-bars";
         });
       });
@@ -324,6 +302,7 @@
         });
       }
 
+      // Shared Global Mini Player Visibility Manager Engine Routine
       function processMiniplayerVisibilities() {
         const isInMusicTab = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
@@ -332,6 +311,7 @@
           if (!miniPlayer) {
             const currentImg = displayCover ? displayCover.src : "music-icon.png";
             const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
+            
             let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
             markup += ' <div class="mini-player-top-row">';
             markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
@@ -343,6 +323,7 @@
             markup += ' </div>';
             markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
             markup += '</div>';
+            
             document.body.insertAdjacentHTML("beforeend", markup);
             miniPlayer = document.getElementById("shared-global-mini-deck");
 
@@ -359,7 +340,7 @@
               });
             }
           }
-          
+
           audio.addEventListener("timeupdate", () => {
             const fillNode = document.getElementById("mini-deck-fill");
             if (fillNode && !isNaN(audio.duration)) {
@@ -373,9 +354,6 @@
 
       audio.addEventListener("pause", processMiniplayerVisibilities);
       audio.addEventListener("play", processMiniplayerVisibilities);
-
-      const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
-      pipelineObserver.observe(document.body, { childList: true, subtree: true });
       processMiniplayerVisibilities();
     });
   </script>

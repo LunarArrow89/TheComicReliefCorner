@@ -26,35 +26,6 @@ body {
     color: white;
 }
 
-/* 2. Custom Neon Needle Scrollbar System */
-::-webkit-scrollbar {
-    width: 12px; /* Wider bounding box to pad the inner steps */
-}
-
-::-webkit-scrollbar-track {
-    background: transparent; 
-}
-
-::-webkit-scrollbar-thumb {
-    background: #c30083; /* Rich dark purple-pink base spine core */
-    background: linear-gradient(to right, #6b0047 0%, #ff1493 50%, #6b0047 100%); /* Vertical metallic reflection */
-    border-radius: 4px;
-    /* Transparent padding handles handle scaling */
-    border-left: 4px solid transparent; 
-    border-right: 4px solid transparent;
-    border-top: 15px solid transparent; 
-    border-bottom: 15px solid transparent;
-    background-clip: padding-box; /* Constrains background fills within borders */
-    box-shadow: 0 0 12px rgba(255, 20, 147, 0.6); /* Ambient highlight glow */
-}
-
-::-webkit-scrollbar-thumb:hover, 
-::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(to right, #a00062 0%, #ff69b4 50%, #a00062 100%);
-    border-left: 3px solid transparent; /* Expands slightly when grabbed */
-    border-right: 3px solid transparent;
-}
-
 /* 3. Sidebar Navigation Panel Controls */
 .sidebar {
     position: fixed;

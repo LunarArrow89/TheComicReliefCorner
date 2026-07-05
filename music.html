@@ -199,23 +199,22 @@
           .then(html => { headerWrap.innerHTML = html; });
       }
 
-      // FIX: Array index point targeted to stop getAttribute from crashing execution
+      // FIX: Array element targeted cleanly by index to prevent execution crashes
       if (!audio.src && tiles.length > 0) {
         audio.src = tiles[0].getAttribute("data-src");
       }
 
-      // Sync state to current playing file status upon route transitions
+      // Restore active UI engine values during route tracking transitions
       if (!audio.paused) {
         if (shape) shape.className = "play-state-shape pause-bars";
         
-        // Restore display info if a file is already operating inside global memory
         const currentActiveTile = document.querySelector(".square-song-tile.active");
         if (currentActiveTile) {
           if (displayTitle) displayTitle.textContent = currentActiveTile.getAttribute("data-title");
           if (displayCover) displayCover.src = currentActiveTile.getAttribute("data-img");
         }
       } else {
-        // Enforce the default state explicitly if audio is idle or empty
+        // Safe placeholder values applied strictly when page initializes completely blank
         if (displayTitle) displayTitle.textContent = "No song is playing";
         if (displayCover) displayCover.src = "music-icon.png";
         if (shape) shape.className = "play-state-shape triangle";
@@ -228,7 +227,7 @@
 
       if (playBtn) {
         playBtn.addEventListener("click", () => {
-          // If completely empty path, grab source file path from active tile node
+          // Fallback seeding routine for active file path addresses
           if (!audio.src) {
             const activeTile = document.querySelector(".square-song-tile.active") || tiles[0];
             if (activeTile) {
@@ -239,24 +238,22 @@
           }
           
           if (audio.paused) {
-            audio.play().catch(e => console.log("Playback error:", e));
-            if (shape) shape.className = "play-state-shape pause-bars";
-            
-            // Sync text elements upon direct manual engine playback execution trigger
+            // If explicit empty track title exists, load active catalog variables
             if (displayTitle && displayTitle.textContent === "No song is playing") {
               const currentActive = document.querySelector(".square-song-tile.active") || tiles[0];
               if (currentActive) {
                 displayTitle.textContent = currentActive.getAttribute("data-title");
                 displayCover.src = currentActive.getAttribute("data-img");
+                audio.src = currentActive.getAttribute("data-src");
               }
             }
+            
+            audio.play().catch(e => console.log("Playback error:", e));
+            if (shape) shape.className = "play-state-shape pause-bars";
           } else {
+            // FIX: Removed the buggy text clearing behavior so pause actions work flawlessly
             audio.pause();
             if (shape) shape.className = "play-state-shape triangle";
-            
-            // Instantly transition titles back to empty profile text configurations
-            if (displayTitle) displayTitle.textContent = "No song is playing";
-            if (displayCover) displayCover.src = "music-icon.png";
           }
         });
       }

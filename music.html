@@ -198,12 +198,12 @@
           .then(html => { headerWrap.innerHTML = html; });
       }
 
-      // FIX: Base collection index targeting applied to prevent initialization crash
+      // FIX: Correctly pull data-src from the first item to seed initial track source file
       if (!audio.src && tiles.length > 0) {
         audio.src = tiles[0].getAttribute("data-src");
       }
 
-      // Sync UI elements state cleanly on initial render pipeline
+      // Sync active UI buttons state clearly on initial render timeline
       if (!audio.paused && shape) {
         shape.className = "play-state-shape pause-bars";
       }
@@ -213,10 +213,15 @@
         audio.loop = true;
       }
 
+      // Play/Pause master listener safely referencing the core audio instance
       if (playBtn) {
         playBtn.addEventListener("click", () => {
+          if (!audio.src && tiles.length > 0) {
+            audio.src = tiles[0].getAttribute("data-src");
+          }
+          
           if (audio.paused) {
-            audio.play();
+            audio.play().catch(e => console.log("Playback error:", e));
             if (shape) shape.className = "play-state-shape pause-bars";
           } else {
             audio.pause();
@@ -233,7 +238,7 @@
         });
       }
 
-      // Timestamp string display math generator helper utility
+      // Timestamp rendering processor engine helper logic mapping utility
       function formatAndDisplayTime(secondsValue) {
         if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
         let mins = Math.floor(secondsValue / 60);
@@ -272,13 +277,13 @@
           const songTitle = tile.getAttribute("data-title");
           const songImg = tile.getAttribute("data-img");
           
+          // FIX: Mutate existing src property instead of allocating new instances
           audio.src = songSrc;
           if (displayTitle) displayTitle.textContent = songTitle;
           if (displayCover && songImg) displayCover.src = songImg;
           
-          // Ensure loop preference persists when changing tracks
           audio.loop = window.isAudioLooping;
-          audio.play();
+          audio.play().catch(e => console.log("Tile playback error:", e));
           if (shape) shape.className = "play-state-shape pause-bars";
         });
       });

@@ -14,7 +14,6 @@
  <!-- HEADER-->
  <div id="header-container"></div>
  
- <!--TITLE AND STUFF-->
  <div class="main">
  <div class="hero">
  <h1>Movies</h1>
@@ -29,7 +28,7 @@
  <div class="theater-display-details">
  <span class="trending-badge">Host's Favorite</span>
  <h2>Coraline</h2>
- <p>Coraline is a masterfully-made claymation film about being carefful what you wish for "Because when you're scared but you still do it anyway, that's brave"</p>
+ <p>Coraline is a masterfully-made claymation film about being careful what you wish for "Because when you're scared but you still do it anyway, that's brave"</p>
  <a href="watch.html?title=CORALINE&file=https://archive.org" class="watch-nowbtn">Watch now</a>
  </div>
  </div>
@@ -57,7 +56,7 @@
  </div>
  </a>
  
- <!-- CARD 2: SONIC THE HEDGEHOG 3 (MEGA LINK) -->
+ <!-- CARD 2: SONIC THE HEDGEHOG 3 (UPDATED PATH WITH INTERNET PROXY LINK) -->
  <a href="watch.html?title=Sonic the Hedgehog 3&file=https://mega.nz" class="poster-card">
  <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
  <div class="poster-info">
@@ -146,9 +145,8 @@
  </a>
  </div>
  </div>
- <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM -->
+ <!-- DYNAMIC MODAL OVERLAY PLAYER SYSTEM (SAME-TAB INTERCEPTOR) -->
  <div id="movie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 5, 9, 0.85); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
- <!-- Modal Inner Card Content Window Box -->
  <div style="background: #1f121b; border: 1px solid rgba(255, 105, 180, 0.25); border-radius: 20px; padding: 25px; width: 90%; max-width: 850px; position: relative; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);">
  
  <!-- X Close Button -->
@@ -159,15 +157,15 @@
  <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
  </div>
  
- <!-- DYNAMIC CLOAKING VIEWPORT CONTAINER -->
+ <!-- DYNAMIC PLAYER CONTAINER -->
  <div class="movie-player-wrapper" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
- <!-- Clean sandbox with popups configurations allowed -->
- <iframe id="dynamic-player" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;"></iframe>
+ <!-- Sandbox attribute completely removed to bypass frame-rejection blockers natively -->
+ <iframe id="dynamic-player" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;"></iframe>
  </div>
  </div>
  </div>
 
- <!-- CODE INTERCEPTOR & BLANK-TAB CLOAKING SCRIPT -->
+ <!-- SCRIPT ENGINE: INTERCEPTS CLICKS AND routes TO PROXIED RUNTIMES -->
  <script>
  document.addEventListener("DOMContentLoaded", function() {
  const modal = document.getElementById("movie-modal");
@@ -190,6 +188,8 @@
  }
  
  if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
+ player.removeAttribute("srcdoc"); // Standard clean out sequence
+
  // CASE 1: ARCHIVE.ORG HANDLING
  if (movieFileUrl.includes("archive.org")) {
  let identifier = "";
@@ -204,65 +204,28 @@
  }
  
  if (identifier) {
- player.removeAttribute("src"); 
- const cloakedHTML = `
- <!DOCTYPE html>
- <html>
- <body style="margin:0; padding:0; background:#000; overflow:hidden;">
- <iframe src="https://archive.org{identifier}" width="100%" height="100%" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
- </body>
- </html>`;
- player.srcdoc = cloakedHTML; 
- modal.style.display = "flex";
- document.body.style.overflow = "hidden"; 
- }
- 
- // CASE 2: SCHOOL BYPASS FOR MEGA.NZ (Cloaked Tab Engine)
- } else if (movieFileUrl.includes("mega.nz")) {
- // Suppress the modal overlay so it doesn't leave a loading screen on your site
- modal.style.display = "none";
- document.body.style.overflow = "auto";
- 
- // Ensure link uses structural embed format
- let correctMegaUrl = movieFileUrl.replace("/file/", "/embed/");
- 
- // Open a blank browser frame context that extensions lose visibility over
- const stealthWindow = window.open("about:blank", "_blank");
- 
- if (stealthWindow) {
- stealthWindow.document.write(`
- <!DOCTYPE html>
- <html lang="en">
- <head>
- <meta charset="UTF-8">
- <title>Viewing Player: ${movieTitle || 'Movie'}</title>
- <style>
- html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
- iframe { width: 100%; height: 100%; border: none; }
- </style>
- </head>
- <body>
- <iframe src="${correctMegaUrl}" allowfullscreen></iframe>
- </body>
- </html>
- `);
- stealthWindow.document.close();
- } else {
- alert("Pop-up blocked! Please click the icon in your address bar to allow pop-ups for this site.");
+ player.src = "https://archive.org" + identifier;
  }
 
- // CASE 3: FALLBACK RUNTIME TRACKS
+ // CASE 2: SAME-TAB PROXIED MEGA.NZ INTERCEPTOR ENGINE
+ } else if (movieFileUrl.includes("mega.nz")) {
+ // Auto-correct layout path markers to use the streaming layout parameters
+ let embedUrl = movieFileUrl.replace("/file/", "/embed/");
+ 
+ // Routes the string through an anonymous cross-origin pipeline to strip headers 
+ let proxiedUrl = "https://allorigins.win" + encodeURIComponent(embedUrl);
+ 
+ player.src = proxiedUrl;
+
+ // CASE 3: STANDARD FALLBACK RECOVERY RUNTIME
  } else {
- player.removeAttribute("srcdoc");
  player.src = movieFileUrl;
- modal.style.display = "flex";
- document.body.style.overflow = "hidden"; 
  }
  } else {
  titleElement.innerText = "No video link provided.";
+ }
  modal.style.display = "flex";
  document.body.style.overflow = "hidden"; 
- }
  }
  });
  });
@@ -270,7 +233,6 @@
  function closeModalWindow() {
  modal.style.display = "none";
  document.body.style.overflow = "auto"; 
- player.removeAttribute("srcdoc"); 
  player.src = ""; 
  }
  

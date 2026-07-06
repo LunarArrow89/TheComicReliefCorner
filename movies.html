@@ -14,6 +14,7 @@
  <!-- HEADER-->
  <div id="header-container"></div>
  
+ <!--MAIN SECTION-->
  <div class="main">
  <div class="hero">
  <h1>Movies</h1>
@@ -49,15 +50,15 @@
  <!-- AUTOMATED 6-COLUMN POSTER GRID -->
  <div class="movie-poster-grid">
  <!-- CARD 1: BOSS BABY -->
- <a href="watch.html?title=Boss Baby&file=https://limewire.com/d/jRW5O#miS2clgPLC" class="poster-card">
+ <a href="watch.html?title=BOSS BABY&file=https://archive.org" class="poster-card">
  <img src="bossbaby.jpeg" alt="Boss Baby">
  <div class="poster-info">
  <h3>Boss Baby</h3>
  </div>
  </a>
  
- <!-- CARD 2: SONIC THE HEDGEHOG 3 (UPDATED PATH WITH INTERNET PROXY LINK) -->
- <a href="watch.html?title=Sonic the Hedgehog 3&file=https://drive.google.com/file/d/1PcRpMfVL8XtTrhG-GdUnRm1Xj-YHAiCa/view?usp=sharing" class="poster-card">
+ <!-- CARD 2: SONIC THE HEDGEHOG 3 (PASTE GOOGLE DRIVE SHARING URL HERE) -->
+ <a href="watch.html?title=Sonic the Hedgehog 3&file=https://drive.google.com/file/d/12TffWMYiCDzhLwjfLULtXl-7DlEWanvl/view?usp=sharing" class="poster-card">
  <img src="sonic3.jpeg" alt="Sonic the Hedgehog 3">
  <div class="poster-info">
  <h3>Sonic the Hedgehog 3</h3>
@@ -157,15 +158,15 @@
  <h1 id="dynamic-title" style="font-size: 24px; text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7); margin: 0;">Loading Video...</h1>
  </div>
  
- <!-- DYNAMIC PLAYER CONTAINER -->
+ <!-- DYNAMIC VIEWPORT CONTAINER -->
  <div class="movie-player-wrapper" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.4);">
- <!-- Sandbox attribute completely removed to bypass frame-rejection blockers natively -->
+ <!-- Sandbox removed entirely to allow internal stream handshakes -->
  <iframe id="dynamic-player" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; background: #000;"></iframe>
  </div>
  </div>
  </div>
 
- <!-- SCRIPT ENGINE: INTERCEPTS CLICKS AND routes TO PROXIED RUNTIMES -->
+ <!-- SCRIPT ENGINE: INTERCEPTS CLICKS AND CHECKS FILE TYPES -->
  <script>
  document.addEventListener("DOMContentLoaded", function() {
  const modal = document.getElementById("movie-modal");
@@ -188,10 +189,9 @@
  }
  
  if (movieFileUrl && movieFileUrl !== "PASTE_LINK_HERE") {
- player.removeAttribute("srcdoc"); // Standard clean out sequence
-
  // CASE 1: ARCHIVE.ORG HANDLING
  if (movieFileUrl.includes("archive.org")) {
+ player.removeAttribute("srcdoc");
  let identifier = "";
  if (movieFileUrl.includes("/details/")) {
  identifier = movieFileUrl.split("/details/")[1].split(/[?#]/)[0];
@@ -207,19 +207,55 @@
  player.src = "https://archive.org" + identifier;
  }
 
- // CASE 2: SAME-TAB PROXIED MEGA.NZ INTERCEPTOR ENGINE
- } else if (movieFileUrl.includes("mega.nz")) {
- // Auto-correct layout path markers to use the streaming layout parameters
- let embedUrl = movieFileUrl.replace("/file/", "/embed/");
+ // CASE 2: GOOGLE DRIVE RAW FILE STREAM BYPASS
+ } else if (movieFileUrl.includes("drive.google.com")) {
+ player.removeAttribute("src");
  
- // Routes the string through an anonymous cross-origin pipeline to strip headers 
- let proxiedUrl = "https://allorigins.win" + encodeURIComponent(embedUrl);
+ // RegExp pattern isolates the raw File ID out of standard Google sharing URLs
+ let fileIdMatch = movieFileUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
  
- player.src = proxiedUrl;
-
- // CASE 3: STANDARD FALLBACK RECOVERY RUNTIME
+ if (fileIdMatch && fileIdMatch[1]) {
+ let driveFileId = fileIdMatch[1];
+ 
+ // Routes the download query stream through the open user content API
+ let streamSourceUrl = "https://google.com" + driveFileId;
+ 
+ // Injects a native video container element into the layout frame workspace
+ const driveStreamHTML = `
+ <!DOCTYPE html>
+ <html>
+ <body style="margin:0; padding:0; background:#000; overflow:hidden; display:flex; align-items:center; justify-content:center; height:100vh;">
+ <video controls autoplay style="max-width:100%; max-height:100%; width:100%; height:auto;">
+ <source src="${streamSourceUrl}" type="video/mp4">
+ Your browser does not support high-speed same-tab media streaming formats.
+ </video>
+ </body>
+ </html>`;
+ player.srcdoc = driveStreamHTML;
  } else {
+ titleElement.innerText = "Invalid Google Drive Link Format.";
+ }
+
+ // CASE 3: ALL OTHER WEB EXTENSIONS / DIRECT LINKS
+ } else {
+ player.removeAttribute("src");
+ const lowUrl = movieFileUrl.toLowerCase();
+ if (lowUrl.includes(".mp4") || lowUrl.includes(".mkv") || lowUrl.includes(".webm") || lowUrl.includes(".mov")) {
+ const inlineStreamHTML = `
+ <!DOCTYPE html>
+ <html>
+ <body style="margin:0; padding:0; background:#000; overflow:hidden; display:flex; align-items:center; justify-content:center; height:100vh;">
+ <video controls autoplay style="max-width:100%; max-height:100%; width:100%; height:auto;">
+ <source src="${movieFileUrl}" type="video/mp4">
+ Your browser does not support direct streaming containers.
+ </video>
+ </body>
+ </html>`;
+ player.srcdoc = inlineStreamHTML;
+ } else {
+ player.removeAttribute("srcdoc");
  player.src = movieFileUrl;
+ }
  }
  } else {
  titleElement.innerText = "No video link provided.";
@@ -233,6 +269,7 @@
  function closeModalWindow() {
  modal.style.display = "none";
  document.body.style.overflow = "auto"; 
+ player.removeAttribute("srcdoc");
  player.src = ""; 
  }
  

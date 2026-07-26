@@ -2,7 +2,7 @@
    LOAD.JS - GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE 
    ========================================================================== */
 
-// Mount global variables safely to survive navigation
+// Mount global variables safely to survive persistent navigation
 window.audioEngine = window.audioEngine || new Audio();
 window.isAudioLooping = window.isAudioLooping || false;
 
@@ -153,30 +153,39 @@ document.addEventListener("DOMContentLoaded", () => {
         styleTag.textContent = customStyles;
         document.head.appendChild(styleTag);
     }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - PERSISTENCE CONTROLS
+    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - STATE PERSISTENCE CONTROLS
     function processGlobalMiniplayerVisibility() {
         const isMusicTabActive = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
 
-        // Restore instance properties from memory if the local runtime drops state variables
-        const storedSrc = localStorage.getItem("audio_active_src");
-        if (storedSrc && (!audio.src || audio.src === window.location.href)) {
-            audio.src = storedSrc;
-            const savedTime = localStorage.getItem("audio_active_time");
-            if (savedTime) audio.currentTime = parseFloat(savedTime);
+        const cachedSrc = localStorage.getItem("audio_active_src");
+        const wasPlayingBeforePageShift = localStorage.getItem("audio_was_playing") === "true";
+
+        // Re-link source data into the audio player instance safely if memory dropped it
+        if (cachedSrc && (!audio.src || audio.src === window.location.href)) {
+            audio.src = cachedSrc;
+            const savedPlaybackTime = localStorage.getItem("audio_active_time");
+            if (savedPlaybackTime) audio.currentTime = parseFloat(savedPlaybackTime);
+            
+            // Auto-recovery catch block for tab hops
+            if (wasPlayingBeforePageShift && audio.paused) {
+                audio.play().catch(() => {
+                    localStorage.setItem("audio_was_playing", "true"); 
+                });
+            }
         }
 
-        // Render mini player dynamically if we are off the primary music template tab
-        if (!isMusicTabActive && !audio.paused && audio.src && audio.src !== window.location.href) {
+        // Force show mini player on subpages if active context exists in system cache records
+        if (!isMusicTabActive && cachedSrc && (wasPlayingBeforePageShift || !audio.paused)) {
             if (!miniPlayer) {
                 let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
                 markup += ' <div class="mini-player-top-row" id="mini-deck-drag-handle">';
                 markup += '  <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
                 markup += '  <div class="mini-details-wrap">';
-                markup += '   <span class="mini-status-tag">Lounge Streaming</span>';
-                markup += '   <p id="mini-deck-title" class="mini-title">Syncing Track...</p>';
+                markup += '   <span class="mini-status-tag" id="mini-deck-status">Lounge Streaming</span>';
+                markup += '   <p id="mini-deck-title" class="mini-title">Click to Resume Groove...</p>';
                 markup += '  </div>';
-                markup += '  <button id="mini-deck-pause-btn" class="mini-btn">⏸</button>';
+                markup += '  <button id="mini-deck-pause-btn" class="mini-btn">▶</button>';
                 markup += ' </div>';
                 markup += ' <div id="mini-deck-scrub-bar" class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
                 markup += '</div>';
@@ -188,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setupMiniPlayerControllers();
             }
             updateMiniplayerDataTrack();
-        } else if ((isMusicTabActive || audio.paused || !audio.src) && miniPlayer) {
+        } else if ((isMusicTabActive || (audio.paused && !wasPlayingBeforePageShift)) && miniPlayer) {
             miniPlayer.remove();
         }
     }
@@ -197,13 +206,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const titleNode = document.getElementById("mini-deck-title");
         const imageNode = document.getElementById("mini-deck-img");
         const pauseBtn = document.getElementById("mini-deck-pause-btn");
+        const statusNode = document.getElementById("mini-deck-status");
 
         const localTitle = localStorage.getItem("audio_active_title") || window.audioEngineSrcTitle;
         const localCover = localStorage.getItem("audio_active_img") || window.audioEngineSrcCover;
+        const wasPlaying = localStorage.getItem("audio_was_playing") === "true";
 
         if (titleNode && localTitle) titleNode.textContent = localTitle;
         if (imageNode && localCover) imageNode.src = localCover;
-        if (pauseBtn) pauseBtn.textContent = audio.paused ? "▶" : "⏸";
+        
+        if (pauseBtn) {
+            if (audio.paused && wasPlaying) {
+                pauseBtn.textContent = "▶";
+                if (statusNode) statusNode.textContent = "Click to Tap In";
+            } else {
+                pauseBtn.textContent = audio.paused ? "▶" : "⏸";
+                if (statusNode && !audio.paused) statusNode.textContent = "Lounge Streaming";
+            }
+        }
     }
 
     function setupMiniPlayerControllers() {
@@ -215,10 +235,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.stopPropagation();
                 if (!audio.paused) {
                     audio.pause();
+                    localStorage.setItem("audio_was_playing", "false");
                     miniPauseBtn.textContent = "▶";
                 } else {
-                    audio.play().catch(err => console.log("Mini playback crash:", err));
-                    miniPauseBtn.textContent = "⏸";
+                    audio.play().then(() => {
+                        localStorage.setItem("audio_was_playing", "true");
+                        miniPauseBtn.textContent = "⏸";
+                    }).catch(err => console.log("User gesture bypass failed:", err));
                 }
             });
         }
@@ -260,9 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function dragMotionExecution(e) {
-            let currentClientX = 0;
-            let currentClientY = 0;
-
+            let currentClientX = 0, currentClientY = 0;
             if (e.type === "touchmove") {
                 currentClientX = e.touches.clientX;
                 currentClientY = e.touches.clientY;
@@ -290,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Intercept clicks on the playlist tiles to store info into persistent storage
+    // Global listener to capture active tracks and cache execution states
     document.body.addEventListener("click", (e) => {
         const tile = e.target.closest(".square-song-tile");
         if (tile) {
@@ -304,12 +325,13 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("audio_active_src", currentSrc);
             localStorage.setItem("audio_active_title", currentTitle);
             localStorage.setItem("audio_active_img", currentImg);
+            localStorage.setItem("audio_was_playing", "true");
             
             updateMiniplayerDataTrack();
         }
     });
 
-    // Continuously sync playhead parameters down to localStorage caches
+    // Update timeline metrics while caching persistent timestamps natively
     audio.addEventListener("timeupdate", () => {
         if (!audio.paused && audio.src) {
             localStorage.setItem("audio_active_time", audio.currentTime);
@@ -321,12 +343,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     audio.addEventListener("pause", () => {
-        localStorage.removeItem("audio_active_time");
+        localStorage.setItem("audio_was_playing", "false");
         processGlobalMiniplayerVisibility();
     });
-    audio.addEventListener("play", processGlobalMiniplayerVisibility);
-    
-    // Fallback sync polling loop to keep track data accurate across navigations
+
+    audio.addEventListener("play", () => {
+        localStorage.setItem("audio_was_playing", "true");
+        processGlobalMiniplayerVisibility();
+    });
+
+    // Fallback interval checks to manage instant visibility updates upon navigation transitions
     setInterval(processGlobalMiniplayerVisibility, 500);
     processGlobalMiniplayerVisibility();
 });

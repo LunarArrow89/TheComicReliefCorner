@@ -1,386 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Comic Relief Corner - Music</title>
-  <!-- Unified CSS Styling Engine Link -->
-  <link rel="stylesheet" href="style.css?v=unified_spacing">
-  <!-- Loader Script Engine Link -->
-  <script defer src="load.js"></script>
-  
-  <style>
-    /* MATCHING YOUR SKETCH MOCKUP STACK ORDER */
-    .showcase-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    /* Force the header or text below the image wrapper */
-    .showcase-img-wrap {
-      order: 1; /* Puts image first */
-      margin-bottom: 15px;
-    }
-
-    .showcase-title {
-      order: 2; /* Puts text directly beneath the image */
-      margin: 0;
-    }
-
-    /* Completely hide the header tag element from view */
-    .showcase-header {
-      display: none !important;
-    }
-
-    /* CONTROL DECK VISIBILITY MODIFIER */
-    .custom-control-bar {
-      display: none; /* Hidden by default until a track is chosen */
-      background: #2a2a2a;
-      border-radius: 8px;
-      padding: 10px;
-    }
-
-    /* CSS Class triggered via JavaScript engine when a track becomes active */
-    .custom-control-bar.deck-visible {
-      display: flex !important;
-    }
-
-    /* PURE HTML/CSS DRAWN LOOP ARROW BUTTON */
-    .loop-control-node {
-      background: #2a2a2a;
-      border: 2px solid #555;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 42px;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .loop-html-container {
-      width: 22px;
-      height: 16px;
-      position: relative;
-    }
-
-    .loop-track {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 16px;
-      height: 10px;
-      border: 2px solid #fff;
-      border-radius: 3px;
-      background: transparent;
-    }
-
-    .loop-mask-top {
-      position: absolute;
-      top: 0px;
-      left: 5px;
-      width: 6px;
-      height: 4px;
-      background: #2a2a2a;
-      transition: background 0.2s ease;
-    }
-
-    .loop-arrowhead {
-      position: absolute;
-      top: -2px;
-      left: 7px;
-      width: 0;
-      height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-bottom: 6px solid #fff;
-    }
-
-    /* ACTIVE HIGHLIGHT STATE: VIVID HOT PINK */
-    .loop-control-node.loop-active {
-      background-color: #ff69b4;
-      border-color: #ff1493;
-    }
-
-    .loop-control-node.loop-active .loop-mask-top {
-      background: #ff69b4;
-    }
-
-    .loop-control-node:hover {
-      background-color: #3a3a3a;
-    }
-
-    .loop-control-node.loop-active:hover {
-      background-color: #ff1493;
-    }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>The Comic Relief Corner - Music</title>
+ <!-- Unified CSS Styling Engine Link -->
+ <link rel="stylesheet" href="style.css?v=unified_spacing">
+ <!-- Loader Script Engine Link -->
+ <script defer src="load.js"></script>
+ 
+ <style>
+ /* MATCHING YOUR SKETCH MOCKUP STACK ORDER */
+ .showcase-box {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ }
+ /* Force the header or text below the image wrapper */
+ .showcase-img-wrap {
+ order: 1; /* Puts image first */
+ margin-bottom: 15px;
+ }
+ .showcase-title {
+ order: 2; /* Puts text directly beneath the image */
+ margin: 0;
+ }
+ /* Completely hide the header tag element from view */
+ .showcase-header {
+ display: none !important;
+ }
+ /* CONTROL DECK VISIBILITY MODIFIER */
+ .custom-control-bar {
+ display: none; /* Hidden by default until a track is chosen */
+ background: #2a2a2a;
+ border-radius: 8px;
+ padding: 10px;
+ }
+ /* CSS Class triggered via JavaScript engine when a track becomes active */
+ .custom-control-bar.deck-visible {
+ display: flex !important;
+ }
+ /* PURE HTML/CSS DRAWN LOOP ARROW BUTTON */
+ .loop-control-node {
+ background: #2a2a2a;
+ border: 2px solid #555;
+ border-radius: 6px;
+ cursor: pointer;
+ width: 42px;
+ height: 42px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ transition: all 0.2s ease;
+ position: relative;
+ }
+ .loop-html-container {
+ width: 22px;
+ height: 16px;
+ position: relative;
+ }
+ .loop-track {
+ position: absolute;
+ top: 2px;
+ left: 2px;
+ width: 16px;
+ height: 10px;
+ border: 2px solid #fff;
+ border-radius: 3px;
+ background: transparent;
+ }
+ .loop-mask-top {
+ position: absolute;
+ top: 0px;
+ left: 5px;
+ width: 6px;
+ height: 4px;
+ background: #2a2a2a;
+ transition: background 0.2s ease;
+ }
+ .loop-arrowhead {
+ position: absolute;
+ top: -2px;
+ left: 7px;
+ width: 0;
+ height: 0;
+ border-left: 4px solid transparent;
+ border-right: 4px solid transparent;
+ border-bottom: 6px solid #fff;
+ }
+ /* ACTIVE HIGHLIGHT STATE: VIVID HOT PINK */
+ .loop-control-node.loop-active {
+ background-color: #ff69b4;
+ border-color: #ff1493;
+ }
+ .loop-control-node.loop-active .loop-mask-top {
+ background: #ff69b4;
+ }
+ .loop-control-node:hover {
+ background-color: #3a3a3a;
+ }
+ .loop-control-node.loop-active:hover {
+ background-color: #ff1493;
+ }
+ </style>
 </head>
 <body>
+ <!-- TARGET LAYOUT MODULE BOX CONTAINERS -->
+ <div id="sidebar-container"></div>
+ <div id="header-container"></div>
+ <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
+ <div class="main">
+ <div class="hero">
+ <h1>The Music Lounge</h1>
+ <p>Turn up the volume, adjust your position, and lock the groove.</p>
+ </div>
+ <!-- SPLIT INTERFACE GRID ARCHITECTURE -->
+ <div class="split-player-layout">
+ 
+ <!-- LEFT COLUMN: LIVE QUERY SEARCH & SQUARE TRACK COVER MATRIX -->
+ <div class="music-library-column">
+ <div class="music-search-wrap">
+ <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
+ </div>
+ 
+ <div class="square-song-grid">
+ <!-- ALBUM OBJECT CARD ITEM 1 -->
+ <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
+ <div class="tile-art">
+ <div class="tile-play-overlay-geo"></div>
+ <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
+ </div>
+ <p class="tile-title">Popstar Theme</p>
+ </div>
+ 
+ <!-- ALBUM OBJECT CARD ITEM 2 -->
+ <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
+ <div class="tile-art">
+ <div class="tile-play-overlay-geo"></div>
+ <img src="luna.gif" class="tile-img" alt="Track Cover">
+ </div>
+ <p class="tile-title">Synthwave Sunsets</p>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- RIGHT COLUMN: NOW PLAYING THEATER WINDOW & TIMELINE DECK -->
+ <div class="now-playing-column">
+ <div class="showcase-box">
+ <span class="showcase-header">Now Playing...</span>
+ <div class="showcase-img-wrap">
+ <img src="music-icon.png" id="display-cover" alt="Song Image">
+ </div>
+ <h2 id="display-title" class="showcase-title">No song is playing</h2>
+ </div>
+ 
+ <!-- DECK BAR SYSTEM COMPONENT PANEL ROW PANEL MODULE -->
+ <div id="control-deck-bar" class="custom-control-bar">
+ <div class="playback-btn-wrap">
+ <button id="play-pause-btn" class="custom-geo-btn">
+ <div id="btn-shape" class="play-state-shape triangle"></div>
+ </button>
+ </div>
+ <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
+ <div class="progress-container">
+ <span id="current-time-label" class="time-stamp">0:00</span>
+ <input type="range" id="progress-slider" min="0" max="100" value="0">
+ </div>
+ <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
+ <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
+ <div class="loop-html-container">
+ <div class="loop-track"></div>
+ <div class="loop-mask-top"></div>
+ <div class="loop-arrowhead"></div>
+ </div>
+ </button>
+ </div>
+ </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
+ </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
+ </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
+ <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
+ <script>
+ window.audioEngine = window.audioEngine || new Audio();
+ window.isAudioLooping = window.isAudioLooping || false;
 
-  <!-- TARGET LAYOUT MODULE BOX CONTAINERS -->
-  <div id="sidebar-container"></div>
-  <div id="header-container"></div>
+ document.addEventListener("DOMContentLoaded", () => {
+ const audio = window.audioEngine;
+ const playBtn = document.getElementById("play-pause-btn");
+ const shape = document.getElementById("btn-shape");
+ const slider = document.getElementById("progress-slider");
+ const timeLabel = document.getElementById("current-time-label");
+ const loopBtn = document.getElementById("loop-toggle-btn");
+ const tiles = document.querySelectorAll(".square-song-tile");
+ const displayCover = document.getElementById("display-cover");
+ const displayTitle = document.getElementById("display-title");
+ const searchBox = document.getElementById("song-search");
+ const deckBar = document.getElementById("control-deck-bar");
 
-  <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
-  <div class="main">
-    <div class="hero">
-      <h1>The Music Lounge</h1>
-      <p>Turn up the volume, adjust your position, and lock the groove.</p>
-    </div>
+ // Set up UI states based on active background stream status
+ if (!audio.paused && audio.src && audio.src !== window.location.href) {
+ if (shape) shape.className = "play-state-shape pause-bars";
+ if (deckBar) deckBar.classList.add("deck-visible");
+ 
+ const activeTile = document.querySelector(".square-song-tile.active");
+ if (activeTile) {
+ if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
+ if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
+ }
+ } else {
+ if (displayTitle) displayTitle.textContent = "No song is playing";
+ if (displayCover) displayCover.src = "music-icon.png";
+ if (shape) shape.className = "play-state-shape triangle";
+ if (deckBar) deckBar.classList.remove("deck-visible");
+ }
 
-    <!-- SPLIT INTERFACE GRID ARCHITECTURE -->
-    <div class="split-player-layout">
-      
-      <!-- LEFT COLUMN: LIVE QUERY SEARCH & SQUARE TRACK COVER MATRIX -->
-      <div class="music-library-column">
-        <div class="music-search-wrap">
-          <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
-        </div>
-        
-        <div class="square-song-grid">
-          <!-- ALBUM OBJECT CARD ITEM 1 -->
-          <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
-            <div class="tile-art">
-              <div class="tile-play-overlay-geo"></div>
-              <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
-            </div>
-            <p class="tile-title">Popstar Theme</p>
-          </div>
-          
-          <!-- ALBUM OBJECT CARD ITEM 2 -->
-          <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
-            <div class="tile-art">
-              <div class="tile-play-overlay-geo"></div>
-              <img src="luna.gif" class="tile-img" alt="Track Cover">
-            </div>
-            <p class="tile-title">Synthwave Sunsets</p>
-          </div>
-        </div>
-      </div>
+ if (window.isAudioLooping && loopBtn) {
+ loopBtn.classList.add("loop-active");
+ audio.loop = true;
+ }
 
-      <!-- RIGHT COLUMN: NOW PLAYING THEATER WINDOW & TIMELINE DECK -->
-      <div class="now-playing-column">
-        <div class="showcase-box">
-          <span class="showcase-header">Now Playing...</span>
-          <div class="showcase-img-wrap">
-            <img src="music-icon.png" id="display-cover" alt="Song Image">
-          </div>
-          <h2 id="display-title" class="showcase-title">No song is playing</h2>
-        </div>
+ // Master play/pause controller connection
+ if (playBtn) {
+ playBtn.addEventListener("click", () => {
+ if (audio.paused) {
+ audio.play().catch(err => console.log("Playback failed:", err));
+ if (shape) shape.className = "play-state-shape pause-bars";
+ } else {
+ audio.pause();
+ if (shape) shape.className = "play-state-shape triangle";
+ }
+ });
+ }
 
-        <!-- DECK BAR SYSTEM COMPONENT PANEL ROW PANEL MODULE -->
-        <div id="control-deck-bar" class="custom-control-bar">
-          <div class="playback-btn-wrap">
-            <button id="play-pause-btn" class="custom-geo-btn">
-              <div id="btn-shape" class="play-state-shape triangle"></div>
-            </button>
-          </div>
+ if (loopBtn) {
+ loopBtn.addEventListener("click", () => {
+ window.isAudioLooping = !window.isAudioLooping;
+ audio.loop = window.isAudioLooping;
+ loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+ });
+ }
 
-          <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
-          <div class="progress-container">
-            <span id="current-time-label" class="time-stamp">0:00</span>
-            <input type="range" id="progress-slider" min="0" max="100" value="0">
-          </div>
+ // Shared timestamp UI text rendering helper utility function
+ function formatAndDisplayTime(secondsValue) {
+ if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
+ let mins = Math.floor(secondsValue / 60);
+ let secs = Math.floor(secondsValue % 60);
+ if (timeLabel) {
+ timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+ }
+ }
 
-          <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
-          <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
-            <div class="loop-html-container">
-              <div class="loop-track"></div>
-              <div class="loop-mask-top"></div>
-              <div class="loop-arrowhead"></div>
-            </div>
-          </button>
-        </div>
+ if (slider) {
+ // Calculates and renders matching time stamps instantly while dragging slider handle
+ slider.addEventListener("input", () => {
+ if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+ const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
+ formatAndDisplayTime(targetTime);
+ }
+ });
 
-      </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
-    </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
-  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
-  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
-  <script>
-    window.audioEngine = window.audioEngine || new Audio();
-    window.isAudioLooping = window.isAudioLooping || false;
+ // Commits final position calculation directly into the audio player engine on release
+ slider.addEventListener("change", () => {
+ if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+ // FIX: Wrap value in parseFloat to ensure valid math calculation
+ audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
+ }
+ });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const audio = window.audioEngine;
-      const playBtn = document.getElementById("play-pause-btn");
-      const shape = document.getElementById("btn-shape");
-      const slider = document.getElementById("progress-slider");
-      const timeLabel = document.getElementById("current-time-label");
-      const loopBtn = document.getElementById("loop-toggle-btn");
-      const tiles = document.querySelectorAll(".square-song-tile");
-      const displayCover = document.getElementById("display-cover");
-      const displayTitle = document.getElementById("display-title");
-      const searchBox = document.getElementById("song-search");
-      const deckBar = document.getElementById("control-deck-bar");
+ // Tracks natural playback progression tick updates smoothly without stealing focus
+ audio.addEventListener("timeupdate", () => {
+ if (!isNaN(audio.duration) && !slider.matches(":focus")) {
+ slider.value = (audio.currentTime / audio.duration) * 100;
+ formatAndDisplayTime(audio.currentTime);
+ }
+ });
+ }
 
-      // Set up UI states based on active background stream status
-      if (!audio.paused && audio.src && audio.src !== window.location.href) {
-        if (shape) shape.className = "play-state-shape pause-bars";
-        if (deckBar) deckBar.classList.add("deck-visible");
-        
-        const activeTile = document.querySelector(".square-song-tile.active");
-        if (activeTile) {
-          if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
-          if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
-        }
-      } else {
-        if (displayTitle) displayTitle.textContent = "No song is playing";
-        if (displayCover) displayCover.src = "music-icon.png";
-        if (shape) shape.className = "play-state-shape triangle";
-        if (deckBar) deckBar.classList.remove("deck-visible");
-      }
+ tiles.forEach(tile => {
+ tile.addEventListener("click", () => {
+ tiles.forEach(t => t.classList.remove("active"));
+ tile.classList.add("active");
+ 
+ const songSrc = tile.getAttribute("data-src");
+ const songTitle = tile.getAttribute("data-title");
+ const songImg = tile.getAttribute("data-img");
+ audio.src = songSrc;
+ if (displayTitle) displayTitle.textContent = songTitle;
+ if (displayCover && songImg) displayCover.src = songImg;
+ 
+ // Reveal control deck container layout now that a track has been picked
+ if (deckBar) deckBar.classList.add("deck-visible");
+ audio.loop = window.isAudioLooping;
+ audio.play().catch(err => console.log("Tile play crash:", err));
+ if (shape) shape.className = "play-state-shape pause-bars";
+ });
+ });
 
-      if (window.isAudioLooping && loopBtn) {
-        loopBtn.classList.add("loop-active");
-        audio.loop = true;
-      }
+ if (searchBox) {
+ searchBox.addEventListener("input", () => {
+ const query = searchBox.value.toLowerCase();
+ tiles.forEach(tile => {
+ const titleText = tile.getAttribute("data-title").toLowerCase();
+ tile.style.display = titleText.includes(query) ? "flex" : "none";
+ });
+ });
+ }
 
-      // Master play/pause controller connection
-      if (playBtn) {
-        playBtn.addEventListener("click", () => {
-          if (audio.paused) {
-            audio.play().catch(err => console.log("Playback failed:", err));
-            if (shape) shape.className = "play-state-shape pause-bars";
-          } else {
-            audio.pause();
-            if (shape) shape.className = "play-state-shape triangle";
-          }
-        });
-      }
+ function processMiniplayerVisibilities() {
+ const isInMusicTab = document.getElementById("song-search") !== null;
+ let miniPlayer = document.getElementById("shared-global-mini-deck");
 
-      if (loopBtn) {
-        loopBtn.addEventListener("click", () => {
-          window.isAudioLooping = !window.isAudioLooping;
-          audio.loop = window.isAudioLooping;
-          loopBtn.classList.toggle("loop-active", window.isAudioLooping);
-        });
-      }
+ if (!isInMusicTab && !audio.paused) {
+ if (!miniPlayer) {
+ const currentImg = displayCover ? displayCover.src : "music-icon.png";
+ const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
+ 
+ let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+ markup += ' <div class="mini-player-top-row">';
+ markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
+ markup += ' <div class="mini-details-wrap">';
+ markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
+ markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
+ markup += ' </div>';
+ markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
+ markup += ' </div>';
+ markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
+ markup += '</div>';
+ 
+ document.body.insertAdjacentHTML("beforeend", markup);
+ miniPlayer = document.getElementById("shared-global-mini-deck");
+ 
+ const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+ if (miniPauseBtn) {
+ miniPauseBtn.addEventListener("click", () => {
+ if (!audio.paused) {
+ audio.pause();
+ miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+ } else {
+ audio.play();
+ miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+ }
+ });
+ }
+ }
 
-      // Shared timestamp UI text rendering helper utility function
-      function formatAndDisplayTime(secondsValue) {
-        if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
-        let mins = Math.floor(secondsValue / 60);
-        let secs = Math.floor(secondsValue % 60);
-        if (timeLabel) {
-          timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
-        }
-      }
+ audio.addEventListener("timeupdate", () => {
+ const fillNode = document.getElementById("mini-deck-fill");
+ if (fillNode && !isNaN(audio.duration)) {
+ fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+ }
+ });
+ } else if ((isInMusicTab || audio.paused) && miniPlayer) {
+ miniPlayer.remove();
+ }
+ }
 
-      if (slider) {
-        // FIX: Calculates and renders matching time stamps instantly while dragging slider handle
-        slider.addEventListener("input", () => {
-          if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-            const targetTime = (slider.value / 100) * audio.duration;
-            formatAndDisplayTime(targetTime);
-          }
-        });
-
-        // Commits final position calculation directly into the audio player engine on release
-        slider.addEventListener("change", () => {
-          if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-            audio.currentTime = (slider.value / 100) * audio.duration;
-          }
-        });
-
-        // Tracks natural playback progression tick updates smoothly without stealing focus
-        audio.addEventListener("timeupdate", () => {
-          if (!isNaN(audio.duration) && !slider.matches(":focus")) {
-            slider.value = (audio.currentTime / audio.duration) * 100;
-            formatAndDisplayTime(audio.currentTime);
-          }
-        });
-      }
-
-      tiles.forEach(tile => {
-        tile.addEventListener("click", () => {
-          tiles.forEach(t => t.classList.remove("active"));
-          tile.classList.add("active");
-          
-          const songSrc = tile.getAttribute("data-src");
-          const songTitle = tile.getAttribute("data-title");
-          const songImg = tile.getAttribute("data-img");
-
-          audio.src = songSrc;
-          if (displayTitle) displayTitle.textContent = songTitle;
-          if (displayCover && songImg) displayCover.src = songImg;
-
-          // Reveal control deck container layout now that a track has been picked
-          if (deckBar) deckBar.classList.add("deck-visible");
-
-          audio.loop = window.isAudioLooping;
-          audio.play().catch(err => console.log("Tile play crash:", err));
-          if (shape) shape.className = "play-state-shape pause-bars";
-        });
-      });
-
-      if (searchBox) {
-        searchBox.addEventListener("input", () => {
-          const query = searchBox.value.toLowerCase();
-          tiles.forEach(tile => {
-            const titleText = tile.getAttribute("data-title").toLowerCase();
-            tile.style.display = titleText.includes(query) ? "flex" : "none";
-          });
-        });
-      }
-
-      function processMiniplayerVisibilities() {
-        const isInMusicTab = document.getElementById("song-search") !== null;
-        let miniPlayer = document.getElementById("shared-global-mini-deck");
-
-        if (!isInMusicTab && !audio.paused) {
-          if (!miniPlayer) {
-            const currentImg = displayCover ? displayCover.src : "music-icon.png";
-            const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
-            
-            let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
-            markup += ' <div class="mini-player-top-row">';
-            markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
-            markup += ' <div class="mini-details-wrap">';
-            markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
-            markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
-            markup += ' </div>';
-            markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
-            markup += ' </div>';
-            markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
-            markup += '</div>';
-            
-            document.body.insertAdjacentHTML("beforeend", markup);
-            miniPlayer = document.getElementById("shared-global-mini-deck");
-
-            const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
-            if (miniPauseBtn) {
-              miniPauseBtn.addEventListener("click", () => {
-                if (!audio.paused) {
-                  audio.pause();
-                  miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                } else {
-                  audio.play();
-                  miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                }
-              });
-            }
-          }
-
-          audio.addEventListener("timeupdate", () => {
-            const fillNode = document.getElementById("mini-deck-fill");
-            if (fillNode && !isNaN(audio.duration)) {
-              fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
-            }
-          });
-        } else if ((isInMusicTab || audio.paused) && miniPlayer) {
-          miniPlayer.remove();
-        }
-      }
-
-      audio.addEventListener("pause", processMiniplayerVisibilities);
-      audio.addEventListener("play", processMiniplayerVisibilities);
-      processMiniplayerVisibilities();
-    });
-  </script>
+ audio.addEventListener("pause", processMiniplayerVisibilities);
+ audio.addEventListener("play", processMiniplayerVisibilities);
+ processMiniplayerVisibilities();
+ });
+ </script>
 </body>
 </html>

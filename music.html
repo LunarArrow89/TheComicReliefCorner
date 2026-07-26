@@ -166,7 +166,8 @@
  <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
  <div class="progress-container">
  <span id="current-time-label" class="time-stamp">0:00</span>
- <input type="range" id="progress-slider" min="0" max="100" value="0">
+ <!-- FIX: Added step="0.01" to handle smooth timeline calculations without snapping to 0 -->
+ <input type="range" id="progress-slider" min="0" max="100" step="0.01" value="0">
  </div>
  <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
  <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
@@ -180,7 +181,7 @@
  </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
  </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
- <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
+  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
  <script>
  window.audioEngine = window.audioEngine || new Audio();
  window.isAudioLooping = window.isAudioLooping || false;
@@ -197,7 +198,7 @@
  const searchBox = document.getElementById("song-search");
  const deckBar = document.getElementById("control-deck-bar");
 
- // Track previous timestamps to find native loop rollovers
+ // Tracks native loop rollovers cleanly
  let lastRecordedTime = 0;
 
  // Set up UI states based on active background stream status
@@ -249,7 +250,7 @@
  }
  }
  if (slider) {
- // FIX: Calculates and renders matching time stamps instantly while dragging slider handle
+ // Calculates and renders matching time stamps instantly while dragging slider handle
  slider.addEventListener("input", () => {
  if (!isNaN(audio.duration) && isFinite(audio.duration)) {
  const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
@@ -265,7 +266,7 @@
  // Tracks natural playback progression tick updates smoothly without stealing focus
  audio.addEventListener("timeupdate", () => {
  if (!isNaN(audio.duration)) {
- // FIX: Detect looping rollover when current time suddenly jumps backward below last recorded step
+ // Detect loop rollover when current time suddenly jumps backward below last recorded step
  if (audio.currentTime < lastRecordedTime && (lastRecordedTime - audio.currentTime) > 1) {
  slider.value = 0;
  formatAndDisplayTime(0);
@@ -357,3 +358,4 @@
  </script>
 </body>
 </html>
+

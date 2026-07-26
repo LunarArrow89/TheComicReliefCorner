@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     pipelineObserver.observe(document.body, { childList: true, subtree: true });
 
-    // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - FIXED COMPACT STYLE INJECTION
+    // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - ABSOLUTE MAXIMUM OVERRIDE STYLES
     const styleId = "universal-player-dynamic-css";
     if (!document.getElementById(styleId)) {
         const customStyles = `
@@ -69,8 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 position: fixed;
                 bottom: 20px;
                 right: 20px;
-                width: 320px;
-                height: auto !important; /* FIX: Prevents large empty vertical spaces */
+                width: 320px !important;
+                /* FIX: Aggressively lock the height layout against external stylesheet variables */
+                height: max-content !important;
+                min-height: 0px !important;
+                max-height: 90px !important;
                 background: #2a2a2a;
                 border: 2px solid #444;
                 border-radius: 12px;
@@ -83,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                overflow: hidden !important;
             }
             .global-mini-player:active {
                 cursor: grabbing;
@@ -171,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         styleTag.textContent = customStyles;
         document.head.appendChild(styleTag);
     }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - INITIAL COMPACT DIMENSION ALIGNMENT
+    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - INJECTED SIZING STRINGS
     function processGlobalMiniplayerVisibility() {
         const isMusicTabActive = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
@@ -193,8 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isMusicTabActive && cachedSrc) {
             if (!miniPlayer) {
-                // FIX: Force initial height sizing explicitly within the dynamic template string markup
-                let markup = '<div id="shared-global-mini-deck" class="global-mini-player" style="height: auto !important;">';
+                // FIX: Inline structural height definitions directly inside node construction string
+                let markup = '<div id="shared-global-mini-deck" class="global-mini-player" style="height: 90px !important; min-height: 90px !important;">';
                 markup += ' <div class="mini-player-top-row" id="mini-deck-drag-handle">';
                 markup += '  <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
                 markup += '  <div class="mini-details-wrap">';
@@ -290,6 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dragHandle.addEventListener("mousedown", dragStartInitiation);
         dragHandle.addEventListener("touchstart", dragStartInitiation, { passive: false });
 
+        // Checks screen layout limits to prevent the block from glitching out into page white spaces
         function dragStartInitiation(e) {
             if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
             

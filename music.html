@@ -166,7 +166,7 @@
  <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
  <div class="progress-container">
  <span id="current-time-label" class="time-stamp">0:00</span>
- <input type="range" id="progress-slider" min="0" max="100" step="0.1" value="0">
+ <input type="range" id="progress-slider" min="0" max="100" step="0.01" value="0">
  </div>
  <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
  <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
@@ -182,7 +182,9 @@
  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
  <script>
- window.audioEngine = window.audioEngine || new Audio();
+ if (!window.audioEngine) {
+     window.audioEngine = new Audio();
+ }
  window.isAudioLooping = window.isAudioLooping || false;
 
  document.addEventListener("DOMContentLoaded", () => {
@@ -198,165 +200,170 @@
  const searchBox = document.getElementById("song-search");
  const deckBar = document.getElementById("control-deck-bar");
 
- // Sync UI component states based on player action histories
- function updateButtonVisuals() {
- if (!shape) return;
- if (!audio.paused && audio.src && audio.src !== window.location.href) {
- shape.className = "play-state-shape pause-bars";
- } else {
- shape.className = "play-state-shape triangle";
- }
+ let isUserDraggingSlider = false;
+
+ // Synchronizes primary button shapes to ensure play state icons never break
+ function synchronizePlayerUI() {
+     if (!shape) return;
+     if (!audio.paused && audio.src && audio.src !== window.location.href) {
+         shape.className = "play-state-shape pause-bars";
+     } else {
+         shape.className = "play-state-shape triangle";
+     }
  }
 
+ // Set up UI elements based on active tab background streaming state
  if (!audio.paused && audio.src && audio.src !== window.location.href) {
- if (deckBar) deckBar.classList.add("deck-visible");
- const activeTile = document.querySelector(".square-song-tile.active");
- if (activeTile) {
- if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
- if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
- }
+     if (deckBar) deckBar.classList.add("deck-visible");
+     const activeTile = document.querySelector(".square-song-tile.active");
+     if (activeTile) {
+         if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
+         if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
+     }
  } else {
- if (displayTitle) displayTitle.textContent = "No song is playing";
- if (displayCover) displayCover.src = "music-icon.png";
- if (deckBar) deckBar.classList.remove("deck-visible");
+     if (displayTitle) displayTitle.textContent = "No song is playing";
+     if (displayCover) displayCover.src = "music-icon.png";
+     if (deckBar) deckBar.classList.remove("deck-visible");
  }
- updateButtonVisuals();
+ synchronizePlayerUI();
 
  if (window.isAudioLooping && loopBtn) {
- loopBtn.classList.add("loop-active");
- audio.loop = true;
+     loopBtn.classList.add("loop-active");
+     audio.loop = true;
  }
 
- // Master play/pause controller connection
+ // Fixed Play/Pause click handlers
  if (playBtn) {
- playBtn.addEventListener("click", () => {
- if (audio.paused) {
- audio.play().catch(err => console.log("Playback failed:", err));
- } else {
- audio.pause();
- }
- });
+     playBtn.addEventListener("click", () => {
+         if (audio.paused) {
+             audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
+         } else {
+             audio.pause();
+             synchronizePlayerUI();
+         }
+     });
  }
 
  if (loopBtn) {
- loopBtn.addEventListener("click", () => {
- window.isAudioLooping = !window.isAudioLooping;
- audio.loop = window.isAudioLooping;
- loopBtn.classList.toggle("loop-active", window.isAudioLooping);
- });
+     loopBtn.addEventListener("click", () => {
+         window.isAudioLooping = !window.isAudioLooping;
+         audio.loop = window.isAudioLooping;
+         loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+     });
  }
 
  function formatAndDisplayTime(secondsValue) {
- if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
- let mins = Math.floor(secondsValue / 60);
- let secs = Math.floor(secondsValue % 60);
- if (timeLabel) {
- timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
- }
+     if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
+     let mins = Math.floor(secondsValue / 60);
+     let secs = Math.floor(secondsValue % 60);
+     if (timeLabel) {
+         timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+     }
  }
 
+ // Fixed input events with absolute lock state flags to handle smooth looping updates
  if (slider) {
- slider.addEventListener("input", () => {
- if (!isNaN(audio.duration) && isFinite(audio.duration)) {
- const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
- formatAndDisplayTime(targetTime);
- }
- });
+     slider.addEventListener("input", () => {
+         isUserDraggingSlider = true;
+         if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+             const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
+             formatAndDisplayTime(targetTime);
+         }
+     });
 
- slider.addEventListener("change", () => {
- if (!isNaN(audio.duration) && isFinite(audio.duration)) {
- audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
+     slider.addEventListener("change", () => {
+         if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+             audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
+         }
+         isUserDraggingSlider = false;
+     });
  }
- });
 
- // FIX: Clean time tracking update loop that won't lock up on natural looping resets
+ // Fixed Global Core time updates loop (Memory leaks closed)
  audio.addEventListener("timeupdate", () => {
- if (!isNaN(audio.duration) && isFinite(audio.duration) && !slider.matches(":focus")) {
- slider.value = (audio.currentTime / audio.duration) * 100;
- formatAndDisplayTime(audio.currentTime);
- }
+     if (!isNaN(audio.duration) && isFinite(audio.duration) && !isUserDraggingSlider) {
+         slider.value = (audio.currentTime / audio.duration) * 100;
+         formatAndDisplayTime(audio.currentTime);
+     }
+     
+     // Updates mini player fill nodes natively without piling structural events
+     const fillNode = document.getElementById("mini-deck-fill");
+     if (fillNode && !isNaN(audio.duration)) {
+         fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
+     }
  });
- }
 
- // Hook global events to guarantee play/pause buttons never freeze up
- audio.addEventListener("play", updateButtonVisuals);
- audio.addEventListener("pause", updateButtonVisuals);
+ audio.addEventListener("play", synchronizePlayerUI);
+ audio.addEventListener("pause", synchronizePlayerUI);
 
  tiles.forEach(tile => {
- tile.addEventListener("click", () => {
- tiles.forEach(t => t.classList.remove("active"));
- tile.classList.add("active");
- 
- const songSrc = tile.getAttribute("data-src");
- const songTitle = tile.getAttribute("data-title");
- const songImg = tile.getAttribute("data-img");
- audio.src = songSrc;
- if (displayTitle) displayTitle.textContent = songTitle;
- if (displayCover && songImg) displayCover.src = songImg;
- 
- if (deckBar) deckBar.classList.add("deck-visible");
- audio.loop = window.isAudioLooping;
- audio.play().catch(err => console.log("Tile play crash:", err));
- });
+     tile.addEventListener("click", () => {
+         tiles.forEach(t => t.classList.remove("active"));
+         tile.classList.add("active");
+         
+         const songSrc = tile.getAttribute("data-src");
+         const songTitle = tile.getAttribute("data-title");
+         const songImg = tile.getAttribute("data-img");
+         audio.src = songSrc;
+         if (displayTitle) displayTitle.textContent = songTitle;
+         if (displayCover && songImg) displayCover.src = songImg;
+         
+         if (deckBar) deckBar.classList.add("deck-visible");
+         audio.loop = window.isAudioLooping;
+         audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
+     });
  });
 
  if (searchBox) {
- searchBox.addEventListener("input", () => {
- const query = searchBox.value.toLowerCase();
- tiles.forEach(tile => {
- const titleText = tile.getAttribute("data-title").toLowerCase();
- tile.style.display = titleText.includes(query) ? "flex" : "none";
- });
- });
+     searchBox.addEventListener("input", () => {
+         const query = searchBox.value.toLowerCase();
+         tiles.forEach(tile => {
+             const titleText = tile.getAttribute("data-title").toLowerCase();
+             tile.style.display = titleText.includes(query) ? "flex" : "none";
+         });
+     });
  }
 
  function processMiniplayerVisibilities() {
- const isInMusicTab = document.getElementById("song-search") !== null;
- let miniPlayer = document.getElementById("shared-global-mini-deck");
+     const isInMusicTab = document.getElementById("song-search") !== null;
+     let miniPlayer = document.getElementById("shared-global-mini-deck");
 
- if (!isInMusicTab && !audio.paused) {
- if (!miniPlayer) {
- const currentImg = displayCover ? displayCover.src : "music-icon.png";
- const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
- 
- let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
- markup += ' <div class="mini-player-top-row">';
- markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
- markup += ' <div class="mini-details-wrap">';
- markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
- markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
- markup += ' </div>';
- markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
- markup += ' </div>';
- markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
- markup += '</div>';
- 
- document.body.insertAdjacentHTML("beforeend", markup);
- miniPlayer = document.getElementById("shared-global-mini-deck");
- 
- const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
- if (miniPauseBtn) {
- miniPauseBtn.addEventListener("click", () => {
- if (!audio.paused) {
- audio.pause();
- miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
- } else {
- audio.play();
- miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
- }
- });
- }
- }
-
- audio.addEventListener("timeupdate", () => {
- const fillNode = document.getElementById("mini-deck-fill");
- if (fillNode && !isNaN(audio.duration)) {
- fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
- }
- });
- } else if ((isInMusicTab || audio.paused) && miniPlayer) {
- miniPlayer.remove();
- }
+     if (!isInMusicTab && !audio.paused) {
+         if (!miniPlayer) {
+             const currentImg = displayCover ? displayCover.src : "music-icon.png";
+             const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
+             
+             let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+             markup += ' <div class="mini-player-top-row">';
+             markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
+             markup += ' <div class="mini-details-wrap">';
+             markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
+             markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
+             markup += ' </div>';
+             markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
+             markup += ' </div>';
+             markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
+             markup += '</div>';
+             
+             document.body.insertAdjacentHTML("beforeend", markup);
+             miniPlayer = document.getElementById("shared-global-mini-deck");
+             
+             const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+             if (miniPauseBtn) {
+                 miniPauseBtn.addEventListener("click", () => {
+                     if (!audio.paused) {
+                         audio.pause();
+                         miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                     } else {
+                         audio.play();
+                         miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                     }
+                 });
+             }
+         }
+     } else if ((isInMusicTab || audio.paused) && miniPlayer) {
+         miniPlayer.remove();
+     }
  }
 
  audio.addEventListener("pause", processMiniplayerVisibilities);

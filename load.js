@@ -153,11 +153,20 @@ document.addEventListener("DOMContentLoaded", () => {
         styleTag.textContent = customStyles;
         document.head.appendChild(styleTag);
     }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - CONTROLS & GENERATOR
+    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - PERSISTENCE CONTROLS
     function processGlobalMiniplayerVisibility() {
         const isMusicTabActive = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
 
+        // Restore instance properties from memory if the local runtime drops state variables
+        const storedSrc = localStorage.getItem("audio_active_src");
+        if (storedSrc && (!audio.src || audio.src === window.location.href)) {
+            audio.src = storedSrc;
+            const savedTime = localStorage.getItem("audio_active_time");
+            if (savedTime) audio.currentTime = parseFloat(savedTime);
+        }
+
+        // Render mini player dynamically if we are off the primary music template tab
         if (!isMusicTabActive && !audio.paused && audio.src && audio.src !== window.location.href) {
             if (!miniPlayer) {
                 let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
@@ -189,15 +198,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const imageNode = document.getElementById("mini-deck-img");
         const pauseBtn = document.getElementById("mini-deck-pause-btn");
 
-        if (titleNode && window.audioEngineSrcTitle) {
-            titleNode.textContent = window.audioEngineSrcTitle;
-        }
-        if (imageNode && window.audioEngineSrcCover) {
-            imageNode.src = window.audioEngineSrcCover;
-        }
-        if (pauseBtn) {
-            pauseBtn.textContent = audio.paused ? "▶" : "⏸";
-        }
+        const localTitle = localStorage.getItem("audio_active_title") || window.audioEngineSrcTitle;
+        const localCover = localStorage.getItem("audio_active_img") || window.audioEngineSrcCover;
+
+        if (titleNode && localTitle) titleNode.textContent = localTitle;
+        if (imageNode && localCover) imageNode.src = localCover;
+        if (pauseBtn) pauseBtn.textContent = audio.paused ? "▶" : "⏸";
     }
 
     function setupMiniPlayerControllers() {
@@ -206,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (miniPauseBtn) {
             miniPauseBtn.addEventListener("click", (e) => {
-                e.stopPropagation(); // Stops drag execution on buttons
+                e.stopPropagation();
                 if (!audio.paused) {
                     audio.pause();
                     miniPauseBtn.textContent = "▶";
@@ -240,8 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
             
             e.preventDefault();
             if (e.type === "touchstart") {
-                activeX = e.touches[0].clientX;
-                activeY = e.touches[0].clientY;
+                activeX = e.touches.clientX;
+                activeY = e.touches.clientY;
             } else {
                 activeX = e.clientX;
                 activeY = e.clientY;
@@ -258,8 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
             let currentClientY = 0;
 
             if (e.type === "touchmove") {
-                currentClientX = e.touches[0].clientX;
-                currentClientY = e.touches[0].clientY;
+                currentClientX = e.touches.clientX;
+                currentClientY = e.touches.clientY;
             } else {
                 currentClientX = e.clientX;
                 currentClientY = e.clientY;
@@ -270,11 +276,8 @@ document.addEventListener("DOMContentLoaded", () => {
             activeX = currentClientX;
             activeY = currentClientY;
 
-            const computedTop = element.offsetTop - deltaY;
-            const computedLeft = element.offsetLeft - deltaX;
-
-            element.style.top = computedTop + "px";
-            element.style.left = computedLeft + "px";
+            element.style.top = (element.offsetTop - deltaY) + "px";
+            element.style.left = (element.offsetLeft - deltaX) + "px";
             element.style.bottom = "auto";
             element.style.right = "auto";
         }
@@ -287,28 +290,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Intercept media library selections globally to save variables
+    // Intercept clicks on the playlist tiles to store info into persistent storage
     document.body.addEventListener("click", (e) => {
         const tile = e.target.closest(".square-song-tile");
         if (tile) {
-            window.audioEngineSrcTitle = tile.getAttribute("data-title") || "Unknown Track";
-            window.audioEngineSrcCover = tile.getAttribute("data-img") || "music-icon.png";
+            const currentSrc = tile.getAttribute("data-src");
+            const currentTitle = tile.getAttribute("data-title") || "Unknown Track";
+            const currentImg = tile.getAttribute("data-img") || "music-icon.png";
+
+            window.audioEngineSrcTitle = currentTitle;
+            window.audioEngineSrcCover = currentImg;
+
+            localStorage.setItem("audio_active_src", currentSrc);
+            localStorage.setItem("audio_active_title", currentTitle);
+            localStorage.setItem("audio_active_img", currentImg);
+            
             updateMiniplayerDataTrack();
         }
     });
 
-    // Handle universal fill tracking ticks
+    // Continuously sync playhead parameters down to localStorage caches
     audio.addEventListener("timeupdate", () => {
+        if (!audio.paused && audio.src) {
+            localStorage.setItem("audio_active_time", audio.currentTime);
+        }
         const fillNode = document.getElementById("mini-deck-fill");
         if (fillNode && !isNaN(audio.duration) && isFinite(audio.duration)) {
             fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
         }
     });
 
-    audio.addEventListener("pause", processGlobalMiniplayerVisibility);
+    audio.addEventListener("pause", () => {
+        localStorage.removeItem("audio_active_time");
+        processGlobalMiniplayerVisibility();
+    });
     audio.addEventListener("play", processGlobalMiniplayerVisibility);
     
-    // Monitors asynchronous route shifts across templates
-    setInterval(processGlobalMiniplayerVisibility, 1000);
+    // Fallback sync polling loop to keep track data accurate across navigations
+    setInterval(processGlobalMiniplayerVisibility, 500);
     processGlobalMiniplayerVisibility();
 });

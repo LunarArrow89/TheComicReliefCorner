@@ -189,6 +189,7 @@
  </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
+ <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
  <script>
  if (!window.audioEngine) {
      window.audioEngine = new Audio();
@@ -210,7 +211,6 @@
 
  let isUserDraggingSlider = false;
 
- // Synchronizes primary button shapes to ensure play state icons never break
  function synchronizePlayerUI() {
      if (!shape) return;
      if (!audio.paused && audio.src && audio.src !== window.location.href) {
@@ -220,7 +220,6 @@
      }
  }
 
- // Set up UI elements based on active tab background streaming state
  if (!audio.paused && audio.src && audio.src !== window.location.href) {
      if (deckBar) deckBar.classList.add("deck-visible");
      const activeTile = document.querySelector(".square-song-tile.active");
@@ -240,7 +239,6 @@
      audio.loop = true;
  }
 
- // Fixed Play/Pause click handlers
  if (playBtn) {
      playBtn.addEventListener("click", () => {
          if (audio.paused) {
@@ -269,7 +267,6 @@
      }
  }
 
- // Fixed input events with absolute lock state flags to handle smooth looping updates
  if (slider) {
      slider.addEventListener("input", () => {
          isUserDraggingSlider = true;
@@ -287,17 +284,10 @@
      });
  }
 
- // Fixed Global Core time updates loop (Memory leaks closed)
  audio.addEventListener("timeupdate", () => {
      if (!isNaN(audio.duration) && isFinite(audio.duration) && !isUserDraggingSlider) {
          slider.value = (audio.currentTime / audio.duration) * 100;
          formatAndDisplayTime(audio.currentTime);
-     }
-     
-     // Updates mini player fill nodes natively without piling structural events
-     const fillNode = document.getElementById("mini-deck-fill");
-     if (fillNode && !isNaN(audio.duration)) {
-         fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
      }
  });
 
@@ -331,52 +321,6 @@
          });
      });
  }
-
- function processMiniplayerVisibilities() {
-     const isInMusicTab = document.getElementById("song-search") !== null;
-     let miniPlayer = document.getElementById("shared-global-mini-deck");
-
-     if (!isInMusicTab && !audio.paused) {
-         if (!miniPlayer) {
-             const currentImg = displayCover ? displayCover.src : "music-icon.png";
-             const currentTitle = displayTitle ? displayTitle.textContent : "No song is playing";
-             
-             let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
-             markup += ' <div class="mini-player-top-row">';
-             markup += ' <div class="mini-cover-wrap"><img id="mini-deck-img" src="' + currentImg + '" alt="Mini Cover"></div>';
-             markup += ' <div class="mini-details-wrap">';
-             markup += ' <span class="mini-status-tag">Lounge Streaming</span>';
-             markup += ' <p id="mini-deck-title" class="mini-title">' + currentTitle + '</p>';
-             markup += ' </div>';
-             markup += ' <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>';
-             markup += ' </div>';
-             markup += ' <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
-             markup += '</div>';
-             
-             document.body.insertAdjacentHTML("beforeend", markup);
-             miniPlayer = document.getElementById("shared-global-mini-deck");
-             
-             const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
-             if (miniPauseBtn) {
-                 miniPauseBtn.addEventListener("click", () => {
-                     if (!audio.paused) {
-                         audio.pause();
-                         miniPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                     } else {
-                         audio.play();
-                         miniPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                     }
-                 });
-             }
-         }
-     } else if ((isInMusicTab || audio.paused) && miniPlayer) {
-         miniPlayer.remove();
-     }
- }
-
- audio.addEventListener("pause", processMiniplayerVisibilities);
- audio.addEventListener("play", processMiniplayerVisibilities);
- processMiniplayerVisibilities();
  });
  </script>
 </body>

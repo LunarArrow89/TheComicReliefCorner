@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         styleTag.textContent = customStyles;
         document.head.appendChild(styleTag);
     }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - FIXED PERSISTENCE AND SIZING
+    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - INITIAL COMPACT DIMENSION ALIGNMENT
     function processGlobalMiniplayerVisibility() {
         const isMusicTabActive = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
@@ -191,9 +191,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        if (!isMusicTabActive && cachedSrc && (wasPlayingBeforePageShift || !audio.paused)) {
+        if (!isMusicTabActive && cachedSrc) {
             if (!miniPlayer) {
-                let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
+                // FIX: Force initial height sizing explicitly within the dynamic template string markup
+                let markup = '<div id="shared-global-mini-deck" class="global-mini-player" style="height: auto !important;">';
                 markup += ' <div class="mini-player-top-row" id="mini-deck-drag-handle">';
                 markup += '  <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
                 markup += '  <div class="mini-details-wrap">';
@@ -215,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setupMiniPlayerControllers();
             }
             updateMiniplayerDataTrack();
-        } else if ((isMusicTabActive || (audio.paused && !wasPlayingBeforePageShift)) && miniPlayer) {
+        } else if ((isMusicTabActive || !cachedSrc) && miniPlayer) {
             miniPlayer.remove();
         }
     }
@@ -228,18 +229,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const localTitle = localStorage.getItem("audio_active_title") || window.audioEngineSrcTitle;
         const localCover = localStorage.getItem("audio_active_img") || window.audioEngineSrcCover;
-        const wasPlaying = localStorage.getItem("audio_was_playing") === "true";
 
         if (titleNode && localTitle) titleNode.textContent = localTitle;
         if (imageNode && localCover) imageNode.src = localCover;
         
         if (pauseBtn) {
-            if (audio.paused && wasPlaying) {
+            if (audio.paused) {
                 pauseBtn.textContent = "▶";
-                if (statusNode) statusNode.textContent = "Click to Tap In";
+                if (statusNode) statusNode.textContent = "Paused";
             } else {
-                pauseBtn.textContent = audio.paused ? "▶" : "⏸";
-                if (statusNode && !audio.paused) statusNode.textContent = "Lounge Streaming";
+                pauseBtn.textContent = "⏸";
+                if (statusNode) statusNode.textContent = "Lounge Streaming";
             }
         }
     }
@@ -255,20 +255,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!audio.paused) {
                     audio.pause();
                     localStorage.setItem("audio_was_playing", "false");
-                    miniPauseBtn.textContent = "▶";
                 } else {
                     audio.play().then(() => {
                         localStorage.setItem("audio_was_playing", "true");
-                        miniPauseBtn.textContent = "⏸";
-                    }).catch(err => console.log("Playback failed:", err));
+                    }).catch(err => console.log("Playback restart blocked:", err));
                 }
+                updateMiniplayerDataTrack();
             });
         }
 
         if (miniRestartBtn) {
             miniRestartBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                audio.currentTime = 0; // Instantly snaps target playhead timeline value back to zero
+                audio.currentTime = 0;
                 localStorage.setItem("audio_active_time", 0);
             });
         }
@@ -358,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     audio.addEventListener("timeupdate", () => {
-        if (!audio.paused && audio.src) {
+        if (audio.src) {
             localStorage.setItem("audio_active_time", audio.currentTime);
         }
         const fillNode = document.getElementById("mini-deck-fill");
@@ -367,15 +366,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    audio.addEventListener("pause", () => {
-        localStorage.setItem("audio_was_playing", "false");
-        processGlobalMiniplayerVisibility();
-    });
-
-    audio.addEventListener("play", () => {
-        localStorage.setItem("audio_was_playing", "true");
-        processGlobalMiniplayerVisibility();
-    });
+    audio.addEventListener("pause", updateMiniplayerDataTrack);
+    audio.addEventListener("play", updateMiniplayerDataTrack);
 
     setInterval(processGlobalMiniplayerVisibility, 500);
     processGlobalMiniplayerVisibility();

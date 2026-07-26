@@ -1,379 +1,345 @@
-/* ========================================================================== 
-   LOAD.JS - GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE 
-   ========================================================================== */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>The Comic Relief Corner - Music</title>
+ <!-- Unified CSS Styling Engine Link -->
+ <link rel="stylesheet" href="style.css?v=unified_spacing">
+ <!-- Loader Script Engine Link -->
+ <script defer src="load.js"></script>
+ 
+ <style>
+ /* MATCHING YOUR SKETCH MOCKUP STACK ORDER */
+ .showcase-box {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ text-align: center;
+ }
+ /* Force the header or text below the image wrapper */
+ .showcase-img-wrap {
+ order: 1; /* Puts image first */
+ margin-bottom: 15px;
+ }
+ .showcase-title {
+ order: 2; /* Puts text directly beneath the image */
+ margin: 0;
+ }
+ /* Completely hide the header tag element from view */
+ .showcase-header {
+ display: none !important;
+ }
+ /* CONTROL DECK VISIBILITY MODIFIER */
+ .custom-control-bar {
+ display: none; /* Hidden by default until a track is chosen */
+ background: #2a2a2a;
+ border-radius: 8px;
+ padding: 10px;
+ }
+ /* CSS Class triggered via JavaScript engine when a track becomes active */
+ .custom-control-bar.deck-visible {
+ display: flex !important;
+ }
+ /* PURE HTML/CSS DRAWN LOOP ARROW BUTTON */
+ .loop-control-node {
+ background: #2a2a2a;
+ border: 2px solid #555;
+ border-radius: 6px;
+ cursor: pointer;
+ width: 42px;
+ height: 42px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ transition: all 0.2s ease;
+ position: relative;
+ }
+ .loop-html-container {
+ width: 22px;
+ height: 16px;
+ position: relative;
+ }
+ .loop-track {
+ position: absolute;
+ top: 2px;
+ left: 2px;
+ width: 16px;
+ height: 10px;
+ border: 2px solid #fff;
+ border-radius: 3px;
+ background: transparent;
+ }
+ .loop-mask-top {
+ position: absolute;
+ top: 0px;
+ left: 5px;
+ width: 6px;
+ height: 4px;
+ background: #2a2a2a;
+ transition: background 0.2s ease;
+ }
+ .loop-arrowhead {
+ position: absolute;
+ top: -2px;
+ left: 7px;
+ width: 0;
+ height: 0;
+ border-left: 4px solid transparent;
+ border-right: 4px solid transparent;
+ border-bottom: 6px solid #fff;
+ }
+ /* ACTIVE HIGHLIGHT STATE: VIVID HOT PINK */
+ .loop-control-node.loop-active {
+ background-color: #ff69b4;
+ border-color: #ff1493;
+ }
+ .loop-control-node.loop-active .loop-mask-top {
+ background: #ff69b4;
+ }
+ .loop-control-node:hover {
+ background-color: #3a3a3a;
+ }
+ .loop-control-node.loop-active:hover {
+ background-color: #ff1493;
+ }
+ </style>
+</head>
+<body>
+ <!-- TARGET LAYOUT MODULE BOX CONTAINERS -->
+ <div id="sidebar-container"></div>
+ <div id="header-container"></div>
+ <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
+ <div class="main">
+ <div class="hero">
+ <h1>The Music Lounge</h1>
+ <p>Turn up the volume, adjust your position, and lock the groove.</p>
+ </div>
+ <!-- SPLIT INTERFACE GRID ARCHITECTURE -->
+ <div class="split-player-layout">
+ 
+ <!-- LEFT COLUMN: LIVE QUERY SEARCH & SQUARE TRACK COVER MATRIX -->
+ <div class="music-library-column">
+ <div class="music-search-wrap">
+ <input type="text" id="song-search" class="music-search-box" placeholder="Search songs...">
+ </div>
+ 
+ <div class="square-song-grid">
+ <!-- ALBUM OBJECT CARD ITEM 1 -->
+ <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
+ <div class="tile-art">
+ <div class="tile-play-overlay-geo"></div>
+ <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
+ </div>
+ <p class="tile-title">Popstar Theme</p>
+ </div>
+ 
+ <!-- ALBUM OBJECT CARD ITEM 2 -->
+ <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
+ <div class="tile-art">
+ <div class="tile-play-overlay-geo"></div>
+ <img src="luna.gif" class="tile-img" alt="Track Cover">
+ </div>
+ <p class="tile-title">Synthwave Sunsets</p>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- RIGHT COLUMN: NOW PLAYING THEATER WINDOW & TIMELINE DECK -->
+ <div class="now-playing-column">
+ <div class="showcase-box">
+ <span class="showcase-header">Now Playing...</span>
+ <div class="showcase-img-wrap">
+ <img src="music-icon.png" id="display-cover" alt="Song Image">
+ </div>
+ <h2 id="display-title" class="showcase-title">No song is playing</h2>
+ </div>
+ 
+ <!-- DECK BAR SYSTEM COMPONENT PANEL ROW PANEL MODULE -->
+ <div id="control-deck-bar" class="custom-control-bar">
+ <div class="playback-btn-wrap">
+ <button id="play-pause-btn" class="custom-geo-btn">
+ <div id="btn-shape" class="play-state-shape triangle"></div>
+ </button>
+ </div>
+ <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
+ <div class="progress-container">
+ <span id="current-time-label" class="time-stamp">0:00</span>
+ <input type="range" id="progress-slider" min="0" max="100" step="0.01" value="0">
+ </div>
+ <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
+ <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
+ <div class="loop-html-container">
+ <div class="loop-track"></div>
+ <div class="loop-mask-top"></div>
+ <div class="loop-arrowhead"></div>
+ </div>
+ </button>
+ </div>
+ </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
+ </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
+ </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
+ <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
+ <script>
+ if (!window.audioEngine) {
+     window.audioEngine = new Audio();
+ }
+ window.isAudioLooping = window.isAudioLooping || false;
 
-// Mount global variables safely to survive persistent navigation
-window.audioEngine = window.audioEngine || new Audio();
-window.isAudioLooping = window.isAudioLooping || false;
+ document.addEventListener("DOMContentLoaded", () => {
+ const audio = window.audioEngine;
+ const playBtn = document.getElementById("play-pause-btn");
+ const shape = document.getElementById("btn-shape");
+ const slider = document.getElementById("progress-slider");
+ const timeLabel = document.getElementById("current-time-label");
+ const loopBtn = document.getElementById("loop-toggle-btn");
+ const tiles = document.querySelectorAll(".square-song-tile");
+ const displayCover = document.getElementById("display-cover");
+ const displayTitle = document.getElementById("display-title");
+ const searchBox = document.getElementById("song-search");
+ const deckBar = document.getElementById("control-deck-bar");
 
-document.addEventListener("DOMContentLoaded", () => {
-    const audio = window.audioEngine;
+ let isUserDraggingSlider = false;
 
-    // 1. GLOBAL SIDENAV & HEADER FETCH ENGINE
-    function executeGlobalTemplateLighter() {
-        const sidebarWrap = document.getElementById("sidebar-container");
-        const headerWrap = document.getElementById("header-container");
+ function synchronizePlayerUI() {
+     if (!shape) return;
+     if (!audio.paused && audio.src && audio.src !== window.location.href) {
+         shape.className = "play-state-shape pause-bars";
+     } else {
+         shape.className = "play-state-shape triangle";
+     }
+ }
 
-        if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-            fetch("sidebar.html")
-                .then(res => res.text())
-                .then(html => { sidebarWrap.innerHTML = html; })
-                .catch(err => console.error("Error loading sidebar layout:", err));
-        }
+ // FIX: Pull cached memory parameters out of storage to restore titles when coming back to the page
+ const localStoredSrc = localStorage.getItem("audio_active_src");
+ const localStoredTitle = localStorage.getItem("audio_active_title");
+ const localStoredImg = localStorage.getItem("audio_active_img");
 
-        if (headerWrap && headerWrap.innerHTML.trim() === "") {
-            fetch("header.html")
-                .then(res => res.text())
-                .then(html => {
-                    headerWrap.innerHTML = html;
-                    executeSystemTimeTicks(); // Update clock as soon as header mounts
-                })
-                .catch(err => console.error("Error loading header layout:", err));
-        }
-    }
+ if (localStoredSrc && (!audio.src || audio.src === window.location.href)) {
+     audio.src = localStoredSrc;
+     const savedTime = localStorage.getItem("audio_active_time");
+     if (savedTime) audio.currentTime = parseFloat(savedTime);
+ }
 
-    // 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE
-    function executeSystemTimeTicks() {
-        const timeBox = document.querySelector(".time-box");
-        const dateBox = document.querySelector(".date-box");
+ // Check if a song is configured in global storage or actively playing in the background
+ if (localStoredSrc || (!audio.paused && audio.src && audio.src !== window.location.href)) {
+     if (deckBar) deckBar.classList.add("deck-visible");
+     if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
+     if (displayCover && localStoredImg) displayCover.src = localStoredImg;
+     
+     // Highlight the active tile in your list matching the cached song source path
+     tiles.forEach(t => {
+         if (t.getAttribute("data-src") === localStoredSrc) {
+             t.classList.add("active");
+         } else {
+             t.classList.remove("active");
+         }
+     });
+ } else {
+     if (displayTitle) displayTitle.textContent = "No song is playing";
+     if (displayCover) displayCover.src = "music-icon.png";
+     if (deckBar) deckBar.classList.remove("deck-visible");
+ }
+ synchronizePlayerUI();
 
-        if (timeBox || dateBox) {
-            const now = new Date();
-            if (timeBox) {
-                timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            }
-            if (dateBox) {
-                const choices = { month: 'short', day: 'numeric' };
-                dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
-            }
-        }
-    }
+ if (window.isAudioLooping && loopBtn) {
+     loopBtn.classList.add("loop-active");
+     audio.loop = true;
+ }
 
-    // Run initial template rendering loop
-    executeGlobalTemplateLighter();
+ if (playBtn) {
+     playBtn.addEventListener("click", () => {
+         if (audio.paused) {
+             audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
+             localStorage.setItem("audio_was_playing", "true");
+         } else {
+             audio.pause();
+             synchronizePlayerUI();
+             localStorage.setItem("audio_was_playing", "false");
+         }
+     });
+ }
 
-    // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS CLEANLY
-    const pipelineObserver = new MutationObserver(() => {
-        pipelineObserver.disconnect(); // Prevent infinite loops
-        executeGlobalTemplateLighter();
-        executeSystemTimeTicks();
-        pipelineObserver.observe(document.body, { childList: true, subtree: true });
-    });
-    pipelineObserver.observe(document.body, { childList: true, subtree: true });
+ if (loopBtn) {
+     loopBtn.addEventListener("click", () => {
+         window.isAudioLooping = !window.isAudioLooping;
+         audio.loop = window.isAudioLooping;
+         loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+     });
+ }
 
-    // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - ABSOLUTE MAXIMUM OVERRIDE STYLES
-    const styleId = "universal-player-dynamic-css";
-    if (!document.getElementById(styleId)) {
-        const customStyles = `
-            .global-mini-player {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                width: 320px !important;
-                /* FIX: Aggressively lock the height layout against external stylesheet variables */
-                height: max-content !important;
-                min-height: 0px !important;
-                max-height: 90px !important;
-                background: #2a2a2a;
-                border: 2px solid #444;
-                border-radius: 12px;
-                padding: 12px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                z-index: 999999;
-                cursor: grab;
-                user-select: none;
-                transition: border-color 0.2s ease;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                overflow: hidden !important;
-            }
-            .global-mini-player:active {
-                cursor: grabbing;
-                border-color: #ff69b4;
-            }
-            .mini-player-top-row {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                width: 100%;
-            }
-            .mini-cover-wrap img {
-                width: 45px;
-                height: 45px;
-                border-radius: 6px;
-                object-fit: cover;
-                display: block;
-            }
-            .mini-details-wrap {
-                flex-grow: 1;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            .mini-status-tag {
-                font-size: 10px;
-                color: #ff69b4;
-                text-transform: uppercase;
-                font-weight: bold;
-                display: block;
-                line-height: 1.2;
-            }
-            .mini-title {
-                margin: 2px 0 0 0;
-                font-size: 13px;
-                color: #fff;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                line-height: 1.2;
-            }
-            .mini-controls-cluster {
-                display: flex;
-                align-items: center;
-                gap: 6px;
-            }
-            .mini-btn {
-                background: #444;
-                border: none;
-                color: #fff;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 12px;
-                padding: 0;
-                transition: background 0.2s;
-            }
-            .mini-btn:hover {
-                background: #ff69b4;
-            }
-            .mini-progress-line-bar {
-                width: 100%;
-                height: 4px;
-                background: #555;
-                border-radius: 2px;
-                overflow: hidden;
-                cursor: pointer;
-                position: relative;
-            }
-            .mini-progress-fill-node {
-                width: 0%;
-                height: 100%;
-                background: #ff69b4;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-        `;
-        const styleTag = document.createElement("style");
-        styleTag.id = styleId;
-        styleTag.textContent = customStyles;
-        document.head.appendChild(styleTag);
-    }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - INJECTED SIZING STRINGS
-    function processGlobalMiniplayerVisibility() {
-        const isMusicTabActive = document.getElementById("song-search") !== null;
-        let miniPlayer = document.getElementById("shared-global-mini-deck");
+ function formatAndDisplayTime(secondsValue) {
+     if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
+     let mins = Math.floor(secondsValue / 60);
+     let secs = Math.floor(secondsValue % 60);
+     if (timeLabel) {
+         timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+     }
+ }
 
-        const cachedSrc = localStorage.getItem("audio_active_src");
-        const wasPlayingBeforePageShift = localStorage.getItem("audio_was_playing") === "true";
+ if (slider) {
+     slider.addEventListener("input", () => {
+         isUserDraggingSlider = true;
+         if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+             const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
+             formatAndDisplayTime(targetTime);
+         }
+     });
 
-        if (cachedSrc && (!audio.src || audio.src === window.location.href)) {
-            audio.src = cachedSrc;
-            const savedPlaybackTime = localStorage.getItem("audio_active_time");
-            if (savedPlaybackTime) audio.currentTime = parseFloat(savedPlaybackTime);
-            
-            if (wasPlayingBeforePageShift && audio.paused) {
-                audio.play().catch(() => {
-                    localStorage.setItem("audio_was_playing", "true"); 
-                });
-            }
-        }
+     slider.addEventListener("change", () => {
+         if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+             audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
+         }
+         isUserDraggingSlider = false;
+     });
+ }
 
-        if (!isMusicTabActive && cachedSrc) {
-            if (!miniPlayer) {
-                // FIX: Inline structural height definitions directly inside node construction string
-                let markup = '<div id="shared-global-mini-deck" class="global-mini-player" style="height: 90px !important; min-height: 90px !important;">';
-                markup += ' <div class="mini-player-top-row" id="mini-deck-drag-handle">';
-                markup += '  <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
-                markup += '  <div class="mini-details-wrap">';
-                markup += '   <span class="mini-status-tag" id="mini-deck-status">Lounge Streaming</span>';
-                markup += '   <p id="mini-deck-title" class="mini-title">Syncing Track...</p>';
-                markup += '  </div>';
-                markup += '  <div class="mini-controls-cluster">';
-                markup += '   <button id="mini-deck-restart-btn" class="mini-btn" title="Restart">⏮</button>';
-                markup += '   <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause">▶</button>';
-                markup += '  </div>';
-                markup += ' </div>';
-                markup += ' <div id="mini-deck-scrub-bar" class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
-                markup += '</div>';
+ audio.addEventListener("timeupdate", () => {
+     if (!isNaN(audio.duration) && isFinite(audio.duration) && !isUserDraggingSlider) {
+         slider.value = (audio.currentTime / audio.duration) * 100;
+         formatAndDisplayTime(audio.currentTime);
+     }
+ });
 
-                document.body.insertAdjacentHTML("beforeend", markup);
-                miniPlayer = document.getElementById("shared-global-mini-deck");
+ audio.addEventListener("play", synchronizePlayerUI);
+ audio.addEventListener("pause", synchronizePlayerUI);
 
-                setupMoveableDragEngine(miniPlayer);
-                setupMiniPlayerControllers();
-            }
-            updateMiniplayerDataTrack();
-        } else if ((isMusicTabActive || !cachedSrc) && miniPlayer) {
-            miniPlayer.remove();
-        }
-    }
+ tiles.forEach(tile => {
+     tile.addEventListener("click", () => {
+         tiles.forEach(t => t.classList.remove("active"));
+         tile.classList.add("active");
+         
+         const songSrc = tile.getAttribute("data-src");
+         const songTitle = tile.getAttribute("data-title");
+         const songImg = tile.getAttribute("data-img");
+         
+         audio.src = songSrc;
+         if (displayTitle) displayTitle.textContent = songTitle;
+         if (displayCover && songImg) displayCover.src = songImg;
+         
+         // Update localStorage parameters immediately on selection
+         localStorage.setItem("audio_active_src", songSrc);
+         localStorage.setItem("audio_active_title", songTitle);
+         localStorage.setItem("audio_active_img", songImg);
+         localStorage.setItem("audio_was_playing", "true");
 
-    function updateMiniplayerDataTrack() {
-        const titleNode = document.getElementById("mini-deck-title");
-        const imageNode = document.getElementById("mini-deck-img");
-        const pauseBtn = document.getElementById("mini-deck-pause-btn");
-        const statusNode = document.getElementById("mini-deck-status");
+         if (deckBar) deckBar.classList.add("deck-visible");
+         audio.loop = window.isAudioLooping;
+         audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
+     });
+ });
 
-        const localTitle = localStorage.getItem("audio_active_title") || window.audioEngineSrcTitle;
-        const localCover = localStorage.getItem("audio_active_img") || window.audioEngineSrcCover;
-
-        if (titleNode && localTitle) titleNode.textContent = localTitle;
-        if (imageNode && localCover) imageNode.src = localCover;
-        
-        if (pauseBtn) {
-            if (audio.paused) {
-                pauseBtn.textContent = "▶";
-                if (statusNode) statusNode.textContent = "Paused";
-            } else {
-                pauseBtn.textContent = "⏸";
-                if (statusNode) statusNode.textContent = "Lounge Streaming";
-            }
-        }
-    }
-
-    function setupMiniPlayerControllers() {
-        const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
-        const miniRestartBtn = document.getElementById("mini-deck-restart-btn");
-        const scrubBar = document.getElementById("mini-deck-scrub-bar");
-
-        if (miniPauseBtn) {
-            miniPauseBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (!audio.paused) {
-                    audio.pause();
-                    localStorage.setItem("audio_was_playing", "false");
-                } else {
-                    audio.play().then(() => {
-                        localStorage.setItem("audio_was_playing", "true");
-                    }).catch(err => console.log("Playback restart blocked:", err));
-                }
-                updateMiniplayerDataTrack();
-            });
-        }
-
-        if (miniRestartBtn) {
-            miniRestartBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                audio.currentTime = 0;
-                localStorage.setItem("audio_active_time", 0);
-            });
-        }
-
-        if (scrubBar) {
-            scrubBar.addEventListener("click", (e) => {
-                if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-                    const rect = scrubBar.getBoundingClientRect();
-                    const clickPositionRatio = (e.clientX - rect.left) / rect.width;
-                    audio.currentTime = clickPositionRatio * audio.duration;
-                }
-            });
-        }
-    }
-
-    function setupMoveableDragEngine(element) {
-        let activeX = 0, activeY = 0, deltaX = 0, deltaY = 0;
-        const dragHandle = document.getElementById("mini-deck-drag-handle") || element;
-
-        dragHandle.addEventListener("mousedown", dragStartInitiation);
-        dragHandle.addEventListener("touchstart", dragStartInitiation, { passive: false });
-
-        // Checks screen layout limits to prevent the block from glitching out into page white spaces
-        function dragStartInitiation(e) {
-            if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
-            
-            e.preventDefault();
-            if (e.type === "touchstart") {
-                activeX = e.touches.clientX;
-                activeY = e.touches.clientY;
-            } else {
-                activeX = e.clientX;
-                activeY = e.clientY;
-            }
-
-            document.addEventListener("mousemove", dragMotionExecution);
-            document.addEventListener("mouseup", dragClosureCleanup);
-            document.addEventListener("touchmove", dragMotionExecution, { passive: false });
-            document.addEventListener("touchend", dragClosureCleanup);
-        }
-
-        function dragMotionExecution(e) {
-            let currentClientX = 0, currentClientY = 0;
-            if (e.type === "touchmove") {
-                currentClientX = e.touches.clientX;
-                currentClientY = e.touches.clientY;
-            } else {
-                currentClientX = e.clientX;
-                currentClientY = e.clientY;
-            }
-
-            deltaX = activeX - currentClientX;
-            deltaY = activeY - currentClientY;
-            activeX = currentClientX;
-            activeY = currentClientY;
-
-            element.style.top = (element.offsetTop - deltaY) + "px";
-            element.style.left = (element.offsetLeft - deltaX) + "px";
-            element.style.bottom = "auto";
-            element.style.right = "auto";
-        }
-
-        function dragClosureCleanup() {
-            document.removeEventListener("mousemove", dragMotionExecution);
-            document.removeEventListener("mouseup", dragClosureCleanup);
-            document.removeEventListener("touchmove", dragMotionExecution);
-            document.removeEventListener("touchend", dragClosureCleanup);
-        }
-    }
-
-    document.body.addEventListener("click", (e) => {
-        const tile = e.target.closest(".square-song-tile");
-        if (tile) {
-            const currentSrc = tile.getAttribute("data-src");
-            const currentTitle = tile.getAttribute("data-title") || "Unknown Track";
-            const currentImg = tile.getAttribute("data-img") || "music-icon.png";
-
-            window.audioEngineSrcTitle = currentTitle;
-            window.audioEngineSrcCover = currentImg;
-
-            localStorage.setItem("audio_active_src", currentSrc);
-            localStorage.setItem("audio_active_title", currentTitle);
-            localStorage.setItem("audio_active_img", currentImg);
-            localStorage.setItem("audio_was_playing", "true");
-            
-            updateMiniplayerDataTrack();
-        }
-    });
-
-    audio.addEventListener("timeupdate", () => {
-        if (audio.src) {
-            localStorage.setItem("audio_active_time", audio.currentTime);
-        }
-        const fillNode = document.getElementById("mini-deck-fill");
-        if (fillNode && !isNaN(audio.duration) && isFinite(audio.duration)) {
-            fillNode.style.width = ((audio.currentTime / audio.duration) * 100) + "%";
-        }
-    });
-
-    audio.addEventListener("pause", updateMiniplayerDataTrack);
-    audio.addEventListener("play", updateMiniplayerDataTrack);
-
-    setInterval(processGlobalMiniplayerVisibility, 500);
-    processGlobalMiniplayerVisibility();
-});
+ if (searchBox) {
+     searchBox.addEventListener("input", () => {
+         const query = searchBox.value.toLowerCase();
+         tiles.forEach(tile => {
+             const titleText = tile.getAttribute("data-title").toLowerCase();
+             tile.style.display = titleText.includes(query) ? "flex" : "none";
+         });
+     });
+ }
+ });
+ </script>
+</body>
+</html>

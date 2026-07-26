@@ -166,8 +166,7 @@
  <!-- POSITION-ADJUSTING RANGE SCRUBBER SLIDER -->
  <div class="progress-container">
  <span id="current-time-label" class="time-stamp">0:00</span>
- <!-- FIX: Added step="0.01" to handle smooth timeline calculations without snapping to 0 -->
- <input type="range" id="progress-slider" min="0" max="100" step="0.01" value="0">
+ <input type="range" id="progress-slider" min="0" max="100" step="0.1" value="0">
  </div>
  <!-- TOGGLE TRACK REPEAT MODIFIER BUTTON -->
  <button id="loop-toggle-btn" class="loop-control-node" title="Toggle Loop Mode">
@@ -181,10 +180,11 @@
  </div> <!-- CLOSE RIGHT LAYOUT COLUMN -->
  </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
-  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
+ <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
  <script>
  window.audioEngine = window.audioEngine || new Audio();
  window.isAudioLooping = window.isAudioLooping || false;
+
  document.addEventListener("DOMContentLoaded", () => {
  const audio = window.audioEngine;
  const playBtn = document.getElementById("play-pause-btn");
@@ -198,14 +198,18 @@
  const searchBox = document.getElementById("song-search");
  const deckBar = document.getElementById("control-deck-bar");
 
- // Tracks native loop rollovers cleanly
- let lastRecordedTime = 0;
-
- // Set up UI states based on active background stream status
+ // Sync UI component states based on player action histories
+ function updateButtonVisuals() {
+ if (!shape) return;
  if (!audio.paused && audio.src && audio.src !== window.location.href) {
- if (shape) shape.className = "play-state-shape pause-bars";
+ shape.className = "play-state-shape pause-bars";
+ } else {
+ shape.className = "play-state-shape triangle";
+ }
+ }
+
+ if (!audio.paused && audio.src && audio.src !== window.location.href) {
  if (deckBar) deckBar.classList.add("deck-visible");
- 
  const activeTile = document.querySelector(".square-song-tile.active");
  if (activeTile) {
  if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
@@ -214,25 +218,26 @@
  } else {
  if (displayTitle) displayTitle.textContent = "No song is playing";
  if (displayCover) displayCover.src = "music-icon.png";
- if (shape) shape.className = "play-state-shape triangle";
  if (deckBar) deckBar.classList.remove("deck-visible");
  }
+ updateButtonVisuals();
+
  if (window.isAudioLooping && loopBtn) {
  loopBtn.classList.add("loop-active");
  audio.loop = true;
  }
+
  // Master play/pause controller connection
  if (playBtn) {
  playBtn.addEventListener("click", () => {
  if (audio.paused) {
  audio.play().catch(err => console.log("Playback failed:", err));
- if (shape) shape.className = "play-state-shape pause-bars";
  } else {
  audio.pause();
- if (shape) shape.className = "play-state-shape triangle";
  }
  });
  }
+
  if (loopBtn) {
  loopBtn.addEventListener("click", () => {
  window.isAudioLooping = !window.isAudioLooping;
@@ -240,7 +245,7 @@
  loopBtn.classList.toggle("loop-active", window.isAudioLooping);
  });
  }
- // Shared timestamp UI text rendering helper utility function
+
  function formatAndDisplayTime(secondsValue) {
  if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
  let mins = Math.floor(secondsValue / 60);
@@ -249,35 +254,34 @@
  timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
  }
  }
+
  if (slider) {
- // Calculates and renders matching time stamps instantly while dragging slider handle
  slider.addEventListener("input", () => {
  if (!isNaN(audio.duration) && isFinite(audio.duration)) {
  const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
  formatAndDisplayTime(targetTime);
  }
  });
- // Commits final position calculation directly into the audio player engine on release
+
  slider.addEventListener("change", () => {
  if (!isNaN(audio.duration) && isFinite(audio.duration)) {
  audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
  }
  });
- // Tracks natural playback progression tick updates smoothly without stealing focus
+
+ // FIX: Clean time tracking update loop that won't lock up on natural looping resets
  audio.addEventListener("timeupdate", () => {
- if (!isNaN(audio.duration)) {
- // Detect loop rollover when current time suddenly jumps backward below last recorded step
- if (audio.currentTime < lastRecordedTime && (lastRecordedTime - audio.currentTime) > 1) {
- slider.value = 0;
- formatAndDisplayTime(0);
- } else if (!slider.matches(":focus")) {
+ if (!isNaN(audio.duration) && isFinite(audio.duration) && !slider.matches(":focus")) {
  slider.value = (audio.currentTime / audio.duration) * 100;
  formatAndDisplayTime(audio.currentTime);
  }
- lastRecordedTime = audio.currentTime;
- }
  });
  }
+
+ // Hook global events to guarantee play/pause buttons never freeze up
+ audio.addEventListener("play", updateButtonVisuals);
+ audio.addEventListener("pause", updateButtonVisuals);
+
  tiles.forEach(tile => {
  tile.addEventListener("click", () => {
  tiles.forEach(t => t.classList.remove("active"));
@@ -289,14 +293,13 @@
  audio.src = songSrc;
  if (displayTitle) displayTitle.textContent = songTitle;
  if (displayCover && songImg) displayCover.src = songImg;
- // Reveal control deck container layout now that a track has been picked
+ 
  if (deckBar) deckBar.classList.add("deck-visible");
  audio.loop = window.isAudioLooping;
- lastRecordedTime = 0;
  audio.play().catch(err => console.log("Tile play crash:", err));
- if (shape) shape.className = "play-state-shape pause-bars";
  });
  });
+
  if (searchBox) {
  searchBox.addEventListener("input", () => {
  const query = searchBox.value.toLowerCase();
@@ -306,9 +309,11 @@
  });
  });
  }
+
  function processMiniplayerVisibilities() {
  const isInMusicTab = document.getElementById("song-search") !== null;
  let miniPlayer = document.getElementById("shared-global-mini-deck");
+
  if (!isInMusicTab && !audio.paused) {
  if (!miniPlayer) {
  const currentImg = displayCover ? displayCover.src : "music-icon.png";
@@ -328,6 +333,7 @@
  
  document.body.insertAdjacentHTML("beforeend", markup);
  miniPlayer = document.getElementById("shared-global-mini-deck");
+ 
  const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
  if (miniPauseBtn) {
  miniPauseBtn.addEventListener("click", () => {
@@ -341,6 +347,7 @@
  });
  }
  }
+
  audio.addEventListener("timeupdate", () => {
  const fillNode = document.getElementById("mini-deck-fill");
  if (fillNode && !isNaN(audio.duration)) {
@@ -351,6 +358,7 @@
  miniPlayer.remove();
  }
  }
+
  audio.addEventListener("pause", processMiniplayerVisibilities);
  audio.addEventListener("play", processMiniplayerVisibilities);
  processMiniplayerVisibilities();
@@ -358,4 +366,3 @@
  </script>
 </body>
 </html>
-

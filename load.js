@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     pipelineObserver.observe(document.body, { childList: true, subtree: true });
 
-    // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - STYLE INJECTION
+    // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - FIXED COMPACT STYLE INJECTION
     const styleId = "universal-player-dynamic-css";
     if (!document.getElementById(styleId)) {
         const customStyles = `
@@ -69,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 position: fixed;
                 bottom: 20px;
                 right: 20px;
-                width: 300px;
+                width: 320px;
+                height: auto !important; /* FIX: Prevents large empty vertical spaces */
                 background: #2a2a2a;
                 border: 2px solid #444;
                 border-radius: 12px;
@@ -79,6 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 cursor: grab;
                 user-select: none;
                 transition: border-color 0.2s ease;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
             .global-mini-player:active {
                 cursor: grabbing;
@@ -88,17 +92,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                margin-bottom: 10px;
+                width: 100%;
             }
             .mini-cover-wrap img {
                 width: 45px;
                 height: 45px;
                 border-radius: 6px;
                 object-fit: cover;
+                display: block;
             }
             .mini-details-wrap {
                 flex-grow: 1;
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             .mini-status-tag {
                 font-size: 10px;
@@ -106,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 text-transform: uppercase;
                 font-weight: bold;
                 display: block;
+                line-height: 1.2;
             }
             .mini-title {
                 margin: 2px 0 0 0;
@@ -114,18 +123,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                line-height: 1.2;
+            }
+            .mini-controls-cluster {
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
             .mini-btn {
                 background: #444;
                 border: none;
                 color: #fff;
-                width: 32px;
-                height: 32px;
+                width: 30px;
+                height: 30px;
                 border-radius: 50%;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                font-size: 12px;
+                padding: 0;
+                transition: background 0.2s;
             }
             .mini-btn:hover {
                 background: #ff69b4;
@@ -153,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         styleTag.textContent = customStyles;
         document.head.appendChild(styleTag);
     }
-    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - STATE PERSISTENCE CONTROLS
+    // 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - FIXED PERSISTENCE AND SIZING
     function processGlobalMiniplayerVisibility() {
         const isMusicTabActive = document.getElementById("song-search") !== null;
         let miniPlayer = document.getElementById("shared-global-mini-deck");
@@ -161,13 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const cachedSrc = localStorage.getItem("audio_active_src");
         const wasPlayingBeforePageShift = localStorage.getItem("audio_was_playing") === "true";
 
-        // Re-link source data into the audio player instance safely if memory dropped it
         if (cachedSrc && (!audio.src || audio.src === window.location.href)) {
             audio.src = cachedSrc;
             const savedPlaybackTime = localStorage.getItem("audio_active_time");
             if (savedPlaybackTime) audio.currentTime = parseFloat(savedPlaybackTime);
             
-            // Auto-recovery catch block for tab hops
             if (wasPlayingBeforePageShift && audio.paused) {
                 audio.play().catch(() => {
                     localStorage.setItem("audio_was_playing", "true"); 
@@ -175,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Force show mini player on subpages if active context exists in system cache records
         if (!isMusicTabActive && cachedSrc && (wasPlayingBeforePageShift || !audio.paused)) {
             if (!miniPlayer) {
                 let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
@@ -183,9 +198,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 markup += '  <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
                 markup += '  <div class="mini-details-wrap">';
                 markup += '   <span class="mini-status-tag" id="mini-deck-status">Lounge Streaming</span>';
-                markup += '   <p id="mini-deck-title" class="mini-title">Click to Resume Groove...</p>';
+                markup += '   <p id="mini-deck-title" class="mini-title">Syncing Track...</p>';
                 markup += '  </div>';
-                markup += '  <button id="mini-deck-pause-btn" class="mini-btn">▶</button>';
+                markup += '  <div class="mini-controls-cluster">';
+                markup += '   <button id="mini-deck-restart-btn" class="mini-btn" title="Restart">⏮</button>';
+                markup += '   <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause">▶</button>';
+                markup += '  </div>';
                 markup += ' </div>';
                 markup += ' <div id="mini-deck-scrub-bar" class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
                 markup += '</div>';
@@ -228,6 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setupMiniPlayerControllers() {
         const miniPauseBtn = document.getElementById("mini-deck-pause-btn");
+        const miniRestartBtn = document.getElementById("mini-deck-restart-btn");
         const scrubBar = document.getElementById("mini-deck-scrub-bar");
 
         if (miniPauseBtn) {
@@ -241,8 +260,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     audio.play().then(() => {
                         localStorage.setItem("audio_was_playing", "true");
                         miniPauseBtn.textContent = "⏸";
-                    }).catch(err => console.log("User gesture bypass failed:", err));
+                    }).catch(err => console.log("Playback failed:", err));
                 }
+            });
+        }
+
+        if (miniRestartBtn) {
+            miniRestartBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                audio.currentTime = 0; // Instantly snaps target playhead timeline value back to zero
+                localStorage.setItem("audio_active_time", 0);
             });
         }
 
@@ -265,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dragHandle.addEventListener("touchstart", dragStartInitiation, { passive: false });
 
         function dragStartInitiation(e) {
-            if (e.target.closest("button") || e.target.closest("#mini-deck-scrub-bar")) return;
+            if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
             
             e.preventDefault();
             if (e.type === "touchstart") {
@@ -311,7 +338,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Global listener to capture active tracks and cache execution states
     document.body.addEventListener("click", (e) => {
         const tile = e.target.closest(".square-song-tile");
         if (tile) {
@@ -331,7 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Update timeline metrics while caching persistent timestamps natively
     audio.addEventListener("timeupdate", () => {
         if (!audio.paused && audio.src) {
             localStorage.setItem("audio_active_time", audio.currentTime);
@@ -352,7 +377,6 @@ document.addEventListener("DOMContentLoaded", () => {
         processGlobalMiniplayerVisibility();
     });
 
-    // Fallback interval checks to manage instant visibility updates upon navigation transitions
     setInterval(processGlobalMiniplayerVisibility, 500);
     processGlobalMiniplayerVisibility();
 });

@@ -113,8 +113,8 @@
  <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
  <div class="main">
  <div class="hero">
- <h1>Music</h1>
- <p>Listen to these classified VIBES!</p>
+ <h1>The Music Lounge</h1>
+ <p>Turn up the volume, adjust your position, and lock the groove.</p>
  </div>
  <!-- SPLIT INTERFACE GRID ARCHITECTURE -->
  <div class="split-player-layout">
@@ -126,30 +126,22 @@
  </div>
  
  <div class="square-song-grid">
- <!-- ALBUM OBJECT CARD ITEM 1 -->
- <div class="square-song-tile active" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
+ <!-- FIX: Stripped out the hardcoded 'active' class from tile node 1 to avoid cold launch layout sync errors -->
+ <div class="square-song-tile" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
  <div class="tile-art">
  <div class="tile-play-overlay-geo"></div>
  <img src="popstar.jpeg" class="tile-img" alt="Track Cover">
  </div>
  <p class="tile-title">Popstar Theme</p>
  </div>
-
- <div class="square-song-tile" data-src="Western_Spaghetti.mp3" data-title="Western Speghetti" data-img="western_speghetti.jpeg">
- <div class="tile-art">
- <div class="tile-play-overlay-geo"></div>
- <img src="western_speghetti.jpeg" class="tile-img" alt="Track Cover">
- </div>
- <p class="tile-title">Western Speghetti</p>
- </div>
  
  <!-- ALBUM OBJECT CARD ITEM 2 -->
- <div class="square-song-tile" data-src="Petal_Dance.mp3" data-title="Petal Dance" data-img="delta_5.png">
+ <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
  <div class="tile-art">
  <div class="tile-play-overlay-geo"></div>
- <img src="delta_5.png" class="tile-img" alt="Track Cover">
+ <img src="luna.gif" class="tile-img" alt="Track Cover">
  </div>
- <p class="tile-title">Petal Dance</p>
+ <p class="tile-title">Synthwave Sunsets</p>
  </div>
  </div>
  </div>
@@ -189,7 +181,6 @@
  </div> <!-- CLOSE SPLIT PLAYER LAYOUT -->
  </div> <!-- CLOSE PRIMARY MAIN WORKSPACE WRAPPER BOX -->
  <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
- <!-- UNIVERSAL RUNTIME INTERFACE ARCHITECTURE JAVASCRIPT CONTROL ENGINE -->
  <script>
  if (!window.audioEngine) {
      window.audioEngine = new Audio();
@@ -220,19 +211,37 @@
      }
  }
 
- if (!audio.paused && audio.src && audio.src !== window.location.href) {
-     if (deckBar) deckBar.classList.add("deck-visible");
-     const activeTile = document.querySelector(".square-song-tile.active");
-     if (activeTile) {
-         if (displayTitle) displayTitle.textContent = activeTile.getAttribute("data-title");
-         if (displayCover) displayCover.src = activeTile.getAttribute("data-img");
+ // Explicit track display sync engine loop
+ function synchronizeActiveTrackDisplay() {
+     const localStoredSrc = localStorage.getItem("audio_active_src");
+     const localStoredTitle = localStorage.getItem("audio_active_title");
+     const localStoredImg = localStorage.getItem("audio_active_img");
+
+     if (localStoredSrc) {
+         if (deckBar) deckBar.classList.add("deck-visible");
+         if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
+         if (displayCover && localStoredImg) displayCover.src = localStoredImg;
+         
+         // Dynamically paint the 'active' background style class only onto the matching element block match
+         tiles.forEach(t => {
+             // Forces relative clean string evaluation to avoid protocol slash match dropouts
+             if (audio.src.includes(t.getAttribute("data-src")) || t.getAttribute("data-src") === localStoredSrc) {
+                 t.classList.add("active");
+             } else {
+                 t.classList.remove("active");
+             }
+         });
+     } else {
+         if (displayTitle) displayTitle.textContent = "No song is playing";
+         if (displayCover) displayCover.src = "music-icon.png";
+         if (deckBar) deckBar.classList.remove("deck-visible");
+         tiles.forEach(t => t.classList.remove("active"));
      }
- } else {
-     if (displayTitle) displayTitle.textContent = "No song is playing";
-     if (displayCover) displayCover.src = "music-icon.png";
-     if (deckBar) deckBar.classList.remove("deck-visible");
+     synchronizePlayerUI();
  }
- synchronizePlayerUI();
+
+ // Run immediate execution alignment metrics on start
+ synchronizeActiveTrackDisplay();
 
  if (window.isAudioLooping && loopBtn) {
      loopBtn.classList.add("loop-active");
@@ -243,9 +252,11 @@
      playBtn.addEventListener("click", () => {
          if (audio.paused) {
              audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
+             localStorage.setItem("audio_was_playing", "true");
          } else {
              audio.pause();
              synchronizePlayerUI();
+             localStorage.setItem("audio_was_playing", "false");
          }
      });
  }
@@ -302,10 +313,16 @@
          const songSrc = tile.getAttribute("data-src");
          const songTitle = tile.getAttribute("data-title");
          const songImg = tile.getAttribute("data-img");
+         
          audio.src = songSrc;
          if (displayTitle) displayTitle.textContent = songTitle;
          if (displayCover && songImg) displayCover.src = songImg;
          
+         localStorage.setItem("audio_active_src", songSrc);
+         localStorage.setItem("audio_active_title", songTitle);
+         localStorage.setItem("audio_active_img", songImg);
+         localStorage.setItem("audio_was_playing", "true");
+
          if (deckBar) deckBar.classList.add("deck-visible");
          audio.loop = window.isAudioLooping;
          audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
@@ -321,6 +338,9 @@
          });
      });
  }
+
+ // Polling loop configuration verification check to lock accurate synchronization metrics across routing hops
+ setInterval(synchronizeActiveTrackDisplay, 500);
  });
  </script>
 </body>

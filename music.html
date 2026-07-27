@@ -113,8 +113,8 @@
  <!-- CENTRAL MAIN WORKSPACE MODULE CANVAS -->
  <div class="main">
  <div class="hero">
- <h1>The Music Lounge</h1>
- <p>Turn up the volume, adjust your position, and lock the groove.</p>
+ <h1>Music</h1>
+ <p>Listen to these classified VIBES!</p>
  </div>
  <!-- SPLIT INTERFACE GRID ARCHITECTURE -->
  <div class="split-player-layout">
@@ -126,7 +126,7 @@
  </div>
  
  <div class="square-song-grid">
- <!-- FIX: Stripped out the hardcoded 'active' class from tile node 1 to avoid cold launch layout sync errors -->
+ <!-- ALBUM OBJECT CARD ITEM 1 (FIXED: Hardcoded 'active' highlight state stripped to prevent sync override) -->
  <div class="square-song-tile" data-src="Pop_star.mp3" data-title="Popstar Theme" data-img="popstar.jpeg">
  <div class="tile-art">
  <div class="tile-play-overlay-geo"></div>
@@ -135,13 +135,21 @@
  <p class="tile-title">Popstar Theme</p>
  </div>
  
- <!-- ALBUM OBJECT CARD ITEM 2 -->
- <div class="square-song-tile" data-src="https://soundhelix.com" data-title="Synthwave Sunsets" data-img="luna.gif">
+ <div class="square-song-tile" data-src="Western_Spaghetti.mp3" data-title="Western Speghetti" data-img="western_speghetti.jpeg">
  <div class="tile-art">
  <div class="tile-play-overlay-geo"></div>
- <img src="luna.gif" class="tile-img" alt="Track Cover">
+ <img src="western_speghetti.jpeg" class="tile-img" alt="Track Cover">
  </div>
- <p class="tile-title">Synthwave Sunsets</p>
+ <p class="tile-title">Western Speghetti</p>
+ </div>
+ 
+ <!-- ALBUM OBJECT CARD ITEM 2 -->
+ <div class="square-song-tile" data-src="Petal_Dance.mp3" data-title="Petal Dance" data-img="delta_5.png">
+ <div class="tile-art">
+ <div class="tile-play-overlay-geo"></div>
+ <img src="delta_5.png" class="tile-img" alt="Track Cover">
+ </div>
+ <p class="tile-title">Petal Dance</p>
  </div>
  </div>
  </div>
@@ -211,7 +219,7 @@
      }
  }
 
- // Explicit track display sync engine loop
+ // Universal persistent track layout label matching function
  function synchronizeActiveTrackDisplay() {
      const localStoredSrc = localStorage.getItem("audio_active_src");
      const localStoredTitle = localStorage.getItem("audio_active_title");
@@ -222,9 +230,8 @@
          if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
          if (displayCover && localStoredImg) displayCover.src = localStoredImg;
          
-         // Dynamically paint the 'active' background style class only onto the matching element block match
+         // Dynamically toggle tile styles based on exact absolute memory storage path match values
          tiles.forEach(t => {
-             // Forces relative clean string evaluation to avoid protocol slash match dropouts
              if (audio.src.includes(t.getAttribute("data-src")) || t.getAttribute("data-src") === localStoredSrc) {
                  t.classList.add("active");
              } else {
@@ -240,7 +247,7 @@
      synchronizePlayerUI();
  }
 
- // Run immediate execution alignment metrics on start
+ // Bind context parameters immediately on initialization
  synchronizeActiveTrackDisplay();
 
  if (window.isAudioLooping && loopBtn) {
@@ -339,7 +346,7 @@
      });
  }
 
- // Polling loop configuration verification check to lock accurate synchronization metrics across routing hops
+ // Continuously evaluate background player variations to protect display integrity on redirections
  setInterval(synchronizeActiveTrackDisplay, 500);
  });
  </script>

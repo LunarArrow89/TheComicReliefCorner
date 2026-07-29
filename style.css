@@ -1192,27 +1192,26 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 /* 
 ==========================================================================
- PART 14: CREATORS LOUNGE COMPONENT MODULES
+ PART 14: CREATORS INTEGRATION MATRIX & NEON SHADOWS
 ==========================================================================
 */
 .creators-stack-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 25px;
   width: 100%;
-  max-width: 960px;
   margin-top: 25px;
   box-sizing: border-box;
 }
 
 .creator-card-box {
-  background: #1f121b;
+  display: flex;
+  gap: 25px;
+  background: #1f121b; /* Matches your core UI panel color code */
   border: 1px solid rgba(255, 105, 180, 0.15);
   border-radius: 20px;
   padding: 25px;
-  display: flex;
   align-items: center;
-  gap: 25px;
   width: 100%;
   box-sizing: border-box;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -1229,6 +1228,7 @@ document.addEventListener("DOMContentLoaded", () => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .creator-media-frame img {
@@ -1242,22 +1242,25 @@ document.addEventListener("DOMContentLoaded", () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-start;
 }
 
 .creator-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   flex-wrap: wrap;
   gap: 15px;
 }
 
 .creator-name-headline {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
   margin: 0;
+  /* Fixed: Natively maps the website's signature pink text glow filter */
+  text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
 }
 
 .creator-social-cluster {
@@ -1266,61 +1269,69 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 .creator-social-btn {
-  width: 36px;
-  height: 36px;
   background: #120910;
   border: 1px solid rgba(255, 105, 180, 0.15);
-  border-radius: 50%;
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px; /* Matches your loop control bar button syntax */
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  cursor: pointer;
+  outline: none;
   transition: all 0.2s ease;
 }
 
 .creator-social-btn:hover {
-  background: #ff69b4;
-  border-color: #ff69b4;
-  box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+  background-color: #ff69b4;
+  border-color: #ff1493;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
 .creator-social-btn img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
-  filter: invert(100%);
+  /* Matches global CSS navigation button image filters */
+  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%);
+  transition: all 0.2s ease;
 }
 
 .creator-social-btn:hover img {
-  filter: invert(0%) sepia(0%) saturate(0%) brightness(0%);
+  filter: invert(100%) brightness(200%);
 }
 
 .creator-role-subtext {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: bold;
   color: #ff69b4;
-  margin: 0;
-  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
 }
 
 .creator-desc-paragraph {
   color: #ddd;
   font-size: 0.95rem;
   line-height: 1.5;
-  margin: 0;
   text-align: left;
+  margin: 0;
 }
 
+/* Responsiveness adjustments matching your breakpoint logic rules */
 @media (max-width: 768px) {
   .creator-card-box {
     flex-direction: column;
     text-align: center;
-    padding: 20px;
   }
   .creator-top-row {
     flex-direction: column;
+    justify-content: center;
     gap: 10px;
+  }
+  .creator-details-pane {
+    align-items: center;
   }
   .creator-desc-paragraph {
     text-align: center;

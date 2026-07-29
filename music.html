@@ -195,12 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (deckBar) deckBar.classList.add("deck-visible");
             if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
             if (displayCover && localStoredImg) displayCover.src = localStoredImg;
-
-            // Only update if the source is completely empty or completely different
             if (!audio.src || (!audio.src.includes(localStoredSrc) && !localStoredSrc.includes(audio.src))) {
                 audio.src = localStoredSrc;
             }
-
             tiles.forEach(t => {
                 const targetSrc = t.getAttribute("data-src");
                 if (audio.src.includes(targetSrc) || targetSrc === localStoredSrc) {
@@ -215,10 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (deckBar) deckBar.classList.remove("deck-visible");
             tiles.forEach(t => t.classList.remove("active"));
         }
-        synchronizePlayerUI();
     }
 
-    // Run initial UI state setup
+    synchronizePlayerUI();
     synchronizeActiveTrackDisplay();
 
     if (window.isAudioLooping && loopBtn) {
@@ -229,7 +225,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playBtn) {
         playBtn.addEventListener("click", () => {
             if (audio.paused) {
-                audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
+                audio.play()
+                    .then(synchronizePlayerUI)
+                    .catch(err => console.log("Playback failed:", err));
                 localStorage.setItem("audio_was_playing", "true");
             } else {
                 audio.pause();
@@ -293,21 +291,18 @@ document.addEventListener("DOMContentLoaded", () => {
         tile.addEventListener("click", () => {
             tiles.forEach(t => t.classList.remove("active"));
             tile.classList.add("active");
-            
             const songSrc = tile.getAttribute("data-src");
             const songTitle = tile.getAttribute("data-title");
             const songImg = tile.getAttribute("data-img");
-            
-            // Set values in storage immediately to update global state
+
             localStorage.setItem("audio_active_src", songSrc);
             localStorage.setItem("audio_active_title", songTitle);
             localStorage.setItem("audio_active_img", songImg);
             localStorage.setItem("audio_was_playing", "true");
-
+            
             audio.src = songSrc;
             if (displayTitle) displayTitle.textContent = songTitle;
             if (displayCover && songImg) displayCover.src = songImg;
-            
             if (deckBar) deckBar.classList.add("deck-visible");
             audio.loop = window.isAudioLooping;
             
@@ -327,9 +322,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Keeps the layout in sync if tabs are open across multiple pages safely
     setInterval(synchronizeActiveTrackDisplay, 500);
 });
+</script>
 </script>
 </body>
 </html>

@@ -196,14 +196,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
             if (displayCover && localStoredImg) displayCover.src = localStoredImg;
 
-            // FIX: Only update audio source if it is different. 
-            // This stops the 500ms loop from breaking the audio engine load phase.
-            if (!audio.src || !audio.src.includes(localStoredSrc)) {
+            // Only update if the source is completely empty or completely different
+            if (!audio.src || (!audio.src.includes(localStoredSrc) && !localStoredSrc.includes(audio.src))) {
                 audio.src = localStoredSrc;
             }
 
             tiles.forEach(t => {
-                if (audio.src.includes(t.getAttribute("data-src")) || t.getAttribute("data-src") === localStoredSrc) {
+                const targetSrc = t.getAttribute("data-src");
+                if (audio.src.includes(targetSrc) || targetSrc === localStoredSrc) {
                     t.classList.add("active");
                 } else {
                     t.classList.remove("active");
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
         synchronizePlayerUI();
     }
 
-    // Initial sync on page load
+    // Run initial UI state setup
     synchronizeActiveTrackDisplay();
 
     if (window.isAudioLooping && loopBtn) {
@@ -298,19 +298,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const songTitle = tile.getAttribute("data-title");
             const songImg = tile.getAttribute("data-img");
             
-            audio.src = songSrc;
-            if (displayTitle) displayTitle.textContent = songTitle;
-            if (displayCover && songImg) displayCover.src = songImg;
-            
+            // Set values in storage immediately to update global state
             localStorage.setItem("audio_active_src", songSrc);
             localStorage.setItem("audio_active_title", songTitle);
             localStorage.setItem("audio_active_img", songImg);
             localStorage.setItem("audio_was_playing", "true");
+
+            audio.src = songSrc;
+            if (displayTitle) displayTitle.textContent = songTitle;
+            if (displayCover && songImg) displayCover.src = songImg;
             
             if (deckBar) deckBar.classList.add("deck-visible");
             audio.loop = window.isAudioLooping;
             
-            audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
+            audio.play()
+                .then(synchronizePlayerUI)
+                .catch(err => console.log("Tile play error handled:", err));
         });
     });
 
@@ -324,9 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Safely run the UI sync without breaking audio state
+    // Keeps the layout in sync if tabs are open across multiple pages safely
     setInterval(synchronizeActiveTrackDisplay, 500);
-});
 });
 </script>
 </body>

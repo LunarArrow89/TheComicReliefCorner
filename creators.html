@@ -4,40 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creators Lounge</title>
-<!-- Imports your global layout grid definitions and color scheme -->
 <link rel="stylesheet" href="style.css?v=unified_spacing">
 <script defer src="load.js"></script>
 </head>
 <body>
 
-  <!-- Injected Global Frame Wrappers mapped from style.css architecture layer -->
+  <!-- Injected Fixed Framework Containers from style.css -->
   <div id="sidebar-container"></div>
   <div id="header-container"></div>
 
-  <!-- Primary Canvas Node Area -->
+  <!-- Primary Canvas View Node Layer -->
   <main class="main">
     
-    <!-- Hero Header Unit matching exact layout structural specs -->
+    <!-- Hero Header matching the core theme neon glow parameters -->
     <header class="hero">
       <h1>Creators</h1>
       <p>thanks for our cool peeps!</p>
     </header>
 
-    <!-- Main Stack Container Block Elements Lineup -->
+    <!-- Main Stack Content Base Element Structure -->
     <div class="creators-stack-container">
       
-      <!-- Creator Box Profile Unit Block 1 -->
+      <!-- Creator Box Module Row 1 -->
       <section class="creator-card-box">
         <div class="creator-media-frame">
-          <!-- Populated placeholder image or animated .gif source link -->
           <img src="popstar.jpeg" alt="Creator Profile Photo">
         </div>
         <div class="creator-details-pane">
           <div class="creator-top-row">
             <h2 class="creator-name-headline">Bold, title text</h2>
             <div class="creator-social-cluster">
-              <a href="#" class="creator-social-btn"><img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24'><path d='M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.73 1.05-.79-.85-1.93-1.38-3.18-1.38-2.41 0-4.36 1.95-4.36 4.36 0 .34.04.67.11.98C8.07 9.16 4.84 7.42 2.68 4.77c-.38.65-.59 1.4-.59 2.2 0 1.52.77 2.85 1.94 3.63-.71-.02-1.39-.22-1.99-.55v.06c0 2.12 1.51 3.89 3.51 4.29-.37.1-.75.15-1.15.15-.28 0-.55-.03-.82-.08.56 1.74 2.17 3.01 4.09 3.04-1.5 1.17-3.39 1.87-5.43 1.87-.35 0-.7-.02-1.04-.06 1.94 1.24 4.23 1.97 6.69 1.97 8.03 0 12.42-6.65 12.42-12.42 0-.19 0-.38-.01-.57.86-.61 1.6-1.39 2.19-2.28z'/></svg>" alt="Twitter Link X"></a>
-              <a href="#" class="creator-social-btn"><img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24'><path d='M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z'/></svg>" alt="GitHub Profile Source"></a>
+              <a href="#" class="creator-social-btn"><img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24'><path d='M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.73 1.05-.79-.85-1.93-1.38-3.18-1.38-2.41 0-4.36 1.95-4.36 4.36 0 .34.04.67.11.98C8.07 9.16 4.84 7.42 2.68 4.77c-.38.65-.59 1.4-.59 2.2 0 1.52.77 2.85 1.94 3.63-.71-.02-1.39-.22-1.99-.55v.06c0 2.12 1.51 3.89 3.51 4.29-.37.1-.75.15-1.15.15-.28 0-.55-.03-.82-.08.56 1.74 2.17 3.01 4.09 3.04-1.5 1.17-3.39 1.87-5.43 1.87-.35 0-.7-.02-1.04-.06 1.94 1.24 4.23 1.97 6.69 1.97 8.03 0 12.42-6.65 12.42-12.42 0-.19 0-.38-.01-.57.86-.61 1.6-1.39 2.19-2.28z'/></svg>" alt="Twitter/X Icon"></a>
+              <a href="#" class="creator-social-btn"><img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 24 24'><path d='M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z'/></svg>" alt="GitHub Icon"></a>
               <a href="#" class="creator-social-btn"></a>
               <a href="#" class="creator-social-btn"></a>
             </div>

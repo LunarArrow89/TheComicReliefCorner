@@ -157,166 +157,176 @@
   </div>
 </div>
 </div>
-
 <script>
 if (!window.audioEngine) {
- window.audioEngine = new Audio();
+    window.audioEngine = new Audio();
 }
 window.isAudioLooping = window.isAudioLooping || false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const audio = window.audioEngine;
-  const playBtn = document.getElementById("play-pause-btn");
-  const shape = document.getElementById("btn-shape");
-  const slider = document.getElementById("progress-slider");
-  const timeLabel = document.getElementById("current-time-label");
-  const loopBtn = document.getElementById("loop-toggle-btn");
-  const tiles = document.querySelectorAll(".square-song-tile");
-  const displayCover = document.getElementById("display-cover");
-  const displayTitle = document.getElementById("display-title");
-  const searchBox = document.getElementById("song-search");
-  const deckBar = document.getElementById("control-deck-bar");
-  let isUserDraggingSlider = false;
+    const audio = window.audioEngine;
+    const playBtn = document.getElementById("play-pause-btn");
+    const shape = document.getElementById("btn-shape");
+    const slider = document.getElementById("progress-slider");
+    const timeLabel = document.getElementById("current-time-label");
+    const loopBtn = document.getElementById("loop-toggle-btn");
+    const tiles = document.querySelectorAll(".square-song-tile");
+    const displayCover = document.getElementById("display-cover");
+    const displayTitle = document.getElementById("display-title");
+    const searchBox = document.getElementById("song-search");
+    const deckBar = document.getElementById("control-deck-bar");
+    let isUserDraggingSlider = false;
 
-  function synchronizePlayerUI() {
-    if (!shape) return;
-    if (!audio.paused && audio.src && audio.src !== window.location.href) {
-      shape.className = "play-state-shape pause-bars";
-    } else {
-      shape.className = "play-state-shape triangle";
-    }
-  }
-
-  function synchronizeActiveTrackDisplay() {
-    const localStoredSrc = localStorage.getItem("audio_active_src");
-    const localStoredTitle = localStorage.getItem("audio_active_title");
-    const localStoredImg = localStorage.getItem("audio_active_img");
-    if (localStoredSrc) {
-      if (deckBar) deckBar.classList.add("deck-visible");
-      if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
-      if (displayCover && localStoredImg) displayCover.src = localStoredImg;
-      
-      tiles.forEach(t => {
-        if (audio.src.includes(t.getAttribute("data-src")) || t.getAttribute("data-src") === localStoredSrc) {
-          t.classList.add("active");
+    function synchronizePlayerUI() {
+        if (!shape) return;
+        if (!audio.paused && audio.src && audio.src !== window.location.href) {
+            shape.className = "play-state-shape pause-bars";
         } else {
-          t.classList.remove("active");
+            shape.className = "play-state-shape triangle";
         }
-      });
-    } else {
-      if (displayTitle) displayTitle.textContent = "No song is playing";
-      if (displayCover) displayCover.src = "music-icon.png";
-      if (deckBar) deckBar.classList.remove("deck-visible");
-      tiles.forEach(t => t.classList.remove("active"));
     }
-    synchronizePlayerUI();
-  }
 
-  synchronizeActiveTrackDisplay();
+    function synchronizeActiveTrackDisplay() {
+        const localStoredSrc = localStorage.getItem("audio_active_src");
+        const localStoredTitle = localStorage.getItem("audio_active_title");
+        const localStoredImg = localStorage.getItem("audio_active_img");
 
-  if (window.isAudioLooping && loopBtn) {
-    loopBtn.classList.add("loop-active");
-    audio.loop = true;
-  }
+        if (localStoredSrc) {
+            if (deckBar) deckBar.classList.add("deck-visible");
+            if (displayTitle) displayTitle.textContent = localStoredTitle || "Track Syncing...";
+            if (displayCover && localStoredImg) displayCover.src = localStoredImg;
 
-  if (playBtn) {
-    playBtn.addEventListener("click", () => {
-      if (audio.paused) {
-        audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
-        localStorage.setItem("audio_was_playing", "true");
-      } else {
-        audio.pause();
+            // FIX: Only update audio source if it is different. 
+            // This stops the 500ms loop from breaking the audio engine load phase.
+            if (!audio.src || !audio.src.includes(localStoredSrc)) {
+                audio.src = localStoredSrc;
+            }
+
+            tiles.forEach(t => {
+                if (audio.src.includes(t.getAttribute("data-src")) || t.getAttribute("data-src") === localStoredSrc) {
+                    t.classList.add("active");
+                } else {
+                    t.classList.remove("active");
+                }
+            });
+        } else {
+            if (displayTitle) displayTitle.textContent = "No song is playing";
+            if (displayCover) displayCover.src = "music-icon.png";
+            if (deckBar) deckBar.classList.remove("deck-visible");
+            tiles.forEach(t => t.classList.remove("active"));
+        }
         synchronizePlayerUI();
-        localStorage.setItem("audio_was_playing", "false");
-      }
-    });
-  }
-
-  if (loopBtn) {
-    loopBtn.addEventListener("click", () => {
-      window.isAudioLooping = !window.isAudioLooping;
-      audio.loop = window.isAudioLooping;
-      loopBtn.classList.toggle("loop-active", window.isAudioLooping);
-    });
-  }
-
-  function formatAndDisplayTime(secondsValue) {
-    if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
-    let mins = Math.floor(secondsValue / 60);
-    let secs = Math.floor(secondsValue % 60);
-    if (timeLabel) {
-      timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
     }
-  }
 
-  if (slider) {
-    slider.addEventListener("input", () => {
-      isUserDraggingSlider = true;
-      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-        const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
-        formatAndDisplayTime(targetTime);
-      }
-    });
+    // Initial sync on page load
+    synchronizeActiveTrackDisplay();
 
-    slider.addEventListener("change", () => {
-      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-        audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
-      }
-      isUserDraggingSlider = false;
-    });
-  }
-
-  audio.addEventListener("timeupdate", () => {
-    if (!isNaN(audio.duration) && isFinite(audio.duration) && !isUserDraggingSlider) {
-      slider.value = (audio.currentTime / audio.duration) * 100;
-      formatAndDisplayTime(audio.currentTime);
+    if (window.isAudioLooping && loopBtn) {
+        loopBtn.classList.add("loop-active");
+        audio.loop = true;
     }
-  });
 
-  audio.addEventListener("loadedmetadata", () => {
-    if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-      slider.value = 0;
-      formatAndDisplayTime(0);
+    if (playBtn) {
+        playBtn.addEventListener("click", () => {
+            if (audio.paused) {
+                audio.play().then(synchronizePlayerUI).catch(err => console.log("Playback failed:", err));
+                localStorage.setItem("audio_was_playing", "true");
+            } else {
+                audio.pause();
+                synchronizePlayerUI();
+                localStorage.setItem("audio_was_playing", "false");
+            }
+        });
     }
-  });
 
-  audio.addEventListener("play", synchronizePlayerUI);
-  audio.addEventListener("pause", synchronizePlayerUI);
+    if (loopBtn) {
+        loopBtn.addEventListener("click", () => {
+            window.isAudioLooping = !window.isAudioLooping;
+            audio.loop = window.isAudioLooping;
+            loopBtn.classList.toggle("loop-active", window.isAudioLooping);
+        });
+    }
 
-  tiles.forEach(tile => {
-    tile.addEventListener("click", () => {
-      tiles.forEach(t => t.classList.remove("active"));
-      tile.classList.add("active");
-      
-      const songSrc = tile.getAttribute("data-src");
-      const songTitle = tile.getAttribute("data-title");
-      const songImg = tile.getAttribute("data-img");
-      
-      audio.src = songSrc;
-      if (displayTitle) displayTitle.textContent = songTitle;
-      if (displayCover && songImg) displayCover.src = songImg;
-      
-      localStorage.setItem("audio_active_src", songSrc);
-      localStorage.setItem("audio_active_title", songTitle);
-      localStorage.setItem("audio_active_img", songImg);
-      localStorage.setItem("audio_was_playing", "true");
-      if (deckBar) deckBar.classList.add("deck-visible");
-      audio.loop = window.isAudioLooping;
-      audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
+    function formatAndDisplayTime(secondsValue) {
+        if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
+        let mins = Math.floor(secondsValue / 60);
+        let secs = Math.floor(secondsValue % 60);
+        if (timeLabel) {
+            timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+        }
+    }
+
+    if (slider) {
+        slider.addEventListener("input", () => {
+            isUserDraggingSlider = true;
+            if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+                const targetTime = (parseFloat(slider.value) / 100) * audio.duration;
+                formatAndDisplayTime(targetTime);
+            }
+        });
+        slider.addEventListener("change", () => {
+            if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+                audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
+            }
+            isUserDraggingSlider = false;
+        });
+    }
+
+    audio.addEventListener("timeupdate", () => {
+        if (!isNaN(audio.duration) && isFinite(audio.duration) && !isUserDraggingSlider) {
+            slider.value = (audio.currentTime / audio.duration) * 100;
+            formatAndDisplayTime(audio.currentTime);
+        }
     });
-  });
 
-  if (searchBox) {
-    searchBox.addEventListener("input", () => {
-      const query = searchBox.value.toLowerCase();
-      tiles.forEach(tile => {
-        const titleText = tile.getAttribute("data-title").toLowerCase();
-        tile.style.display = titleText.includes(query) ? "flex" : "none";
-      });
+    audio.addEventListener("loadedmetadata", () => {
+        if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+            slider.value = 0;
+            formatAndDisplayTime(0);
+        }
     });
-  }
 
-  setInterval(synchronizeActiveTrackDisplay, 500);
+    audio.addEventListener("play", synchronizePlayerUI);
+    audio.addEventListener("pause", synchronizePlayerUI);
+
+    tiles.forEach(tile => {
+        tile.addEventListener("click", () => {
+            tiles.forEach(t => t.classList.remove("active"));
+            tile.classList.add("active");
+            
+            const songSrc = tile.getAttribute("data-src");
+            const songTitle = tile.getAttribute("data-title");
+            const songImg = tile.getAttribute("data-img");
+            
+            audio.src = songSrc;
+            if (displayTitle) displayTitle.textContent = songTitle;
+            if (displayCover && songImg) displayCover.src = songImg;
+            
+            localStorage.setItem("audio_active_src", songSrc);
+            localStorage.setItem("audio_active_title", songTitle);
+            localStorage.setItem("audio_active_img", songImg);
+            localStorage.setItem("audio_was_playing", "true");
+            
+            if (deckBar) deckBar.classList.add("deck-visible");
+            audio.loop = window.isAudioLooping;
+            
+            audio.play().then(synchronizePlayerUI).catch(err => console.log("Tile play crash:", err));
+        });
+    });
+
+    if (searchBox) {
+        searchBox.addEventListener("input", () => {
+            const query = searchBox.value.toLowerCase();
+            tiles.forEach(tile => {
+                const titleText = tile.getAttribute("data-title").toLowerCase();
+                tile.style.display = titleText.includes(query) ? "flex" : "none";
+            });
+        });
+    }
+
+    // Safely run the UI sync without breaking audio state
+    setInterval(synchronizeActiveTrackDisplay, 500);
+});
 });
 </script>
 </body>

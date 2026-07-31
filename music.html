@@ -157,7 +157,6 @@
   </div>
 </div>
 </div>
-
 <script>
 if (!window.audioEngine) {
     window.audioEngine = new Audio();
@@ -263,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formatAndDisplayTime(targetTime);
             }
         });
+
         slider.addEventListener("change", () => {
             if (!isNaN(audio.duration) && isFinite(audio.duration)) {
                 audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
@@ -292,11 +292,11 @@ document.addEventListener("DOMContentLoaded", () => {
         tile.addEventListener("click", () => {
             tiles.forEach(t => t.classList.remove("active"));
             tile.classList.add("active");
-            
+
             const songSrc = tile.getAttribute("data-src");
             const songTitle = tile.getAttribute("data-title");
             const songImg = tile.getAttribute("data-img");
-            
+
             localStorage.setItem("audio_active_src", songSrc);
             localStorage.setItem("audio_active_title", songTitle);
             localStorage.setItem("audio_active_img", songImg);
@@ -305,10 +305,9 @@ document.addEventListener("DOMContentLoaded", () => {
             audio.src = songSrc;
             if (displayTitle) displayTitle.textContent = songTitle;
             if (displayCover && songImg) displayCover.src = songImg;
-            
             if (deckBar) deckBar.classList.add("deck-visible");
-            audio.loop = window.isAudioLooping;
             
+            audio.loop = window.isAudioLooping;
             audio.play()
                 .then(synchronizePlayerUI)
                 .catch(err => console.log("Tile play error handled:", err));

@@ -181,6 +181,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const deckBar = document.getElementById("control-deck-bar");
     let isUserDraggingSlider = false;
 
+    function formatAndDisplayTime(secondsValue) {
+        if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
+        let mins = Math.floor(secondsValue / 60);
+        let secs = Math.floor(secondsValue % 60);
+        if (timeLabel) {
+            timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
+        }
+    }
+
     function synchronizePlayerUI() {
         if (!shape) return;
         if (!audio.paused && audio.src && audio.src !== window.location.href) {
@@ -221,6 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         synchronizePlayerUI();
     }
 
+    synchronizePlayerUI();
     synchronizeActiveTrackDisplay();
 
     if (window.isAudioLooping && loopBtn) {
@@ -247,15 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
             audio.loop = window.isAudioLooping;
             loopBtn.classList.toggle("loop-active", window.isAudioLooping);
         });
-    }
-
-    function formatAndDisplayTime(secondsValue) {
-        if (isNaN(secondsValue) || !isFinite(secondsValue)) return;
-        let mins = Math.floor(secondsValue / 60);
-        let secs = Math.floor(secondsValue % 60);
-        if (timeLabel) {
-            timeLabel.textContent = mins + ":" + (secs < 10 ? "0" + secs : secs);
-        }
     }
 
     if (slider) {

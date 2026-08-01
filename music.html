@@ -260,6 +260,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (slider) {
+        // CRITICAL FIX: Immediately lock state when user presses down anywhere on the bar
+        slider.addEventListener("mousedown", () => { isUserDraggingSlider = true; });
+        slider.addEventListener("touchstart", () => { isUserDraggingSlider = true; });
+
         slider.addEventListener("input", () => {
             isUserDraggingSlider = true;
             if (!isNaN(audio.duration) && isFinite(audio.duration)) {
@@ -272,7 +276,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isNaN(audio.duration) && isFinite(audio.duration)) {
                 audio.currentTime = (parseFloat(slider.value) / 100) * audio.duration;
             }
-            isUserDraggingSlider = false;
+            // Release lock after audio position has changed successfully
+            setTimeout(() => { isUserDraggingSlider = false; }, 50);
         });
     }
 
@@ -332,5 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(synchronizeActiveTrackDisplay, 500);
 });
 </script>
+
 </body>
 </html>

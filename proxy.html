@@ -4,39 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Under Construction</title>
-    <!-- Reference your main system styles sheet to bring in the purple/pink gradient background -->
+    <!-- Links your main stylesheet to inherit the deep dark background theme -->
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Main view frame aligned with your layout dimensions (220px sidebar, 80px header) */
-        .workspace-viewport {
+        /* Fullscreen wrapper to center the card on the entire screen */
+        .fullscreen-center-wrapper {
             position: fixed;
-            top: 80px;
-            left: 220px;
-            width: calc(100% - 220px);
-            height: calc(100vh - 80px);
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        /* The glass blur shield overlay layer that blends into your background theme tint */
-        .blur-shield-overlay {
-            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            backdrop-filter: blur(12px); /* Smooth background frosting blur strength */
-            -webkit-backdrop-filter: blur(12px); /* Safari engine fallback */
-            background-color: rgba(26, 13, 23, 0.4); /* Translucent plum overlay tint */
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             box-sizing: border-box;
-            z-index: 5;
+            z-index: 9999;
         }
 
-        /* Replicated Notice Container Window Card matching your reference screenshot */
+        /* The exact white content container window box from your screenshot */
         .construction-card {
             background-color: #ffffff;
             border-radius: 12px;
@@ -49,7 +35,7 @@
             text-align: left;
         }
 
-        /* Notice header text element styling */
+        /* Title heading styling */
         .construction-card h1 {
             color: #000000;
             font-size: 32px;
@@ -61,7 +47,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* Call-to-action description text line styling */
+        /* Call to action subtext styling */
         .construction-card p {
             color: #000000;
             font-size: 24px;
@@ -70,15 +56,8 @@
             margin: 0;
         }
 
-        /* Desktop to mobile device viewport fallback alignment rules */
-        @media (max-width: 768px) {
-            .workspace-viewport {
-                position: relative;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: calc(100vh - 160px);
-            }
+        /* Mobile layout scaling adjustments */
+        @media (max-width: 480px) {
             .construction-card {
                 padding: 35px 25px;
             }
@@ -94,31 +73,16 @@
 </head>
 <body>
 
-    <!-- 1. Master Fixed Navigation Sidebar Module Panel Target Shell -->
-    <div id="sidebar-container">
-        <object type="text/html" data="sidebar.html" style="width:100%; height:100%; border:none;"></object>
-    </div>
-
-    <!-- 2. Master Fixed Upper Display Header Banner Target Shell -->
-    <div id="header-container">
-        <object type="text/html" data="header.html" style="width:100%; height:100%; border:none;"></object>
-    </div>
-
-    <!-- 3. Dynamic Center App Main Content Presentation Workspace Frame -->
-    <main class="workspace-viewport">
+    <!-- Center layout container filling the whole viewport -->
+    <div class="fullscreen-center-wrapper">
         
-        <!-- The Glass Blur Shield Overlap Layer running live over the workspace canvas -->
-        <div class="blur-shield-overlay">
-            
-            <!-- Under Construction Notice Layout Window Element -->
-            <div class="construction-card">
-                <h1>Under Construction 🚧</h1>
-                <p>Donate to speed up the development of this page</p>
-            </div>
-
+        <!-- Replicated construction notice window card -->
+        <div class="construction-card">
+            <h1>Under Construction 🚧</h1>
+            <p>Donate to speed up the development of this page</p>
         </div>
 
-    </main>
+    </div>
 
 </body>
 </html>

@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Under Construction</title>
-    <!-- Loads your style.css rules for the plum background, header, and sidebar layouts -->
+    <!-- Strictly links to your stylesheet to inherit body background and formatting -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Target layout container for your sidebar file -->
+    <!-- 1. Sidebar Container (Positioned and sized automatically by style.css) -->
     <div id="sidebar-container">
         <object type="text/html" data="sidebar.html" style="width: 100%; height: 100%; border: none;"></object>
     </div>
 
-    <!-- Target layout container for your header file -->
+    <!-- 2. Header Container (Positioned and sized automatically by style.css) -->
     <div id="header-container">
         <object type="text/html" data="header.html" style="width: 100%; height: 100%; border: none;"></object>
     </div>
 
-    <!-- Main display content block positioned via style.css layout panels -->
-    <main style="margin-left: 220px; padding-top: 80px; display: flex; min-height: 100vh; align-items: center; justify-content: center; box-sizing: border-box;">
+    <!-- 3. Main content workspace inheriting your layout offsets (.main) -->
+    <main class="main">
         
-        <!-- Replicated construction notice window card -->
-        <div style="background-color: #ffffff; color: #000000; border-radius: 12px; width: 100%; max-width: 600px; padding: 55px 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); font-family: 'Segoe UI', Arial, sans-serif; box-sizing: border-box; text-align: left;">
-            <h1 style="font-size: 32px; font-weight: 800; margin: 0 0 35px 0; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px;">Under Construction 🚧</h1>
-            <p style="font-size: 24px; font-weight: 700; line-height: 1.4; margin: 0;">Donate to speed up the development of this page</p>
+        <!-- Uses your native pink-bordered block element style rules -->
+        <div class="note-box">
+            <h2>Under Construction 🚧</h2>
+            <p>Donate to speed up the development of this page</p>
         </div>
 
     </main>

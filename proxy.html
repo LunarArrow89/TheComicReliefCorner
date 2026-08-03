@@ -4,76 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Under Construction</title>
-    <!-- Reference your main system styles sheet -->
+    <!-- Reference your main system styles sheet to bring in the purple/pink gradient background -->
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Main Viewport Workspace positioning to clear fixed header and sidebar panels */
+        /* Main view frame aligned with your layout dimensions (220px sidebar, 80px header) */
         .workspace-viewport {
-            position: absolute;
-            top: 80px;         /* Height of your fixed header element */
-            left: 220px;       /* Width of your fixed sidebar navigation layout */
+            position: fixed;
+            top: 80px;
+            left: 220px;
             width: calc(100% - 220px);
             height: calc(100vh - 80px);
-            padding: 40px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* The glass blur shield overlay layer that blends into your background theme tint */
+        .blur-shield-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(12px); /* Smooth background frosting blur strength */
+            -webkit-backdrop-filter: blur(12px); /* Safari engine fallback */
+            background-color: rgba(26, 13, 23, 0.4); /* Translucent plum overlay tint */
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
             box-sizing: border-box;
-            overflow-y: auto;
+            z-index: 5;
         }
 
-        /* Under Construction Window Container Card Element matching your visual reference */
+        /* Replicated Notice Container Window Card matching your reference screenshot */
         .construction-card {
             background-color: #ffffff;
-            border: 1px solid #000000;
             border-radius: 12px;
             width: 100%;
             max-width: 600px;
-            padding: 45px 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 55px 45px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             font-family: 'Segoe UI', Arial, sans-serif;
             box-sizing: border-box;
             text-align: left;
         }
 
-        /* Title header element */
+        /* Notice header text element styling */
         .construction-card h1 {
             color: #000000;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
-            margin: 0 0 45px 0;
+            margin: 0 0 35px 0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             letter-spacing: -0.5px;
         }
 
-        /* Description subtext paragraph element */
+        /* Call-to-action description text line styling */
         .construction-card p {
             color: #000000;
             font-size: 24px;
             font-weight: 700;
-            line-height: 1.35;
+            line-height: 1.4;
             margin: 0;
-            max-width: 500px;
         }
 
-        /* Responsive Breakpoints matching your style sheet structure rules */
+        /* Desktop to mobile device viewport fallback alignment rules */
         @media (max-width: 768px) {
             .workspace-viewport {
                 position: relative;
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: auto;
-                padding: 20px;
-                min-height: calc(100vh - 160px);
+                height: calc(100vh - 160px);
             }
             .construction-card {
-                padding: 30px 25px;
+                padding: 35px 25px;
             }
             .construction-card h1 {
-                font-size: 22px;
+                font-size: 24px;
                 margin-bottom: 25px;
             }
             .construction-card p {
@@ -84,25 +94,28 @@
 </head>
 <body>
 
-    <!-- 1. Structural Fixed Sidebar Navigation Component Layout Shell -->
+    <!-- 1. Master Fixed Navigation Sidebar Module Panel Target Shell -->
     <div id="sidebar-container">
-        <!-- Loads your isolated sidebar.html asset module cleanly -->
         <object type="text/html" data="sidebar.html" style="width:100%; height:100%; border:none;"></object>
     </div>
 
-    <!-- 2. Structural Fixed Header Upper Banner Layout Shell -->
+    <!-- 2. Master Fixed Upper Display Header Banner Target Shell -->
     <div id="header-container">
-        <!-- Loads your isolated header.html asset module cleanly -->
         <object type="text/html" data="header.html" style="width:100%; height:100%; border:none;"></object>
     </div>
 
-    <!-- 3. Dynamic Center App Display Panel Frame Workspace -->
+    <!-- 3. Dynamic Center App Main Content Presentation Workspace Frame -->
     <main class="workspace-viewport">
         
-        <!-- Replicated Under Construction Notice Graphic Card -->
-        <div class="construction-card">
-            <h1>Under Construction 🚧</h1>
-            <p>Donate to speed up the development of this page</p>
+        <!-- The Glass Blur Shield Overlap Layer running live over the workspace canvas -->
+        <div class="blur-shield-overlay">
+            
+            <!-- Under Construction Notice Layout Window Element -->
+            <div class="construction-card">
+                <h1>Under Construction 🚧</h1>
+                <p>Donate to speed up the development of this page</p>
+            </div>
+
         </div>
 
     </main>

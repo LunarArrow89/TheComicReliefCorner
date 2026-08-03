@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Under Construction</title>
-    <!-- Links your main stylesheet to inherit the deep dark background theme -->
+    <!-- Links your main stylesheet to inherit the background gradient, fonts, and layouts -->
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Fullscreen wrapper to center the card on the entire screen */
-        .fullscreen-center-wrapper {
+        /* Dedicated workspace area that respects the 220px sidebar and 80px header bounds */
+        .page-content-workspace {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 80px;
+            left: 220px;
+            width: calc(100% - 220px);
+            height: calc(100vh - 80px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px;
             box-sizing: border-box;
-            z-index: 9999;
+            z-index: 10;
         }
 
-        /* The exact white content container window box from your screenshot */
+        /* The exact white container card window box from your layout reference */
         .construction-card {
             background-color: #ffffff;
             border-radius: 12px;
@@ -35,7 +35,7 @@
             text-align: left;
         }
 
-        /* Title heading styling */
+        /* Title heading styling inside the white card */
         .construction-card h1 {
             color: #000000;
             font-size: 32px;
@@ -47,7 +47,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* Call to action subtext styling */
+        /* Call to action subtext description lines */
         .construction-card p {
             color: #000000;
             font-size: 24px;
@@ -56,8 +56,17 @@
             margin: 0;
         }
 
-        /* Mobile layout scaling adjustments */
-        @media (max-width: 480px) {
+        /* Layout fallback breakpoints matching your system sheet configurations */
+        @media (max-width: 768px) {
+            .page-content-workspace {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                min-height: calc(100vh - 160px);
+                padding: 20px;
+            }
             .construction-card {
                 padding: 35px 25px;
             }
@@ -73,16 +82,26 @@
 </head>
 <body>
 
-    <!-- Center layout container filling the whole viewport -->
-    <div class="fullscreen-center-wrapper">
+    <!-- 1. Restored Master Navigation Sidebar Module Panel Target Shell -->
+    <div id="sidebar-container">
+        <object type="text/html" data="sidebar.html" style="width: 100%; height: 100%; border: none;"></object>
+    </div>
+
+    <!-- 2. Restored Master Upper Display Header Banner Target Shell -->
+    <div id="header-container">
+        <object type="text/html" data="header.html" style="width: 100%; height: 100%; border: none;"></object>
+    </div>
+
+    <!-- 3. Balanced Application Content Presentation Workspace Frame -->
+    <main class="page-content-workspace">
         
-        <!-- Replicated construction notice window card -->
+        <!-- Replicated Under Construction Notice Graphic Card -->
         <div class="construction-card">
             <h1>Under Construction 🚧</h1>
             <p>Donate to speed up the development of this page</p>
         </div>
 
-    </div>
+    </main>
 
 </body>
 </html>

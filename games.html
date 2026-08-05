@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comic Relief Corner - Game Hub</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Your CSS (Unified Spacing Architecture) -->
+    <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Loader Script -->
+    <script defer src="load.js"></script>
+</head>
+<body>
+
+    <!-- SIDEBAR LOADS HERE FROM LOAD.JS -->
+    <div id="sidebar-container"></div>
+
+    <!-- HEADER LOADS HERE FROM LOAD.JS -->
+    <div id="header-container"></div>
+
+    <!-- MAIN CONTENT ONLY -->
+    <div class="main">
+        
+        <div class="hero">
+            <h1>The Gaming Deck</h1>
+            <p>Your one-way ticket to pure entertainment.</p>
+        </div>
+
+        <!-- UPPER LAYOUT ROW: Main Game Canvas Frame Viewport -->
+        <div class="feature-layout-row">
+            <div class="feature-box-rectangle">
+                <!-- Drop your interactive screen or active game canvas target here -->
+                <iframe src="about:blank" style="width: 100%; height: 100%; border: none; background: #0a0509; border-radius: 14px;"></iframe>
+            </div>
+        </div>
+
+        <!-- LOWER LAYOUT ROW: Three Item Sub-Grid Structure -->
+        <div class="four-square-grid">
+            
+            <!-- COLUMN ITEM 1 -->
+            <div class="grid-square">
+                <div class="grid-img-wrap">
+                    <!-- Embedded image asset target placeholder matching your layout sketch -->
+                    <img src="game1.png" alt="Game Thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <p>Game Variant A</p>
+                <span class="grid-desc">Execute game engine.</span>
+            </div>
+
+            <!-- COLUMN ITEM 2 -->
+            <div class="grid-square">
+                <div class="grid-img-wrap">
+                    <img src="game2.png" alt="Game Thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <p>Game Variant B</p>
+                <span class="grid-desc">Test your high score.</span>
+            </div>
+
+            <!-- COLUMN ITEM 3 -->
+            <div class="grid-square">
+                <div class="grid-img-wrap">
+                    <img src="game3.png" alt="Game Thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <p>Game Variant C</p>
+                <span class="grid-desc">Unlock record matrices.</span>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

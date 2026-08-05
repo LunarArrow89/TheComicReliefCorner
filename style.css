@@ -1337,3 +1337,95 @@ document.addEventListener("DOMContentLoaded", () => {
     text-align: center;
   }
 }
+/* Game Grid Setup using variable auto-fill layout matching your engine theme */
+.game-square-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 25px;
+    box-sizing: border-box;
+}
+
+/* Force elements to maintain strict perfect 1:1 square dimensions */
+.game-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #120910;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Image scaling rules filling the card unit footprint */
+.game-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Center-aligned overlay panel that defaults to completely hidden */
+.game-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Bold white text layout centered parameters */
+.game-card-title {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+    user-select: none;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+/* INTERACTION EFFECTS: Brightens borders, dims backgrounds, reveals text center area */
+.game-card:hover {
+    transform: translateY(-5px);
+    border-color: #ff69b4;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 105, 180, 0.25);
+}
+
+.game-card:hover .game-card-img {
+    filter: brightness(0.4) blur(1px);
+    transform: scale(1.05);
+}
+
+.game-card:hover .game-card-overlay {
+    opacity: 1;
+}
+
+.game-card:hover .game-card-title {
+    transform: scale(1);
+}
+
+/* Breakpoint adjustment rules keeping squares clean on mobile views */
+@media (max-width: 480px) {
+    .game-square-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}

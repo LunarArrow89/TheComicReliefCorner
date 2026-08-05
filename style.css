@@ -1429,3 +1429,128 @@ document.addEventListener("DOMContentLoaded", () => {
         gap: 12px;
     }
 }
+/* ==========================================================================
+   POP-UP WINDOW MODAL SYSTEM STYLES (Matches Sketch Specifications)
+   ========================================================================== */
+
+/* Main page backdrop tracker layer element rules configuration */
+#main-content-blur-target {
+    transition: filter 0.4s ease;
+}
+
+/* Blur activation rule triggered cleanly via client side selectors classes */
+.background-blur-active {
+    filter: blur(15px);
+    pointer-events: none; /* Prevents backing buttons actions while window remains active */
+}
+
+/* Fullscreen opaque backdrop matrix configuration layer layout */
+.game-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 5, 9, 0.5); /* Matches theme color profile alpha variables specs */
+    z-index: 9999; /* Positions above headers sidebars and navigation panels fields layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+/* Viewstate activation engine parameters configuration toggles */
+.game-modal-backdrop.modal-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Clean curved layout dashboard module window target frame box container */
+.game-modal-window {
+    width: 90%;
+    max-width: 1100px;
+    background: #1f121b; /* Perfectly matches your main UI sheet background rules code */
+    border: 1px solid rgba(255, 105, 180, 0.25);
+    border-radius: 20px;
+    padding: 20px 25px 25px 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 105, 180, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Pop window fluid deployment bouncing scale configuration controls transform rule */
+.game-modal-backdrop.modal-active .game-modal-window {
+    transform: scale(1);
+}
+
+/* Header controller row grid flex structures rules dimensions configurations */
+.game-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 105, 180, 0.1);
+    padding-bottom: 10px;
+}
+
+/* Glow font parameters mimicking dashboard logo parameters syntax definitions rules */
+.game-modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255, 105, 180, 0.7);
+}
+
+/* Minimal cross cancellation toggle button configuration elements structure */
+.game-modal-close-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 105, 180, 0.6);
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-modal-close-btn:hover {
+    color: #ff69b4;
+    transform: scale(1.15);
+}
+
+/* Deep inner embedded active workspace screen graphics wrapper block rules */
+.game-modal-viewport {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0a0509;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+/* Sandbox framing viewport components fluid mapping parameters rule */
+.game-modal-viewport iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Responsiveness fallback keeping sizes balanced on compact tablet views bounds */
+@media (max-width: 768px) {
+    .game-modal-window {
+        width: 95%;
+        padding: 15px;
+    }
+    .game-modal-title {
+        font-size: 1.2rem;
+    }
+}

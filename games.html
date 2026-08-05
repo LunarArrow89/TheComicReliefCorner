@@ -15,40 +15,31 @@
 </head>
 <body>
 
-    <!-- SIDEBAR LOADS HERE FROM LOAD.JS -->
+    <!-- OVERVIEW CONTROLLERS LOADS FROM LOAD.JS -->
     <div id="sidebar-container"></div>
-
-    <!-- HEADER LOADS HERE FROM LOAD.JS -->
     <div id="header-container"></div>
 
-    <!-- MAIN CONTENT ONLY -->
-    <div class="main">
+    <!-- MAIN CONTENT ENGINE CONTAINER AREA -->
+    <div class="main" id="main-content-blur-target">
         
         <div class="hero">
             <h1>The Gaming Deck</h1>
             <p>Your one-way ticket to pure entertainment.</p>
         </div>
 
-        <!-- 1. MAIN LARGE PLAY VIEWPORT SCREEN AREA -->
-        <div class="feature-layout-row">
-            <div class="feature-box-rectangle">
-                <iframe src="about:blank" style="width: 100%; height: 100%; border: none; background: #0a0509; border-radius: 14px;"></iframe>
-            </div>
-        </div>
-
-        <!-- 2. GAME SELECTION HOVER SQUARE GRID -->
+        <!-- GAME SELECTION HOVER SQUARE GRID -->
         <div class="game-square-grid">
             
-            <!-- GAME CARD 1 -->
-            <div class="game-card">
-                <img src="game1.jpg" alt="Game Cover" class="game-card-img">
+            <!-- CUPHEAD GAME CARD LINK -->
+            <div class="game-card" onclick="openGameModal('Cuphead Arcade', 'cup_head.html')">
+                <img src="game1.jpg" alt="Cuphead Cover Image" class="game-card-img">
                 <div class="game-card-overlay">
-                    <h3 class="game-card-title">Cyber Racer</h3>
+                    <h3 class="game-card-title">Cuphead</h3>
                 </div>
             </div>
 
             <!-- GAME CARD 2 -->
-            <div class="game-card">
+            <div class="game-card" onclick="openGameModal('Neon Breakout', 'breakout.html')">
                 <img src="game2.jpg" alt="Game Cover" class="game-card-img">
                 <div class="game-card-overlay">
                     <h3 class="game-card-title">Neon Breakout</h3>
@@ -56,7 +47,7 @@
             </div>
 
             <!-- GAME CARD 3 -->
-            <div class="game-card">
+            <div class="game-card" onclick="openGameModal('Space Invaders', 'invaders.html')">
                 <img src="game3.jpg" alt="Game Cover" class="game-card-img">
                 <div class="game-card-overlay">
                     <h3 class="game-card-title">Space Invaders</h3>
@@ -64,23 +55,65 @@
             </div>
 
             <!-- GAME CARD 4 -->
-            <div class="game-card">
+            <div class="game-card" onclick="openGameModal('Pixel Quest', 'pixel_quest.html')">
                 <img src="game4.jpg" alt="Game Cover" class="game-card-img">
                 <div class="game-card-overlay">
                     <h3 class="game-card-title">Pixel Quest</h3>
                 </div>
             </div>
 
-            <!-- GAME CARD 5 -->
-            <div class="game-card">
-                <img src="game5.jpg" alt="Game Cover" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Synth Wave</h3>
-                </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY POP-UP SYSTEM CONTAINER (Matches your structural drawing sketch layout) -->
+    <div class="game-modal-backdrop" id="gameModal">
+        <div class="game-modal-window">
+            
+            <!-- Header Row Controls Bar -->
+            <div class="game-modal-header">
+                <span class="game-modal-title" id="modalGameTitle">Game Title</span>
+                <button class="game-modal-close-btn" onclick="closeGameModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Sandbox Viewport Frame Box Layer -->
+            <div class="game-modal-viewport">
+                <iframe src="about:blank" id="modalGameIframe"></iframe>
             </div>
 
         </div>
-
     </div>
+
+    <!-- CORE GAME ENGINE INTERACTION FUNCTIONS -->
+    <script>
+        const modal = document.getElementById('gameModal');
+        const mainContent = document.getElementById('main-content-blur-target');
+        const iframe = document.getElementById('modalGameIframe');
+        const titleText = document.getElementById('modalGameTitle');
+
+        // Function execution loop triggering overlay systems viewstate
+        function openGameModal(title, fileUrl) {
+            titleText.textContent = title;
+            iframe.src = fileUrl;
+            modal.classList.add('modal-active');
+            mainContent.classList.add('background-blur-active');
+        }
+
+        // Clean interface reset dumping active frames components cleanly
+        function closeGameModal() {
+            modal.classList.remove('modal-active');
+            mainContent.classList.remove('background-blur-active');
+            iframe.src = 'about:blank'; // Stops performance threads or game sound buffers instantly
+        }
+
+        // Close instantly if user clicks out inside background layer space bounds
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeGameModal();
+            }
+        });
+    </script>
+
 </body>
 </html>

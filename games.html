@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner - Games Grid</title>
+    <title>The Comic Relief Corner - Games</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your CSS (Unified Spacing Architecture) -->
+    <!-- Your Base CSS (Unified Spacing Architecture) -->
     <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Game Layer Stylesheet -->
+    <link rel="stylesheet" href="game-style.css">
     <!-- Loader Script -->
     <script defer src="load.js"></script>
 </head>
@@ -23,8 +25,8 @@
     <div class="main">
         
         <div class="hero">
-            <h1>Games</h1>
-            <p>The main program</p>
+            <h1>The Gaming Deck</h1>
+            <p>Your one-way ticket to pure entertainment.</p>
         </div>
 
         <!-- 1. MAIN LARGE PLAY VIEWPORT SCREEN AREA -->
@@ -34,65 +36,48 @@
             </div>
         </div>
 
-        <!-- 2. HIGH RELEVANCE GRID SELECTOR -->
-        <!-- Native reuse of your Cinema Poster Grid Engine classes -->
-        <div class="movie-poster-grid">
+        <!-- 2. GAME SELECTION HOVER SQUARE GRID -->
+        <div class="game-square-grid">
             
             <!-- GAME CARD 1 -->
-            <a href="#" class="poster-card">
-                <img src="game1.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title A</b></h3>
+            <div class="game-card">
+                <img src="game1.jpg" alt="Game Cover" class="game-card-img">
+                <div class="game-card-overlay">
+                    <h3 class="game-card-title">Cyber Racer</h3>
                 </div>
-            </a>
+            </div>
 
             <!-- GAME CARD 2 -->
-            <a href="#" class="poster-card">
-                <img src="game2.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title B</b></h3>
+            <div class="game-card">
+                <img src="game2.jpg" alt="Game Cover" class="game-card-img">
+                <div class="game-card-overlay">
+                    <h3 class="game-card-title">Neon Breakout</h3>
                 </div>
-            </a>
+            </div>
 
             <!-- GAME CARD 3 -->
-            <a href="#" class="poster-card">
-                <img src="game3.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title C</b></h3>
+            <div class="game-card">
+                <img src="game3.jpg" alt="Game Cover" class="game-card-img">
+                <div class="game-card-overlay">
+                    <h3 class="game-card-title">Space Invaders</h3>
                 </div>
-            </a>
+            </div>
 
             <!-- GAME CARD 4 -->
-            <a href="#" class="poster-card">
-                <img src="game4.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title D</b></h3>
+            <div class="game-card">
+                <img src="game4.jpg" alt="Game Cover" class="game-card-img">
+                <div class="game-card-overlay">
+                    <h3 class="game-card-title">Pixel Quest</h3>
                 </div>
-            </a>
+            </div>
 
             <!-- GAME CARD 5 -->
-            <a href="#" class="poster-card">
-                <img src="game5.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title E</b></h3>
+            <div class="game-card">
+                <img src="game5.jpg" alt="Game Cover" class="game-card-img">
+                <div class="game-card-overlay">
+                    <h3 class="game-card-title">Synth Wave</h3>
                 </div>
-            </a>
-
-            <!-- GAME CARD 6 -->
-            <a href="#" class="poster-card">
-                <img src="game6.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title F</b></h3>
-                </div>
-            </a>
-
-            <!-- GAME CARD 7 -->
-            <a href="#" class="poster-card">
-                <img src="game7.jpg" alt="Game Cover Image">
-                <div class="poster-info">
-                    <h3><b>Game Title G</b></h3>
-                </div>
-            </a>
+            </div>
 
         </div>
 

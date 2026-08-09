@@ -76,7 +76,7 @@ if (!document.getElementById(styleId)) {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 360px !important; /* Widened slightly to account for the third circular node */
+        width: 360px !important;
         height: 90px !important;
         min-height: 90px !important;
         max-height: 90px !important;
@@ -150,15 +150,16 @@ if (!document.getElementById(styleId)) {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 11px;
+        font-size: 12px;
         padding: 0;
-        transition: background 0.2s, color 0.2s;
+        transition: background 0.2s, transform 0.1s;
     }
     .mini-btn:hover {
-        background: #ff69b4;
+        background: #3a3a3a;
+        transform: scale(1.08);
     }
     .mini-btn.close-style:hover {
-        background: #ff6565 !important;
+        background: #444 !important; /* Preserves matching shell base formatting */
     }
     .mini-progress-line-bar {
         width: 100%;
@@ -199,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isMusicTabActive && cachedSrc && !isManuallyHidden) {
             if (!miniPlayer) {
-                // FIXED: The string block structure explicitly appends the third circular .mini-btn with font-awesome payload structure inside the controls array
+                // FIXED: FontAwesome HTML structures completely removed and replaced with native standalone emojis
                 let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
                 markup += '<div class="mini-player-top-row" id="mini-deck-drag-handle">';
                 markup += '<div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
@@ -208,9 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 markup += ' <p id="mini-deck-title" class="mini-title">Syncing Track...</p>';
                 markup += '</div>';
                 markup += '<div class="mini-controls-cluster">';
-                markup += ' <button id="mini-deck-restart-btn" class="mini-btn" title="Restart"><i class="fa-solid fa-backward-step"></i></button>';
-                markup += ' <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause"><i class="fa-solid fa-pause"></i></button>';
-                markup += ' <button id="mini-deck-close-btn" class="mini-btn close-style" title="Close Player"><i class="fa-solid fa-xmark"></i></button>';
+                markup += ' <button id="mini-deck-restart-btn" class="mini-btn" title="Restart">⏮️</button>';
+                markup += ' <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause">⏸️</button>';
+                markup += ' <button id="mini-deck-close-btn" class="mini-btn close-style" title="Close Player">❌</button>';
                 markup += '</div>';
                 markup += '</div>';
                 markup += '<div id="mini-deck-scrub-bar" class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
@@ -242,11 +243,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (pauseBtn) {
             if (audio.paused) {
-                // Keep UI synced natively with FontAwesome layout structures
-                pauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                // Toggles back and forth cleanly using standardized Emojis
+                pauseBtn.textContent = "▶️";
                 if (statusNode) statusNode.textContent = "Paused";
             } else {
-                pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                pauseBtn.textContent = "⏸️";
                 if (statusNode) statusNode.textContent = "Lounge Streaming";
             }
         }

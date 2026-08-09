@@ -118,52 +118,46 @@ body {
    PART 2: HEADER REGIONS, MODULE TIERS & WORKSPACE CANVAS UNITS
    ========================================================================== */
 
-/* 4. Header Regions & Layout Updates */
+/* Core Header Alignment */
 .header {
     display: flex;
-    align-items: center; /* Vertically aligns widget blocks and ticker inline */
+    align-items: center; /* Vertically aligns widgets and ticker inline */
     gap: 20px;
+    width: 100%;
     box-sizing: border-box;
+    padding: 10px 0;
 }
 
-/* Master widget column container */
+/* Master Left-Aligned Wrapper */
 .meta-widgets {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Aligns data elements neatly to the left */
+    align-items: flex-start; /* Forces content rows to drop left perfectly */
     gap: 6px;
     flex-shrink: 0;
 }
 
-/* Inner row pairing time and date together */
+/* Widgets Row Pairing */
 .datetime-row {
     display: flex;
     gap: 10px;
 }
 
-.time-box, .date-box {
-    background: #1f121b;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    border-radius: 12px;
-    padding: 10px 15px;
-    color: white;
-    min-width: 120px;
-    text-align: center;
-}
-
-/* Updated Typing Box formatting */
+/* Redesigned Typing Container layout architecture to stop element bouncing */
 .typing-box {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9rem;
-    color: #a5a5a5; /* Gray shade adapted to your dark theme palette */
-    min-height: 18px; /* Locks structural bounds preventing animation bounce */
+    font-size: 0.85rem;
+    color: #ff69b4; /* Changed to matching theme pink text glow */
+    min-height: 18px;
     font-weight: bold;
+    white-space: nowrap; /* Stops line splitting during active rendering */
     padding-left: 2px;
 }
 
+/* Retro Terminal Caret Animation */
 .typing-box::after {
     content: "█";
-    margin-left: 3px;
+    margin-left: 4px;
     animation: cursorBlink 0.8s infinite;
 }
 
@@ -171,6 +165,7 @@ body {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
+
 
 .ticker-wrap {
     flex: 1;

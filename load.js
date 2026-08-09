@@ -1,11 +1,10 @@
 /*
 LOAD.JS GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE
 */
-// Mount global variables safely to survive persistent navigation
 window.audioEngine = window.audioEngine || new Audio();
 window.isAudioLooping = window.isAudioLooping || false;
 
-// 1. GLOBAL SIDENAV & HEADER FETCH ENGINE - MOVED TO TOP LEVEL TO PREVENT LAYOUT LOSS
+// 1. GLOBAL SIDENAV & HEADER FETCH ENGINE
 function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
@@ -22,7 +21,7 @@ function executeGlobalTemplateLighter() {
             .then(res => res.text())
             .then(html => {
                 headerWrap.innerHTML = html;
-                executeSystemTimeTicks(); // Update clock as soon as header mounts
+                executeSystemTimeTicks();
             })
             .catch(err => console.error("Error loading header layout:", err));
     }
@@ -44,19 +43,17 @@ function executeSystemTimeTicks() {
     }
 }
 
-// Run initial template rendering loop immediately on file parse
 executeGlobalTemplateLighter();
 
-// 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS CLEANLY
+// 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
 const pipelineObserver = new MutationObserver(() => {
-    pipelineObserver.disconnect(); // Prevent infinite loops
+    pipelineObserver.disconnect();
     executeGlobalTemplateLighter();
     executeSystemTimeTicks();
     pipelineObserver.observe(document.body, { childList: true, subtree: true });
 });
 pipelineObserver.observe(document.body, { childList: true, subtree: true });
 
-// FIX: Instant structural recovery on cold browser tab loads before DOMContentLoaded settles
 (function autoSynchronizeAudioState() {
     const cachedSrc = localStorage.getItem("audio_active_src");
     const savedTime = localStorage.getItem("audio_active_time");
@@ -74,11 +71,10 @@ pipelineObserver.observe(document.body, { childList: true, subtree: true });
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Double-check template rendering when DOM finishes processing
     executeGlobalTemplateLighter();
 });
 
-// 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM - ABSOLUTE MAXIMUM OVERRIDE STYLES
+// 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM OVERRIDE STYLES
 const styleId = "universal-player-dynamic-css";
 if (!document.getElementById(styleId)) {
     const customStyles = `
@@ -192,13 +188,13 @@ if (!document.getElementById(styleId)) {
     styleTag.textContent = customStyles;
     document.head.appendChild(styleTag);
 }
-// 5. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM CONTROLS & EVENT BINDINGS
+// 5. CONTROL ENGINE AND EVENTS
 function processGlobalMiniplayerVisibility() {
-    const isMusicTabActive = document.getElementById("song-search") !== null;
     let miniPlayer = document.getElementById("shared-global-mini-deck");
     const cachedSrc = localStorage.getItem("audio_active_src");
 
-    if (!isMusicTabActive && cachedSrc) {
+    // FIX: Render player whenever cached source exists, ignoring tab identities
+    if (cachedSrc) {
         if (!miniPlayer) {
             let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
             markup += '<div class="mini-player-top-row" id="mini-deck-drag-handle">';
@@ -222,7 +218,7 @@ function processGlobalMiniplayerVisibility() {
             setupMiniPlayerControllers();
         }
         updateMiniplayerDataTrack();
-    } else if ((isMusicTabActive || !cachedSrc) && miniPlayer) {
+    } else if (!cachedSrc && miniPlayer) {
         miniPlayer.remove();
     }
 }
@@ -286,6 +282,8 @@ function setupMiniPlayerControllers() {
             e.stopPropagation();
             audio.pause();
             localStorage.removeItem("audio_active_src");
+            localStorage.removeItem("audio_active_title");
+            localStorage.removeItem("audio_active_img");
             localStorage.setItem("audio_was_playing", "false");
             const miniPlayer = document.getElementById("shared-global-mini-deck");
             if (miniPlayer) miniPlayer.remove();
@@ -314,8 +312,8 @@ function setupMoveableDragEngine(element) {
         if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
         e.preventDefault();
         if (e.type === "touchstart") {
-            activeX = e.touches[0].clientX;
-            activeY = e.touches[0].clientY;
+            activeX = e.touches.clientX;
+            activeY = e.touches.clientY;
         } else {
             activeX = e.clientX;
             activeY = e.clientY;
@@ -329,8 +327,8 @@ function setupMoveableDragEngine(element) {
     function dragMotionExecution(e) {
         let currentClientX = 0, currentClientY = 0;
         if (e.type === "touchmove") {
-            currentClientX = e.touches[0].clientX;
-            currentClientY = e.touches[0].clientY;
+            currentClientX = e.touches.clientX;
+            currentClientY = e.touches.clientY;
         } else {
             currentClientX = e.clientX;
             currentClientY = e.clientY;
@@ -354,7 +352,6 @@ function setupMoveableDragEngine(element) {
     }
 }
 
-// Tile Selection Binding
 document.body.addEventListener("click", (e) => {
     const tile = e.target.closest(".square-song-tile");
     if (tile) {
@@ -371,7 +368,6 @@ document.body.addEventListener("click", (e) => {
     }
 });
 
-// Sync State Upkeep Intermediaries
 window.audioEngine.addEventListener("timeupdate", () => {
     const audio = window.audioEngine;
     if (audio.src) {

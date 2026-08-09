@@ -19,8 +19,8 @@ html, body {
 body {
     /* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
     /* Layer 2: Radial spotlight gradient shifting from deep plum down to black */
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"), 
-                radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
     background-repeat: repeat;
     background-attachment: fixed;
     color: white;
@@ -36,8 +36,8 @@ body {
     background: #120910;
     border-right: 1px solid rgba(255, 105, 180, 0.15);
     padding: 15px;
-    overflow-y: auto; 
-    overflow-x: hidden; 
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .logo-container {
@@ -45,29 +45,29 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 25px;
-    position: relative; 
-    height: 180px; 
-}
-
-.logo-ring {
-    position: absolute;
-    width: 275px; 
-    height: auto;
-    z-index: 1; 
-    pointer-events: none; 
-    filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
-    animation: slow-turn 20s linear infinite; 
-}
-
-.logo-image {
     position: relative;
-    z-index: 2; 
+    height: 180px;
+}
+
+.logo-container .logo-ring {
+    position: absolute;
+    width: 275px;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px rgba(255,105,180,.3));
+    animation: slow-turn 20s linear infinite;
+}
+
+.logo-container .logo-image {
+    position: relative;
+    z-index: 2;
     width: 170px;
     max-width: 100%;
     height: auto;
     transition: .25s ease;
     filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
-    pointer-events: auto; 
+    pointer-events: auto;
 }
 
 .logo-image:hover {
@@ -112,41 +112,34 @@ body {
 
 .nav-btn:hover .nav-icon-img {
     filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
-    transform: scale(1.05); 
+    transform: scale(1.05);
 }
 /* ==========================================================================
    PART 2: HEADER REGIONS, MODULE TIERS & WORKSPACE CANVAS UNITS
    ========================================================================== */
 
-/* 4. Header Regions & Marquee Embed */
+/* 4. Header Regions & Layout Updates */
 .header {
     display: flex;
+    align-items: center; /* Vertically aligns widget blocks and ticker inline */
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+/* Master widget column container */
+.meta-widgets {
+    display: flex;
     flex-direction: column;
-    align-items: center; /* Centers all header items vertically */
-    text-align: center;
+    align-items: flex-start; /* Aligns data elements neatly to the left */
+    gap: 6px;
+    flex-shrink: 0;
 }
 
-.typing-box {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-    color: #555;
-    margin: 8px 0 15px 0;
-    min-height: 20px; /* Locks height so layout doesn't bounce while erasing */
-    font-weight: bold;
+/* Inner row pairing time and date together */
+.datetime-row {
+    display: flex;
+    gap: 10px;
 }
-
-/* Optional flashing terminal cursor effect */
-.typing-box::after {
-    content: "█";
-    margin-left: 2px;
-    animation: cursorBlink 0.8s infinite;
-}
-
-@keyframes cursorBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
 
 .time-box, .date-box {
     background: #1f121b;
@@ -156,6 +149,27 @@ body {
     color: white;
     min-width: 120px;
     text-align: center;
+}
+
+/* Updated Typing Box formatting */
+.typing-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    color: #a5a5a5; /* Gray shade adapted to your dark theme palette */
+    min-height: 18px; /* Locks structural bounds preventing animation bounce */
+    font-weight: bold;
+    padding-left: 2px;
+}
+
+.typing-box::after {
+    content: "█";
+    margin-left: 3px;
+    animation: cursorBlink 0.8s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .ticker-wrap {
@@ -230,6 +244,9 @@ body {
     color: #e7e7e7;
     line-height: 1.6;
 }
+/* ==========================================================================
+   PART 3: LAYOUT ROW COMPONENTS, GRID QUADRANTS & CINEMA GRIDS
+   ========================================================================== */
 
 /* 6. Feature Split Block Row Elements */
 .feature-layout-row {
@@ -258,8 +275,8 @@ body {
 .feature-box-square img {
     width: 100%;
     height: 100%;
-    max-width: 160px; /* Adapts for padding constraints */
-    max-height: 160px; 
+    max-width: 160px;
+    max-height: 160px;
     object-fit: contain;
     display: block;
 }
@@ -291,24 +308,24 @@ body {
 
 /* 7. Home Hub Multi-Color Link Quadrants */
 .four-square-grid {
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-between; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 20px;
     margin: 25px auto 0 auto;
     width: 100%;
 }
 
 .grid-square {
-    flex: 1; 
-    aspect-ratio: 1 / 1; 
-    border: 1px solid rgba(255, 105, 180, 0.15); 
+    flex: 1;
+    aspect-ratio: 1/1;
+    border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 20px;
     padding: 15px;
     text-align: center;
     box-sizing: border-box;
     overflow: hidden;
-    text-decoration: none; 
+    text-decoration: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
@@ -321,41 +338,41 @@ body {
 .grid-square:hover { transform: translateY(-8px); }
 
 .grid-square:nth-child(1):hover {
-    border-color: #ff69b4; 
+    border-color: #ff69b4;
     box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.25);
 }
 .grid-square:nth-child(2):hover {
-    border-color: #00bfff; 
+    border-color: #00bfff;
     box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 191, 255, 0.25);
 }
 .grid-square:nth-child(3):hover {
-    border-color: #00ff7f; 
+    border-color: #00ff7f;
     box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 127, 0.25);
 }
 .grid-square:nth-child(4):hover {
-    border-color: #ffd700; 
+    border-color: #ffd700;
     box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.25);
 }
 
 .grid-img-wrap {
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 14px;
-    width: 100%; 
-    height: 60%; 
+    width: 100%;
+    height: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px; 
+    margin-bottom: 12px;
     flex-shrink: 0;
     overflow: hidden;
     transition: background-color 0.25s ease;
 }
 
 .grid-inner-text {
-    font-size: 3.5rem; 
+    font-size: 3.5rem;
     line-height: 1;
     display: inline-block;
-    user-select: none; 
+    user-select: none;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
     transition: transform 0.25s ease;
 }
@@ -374,31 +391,28 @@ body {
 .grid-square p {
     margin: 0 0 2px 0;
     font-size: 1.1rem;
-    font-weight: bold; 
+    font-weight: bold;
     color: #e7e7e7;
     text-align: center;
     line-height: 1.2;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     width: 100%;
 }
 
 .grid-desc {
-    font-size: 0.8rem; 
-    color: #aaa; 
+    font-size: 0.8rem;
+    color: #aaa;
     text-align: center;
     line-height: 1.2;
     display: block;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     width: 100%;
 }
-/* ==========================================================================
-   PART 3A: CINEMA SYSTEM LAYOUTS & GENERAL GRIDS
-   ========================================================================== */
 
 /* 8. Cinema Component Layout Wrap */
 .featured-theater-block {
@@ -544,8 +558,8 @@ body {
 
 .movie-poster-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); 
-    gap: 14px; 
+    grid-template-columns: repeat(7, 1fr);
+    gap: 14px;
     width: 100%;
     margin-top: 25px;
     box-sizing: border-box;
@@ -553,9 +567,9 @@ body {
 
 .poster-card {
     position: relative;
-    aspect-ratio: 2 / 3; 
+    aspect-ratio: 2/3;
     background: #120910;
-    border-radius: 18px; 
+    border-radius: 18px;
     overflow: hidden;
     border: 1px solid rgba(255, 105, 180, 0.05);
     text-decoration: none;
@@ -597,14 +611,17 @@ body {
     font-size: 0.85rem;
     font-weight: 800;
     color: #ffffff;
-    text-transform: none; 
+    text-transform: none;
     letter-spacing: 0.5px;
     text-align: left;
     line-height: 1.3;
-    white-space: normal; 
-    overflow: visible; 
-    text-overflow: clip; 
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
+/* ==========================================================================
+   PART 4A: SPLIT MUSIC ENGINES & FLOATING MINI MEDIA CONTROLLERS
+   ========================================================================== */
 
 .music-audio-player {
     width: 100%;
@@ -614,11 +631,7 @@ body {
     outline: none;
     box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
 }
-/* ==========================================================================
-   PART 3B: SPLIT MUSIC ENGINE ENGINE & FLOATING INTERFACE CONTROLLERS
-   ========================================================================== */
 
-/* 9. Integrated Split Music Engine Interface Columns */
 .split-player-layout {
     display: flex;
     gap: 30px;
@@ -694,7 +707,7 @@ body {
 
 .tile-art {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     background: #120910;
     border-radius: 14px;
     display: flex;
@@ -777,7 +790,7 @@ body {
 
 .showcase-img-wrap {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     background: #0a0509;
     border-radius: 14px;
     border: 1px solid rgba(255, 105, 180, 0.2);
@@ -851,7 +864,7 @@ body {
 
 .play-state-shape.pause-bars::before,
 .play-state-shape.pause-bars::after {
-    content: '';
+    content: "";
     width: 5px;
     height: 100%;
     background-color: #ff69b4;
@@ -879,10 +892,9 @@ body {
     cursor: pointer;
 }
 
-/* 10. Floating Mini Media Player Corner Controls */
 .global-mini-player {
     position: fixed;
-    top: 95px; 
+    top: 95px;
     right: 25px;
     width: 260px;
     background: #1f121b;
@@ -893,7 +905,7 @@ body {
     flex-direction: column;
     gap: 10px;
     box-shadow: 0 0 15px rgba(255, 105, 180, 0.15), 0 8px 24px rgba(0, 0, 0, 0.6);
-    z-index: 2000; 
+    z-index: 2000;
     transition: all 0.3s ease;
 }
 
@@ -968,7 +980,7 @@ body {
 }
 
 .mini-progress-fill-node {
-    width: 35%; 
+    width: 35%;
     height: 100%;
     background: linear-gradient(to right, #ff1493, #ff69b4);
     box-shadow: 0 0 8px #ff69b4;
@@ -976,202 +988,6 @@ body {
     transition: width 0.1s linear;
 }
 
-/* 11. System Grid Responsiveness Breakpoints */
-@media (max-width: 1200px) {
-    .movie-poster-grid { grid-template-columns: repeat(5, 1fr); }
-}
-
-@media (max-width: 992px) {
-    .four-square-grid { flex-wrap: wrap; }
-    .grid-square { flex: 1 0 calc(50% - 10px); }
-}
-
-@media (max-width: 900px) {
-    .split-player-layout { flex-direction: column-reverse; }
-    .now-playing-column { width: 100%; }
-}
-
-@media (max-width: 768px) {
-    .main { margin-left: 0; width: 100%; }
-    .sidebar { position: relative; width: 100%; height: auto; }
-    .header { left: 0; width: 100%; }
-    .feature-layout-row { flex-direction: column; align-items: center; }
-    .feature-box-square { width: 100%; max-width: 200px; height: 200px; }
-    .feature-box-rectangle { width: 100%; height: auto; }
-    .note-box { height: auto; }
-    .movie-poster-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .poster-card { border-radius: 16px; }
-    .featured-theater-block { flex-direction: column; text-align: center; }
-    .theater-display-screen { width: 100%; max-width: 320px; }
-}
-
-@media (max-width: 480px) {
-    .grid-square { flex: 1 0 100%; max-width: 350px; margin: 0 auto; }
-    .movie-poster-grid { grid-template-columns: repeat(2, 1fr); }
-}
-// UNIVERSAL STATE ENGINE INTERFACES
-window.audioEngine = window.audioEngine || new Audio();
-window.isAudioLooping = window.isAudioLooping || false;
-
-document.addEventListener("DOMContentLoaded", () => {
-    const audio = window.audioEngine;
-    
-    // Core Layout Element Mappings
-    const playBtn = document.getElementById("play-pause-btn");
-    const shape = document.getElementById("btn-shape");
-    const slider = document.getElementById("progress-slider");
-    const timeLabel = document.getElementById("current-time-label");
-    const loopBtn = document.getElementById("loop-toggle-btn");
-    const tiles = document.querySelectorAll(".square-song-tile");
-    const searchBox = document.getElementById("song-search");
-
-    // Initialize Default Media Source if blank
-    if (!audio.src && tiles.length > 0) {
-        audio.src = tiles[0].getAttribute("data-src");
-    }
-
-    // 1. DYNAMIC INITIALIZATION CHECKS 
-    // Synchronize UI if song is already running when tab opens
-    if (playBtn && shape) {
-        if (!audio.paused) {
-            shape.className = "play-state-shape pause-bars";
-        }
-        
-        playBtn.addEventListener("click", () => {
-            if (audio.paused) {
-                audio.play();
-                shape.className = "play-state-shape pause-bars";
-            } else {
-                audio.pause();
-                shape.className = "play-state-shape triangle";
-            }
-        });
-    }
-
-    // 2. TOGGLEABLE GROOVE LOOP ENGINE
-    if (loopBtn) {
-        if (window.isAudioLooping) loopBtn.classList.add("loop-active");
-        
-        loopBtn.addEventListener("click", () => {
-            window.isAudioLooping = !window.isAudioLooping;
-            audio.loop = window.isAudioLooping;
-            loopBtn.classList.toggle("loop-active", window.isAudioLooping);
-        });
-    }
-
-    // 3. SEAMLESS RE-POSITIONING TIMELINE TRACK SCRUBBER
-    if (slider) {
-        // Change audio location instantly on input adjustments or timeline clicks
-        slider.addEventListener("input", () => {
-            if (!isNaN(audio.duration) && isFinite(audio.duration)) {
-                audio.currentTime = (slider.value / 100) * audio.duration;
-            }
-        });
-
-        // Continuous state updater loop callback
-        audio.addEventListener("timeupdate", () => {
-            if (!isNaN(audio.duration) && !slider.matches(":focus")) {
-                slider.value = (audio.currentTime / audio.duration) * 100;
-                
-                let mins = Math.floor(audio.currentTime / 60);
-                let secs = Math.floor(audio.currentTime % 60);
-                timeLabel.textContent = `${mins}:${secs < 10 ? '0' + secs : secs}`;
-            }
-        });
-    }
-
-    // 4. THEATER DECK TILE LOAD INITIALIZER INTERCEPTORS
-    tiles.forEach(tile => {
-        tile.addEventListener("click", () => {
-            tiles.forEach(t => t.classList.remove("active"));
-            tile.classList.add("active");
-
-            audio.src = tile.getAttribute("data-src");
-            document.getElementById("display-title").textContent = tile.getAttribute("data-title");
-            document.getElementById("display-cover").src = tile.getAttribute("data-img");
-
-            audio.loop = window.isAudioLooping;
-            audio.play();
-            if (shape) shape.className = "play-state-shape pause-bars";
-        });
-    });
-
-    // 5. LIVE MATRIX INTERFACE LOOKUP STRING PATTERNS
-    if (searchBox) {
-        searchBox.addEventListener("input", () => {
-            const query = searchBox.value.toLowerCase();
-            tiles.forEach(tile => {
-                const titleText = tile.getAttribute("data-title").toLowerCase();
-                tile.style.display = titleText.includes(query) ? "flex" : "none";
-            });
-        });
-    }
-
-    // 6. DETACHED MULTI-TAB MINI-PLAYER CORNER CORE RENDERS
-    // Automatically generates a global miniature container if it's missing on other routing layers
-    function processMiniplayerVisibilities() {
-        // Detects if the current viewpoint tab is our master audio lounge viewport hub
-        const isInMusicTab = document.getElementById("song-search") !== null;
-        let miniPlayer = document.getElementById("shared-global-mini-deck");
-
-        if (!isInMusicTab && !audio.paused) {
-            // Generate standard structural nodes dynamically if they aren't embedded directly into page headers
-            if (!miniPlayer) {
-                const markup = `
-                    <div id="shared-global-mini-deck" class="global-mini-player">
-                        <div class="mini-player-top-row">
-                            <div class="mini-cover-wrap"><img id="mini-deck-img" src="${document.getElementById("display-cover")?.src || 'popstar.jpeg'}" alt="Mini Cover"></div>
-                            <div class="mini-details-wrap">
-                                <span class="mini-status-tag">Playing Outside Lounge</span>
-                                <p id="mini-deck-title" class="mini-title">${document.getElementById("display-title")?.textContent || 'Popstar Theme'}</p>
-                            </div>
-                            <button id="mini-deck-pause-btn" class="mini-btn"><i class="fa-solid fa-pause"></i></button>
-                        </div>
-                        <div class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>
-                    </div>`;
-                document.body.insertAdjacentHTML("beforeend", markup);
-                miniPlayer = document.getElementById("shared-global-mini-deck");
-                
-                // Active Mini Control Interactions Toggles
-                document.getElementById("mini-deck-pause-btn").addEventListener("click", () => {
-                    if (!audio.paused) {
-                        audio.pause();
-                        document.getElementById("mini-deck-pause-btn").innerHTML = '<i class="fa-solid fa-play"></i>';
-                    } else {
-                        audio.play();
-                        document.getElementById("mini-deck-pause-btn").innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    }
-                });
-            }
-            
-            // Sync mini timeline fill lines node location intervals
-            audio.addEventListener("timeupdate", () => {
-                const fillNode = document.getElementById("mini-deck-fill");
-                if (fillNode && !isNaN(audio.duration)) {
-                    fillNode.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-                }
-            });
-        } else if ((isInMusicTab || audio.paused) && miniPlayer) {
-            // Remove float container elements cleanly if user runs back home to the primary playback panel
-            miniPlayer.remove();
-        }
-    }
-
-    // Attach checking hooks into navigation state modifications listeners loops
-    audio.addEventListener("pause", processMiniplayerVisibilities);
-    audio.addEventListener("play", processMiniplayerVisibilities);
-    
-    // Execute a visibility frame rendering assessment every single time layout routing updates inside load.js
-    const pipelineObserver = new MutationObserver(processMiniplayerVisibilities);
-    const contentNode = document.querySelector(".main") || document.body;
-    pipelineObserver.observe(contentNode, { childList: true, subtree: true });
-    processMiniplayerVisibilities();
-});
-/* ==========================================================================
-   13. MASTER ASYNCHRONOUS COMPONENT POSITIONING CONNECTOR PATCH
-   ========================================================================== */
-
-/* Anchor the structural landing target so the navigation stays locked left */
 #sidebar-container {
     position: fixed;
     top: 0;
@@ -1181,7 +997,6 @@ document.addEventListener("DOMContentLoaded", () => {
     z-index: 1100;
 }
 
-/* Ensure the fixed header panel expands and spans across your screen area */
 #header-container {
     position: fixed;
     top: 0;
@@ -1190,168 +1005,132 @@ document.addEventListener("DOMContentLoaded", () => {
     height: 80px;
     z-index: 1000;
 }
+/* ==========================================================================
+   PART 4B: CREATORS ENGINE MATRIX, POPUP MODALS & SYSTEM BREAKPOINTS
+   ========================================================================== */
 
-/* Smooth fallback adjustments if screen viewports shrink down or fold */
-@media (max-width: 768px) {
-    #sidebar-container {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-    #header-container {
-        position: fixed;
-        left: 0;
-        width: 100%;
-    }
-}
-/* 
-==========================================================================
- PART 14: CREATORS INTEGRATION MATRIX & NEON SHADOWS
-==========================================================================
-*/
 .creators-stack-container {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  width: 100%;
-  margin-top: 25px;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    margin-top: 25px;
+    box-sizing: border-box;
 }
 
 .creator-card-box {
-  display: flex;
-  gap: 25px;
-  background: #1f121b; /* Matches your core UI panel color code */
-  border: 1px solid rgba(255, 105, 180, 0.15);
-  border-radius: 20px;
-  padding: 25px;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    gap: 25px;
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    border-radius: 20px;
+    padding: 25px;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .creator-media-frame {
-  flex: 0 0 auto;
-  width: 120px;
-  height: 120px;
-  background: #0a0509;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 105, 180, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    flex: 0 0 auto;
+    width: 120px;
+    height: 120px;
+    background: #0a0509;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .creator-media-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .creator-details-pane {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .creator-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .creator-name-headline {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: white;
-  margin: 0;
-  /* Fixed: Natively maps the website's signature pink text glow filter */
-  text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
 }
 
 .creator-social-cluster {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .creator-social-btn {
-  background: #120910;
-  border: 1px solid rgba(255, 105, 180, 0.15);
-  cursor: pointer;
-  width: 42px;
-  height: 42px;
-  border-radius: 6px; /* Matches your loop control bar button syntax */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  transition: all 0.2s ease;
+    background: #120910;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: all 0.2s ease;
 }
 
 .creator-social-btn:hover {
-  background-color: #ff69b4;
-  border-color: #ff1493;
-  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+    background-color: #ff69b4;
+    border-color: #ff1493;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
 .creator-social-btn img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  /* Matches global CSS navigation button image filters */
-  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%);
-  transition: all 0.2s ease;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%);
+    transition: all 0.2s ease;
 }
 
 .creator-social-btn:hover img {
-  filter: invert(100%) brightness(200%);
+    filter: invert(100%) brightness(200%);
 }
 
 .creator-role-subtext {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #ff69b4;
-  margin: 0 0 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #ff69b4;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
 }
 
 .creator-desc-paragraph {
-  color: #ddd;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  text-align: left;
-  margin: 0;
+    color: #ddd;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+    margin: 0;
 }
 
-/* Responsiveness adjustments matching your breakpoint logic rules */
-@media (max-width: 768px) {
-  .creator-card-box {
-    flex-direction: column;
-    text-align: center;
-  }
-  .creator-top-row {
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-  }
-  .creator-details-pane {
-    align-items: center;
-  }
-  .creator-desc-paragraph {
-    text-align: center;
-  }
-}
-/* Game Grid Setup using variable auto-fill layout matching your engine theme */
 .game-square-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -1361,11 +1140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     box-sizing: border-box;
 }
 
-/* Force elements to maintain strict perfect 1:1 square dimensions */
 .game-card {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     background: #120910;
     border-radius: 18px;
     overflow: hidden;
@@ -1375,7 +1153,6 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Image scaling rules filling the card unit footprint */
 .game-card-img {
     width: 100%;
     height: 100%;
@@ -1384,7 +1161,6 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-/* Center-aligned overlay panel that defaults to completely hidden */
 .game-card-overlay {
     position: absolute;
     top: 0;
@@ -1401,7 +1177,6 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: opacity 0.3s ease;
 }
 
-/* Bold white text layout centered parameters */
 .game-card-title {
     margin: 0;
     color: #ffffff;
@@ -1416,7 +1191,6 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: transform 0.3s ease;
 }
 
-/* INTERACTION EFFECTS: Brightens borders, dims backgrounds, reveals text center area */
 .game-card:hover {
     transform: translateY(-5px);
     border-color: #ff69b4;
@@ -1436,37 +1210,23 @@ document.addEventListener("DOMContentLoaded", () => {
     transform: scale(1);
 }
 
-/* Breakpoint adjustment rules keeping squares clean on mobile views */
-@media (max-width: 480px) {
-    .game-square-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-}
-/* ==========================================================================
-   POP-UP WINDOW MODAL SYSTEM STYLES (Matches Sketch Specifications)
-   ========================================================================== */
-
-/* Main page backdrop tracker layer element rules configuration */
 #main-content-blur-target {
     transition: filter 0.4s ease;
 }
 
-/* Blur activation rule triggered cleanly via client side selectors classes */
 .background-blur-active {
     filter: blur(15px);
-    pointer-events: none; /* Prevents backing buttons actions while window remains active */
+    pointer-events: none;
 }
 
-/* Fullscreen opaque backdrop matrix configuration layer layout */
 .game-modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(10, 5, 9, 0.5); /* Matches theme color profile alpha variables specs */
-    z-index: 9999; /* Positions above headers sidebars and navigation panels fields layout */
+    background: rgba(10, 5, 9, 0.5);
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1475,17 +1235,15 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: opacity 0.35s ease;
 }
 
-/* Viewstate activation engine parameters configuration toggles */
 .game-modal-backdrop.modal-active {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Clean curved layout dashboard module window target frame box container */
 .game-modal-window {
     width: 90%;
     max-width: 1100px;
-    background: #1f121b; /* Perfectly matches your main UI sheet background rules code */
+    background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.25);
     border-radius: 20px;
     padding: 20px 25px 25px 25px;
@@ -1497,12 +1255,10 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Pop window fluid deployment bouncing scale configuration controls transform rule */
 .game-modal-backdrop.modal-active .game-modal-window {
     transform: scale(1);
 }
 
-/* Header controller row grid flex structures rules dimensions configurations */
 .game-modal-header {
     display: flex;
     align-items: center;
@@ -1512,7 +1268,6 @@ document.addEventListener("DOMContentLoaded", () => {
     padding-bottom: 10px;
 }
 
-/* Glow font parameters mimicking dashboard logo parameters syntax definitions rules */
 .game-modal-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -1520,7 +1275,6 @@ document.addEventListener("DOMContentLoaded", () => {
     text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255, 105, 180, 0.7);
 }
 
-/* Minimal cross cancellation toggle button configuration elements structure */
 .game-modal-close-btn {
     background: transparent;
     border: none;
@@ -1539,10 +1293,9 @@ document.addEventListener("DOMContentLoaded", () => {
     transform: scale(1.15);
 }
 
-/* Deep inner embedded active workspace screen graphics wrapper block rules */
 .game-modal-viewport {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
     background: #0a0509;
     border-radius: 14px;
     border: 1px solid rgba(255, 105, 180, 0.15);
@@ -1550,7 +1303,6 @@ document.addEventListener("DOMContentLoaded", () => {
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
 }
 
-/* Sandbox framing viewport components fluid mapping parameters rule */
 .game-modal-viewport iframe {
     width: 100%;
     height: 100%;
@@ -1558,15 +1310,44 @@ document.addEventListener("DOMContentLoaded", () => {
     display: block;
 }
 
-/* Responsiveness fallback keeping sizes balanced on compact tablet views bounds */
-@media (max-width: 768px) {
-    .game-modal-window {
-        width: 95%;
-        padding: 15px;
-    }
-
+@media (max-width: 1200px) {
+    .movie-poster-grid { grid-template-columns: repeat(5, 1fr); }
 }
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+@media (max-width: 992px) {
+    .four-square-grid { flex-wrap: wrap; }
+    .grid-square { flex: 1 0 calc(50% - 10px); }
+}
+
+@media (max-width: 900px) {
+    .split-player-layout { flex-direction: column-reverse; }
+    .now-playing-column { width: 100%; }
+}
+
+@media (max-width: 768px) {
+    .main { margin-left: 0; width: 100%; }
+    .sidebar { position: relative; width: 100%; height: auto; }
+    .header { left: 0; width: 100%; flex-direction: column; align-items: center; }
+    .meta-widgets { align-items: center; }
+    .feature-layout-row { flex-direction: column; align-items: center; }
+    .feature-box-square { width: 100%; max-width: 200px; height: 200px; }
+    .feature-box-rectangle { width: 100%; height: auto; }
+    .note-box { height: auto; }
+    .movie-poster-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .poster-card { border-radius: 16px; }
+    .featured-theater-block { flex-direction: column; text-align: center; }
+    .theater-display-screen { width: 100%; max-width: 320px; }
+    #sidebar-container { position: relative; width: 100%; height: auto; }
+    #header-container { position: fixed; left: 0; width: 100%; }
+    .creator-card-box { flex-direction: column; text-align: center; }
+    .creator-top-row { flex-direction: column; justify-content: center; gap: 10px; }
+    .creator-details-pane { align-items: center; }
+    .creator-desc-paragraph { text-align: center; }
+    .game-modal-window { width: 95%; padding: 15px; }
+}
+
+@media (max-width: 480px) {
+    .grid-square { flex: 1 0 100%; max-width: 350px; margin: 0 auto; }
+    .movie-poster-grid { grid-template-columns: repeat(2, 1fr); }
+    .game-square-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }

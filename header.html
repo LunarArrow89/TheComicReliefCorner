@@ -30,46 +30,6 @@ function updateClock(){
 setInterval(updateClock, 1000); 
 updateClock(); 
 
-// 2. TIMED TYPEWRITER CHARACTER LOOPS
-const phrases = [ 
-    "When the when is very when", 
-    "Bob Ross my beloved", 
-    "Um yeah so like skibidi", 
-    "Why did the HTML code cross the road?", 
-    "Look for the hidden pages...", 
-    "Gay frogs" 
-];
-
-const typingElement = document.getElementById("typingBox");
-let phraseIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeEffect() {
-    const currentPhrase = phrases[phraseIndex];
-    
-    if (isDeleting) {
-        typingElement.innerText = currentPhrase.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typingElement.innerText = currentPhrase.substring(0, charIndex + 1);
-        charIndex++;
-    }
-
-    let speed = isDeleting ? 40 : 80;
-
-    if (!isDeleting && charIndex === currentPhrase.length) {
-        speed = 2000; 
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        phraseIndex = Math.floor(Math.random() * phrases.length); 
-        speed = 400; 
-    }
-
-    setTimeout(typeEffect, speed);
-}
-
 // Fire type loop engine
 typeEffect();
 </script>

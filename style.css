@@ -119,10 +119,8 @@ body {
    ========================================================================== */
 
 .header {
-    display: grid;
-    /* Grid template columns cleanly lock left elements away from the scrolling deck wrapper */
-    grid-template-columns: auto 1fr;
-    align-items: center; /* Center-balances widgets and marquee ticker on a single horizontal axis */
+    display: flex;
+    align-items: center; /* Vertically balances left boxes and right marquee marquee ticker */
     gap: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -132,16 +130,8 @@ body {
 /* Master Left-Aligned Wrapper */
 .meta-widgets {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Forces content boxes to drop left perfectly */
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-/* Horizontal sub-alignment row */
-.datetime-row {
-    display: flex;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .time-box, .date-box {
@@ -154,30 +144,6 @@ body {
     text-align: center;
 }
 
-/* Typewriter framing layout rules */
-.typing-box {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.85rem;
-    color: #a5a5a5;
-    min-height: 18px;
-    font-weight: bold;
-    white-space: nowrap; /* Locks string characters to a single horizontal line */
-    padding-left: 2px;
-    margin-top: 2px;
-}
-
-.typing-box::after {
-    content: "█";
-    margin-left: 5px;
-    color: #ff69b4; /* Terminal caret cursor matches website glow styles */
-    animation: cursorBlink 0.8s infinite;
-}
-
-@keyframes cursorBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
 /* Fixed Text Marquee wrap dimensions matching layout rows */
 .ticker-wrap {
     width: 100%;
@@ -185,9 +151,9 @@ body {
     background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
-    height: 44px; /* Matches the layout row profile footprint of your clock boxes */
+    height: 44px; /* Matches vertical layout footprint of your clock containers */
     display: flex;
-    align-items: center; /* Centers marquee characters vertically inside the pill element */
+    align-items: center; /* Balanced scrolling text alignment vertical properties */
 }
 
 .ticker {
@@ -196,7 +162,7 @@ body {
     animation: scroll 18s linear infinite;
     color: white;
     font-weight: 600;
-    line-height: 1; /* Mitigates dynamic line height bounce variations */
+    line-height: 1; /* Eliminates shifting font boundary variations */
 }
 
 @keyframes scroll {
@@ -422,7 +388,7 @@ body {
     width: 100%;
 }
 /* ==========================================================================
-   PART 4: CINEMA HOUSING THEATERS & CORE LOUBGE MUSIC PLATFORMS
+   PART 4: CINEMA HOUSING THEATERS & CORE LOUNGE MUSIC PLATFORMS
    ========================================================================== */
 
 /* 8. Cinema Component Layout Wrap */
@@ -1344,7 +1310,8 @@ body {
 @media (max-width: 768px) {
     .main { margin-left: 0; width: 100%; }
     .sidebar { position: relative; width: 100%; height: auto; }
-    .header { left: 0; width: 100%; grid-template-columns: 1fr; justify-items: center; }
+    /* Horizontal flex handling parameters inside responsive tablet viewport layouts */
+    .header { left: 0; width: 100%; flex-direction: column; align-items: center; }
     .meta-widgets { align-items: center; }
     .feature-layout-row { flex-direction: column; align-items: center; }
     .feature-box-square { width: 100%; max-width: 200px; height: 200px; }

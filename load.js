@@ -190,12 +190,14 @@ if (!document.getElementById(styleId)) {
 }
 // 5. CONTROL ENGINE AND EVENTS
 function processGlobalMiniplayerVisibility() {
+    // Detects whether the user is on music.html by searching for the split layout panel class
+    const isMusicTabActive = document.querySelector(".split-player-layout") !== null;
     let miniPlayer = document.getElementById("shared-global-mini-deck");
     const cachedSrc = localStorage.getItem("audio_active_src");
 
-    if (cachedSrc) {
+    // FIX: Add mini-player conditionally ONLY if we are NOT on the main music dashboard page
+    if (!isMusicTabActive && cachedSrc) {
         if (!miniPlayer) {
-            // FIX: Replaced broken multi-line increments with a single template literal
             let markup = `
             <div id="shared-global-mini-deck" class="global-mini-player">
                 <div class="mini-player-top-row" id="mini-deck-drag-handle">
@@ -221,7 +223,8 @@ function processGlobalMiniplayerVisibility() {
             setupMiniPlayerControllers();
         }
         updateMiniplayerDataTrack();
-    } else if (!cachedSrc && miniPlayer) {
+    } else if ((isMusicTabActive || !cachedSrc) && miniPlayer) {
+        // Automatically hide or remove the element if we navigate onto music.html or clear out data tracks
         miniPlayer.remove();
     }
 }

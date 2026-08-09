@@ -1,22 +1,69 @@
-<div class="header">
+<div class="header"> 
+    <div class="time-box" id="timeBox"></div> 
+    <div class="date-box" id="dateBox"></div> 
+    <!-- New typing container -->
+    <div class="typing-box" id="typingBox"></div> 
+    
+    <div class="ticker-wrap"> 
+        <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
+    </div> 
+</div> 
 
-    <div class="time-box" id="timeBox"></div>
-    <div class="date-box" id="dateBox"></div>
+<script> 
+function updateClock(){ 
+    const now = new Date(); 
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString(); 
+    document.getElementById("dateBox").innerText = now.toLocaleDateString(); 
+} 
+setInterval(updateClock,1000); 
+updateClock(); 
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            \( ᐖ)/  Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form!  \(ᐖ )/
-        </div>
-    </div>
+// --- Typing Effect Logic ---
+const phrases = [
+    "Loading funny particles...",
+    "Reticulating splines...",
+    "Searching for the lost remote...",
+    "Why did the HTML cross the road?",
+    "Don't click that button. Or do. I'm just text.",
+    "Baking fresh memes..."
+];
 
-</div>
+const typingElement = document.getElementById("typingBox");
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
 
-<script>
-function updateClock(){
-    const now = new Date();
-    document.getElementById("timeBox").innerText = now.toLocaleTimeString();
-    document.getElementById("dateBox").innerText = now.toLocaleDateString();
+function typeEffect() {
+    const currentPhrase = phrases[phraseIndex];
+    
+    if (isDeleting) {
+        // Remove characters
+        typingElement.innerText = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        // Add characters
+        typingElement.innerText = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    // Determine typing speed
+    let speed = isDeleting ? 50 : 100;
+
+    // Phrase is fully typed out
+    if (!isDeleting && charIndex === currentPhrase.length) {
+        speed = 2000; // Pause at the end of the sentence
+        isDeleting = true;
+    } 
+    // Phrase is fully deleted
+    else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length; // Move to next random phrase
+        speed = 500; // Pause before typing next phrase
+    }
+
+    setTimeout(typeEffect, speed);
 }
-setInterval(updateClock,1000);
-updateClock();
+
+// Start the typing effect
+typeEffect();
 </script>

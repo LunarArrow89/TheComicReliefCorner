@@ -118,46 +118,60 @@ body {
    PART 2: HEADER REGIONS, MODULE TIERS & WORKSPACE CANVAS UNITS
    ========================================================================== */
 
-/* Core Header Alignment */
+/* ==========================================================================
+   PART 2: REVISED SYSTEM HEADER STRUCTURES & TICKER ALIGNMENT
+   ========================================================================== */
+
 .header {
     display: flex;
-    align-items: center; /* Vertically aligns widgets and ticker inline */
-    gap: 20px;
+    align-items: center; /* Forces the time widgets and the ticker to perfectly share the same horizontal center line */
+    gap: 15px;
     width: 100%;
     box-sizing: border-box;
     padding: 10px 0;
 }
 
-/* Master Left-Aligned Wrapper */
+/* Blocks layout on the left side of the marquee container */
 .meta-widgets {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Forces content rows to drop left perfectly */
+    align-items: flex-start;
     gap: 6px;
     flex-shrink: 0;
 }
 
-/* Widgets Row Pairing */
+/* Horizontal sub-alignment box */
 .datetime-row {
     display: flex;
     gap: 10px;
 }
 
-/* Redesigned Typing Container layout architecture to stop element bouncing */
+.time-box, .date-box {
+    background: #1f121b;
+    border: 1px solid rgba(255, 105, 180, 0.15);
+    border-radius: 12px;
+    padding: 10px 15px;
+    color: white;
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Typewriter positioning framework specifications */
 .typing-box {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85rem;
-    color: #ff69b4; /* Changed to matching theme pink text glow */
+    color: #a5a5a5;
     min-height: 18px;
     font-weight: bold;
-    white-space: nowrap; /* Stops line splitting during active rendering */
+    white-space: nowrap; /* Keeps everything locked safely to one single structural row lines */
     padding-left: 2px;
+    margin-top: 2px;
 }
 
-/* Retro Terminal Caret Animation */
 .typing-box::after {
     content: "█";
     margin-left: 4px;
+    color: #ff69b4; /* Makes your cursor blink in theme pink */
     animation: cursorBlink 0.8s infinite;
 }
 
@@ -166,16 +180,16 @@ body {
     50% { opacity: 0; }
 }
 
-
+/* Fixed Text Marquee wrap dimensions matching layout rows */
 .ticker-wrap {
     flex: 1;
     overflow: hidden;
     background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
-    height: 42px;
+    height: 44px; /* Matches the vertical dimension height footprint of the date/time blocks */
     display: flex;
-    align-items: center;
+    align-items: center; /* Perfectly balances the scrolling text vertically inside its container frame */
 }
 
 .ticker {
@@ -184,12 +198,14 @@ body {
     animation: scroll 18s linear infinite;
     color: white;
     font-weight: 600;
+    line-height: 1; /* Eliminates dynamic line-height shifting bugs */
 }
 
 @keyframes scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-100%); }
 }
+
 
 /* 5. Workspace Hub Content Blocks */
 .main {

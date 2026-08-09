@@ -193,24 +193,27 @@ function processGlobalMiniplayerVisibility() {
     let miniPlayer = document.getElementById("shared-global-mini-deck");
     const cachedSrc = localStorage.getItem("audio_active_src");
 
-    // FIX: Render player whenever cached source exists, ignoring tab identities
     if (cachedSrc) {
         if (!miniPlayer) {
-            let markup = '<div id="shared-global-mini-deck" class="global-mini-player">';
-            markup += '<div class="mini-player-top-row" id="mini-deck-drag-handle">';
-            markup += '<div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>';
-            markup += '<div class="mini-details-wrap">';
-            markup += '<span class="mini-status-tag" id="mini-deck-status">Lounge Streaming</span>';
-            markup += ' <p id="mini-deck-title" class="mini-title">Syncing Track...</p>';
-            markup += '</div>';
-            markup += '<div class="mini-controls-cluster">';
-            markup += '  <button id="mini-deck-restart-btn" class="mini-btn" title="Restart">↩️</button>';
-            markup += '  <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause">⏸️</button>';
-            markup += '  <button id="mini-deck-close-btn" class="mini-btn" title="Close">❌</button>';
-            markup += '</div>';
-            markup += '</div>';
-            markup += '<div id="mini-deck-scrub-bar" class="mini-progress-line-bar"><div id="mini-deck-fill" class="mini-progress-fill-node"></div></div>';
-            markup += '</div>';
+            // FIX: Replaced broken multi-line increments with a single template literal
+            let markup = `
+            <div id="shared-global-mini-deck" class="global-mini-player">
+                <div class="mini-player-top-row" id="mini-deck-drag-handle">
+                    <div class="mini-cover-wrap"><img id="mini-deck-img" src="music-icon.png" alt="Mini Cover"></div>
+                    <div class="mini-details-wrap">
+                        <span class="mini-status-tag" id="mini-deck-status">Lounge Streaming</span>
+                        <p id="mini-deck-title" class="mini-title">Syncing Track...</p>
+                    </div>
+                    <div class="mini-controls-cluster">
+                        <button id="mini-deck-restart-btn" class="mini-btn" title="Restart">↩️</button>
+                        <button id="mini-deck-pause-btn" class="mini-btn" title="Play/Pause">⏸️</button>
+                        <button id="mini-deck-close-btn" class="mini-btn" title="Close">❌</button>
+                    </div>
+                </div>
+                <div id="mini-deck-scrub-bar" class="mini-progress-line-bar">
+                    <div id="mini-deck-fill" class="mini-progress-fill-node"></div>
+                </div>
+            </div>`;
             
             document.body.insertAdjacentHTML("beforeend", markup);
             miniPlayer = document.getElementById("shared-global-mini-deck");

@@ -120,19 +120,33 @@ body {
 
 /* 4. Header Regions & Marquee Embed */
 .header {
-    position: fixed;
-    top: 0;
-    left: 220px;
-    width: calc(100% - 220px);
-    height: 80px;
     display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    background: #120910;
-    border-bottom: 1px solid rgba(255, 105, 180, 0.15);
-    z-index: 1000;
+    flex-direction: column;
+    align-items: center; /* Centers all header items vertically */
+    text-align: center;
 }
+
+.typing-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0 15px 0;
+    min-height: 20px; /* Locks height so layout doesn't bounce while erasing */
+    font-weight: bold;
+}
+
+/* Optional flashing terminal cursor effect */
+.typing-box::after {
+    content: "█";
+    margin-left: 2px;
+    animation: cursorBlink 0.8s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 
 .time-box, .date-box {
     background: #1f121b;
@@ -1550,21 +1564,7 @@ document.addEventListener("DOMContentLoaded", () => {
         width: 95%;
         padding: 15px;
     }
-    .game-modal-title {
-        font-size: 1.2rem;
-    }
-}
-.typing-box {
-    font-family: monospace;
-    font-size: 1.1rem;
-    color: #333;
-    margin: 5px 0 15px 0;
-    min-height: 24px; /* Prevents layout shifting while empty */
-}
-/* Blinking cursor effect */
-.typing-box::after {
-    content: "|";
-    animation: blink 0.7s infinite;
+
 }
 @keyframes blink {
     0%, 100% { opacity: 1; }

@@ -1,7 +1,6 @@
 <div class="header"> 
     <div class="time-box" id="timeBox"></div> 
     <div class="date-box" id="dateBox"></div> 
-    <!-- New typing container -->
     <div class="typing-box" id="typingBox"></div> 
     
     <div class="ticker-wrap"> 
@@ -18,14 +17,14 @@ function updateClock(){
 setInterval(updateClock,1000); 
 updateClock(); 
 
-// --- Typing Effect Logic ---
-const phrases = [
-    "When the when is very when",
-    "Bob Ross my beloved",
-    "Um yeah so like skibidi",
-    "Why did the HTML code cross the road?",
-    "Look for the hidden pages...",
-    "Gay frogs"
+// --- Typing Effect with Your Custom Phrases ---
+const phrases = [ 
+    "When the when is very when", 
+    "Bob Ross my beloved", 
+    "Um yeah so like skibidi", 
+    "Why did the HTML code cross the road?", 
+    "Look for the hidden pages...", 
+    "Gay frogs" 
 ];
 
 const typingElement = document.getElementById("typingBox");
@@ -37,33 +36,28 @@ function typeEffect() {
     const currentPhrase = phrases[phraseIndex];
     
     if (isDeleting) {
-        // Remove characters
         typingElement.innerText = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
     } else {
-        // Add characters
         typingElement.innerText = currentPhrase.substring(0, charIndex + 1);
         charIndex++;
     }
 
-    // Determine typing speed
-    let speed = isDeleting ? 50 : 100;
+    let speed = isDeleting ? 40 : 80;
 
-    // Phrase is fully typed out
     if (!isDeleting && charIndex === currentPhrase.length) {
-        speed = 2000; // Pause at the end of the sentence
+        speed = 2000; // Pause when full sentence is typed
         isDeleting = true;
-    } 
-    // Phrase is fully deleted
-    else if (isDeleting && charIndex === 0) {
+    } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length; // Move to next random phrase
-        speed = 500; // Pause before typing next phrase
+        // Picks a random phrase from your list for the next loop
+        phraseIndex = Math.floor(Math.random() * phrases.length); 
+        speed = 400; // Short pause before starting the next line
     }
 
     setTimeout(typeEffect, speed);
 }
 
-// Start the typing effect
+// Start the animation
 typeEffect();
 </script>

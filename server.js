@@ -7,15 +7,18 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Serve your frontend assets
+// 1. Serve static files from the public folder (CSS, images, chat.js)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 2. NEW ROUTE RULE: Explicitly point the home route to chatroom.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'chatroom.html'));
+});
 
 io.on('connection', (socket) => {
     console.log('A user entered the chat room');
 
-    // Listen for incoming messages from a user
     socket.on('chat message', (data) => {
-        // Broadcast the message + timestamp to all active participants
         io.emit('chat message', {
             username: data.username || 'Anonymous',
             text: data.text,

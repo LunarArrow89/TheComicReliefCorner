@@ -2,7 +2,6 @@
    PART 1: CORE ENGINE, SYSTEM SCROLLBARS & SYSTEM RESET
    ========================================================================== */
 
-/* 1. Reset & Basic System Rules */
 * {
     margin: 0;
     padding: 0;
@@ -17,8 +16,6 @@ html, body {
 }
 
 body {
-    /* Layer 1: High-density SVG fractal noise mixed with a subtle paper hue */
-    /* Layer 2: Radial spotlight gradient shifting from deep plum down to black */
     background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://w3.org' id='paperNoise'%3E%3Cfilter id='paperNoiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.88 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoiseFilter)'/%3E%3C/svg%3E"),
     radial-gradient(circle at 50% 45%, #3d142b 0%, #1a0d17 60%, #0a0809 100%);
     background-repeat: repeat;
@@ -26,7 +23,6 @@ body {
     color: white;
 }
 
-/* 3. Sidebar Navigation Panel Controls */
 .sidebar {
     position: fixed;
     top: 0;
@@ -114,20 +110,20 @@ body {
     filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
     transform: scale(1.05);
 }
+
 /* ==========================================================================
-   PART 2: REVISED SYSTEM HEADER STRUCTURES & TICKER ALIGNMENT
+   PART 2: ORIGINAL HEADER STRUCTURAL HOUSING & TICKER REGIONS
    ========================================================================== */
 
 .header {
     display: flex;
-    align-items: center; /* Vertically balances left boxes and right marquee marquee ticker */
-    gap: 20px;
+    align-items: center; /* Locks boxes and ticker perfectly on the same central baseline */
+    gap: 15px;
     width: 100%;
+    height: 100%;
     box-sizing: border-box;
-    padding: 10px 0;
 }
 
-/* Master Left-Aligned Wrapper */
 .meta-widgets {
     display: flex;
     gap: 10px;
@@ -144,16 +140,15 @@ body {
     text-align: center;
 }
 
-/* Fixed Text Marquee wrap dimensions matching layout rows */
 .ticker-wrap {
-    width: 100%;
+    flex: 1;
     overflow: hidden;
     background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
-    height: 44px; /* Matches vertical layout footprint of your clock containers */
+    height: 42px; /* Matches the time and date blocks layout perfectly */
     display: flex;
-    align-items: center; /* Balanced scrolling text alignment vertical properties */
+    align-items: center;
 }
 
 .ticker {
@@ -162,7 +157,6 @@ body {
     animation: scroll 18s linear infinite;
     color: white;
     font-weight: 600;
-    line-height: 1; /* Eliminates shifting font boundary variations */
 }
 
 @keyframes scroll {
@@ -170,10 +164,9 @@ body {
     to { transform: translateX(-100%); }
 }
 /* ==========================================================================
-   PART 3: WORKSPACE HUB CONTENT BLOCKS & GRID TIERS
+   PART 3: WORKSPACE HUB CONTENT BLOCKS & INTERACTIVE QUADRANTS
    ========================================================================== */
 
-/* 5. Workspace Hub Content Blocks */
 .main {
     margin-left: 220px;
     margin-top: 95px;
@@ -222,7 +215,6 @@ body {
     line-height: 1.6;
 }
 
-/* 6. Feature Split Block Row Elements */
 .feature-layout-row {
     display: flex;
     gap: 20px;
@@ -280,7 +272,6 @@ body {
     line-height: 1.6;
 }
 
-/* 7. Home Hub Multi-Color Link Quadrants */
 .four-square-grid {
     display: flex;
     flex-direction: row;
@@ -388,10 +379,9 @@ body {
     width: 100%;
 }
 /* ==========================================================================
-   PART 4: CINEMA HOUSING THEATERS & CORE LOUNGE MUSIC PLATFORMS
+   PART 4: CINEMA HOUSING THEATERS & CORE MUSIC INFRASTRUCTURES
    ========================================================================== */
 
-/* 8. Cinema Component Layout Wrap */
 .featured-theater-block {
     display: flex;
     gap: 25px;
@@ -597,7 +587,6 @@ body {
     text-overflow: clip;
 }
 
-/* 9. Integrated Split Music Engine Interface Columns */
 .music-audio-player {
     width: 100%;
     max-width: 400px;
@@ -867,7 +856,7 @@ body {
     cursor: pointer;
 }
 /* ==========================================================================
-   PART 5A: MEDIA PLAYBACK CONTROLS, BASE EMBEDS & CREATOR MATRICES
+   PART 5A: MEDIA PLAYBACK CONTROLS, FIXED OVERRIDES & BASE LAYOUTS
    ========================================================================== */
 
 /* 10. Floating Mini Media Player Corner Controls */
@@ -1109,7 +1098,7 @@ body {
     margin: 0;
 }
 /* ==========================================================================
-   PART 5B: GAME CORE UNITS, SYSTEM MODALS & RESPONSIVE BREAKPOINTS
+   PART 5B: WINDOW MODAL BACKDROPS, GAME BOARDS & RESPONSIVE ENGINE MEDIA
    ========================================================================== */
 
 .game-square-grid {
@@ -1292,7 +1281,6 @@ body {
     display: block;
 }
 
-/* 11. System Grid Responsiveness Breakpoints */
 @media (max-width: 1200px) {
     .movie-poster-grid { grid-template-columns: repeat(5, 1fr); }
 }
@@ -1310,7 +1298,6 @@ body {
 @media (max-width: 768px) {
     .main { margin-left: 0; width: 100%; }
     .sidebar { position: relative; width: 100%; height: auto; }
-    /* Horizontal flex handling parameters inside responsive tablet viewport layouts */
     .header { left: 0; width: 100%; flex-direction: column; align-items: center; }
     .meta-widgets { align-items: center; }
     .feature-layout-row { flex-direction: column; align-items: center; }
@@ -1335,3 +1322,4 @@ body {
     .movie-poster-grid { grid-template-columns: repeat(2, 1fr); }
     .game-square-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }
+

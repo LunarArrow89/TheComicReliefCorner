@@ -1,18 +1,18 @@
 <!-- ==========================================================================
-     INTEGRATED SITE HEADER REGION
+     INTEGRATED HEADER ARCHITECTURE (HORIZONTAL WIDGET TIERS)
      ========================================================================== -->
 <div class="header"> 
-    <!-- Grouped Metadata Columns (Keeps elements organized together on the left) -->
+    <!-- Structural Wrapper: Columns widgets neatly to the left of the ticker -->
     <div class="meta-widgets">
         <div class="datetime-row">
             <div class="time-box" id="timeBox"></div> 
             <div class="date-box" id="dateBox"></div> 
         </div>
-        <!-- Typewriter system placeholder drops perfectly directly underneath -->
+        <!-- Fixed alignment rules prevent the typewriter from collapsing -->
         <div class="typing-box" id="typingBox"></div> 
     </div>
     
-    <!-- Seamless Scrolling Text Ticker Area (Spans across the remaining right area) -->
+    <!-- Fluid Scrolling Marquee Component spanning the full right frame area -->
     <div class="ticker-wrap"> 
         <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
     </div> 
@@ -22,11 +22,11 @@
      DYNAMIC ENGINE FUNCTIONS
      ========================================================================== -->
 <script> 
-// 1. DYNAMIC SYSTEM LIVE CLOCK ENGINE
+// 1. DIGITAL CLOCK STATE MATRIX
 function updateClock(){ 
     const now = new Date(); 
-    document.getElementById("timeBox").innerText = now.toLocaleTimeString(); 
-    document.getElementById("dateBox").innerText = now.toLocaleDateString(); 
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
+    document.getElementById("dateBox").innerText = now.toLocaleDateString([], { month: 'short', day: 'numeric' }).toUpperCase(); 
 } 
 setInterval(updateClock, 1000); 
 updateClock(); 
@@ -50,31 +50,27 @@ function typeEffect() {
     const currentPhrase = phrases[phraseIndex];
     
     if (isDeleting) {
-        // Strip string characters progressively backwards
         typingElement.innerText = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
     } else {
-        // Append next incremental letter chunk forwards
         typingElement.innerText = currentPhrase.substring(0, charIndex + 1);
         charIndex++;
     }
 
-    // Set engine intervals for active fluid generation strokes
     let speed = isDeleting ? 40 : 80;
 
     if (!isDeleting && charIndex === currentPhrase.length) {
-        speed = 2000; // Pause framework index once full line generation completes
+        speed = 2000; 
         isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
-        // Native randomized selector arrays routing different string outputs
         phraseIndex = Math.floor(Math.random() * phrases.length); 
-        speed = 400; // Clean timing hold framework break prior to re-typing
+        speed = 400; 
     }
 
     setTimeout(typeEffect, speed);
 }
 
-// Fire engine thread on load execution parameters
+// Fire type loop engine
 typeEffect();
 </script>

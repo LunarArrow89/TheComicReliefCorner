@@ -1554,3 +1554,19 @@ document.addEventListener("DOMContentLoaded", () => {
         font-size: 1.2rem;
     }
 }
+.typing-box {
+    font-family: monospace;
+    font-size: 1.1rem;
+    color: #333;
+    margin: 5px 0 15px 0;
+    min-height: 24px; /* Prevents layout shifting while empty */
+}
+/* Blinking cursor effect */
+.typing-box::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

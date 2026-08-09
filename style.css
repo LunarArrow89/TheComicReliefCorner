@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PART 1: CORE ENGINE, SYSTEM SCROLLBARS & SIDEBAR NAVIGATION
+   PART 1: CORE ENGINE, SYSTEM SCROLLBARS & SYSTEM RESET
    ========================================================================== */
 
 /* 1. Reset & Basic System Rules */
@@ -115,32 +115,30 @@ body {
     transform: scale(1.05);
 }
 /* ==========================================================================
-   PART 2: HEADER REGIONS, MODULE TIERS & WORKSPACE CANVAS UNITS
-   ========================================================================== */
-
-/* ==========================================================================
    PART 2: REVISED SYSTEM HEADER STRUCTURES & TICKER ALIGNMENT
    ========================================================================== */
 
 .header {
-    display: flex;
-    align-items: center; /* Forces the time widgets and the ticker to perfectly share the same horizontal center line */
-    gap: 15px;
+    display: grid;
+    /* Grid template columns cleanly lock left elements away from the scrolling deck wrapper */
+    grid-template-columns: auto 1fr;
+    align-items: center; /* Center-balances widgets and marquee ticker on a single horizontal axis */
+    gap: 20px;
     width: 100%;
     box-sizing: border-box;
     padding: 10px 0;
 }
 
-/* Blocks layout on the left side of the marquee container */
+/* Master Left-Aligned Wrapper */
 .meta-widgets {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* Forces content boxes to drop left perfectly */
     gap: 6px;
     flex-shrink: 0;
 }
 
-/* Horizontal sub-alignment box */
+/* Horizontal sub-alignment row */
 .datetime-row {
     display: flex;
     gap: 10px;
@@ -156,22 +154,22 @@ body {
     text-align: center;
 }
 
-/* Typewriter positioning framework specifications */
+/* Typewriter framing layout rules */
 .typing-box {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85rem;
     color: #a5a5a5;
     min-height: 18px;
     font-weight: bold;
-    white-space: nowrap; /* Keeps everything locked safely to one single structural row lines */
+    white-space: nowrap; /* Locks string characters to a single horizontal line */
     padding-left: 2px;
     margin-top: 2px;
 }
 
 .typing-box::after {
     content: "█";
-    margin-left: 4px;
-    color: #ff69b4; /* Makes your cursor blink in theme pink */
+    margin-left: 5px;
+    color: #ff69b4; /* Terminal caret cursor matches website glow styles */
     animation: cursorBlink 0.8s infinite;
 }
 
@@ -182,14 +180,14 @@ body {
 
 /* Fixed Text Marquee wrap dimensions matching layout rows */
 .ticker-wrap {
-    flex: 1;
+    width: 100%;
     overflow: hidden;
     background: #1f121b;
     border: 1px solid rgba(255, 105, 180, 0.15);
     border-radius: 12px;
-    height: 44px; /* Matches the vertical dimension height footprint of the date/time blocks */
+    height: 44px; /* Matches the layout row profile footprint of your clock boxes */
     display: flex;
-    align-items: center; /* Perfectly balances the scrolling text vertically inside its container frame */
+    align-items: center; /* Centers marquee characters vertically inside the pill element */
 }
 
 .ticker {
@@ -198,14 +196,16 @@ body {
     animation: scroll 18s linear infinite;
     color: white;
     font-weight: 600;
-    line-height: 1; /* Eliminates dynamic line-height shifting bugs */
+    line-height: 1; /* Mitigates dynamic line height bounce variations */
 }
 
 @keyframes scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-100%); }
 }
-
+/* ==========================================================================
+   PART 3: WORKSPACE HUB CONTENT BLOCKS & GRID TIERS
+   ========================================================================== */
 
 /* 5. Workspace Hub Content Blocks */
 .main {
@@ -255,9 +255,6 @@ body {
     color: #e7e7e7;
     line-height: 1.6;
 }
-/* ==========================================================================
-   PART 3: LAYOUT ROW COMPONENTS, GRID QUADRANTS & CINEMA GRIDS
-   ========================================================================== */
 
 /* 6. Feature Split Block Row Elements */
 .feature-layout-row {
@@ -424,6 +421,9 @@ body {
     -webkit-box-orient: vertical;
     width: 100%;
 }
+/* ==========================================================================
+   PART 4: CINEMA HOUSING THEATERS & CORE LOUBGE MUSIC PLATFORMS
+   ========================================================================== */
 
 /* 8. Cinema Component Layout Wrap */
 .featured-theater-block {
@@ -630,10 +630,8 @@ body {
     overflow: visible;
     text-overflow: clip;
 }
-/* ==========================================================================
-   PART 4A: SPLIT MUSIC ENGINES & FLOATING MINI MEDIA CONTROLLERS
-   ========================================================================== */
 
+/* 9. Integrated Split Music Engine Interface Columns */
 .music-audio-player {
     width: 100%;
     max-width: 400px;
@@ -902,7 +900,11 @@ body {
     height: 4px;
     cursor: pointer;
 }
+/* ==========================================================================
+   PART 5A: MEDIA PLAYBACK CONTROLS, BASE EMBEDS & CREATOR MATRICES
+   ========================================================================== */
 
+/* 10. Floating Mini Media Player Corner Controls */
 .global-mini-player {
     position: fixed;
     top: 95px;
@@ -958,6 +960,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 .mini-status-tag {
@@ -1016,10 +1019,8 @@ body {
     height: 80px;
     z-index: 1000;
 }
-/* ==========================================================================
-   PART 4B: CREATORS ENGINE MATRIX, POPUP MODALS & SYSTEM BREAKPOINTS
-   ========================================================================== */
 
+/* 14. Creators Integration Matrix Layouts */
 .creators-stack-container {
     display: flex;
     flex-direction: column;
@@ -1141,6 +1142,9 @@ body {
     text-align: left;
     margin: 0;
 }
+/* ==========================================================================
+   PART 5B: GAME CORE UNITS, SYSTEM MODALS & RESPONSIVE BREAKPOINTS
+   ========================================================================== */
 
 .game-square-grid {
     display: grid;
@@ -1221,6 +1225,7 @@ body {
     transform: scale(1);
 }
 
+/* 15. Pop-Up Window Modal Engine Styles */
 #main-content-blur-target {
     transition: filter 0.4s ease;
 }
@@ -1321,6 +1326,7 @@ body {
     display: block;
 }
 
+/* 11. System Grid Responsiveness Breakpoints */
 @media (max-width: 1200px) {
     .movie-poster-grid { grid-template-columns: repeat(5, 1fr); }
 }
@@ -1338,7 +1344,7 @@ body {
 @media (max-width: 768px) {
     .main { margin-left: 0; width: 100%; }
     .sidebar { position: relative; width: 100%; height: auto; }
-    .header { left: 0; width: 100%; flex-direction: column; align-items: center; }
+    .header { left: 0; width: 100%; grid-template-columns: 1fr; justify-items: center; }
     .meta-widgets { align-items: center; }
     .feature-layout-row { flex-direction: column; align-items: center; }
     .feature-box-square { width: 100%; max-width: 200px; height: 200px; }

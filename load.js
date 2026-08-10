@@ -9,16 +9,26 @@ function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
     
+    // Asynchronously fetches and inserts the sidebar.html layout
     if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
         fetch("sidebar.html")
-            .then(res => res.text())
-            .then(html => { sidebarWrap.innerHTML = html; })
+            .then(res => {
+                if (!res.ok) throw new Error(`Could not find sidebar.html (Status: ${res.status})`);
+                return res.text();
+            })
+            .then(html => { 
+                sidebarWrap.innerHTML = html; 
+            })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
     
+    // Asynchronously fetches, inserts header.html, and boots the real-time clock
     if (headerWrap && headerWrap.innerHTML.trim() === "") {
         fetch("header.html")
-            .then(res => res.text())
+            .then(res => {
+                if (!res.ok) throw new Error(`Could not find header.html (Status: ${res.status})`);
+                return res.text();
+            })
             .then(html => { 
                 headerWrap.innerHTML = html; 
                 executeSystemTimeTicks();
@@ -44,6 +54,7 @@ function executeSystemTimeTicks() {
     }
 }
 
+// Fire template assembly engines
 executeGlobalTemplateLighter();
 
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
@@ -293,6 +304,7 @@ function setupMiniPlayerControllers() {
             e.stopPropagation();
             audio.pause();
             localStorage.removeItem("audio_active_src");
+            localStorage.removeItem("audio_removeItem");
             localStorage.removeItem("audio_active_title");
             localStorage.removeItem("audio_active_img");
             localStorage.setItem("audio_was_playing", "false");
@@ -323,8 +335,8 @@ function setupMoveableDragEngine(element) {
         if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
         e.preventDefault();
         if (e.type === "touchstart") {
-            activeX = e.touches[0].clientX;
-            activeY = e.touches[0].clientY;
+            activeX = e.touches.clientX;
+            activeY = e.touches.clientY;
         } else {
             activeX = e.clientX;
             activeY = e.clientY;
@@ -338,8 +350,8 @@ function setupMoveableDragEngine(element) {
     function dragMotionExecution(e) {
         let currentClientX = 0, currentClientY = 0;
         if (e.type === "touchmove") {
-            currentClientX = e.touches[0].clientX;
-            currentClientY = e.touches[0].clientY;
+            currentClientX = e.touches.clientX;
+            currentClientY = e.touches.clientY;
         } else {
             currentClientX = e.clientX;
             currentClientY = e.clientY;

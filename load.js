@@ -29,30 +29,36 @@ function executeGlobalTemplateLighter() {
 
 // 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE
 function executeSystemTimeTicks() {
-    const timeBox = document.querySelector(".time-box");
-    const dateBox = document.querySelector(".date-box");
-    if (timeBox || dateBox) {
-        const now = new Date();
-        if (timeBox) {
-            timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        if (dateBox) {
-            const choices = { month: 'short', day: 'numeric' };
-            dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
-        }
+  const timeBox = document.querySelector(".time-box");
+  const dateBox = document.querySelector(".date-box");
+  if (timeBox || dateBox) {
+    const now = new Date();
+    if (timeBox) {
+      timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
+    if (dateBox) {
+      const choices = { month: 'short', day: 'numeric' };
+      dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
+    }
+  }
 }
 
-executeGlobalTemplateLighter();
+// --- REPLACE CODES BELOW THE FUNCTION WITH This ---
 
-// 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
+// 1. Run it immediately so the clock isn't blank on page load
+executeGlobalTemplateLighter();
+executeSystemTimeTicks();
+
+// 2. Keep the clock perfectly updating every second automatically
+setInterval(executeSystemTimeTicks, 1000);
+
+// 3. Keep your existing layout mutation observer setup intact
 const pipelineObserver = new MutationObserver(() => {
-    pipelineObserver.disconnect();
-    executeGlobalTemplateLighter();
-    executeSystemTimeTicks();
-    pipelineObserver.observe(document.body, { childList: true, subtree: true });
+  executeGlobalTemplateLighter();
+  executeSystemTimeTicks();
 });
 pipelineObserver.observe(document.body, { childList: true, subtree: true });
+
 
 (function autoSynchronizeAudioState() {
     const cachedSrc = localStorage.getItem("audio_active_src");

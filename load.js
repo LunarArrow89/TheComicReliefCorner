@@ -27,24 +27,6 @@ function executeGlobalTemplateLighter() {
     }
 }
 
-// 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE
-function executeSystemTimeTicks() {
-    const timeBox = document.querySelector(".time-box");
-    const dateBox = document.querySelector(".date-box");
-    if (timeBox || dateBox) {
-        const now = new Date();
-        if (timeBox) {
-            timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        if (dateBox) {
-            const choices = { month: 'short', day: 'numeric' };
-            dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
-        }
-    }
-}
-
-executeGlobalTemplateLighter();
-
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
 const pipelineObserver = new MutationObserver(() => {
     pipelineObserver.disconnect();

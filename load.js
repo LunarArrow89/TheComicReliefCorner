@@ -1,30 +1,57 @@
-/*
-LOAD.JS GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE
-*/
-window.audioEngine = window.audioEngine || new Audio();
-window.isAudioLooping = window.isAudioLooping || false;
+// 1. GLOBAL SIDENAV & HEADER FETCH ENGINE 
+function executeGlobalTemplateLighter() { 
+  const sidebarWrap = document.getElementById("sidebar-container"); 
+  const headerWrap = document.getElementById("header-container"); 
 
-// 1. GLOBAL SIDENAV & HEADER FETCH ENGINE
-function executeGlobalTemplateLighter() {
-    const sidebarWrap = document.getElementById("sidebar-container");
-    const headerWrap = document.getElementById("header-container");
-    
-    if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-        fetch("sidebar.html")
-            .then(res => res.text())
-            .then(html => { sidebarWrap.innerHTML = html; })
-            .catch(err => console.error("Error loading sidebar layout:", err));
+  if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") { 
+    fetch("sidebar.html") 
+    .then(res => res.text()) 
+    .then(html => { 
+      sidebarWrap.innerHTML = html; 
+    }) 
+    .catch(err => console.error("Error loading sidebar layout:", err)); 
+  } 
+
+  if (headerWrap && headerWrap.innerHTML.trim() === "") { 
+    fetch("header.html") 
+    .then(res => res.text()) 
+    .then(html => { 
+      headerWrap.innerHTML = html; 
+      executeSystemTimeTicks(); // Now safely defined below
+    }) 
+    .catch(err => console.error("Error loading header layout:", err)); 
+  } 
+} 
+
+// 2. SYSTEM CLOCK ENGINE (Ensures the clock ticks without refreshing)
+function executeSystemTimeTicks() {
+  const timeBox = document.getElementById("timeBox");
+  const dateBox = document.getElementById("dateBox");
+
+  if (timeBox && dateBox) {
+    // Clear old intervals to prevent duplicate tickers during tab swaps
+    if (window.systemClockInterval) {
+      clearInterval(window.systemClockInterval);
     }
-    
-    if (headerWrap && headerWrap.innerHTML.trim() === "") {
-        fetch("header.html")
-            .then(res => res.text())
-            .then(html => {
-                headerWrap.innerHTML = html;
-                executeSystemTimeTicks();
-            })
-            .catch(err => console.error("Error loading header layout:", err));
+
+    function updateClock() {
+      const currentTimeBox = document.getElementById("timeBox");
+      const currentDateBox = document.getElementById("dateBox");
+
+      if (currentTimeBox && currentDateBox) {
+        const now = new Date(); 
+        currentTimeBox.innerText = now.toLocaleTimeString(); 
+        currentDateBox.innerText = now.toLocaleDateString(); 
+      } else {
+        // Safe cleanup if elements are swapped out of the DOM
+        clearInterval(window.systemClockInterval);
+      }
     }
+
+    // Run immediately, then establish the global interval
+    updateClock();
+    window.systemClockInterval = setInterval(updateClock, 1000);
+  }
 }
 
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
@@ -379,3 +406,31 @@ window.audioEngine.addEventListener("play", updateMiniplayerDataTrack);
 
 setInterval(processGlobalMiniplayerVisibility, 500);
 processGlobalMiniplayerVisibility();
+// Define the missing clock function that load.js is trying to call
+function executeSystemTimeTicks() {
+  const timeBox = document.getElementById("timeBox");
+  const dateBox = document.getElementById("dateBox");
+
+  // Only run if the elements actually exist in the DOM right now
+  if (timeBox && dateBox) {
+    // Clear any existing clock intervals to prevent duplicate timers running at once
+    if (window.systemClockInterval) {
+      clearInterval(window.systemClockInterval);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      if (document.getElementById("timeBox") && document.getElementById("dateBox")) {
+        document.getElementById("timeBox").innerText = now.toLocaleTimeString();
+        document.getElementById("dateBox").innerText = now.toLocaleDateString();
+      } else {
+        // If elements disappeared (e.g. during a tab swap), kill this interval
+        clearInterval(window.systemClockInterval);
+      }
+    }
+
+    // Run immediately, then start the global interval
+    updateClock();
+    window.systemClockInterval = setInterval(updateClock, 1000);
+  }
+}

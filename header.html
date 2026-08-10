@@ -1,22 +1,38 @@
-<div class="header">
-
-    <div class="time-box" id="timeBox"></div>
-    <div class="date-box" id="dateBox"></div>
-
-    <div class="ticker-wrap">
-        <div class="ticker">
-            \( ᐖ)/  Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form!  \(ᐖ )/
-        </div>
-    </div>
-
+<div class="header"> 
+  <div class="time-box" id="timeBox"></div> 
+  <div class="date-box" id="dateBox"></div> 
+  <div class="ticker-wrap"> 
+    <div class="ticker"> 
+      \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ 
+    </div> 
+  </div> 
 </div>
 
+<style>
+  /* Basic styling to ensure the clock is visible */
+  .header {
+    font-family: sans-serif;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  .time-box {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  .date-box {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+</style>
+
 <script>
-function updateClock(){
+  function updateClock(){
     const now = new Date();
     document.getElementById("timeBox").innerText = now.toLocaleTimeString();
     document.getElementById("dateBox").innerText = now.toLocaleDateString();
-}
-setInterval(updateClock,1000);
-updateClock();
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 </script>

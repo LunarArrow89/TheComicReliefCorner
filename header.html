@@ -1,22 +1,56 @@
-<div class="header">
-
-    <div class="time-box" id="timeBox"></div>
-    <div class="date-box" id="dateBox"></div>
-
-    <div class="ticker-wrap">
-        <div class="ticker">
-            \( ᐖ)/  Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form!  \(ᐖ )/
-        </div>
-    </div>
-
+<div class="header"> 
+  <div class="time-box" id="timeBox"></div> 
+  <div class="date-box" id="dateBox"></div> 
+  <div class="ticker-wrap"> 
+    <div class="ticker"> 
+      \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ 
+    </div> 
+  </div> 
 </div>
 
-<script>
-function updateClock(){
-    const now = new Date();
-    document.getElementById("timeBox").innerText = now.toLocaleTimeString();
-    document.getElementById("dateBox").innerText = now.toLocaleDateString();
-}
-setInterval(updateClock,1000);
-updateClock();
-</script>
+<style>
+  /* Base structural header style matching your design requirements */
+  .header {
+    background-color: rgba(0, 0, 0, 0.75); /* Slight, semi-transparent black background */
+    border: 2px solid #ff69b4;             /* Pink outline border */
+    border-radius: 8px;                    /* Clean rounded edging */
+    padding: 15px;
+    margin-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.2); /* Soft pink neon glow drop shadow */
+  }
+
+  /* Core layout formatting for the data blocks */
+  .time-box {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .date-box {
+    font-size: 14px;
+    color: #ff69b4;                        /* Highlight date text accents in pink */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Ticker text wrapper structure */
+  .ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 105, 180, 0.1);  /* Very soft inner pink background stripe */
+    padding: 6px;
+    border-radius: 4px;
+  }
+
+  .ticker {
+    white-space: nowrap;
+    display: inline-block;
+    color: #eeeeee;
+    font-size: 14px;
+  }
+</style>

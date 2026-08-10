@@ -1,17 +1,29 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co"; 
+const SUPABASE_URL = "https://supabase.co"; 
 const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
-const isConfigActive = SUPABASE_URL && !SUPABASE_URL.includes("YOUR_");
-
 window.addEventListener('load', () => {
+    // Framework Initialization
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Document Elements Reference Mapping
+    const authContainer = document.getElementById('auth-container');
+    const chatContainer = document.getElementById('secure-chat-container');
+    const authForm = document.getElementById('auth-form');
+    const emailInput = document.getElementById('auth-email');
+    const passwordInput = document.getElementById('auth-password');
+    const signupBtn = document.getElementById('signup-btn');
+    const loginBtn = document.getElementById('login-btn');
+    const authError = document.getElementById('auth-error');
+    
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-msg');
     const chatWindow = document.getElementById('chat-window');
-    const systemUsername = "User_" + Math.floor(Math.random() * 9000 + 1000);
+    const logoutBtn = document.getElementById('logout-btn');
 
-    if (!chatWindow) return;
+    let currentSessionUser = null;
 
+    // Helper: Appends message rows to UI box smoothly
     function displayMessage(username, text, timestamp) {
         const node = document.createElement('div');
         node.className = 'chat-bubble';
@@ -24,27 +36,74 @@ window.addEventListener('load', () => {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    if (!isConfigActive) {
-        displayMessage("SYSTEM", "Offline Preview Active.", "12:09 PM");
-        return;
+    // 2. CHECK FOR ACTIVE USER STATUS ON RETRY LOOPS
+    async function checkUserSession() {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (user) {
+            currentSessionUser = user.email.split('@')[0]; // Creates a clean nickname from email handle
+            authContainer.style.display = 'none';
+            chatContainer.style.display = 'flex';
+            startDatabasePipeline();
+        } else {
+            authContainer.style.display = 'flex';
+            chatContainer.style.display = 'none';
+        }
     }
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // 3. SECURE AUTHENTICATION FLOW ACTIONS
+    // Sign-Up Register Runner
+    signupBtn.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (!email || !password) return;
 
-    // FIXED: Form submit inserts into your capitalized 'Mess' table, mapping 'Username' and 'Text'
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) {
+            authError.textContent = error.message;
+            authError.style.display = 'block';
+        } else {
+            alert("Account requested! If confirmation emails are enabled in your console, verify your inbox, then press LOG IN.");
+        }
+    });
+
+    // Log-In Action Process Runner
+    authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+            authError.textContent = error.message;
+            authError.style.display = 'block';
+        } else {
+            authError.style.display = 'none';
+            checkUserSession();
+        }
+    });
+
+    // Logout Session Destructor Engine
+    logoutBtn.addEventListener('click', async () => {
+        await supabaseClient.auth.signOut();
+        currentSessionUser = null;
+        chatWindow.innerHTML = '';
+        checkUserSession();
+    });
+
+    // 4. WRITE ACCOUNT DATA TO MESS ROW CHANNELS
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const txt = chatInput.value.trim();
-        if (!txt) return;
+        if (!txt || !currentSessionUser) return;
 
         chatInput.value = '';
 
         await supabaseClient
             .from('Mess')
-            .insert([{ Username: systemUsername, Text: txt }]);
+            .insert([{ Username: currentSessionUser, Text: txt }]);
     });
 
-    // FIXED: Real-time pipelines pull and track data matching your capitalized column schema
+    // 5. LIVE MATRIX SYNC SYSTEM TRANSMISSIONS PIPELINE
     async function startDatabasePipeline() {
         const { data: initialLogs } = await supabaseClient
             .from('Mess')
@@ -70,5 +129,6 @@ window.addEventListener('load', () => {
             .subscribe();
     }
 
-    startDatabasePipeline();
+    // Run session check instantly upon load
+    checkUserSession();
 });

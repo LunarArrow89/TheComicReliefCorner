@@ -11,7 +11,7 @@
     <!-- Your CSS (Unified Spacing Architecture) --> 
     <link rel="stylesheet" href="style.css?v=unified_spacing"> 
     
-    <!-- Loader Script (Renders header.html & sidebar.html automatically) --> 
+    <!-- Loader Script (Dynamically pulls from header.html & sidebar.html) --> 
     <script defer src="load.js"></script>
 
     <!-- Include Supabase Core Database SDK Framework Client -->
@@ -131,26 +131,20 @@
 </head> 
 <body> 
     
-    <!-- ASYNCHRONOUS SIDEBAR CORE TARGET LAYER CONTAINER --> 
+    <!-- AUTOMATIC SIDEBAR INJECTION POINT (Pulls straight from sidebar.html) --> 
     <div id="sidebar-container"></div> 
     
-    <!-- ASYNCHRONOUS HEADER REGION MODULE CORES CONTAINER --> 
+    <!-- AUTOMATIC HEADER INJECTION POINT (Pulls straight from header.html) --> 
     <div id="header-container"></div> 
     
-    <!-- CANVAS CONTENT INTERNALS --> 
+    <!-- MAIN WORKSPACE LAYER --> 
     <div class="main"> 
-        <div class="hero"> 
-            <h1>Live Transmission Hub</h1> 
-            <p>Connect with other operators inside the room.</p> 
-        </div> 
-
-        <!-- ENCRYPTED INTERFACE BOX CANVAS SLOTS MODULE -->
         <div class="chat-container">
             <div class="chat-header">
-                <h2>Chat Lobby</h2>
+                <h2>Live Transmission</h2>
             </div>
             <div class="messages-window" id="chat-window">
-                <!-- Data stream lines print inside here automatically -->
+                <!-- Database transmission lines stream here live -->
             </div>
             <form class="chat-input-bar" id="chat-form">
                 <input type="text" id="chat-msg" class="chat-input" placeholder="Type an encrypted transmission..." autocomplete="off" required>
@@ -159,7 +153,7 @@
         </div>
     </div> 
 
-    <!-- Client-Side Runtime JavaScript Controller Database Hooks -->
+    <!-- Client-Side Runtime JavaScript Logic -->
     <script src="chat.js"></script>
 </body> 
 </html>

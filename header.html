@@ -1,9 +1,22 @@
-<div class="header"> 
-  <div class="time-box"></div> 
-  <div class="date-box"></div> 
-  <div class="ticker-wrap"> 
-    <div class="ticker"> 
-      \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ 
-    </div> 
-  </div> 
+<div class="header">
+
+    <div class="time-box" id="timeBox"></div>
+    <div class="date-box" id="dateBox"></div>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            \( ᐖ)/  Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form!  \(ᐖ )/
+        </div>
+    </div>
+
 </div>
+
+<script>
+function updateClock(){
+    const now = new Date();
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString();
+    document.getElementById("dateBox").innerText = now.toLocaleDateString();
+}
+setInterval(updateClock,1000);
+updateClock();
+</script>

@@ -1,31 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Transmission - TheComicReliefCorner</title>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>The Comic Relief Corner - Chatroom</title> 
     
-    <!-- 1. LINK YOUR WEB SITE'S CSS RULES FILE (Make sure this filename matches your repository css file) -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome --> 
+    <link rel="stylesheet" href="https://cloudflare.com"> 
     
-    <!-- Include Supabase Core Framework from CDN -->
+    <!-- Your CSS (Unified Spacing Architecture) --> 
+    <link rel="stylesheet" href="style.css?v=unified_spacing"> 
+    
+    <!-- Loader Script (Renders header.html & sidebar.html automatically) --> 
+    <script defer src="load.js"></script>
+
+    <!-- Include Supabase Core Database SDK Framework Client -->
     <script src="https://jsdelivr.net"></script>
     
     <style>
-        /* Extra custom styling to center your chat box layout perfectly inside your main workspace area */
+        /* Extra custom styling to align the chat element cleanly within your .main canvas workspace */
         .chat-container {
             display: flex;
             flex-direction: column;
             background: #1f121b; /* Matches your core UI panel background */
-            border: 1px solid rgba(255, 105, 180, 0.25); /* System signature pink glow frame */
+            border: 1px solid rgba(255, 105, 180, 0.15); /* System signature pink glow frame */
             border-radius: 20px;
             padding: 25px;
             box-sizing: border-box;
             height: 550px;
             width: 100%;
             max-width: 700px;
-            margin: 40px auto 0 auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 105, 180, 0.1);
+            margin: 25px auto 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         .chat-header h2 {
@@ -51,7 +57,7 @@
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
         }
 
-        /* Custom Scrollbar for Chat Window */
+        /* Webkit Scrollbar overrides matching your system aesthetic guidelines */
         .messages-window::-webkit-scrollbar {
             width: 6px;
         }
@@ -122,34 +128,38 @@
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
     </style>
-</head>
-<body>
+</head> 
+<body> 
+    
+    <!-- ASYNCHRONOUS SIDEBAR CORE TARGET LAYER CONTAINER --> 
+    <div id="sidebar-container"></div> 
+    
+    <!-- ASYNCHRONOUS HEADER REGION MODULE CORES CONTAINER --> 
+    <div id="header-container"></div> 
+    
+    <!-- CANVAS CONTENT INTERNALS --> 
+    <div class="main"> 
+        <div class="hero"> 
+            <h1>Live Transmission Hub</h1> 
+            <p>Connect with other operators inside the room.</p> 
+        </div> 
 
-    <!-- SIDEBAR NAVIGATION LAYER (Keeps layout consistent with your website vibe) -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <!-- Your logo image can remain here inside layout wrapper grids -->
-        </div>
-        <a href="index.html" class="nav-btn">Home</a>
-    </div>
-
-    <!-- MAIN APP CANVAS PANEL -->
-    <div class="main">
+        <!-- ENCRYPTED INTERFACE BOX CANVAS SLOTS MODULE -->
         <div class="chat-container">
             <div class="chat-header">
-                <h2>Live Transmission</h2>
+                <h2>Chat Lobby</h2>
             </div>
             <div class="messages-window" id="chat-window">
-                <!-- Database rows render inside here automatically -->
+                <!-- Data stream lines print inside here automatically -->
             </div>
             <form class="chat-input-bar" id="chat-form">
                 <input type="text" id="chat-msg" class="chat-input" placeholder="Type an encrypted transmission..." autocomplete="off" required>
                 <button type="submit" class="chat-send-btn">SEND</button>
             </form>
         </div>
-    </div>
+    </div> 
 
-    <!-- Script asset link pipeline hook -->
+    <!-- Client-Side Runtime JavaScript Controller Database Hooks -->
     <script src="chat.js"></script>
-</body>
+</body> 
 </html>

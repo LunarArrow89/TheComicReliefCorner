@@ -23,7 +23,7 @@ function executeGlobalTemplateLighter() {
       .then(res => res.text())
       .then(html => {
         headerWrap.innerHTML = html;
-        executeSystemTimeTicks();
+        executeSystemTimeTicks(); // Render time immediately upon text injection
       })
       .catch(err => console.error("Error loading header layout:", err));
   }
@@ -37,8 +37,8 @@ function executeSystemTimeTicks() {
   if (timeBox || dateBox) {
     const now = new Date();
     if (timeBox) {
-      // Optional: Add second: '2-digit' here if you want to visually track seconds
-      timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      // Updates time instantly with seconds so you can visually watch it count up
+      timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
     if (dateBox) {
       const choices = { month: 'short', day: 'numeric' };
@@ -47,11 +47,11 @@ function executeSystemTimeTicks() {
   }
 }
 
-// INITIAL STATE RUNNERS
+// INITIAL START RUNNERS
 executeGlobalTemplateLighter();
 executeSystemTimeTicks();
 
-// AUTOMATIC TICKING GUARD: Refreshes the time display every single second automatically
+// AUTOMATIC TICKING GUARD: Refreshes your time boxes every second automatically
 setInterval(executeSystemTimeTicks, 1000);
 
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 })();
+
 // 4. MOVEABLE UNIVERSAL MINI-PLAYER SYSTEM OVERRIDE STYLES
 const styleId = "universal-player-dynamic-css";
 if (!document.getElementById(styleId)) {
@@ -133,6 +134,16 @@ if (!document.getElementById(styleId)) {
       flex-direction: column;
       justify-content: center;
     }
+  `;
+  // Appends styles cleanly to the header block context layout
+  const styleTag = document.createElement("style");
+  styleTag.id = styleId;
+  styleTag.textContent = customStyles;
+  document.head.appendChild(styleTag);
+}
+// EXTRA DESIGN MATRICES FOR STRUCTURAL ALIGNMENT
+if (document.getElementById("universal-player-dynamic-css")) {
+  const extraStyles = `
     .mini-status-tag {
       font-size: 10px;
       color: #ff69b4;
@@ -192,10 +203,9 @@ if (!document.getElementById(styleId)) {
       left: 0;
     }
   `;
-  const styleTag = document.createElement("style");
-  styleTag.id = styleId;
-  styleTag.textContent = customStyles;
-  document.head.appendChild(styleTag);
+  const extraTag = document.createElement("style");
+  extraTag.textContent = extraStyles;
+  document.head.appendChild(extraTag);
 }
 
 // 5. CONTROL ENGINE AND EVENTS
@@ -241,6 +251,7 @@ function processGlobalMiniplayerVisibility() {
     miniPlayer.remove();
   }
 }
+
 function updateMiniplayerDataTrack() {
   const audio = window.audioEngine;
   const titleNode = document.getElementById("mini-deck-title");
@@ -329,8 +340,8 @@ function setupMoveableDragEngine(element) {
   function dragStartInitiation(e) {
     if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
     if (e.type === "touchstart") {
-      activeX = e.touches[clientX];
-      activeY = e.touches[clientY];
+      activeX = e.touches[0].clientX;
+      activeY = e.touches[0].clientY;
     } else {
       e.preventDefault();
       activeX = e.clientX;
@@ -345,8 +356,8 @@ function setupMoveableDragEngine(element) {
   function dragMotionExecution(e) {
     let currentClientX = 0, currentClientY = 0;
     if (e.type === "touchmove") {
-      currentClientX = e.touches[clientX];
-      currentClientY = e.touches[clientY];
+      currentClientX = e.touches[0].clientX;
+      currentClientY = e.touches[0].clientY;
     } else {
       currentClientX = e.clientX;
       currentClientY = e.clientY;

@@ -1,67 +1,101 @@
-// 1. Establish your secure database platform handshake connection
-const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_ANON_PUBLIC_KEY";
+// 1. DATABASE CONFIGURATION BLOCK
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    databaseURL: "YOUR_DATABASE_URL",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 2. CRITICAL RUNTIME LOAD GUARD
+// Prevents the browser engine from crashing if keys are still placeholder text
+const isConfigValid = firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("YOUR_");
 
-// UI Targets matching your site design rules
+if (isConfigValid) {
+    try {
+        supabase.createClient(firebaseConfig.databaseURL, firebaseConfig.apiKey);
+        initializeChatHub();
+    } catch(err) {
+        console.warn("Database initialization handshake paused:", err);
+    }
+} else {
+    console.log("Database offline: Running interface UI preview configuration mode.");
+    // Load simulation entry lines so your layout workspace isn't empty
+    setTimeout(() => {
+        const win = document.getElementById('chat-window');
+        if(win) {
+            win.innerHTML = `<div class="chat-bubble">
+                <span class="chat-meta">SYSTEM:</span> 
+                <span>Interface engine active. Connect your Supabase keys inside chat.js to begin broadcasting live text transmissions.</span>
+                <span class="chat-timestamp">11:50 AM</span>
+            </div>`;
+        }
+    }, 500);
+}
+
+// UI Targets
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-msg');
 const chatWindow = document.getElementById('chat-window');
 const systemUsername = "User_" + Math.floor(Math.random() * 9000 + 1000);
 
-// Helper function: Appends individual bubble frames natively to your screen canvas
+// Appends message bubbles natively to your screen canvas
 function displayMessage(username, text, timestamp) {
-    const formattedTime = new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
     const node = document.createElement('div');
     node.className = 'chat-bubble';
     node.innerHTML = `
         <span class="chat-meta">${username}</span>: 
         <span>${text}</span>
-        <span class="chat-timestamp">${formattedTime}</span>
+        <span class="chat-timestamp">${timestamp}</span>
     `;
-    chatWindow.appendChild(node);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
+    if(chatWindow) {
+        chatWindow.appendChild(node);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
 }
 
-// 2. DISPATCH EVENT RUNNERS: Append new data rows to your table grid layout
-chatForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const txt = chatInput.value.trim();
-    if (!txt) return;
+// Dispatch form submission runners
+if (chatForm) {
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const txt = chatInput.value.trim();
+        if (!txt) return;
 
-    chatInput.value = '';
+        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        // Speculative UI generation so you can test typing instantly
+        displayMessage(systemUsername, txt, currentTime);
+        chatInput.value = '';
 
-    // Inserts the message data directly into your database row tracking layer
-    const { error } = await supabase
-        .from('messages')
-        .insert([{ username: systemUsername, text: txt }]);
+        if (isConfigValid) {
+            await supabase.from('messages').insert([{ username: systemUsername, text: txt }]);
+        }
+    });
+}
 
-    if (error) console.error("Failed writing chat data payload row:", error);
-});
-
-// 3. LISTEN & RENDER EVENTS: Fetch previous chat logs history and listen for updates
 async function initializeChatHub() {
-    // Pipeline A: Pull the last 40 log lines instantly on page entry
-    const { data: initialLogs, error } = await supabase
+    const { data: initialLogs } = await supabase
         .from('messages')
         .select('*')
         .order('created_at', { ascending: true })
         .limit(40);
 
-    if (!error && initialLogs) {
-        initialLogs.forEach(msg => displayMessage(msg.username, msg.text, msg.created_at));
+    if (initialLogs) {
+        if(chatWindow) chatWindow.innerHTML = '';
+        initialLogs.forEach(msg => {
+            const formattedTime = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            displayMessage(msg.username, msg.text, formattedTime);
+        });
     }
 
-    // Pipeline B: Subscribe to live data changes to sync multi-user traffic
     supabase
         .channel('public:messages')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
             const newMsg = payload.new;
-            displayMessage(newMsg.username, newMsg.text, newMsg.created_at);
+            const formattedTime = new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            displayMessage(newMsg.username, newMsg.text, formattedTime);
         })
         .subscribe();
 }
-
-initializeChatHub();

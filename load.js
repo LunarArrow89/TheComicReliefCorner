@@ -16,15 +16,13 @@ function executeGlobalTemplateLighter() {
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
     
-    if (headerWrap && headerWrap.innerHTML.trim() === "") {
-        fetch("header.html")
-            .then(res => res.text())
-            .then(html => {
-                headerWrap.innerHTML = html;
-                executeSystemTimeTicks();
-            })
-            .catch(err => console.error("Error loading header layout:", err));
-    }
+if (headerWrap && headerWrap.innerHTML.trim() === "") {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => {
+      headerWrap.innerHTML = html;
+    })
+    .catch(err => console.error("Error loading header layout:", err));
 }
 
 // 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE

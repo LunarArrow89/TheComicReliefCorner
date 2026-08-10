@@ -1,7 +1,8 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co"; 
+const SUPABASE_URL = "https://supabase.co"; 
 const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
+// Wait until load.js injects layout templates into DOM windows safely
 window.addEventListener('load', () => {
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -11,7 +12,7 @@ window.addEventListener('load', () => {
     const authForm = document.getElementById('auth-form');
     const usernameInput = document.getElementById('auth-username');
     const passwordInput = document.getElementById('auth-password');
-    const adminCheckbox = document.getElementById('auth-admin-check'); // Safely found but ignored
+    const adminCheckbox = document.getElementById('auth-admin-check'); // Ignored for now
     const signupBtn = document.getElementById('signup-btn');
     const authError = document.getElementById('auth-error');
     
@@ -38,7 +39,6 @@ window.addEventListener('load', () => {
     async function checkUserSession() {
         const { data: { user } } = await supabaseClient.auth.getUser();
         if (user) {
-            // Decodes your username clean token directly out of your data schema structures
             currentSessionUser = user.email.split('@')[0];
             authContainer.style.display = 'none';
             chatContainer.style.display = 'flex';
@@ -49,7 +49,7 @@ window.addEventListener('load', () => {
         }
     }
 
-    // 3. SECURE AUTH ACTION FORM HANDLERS (Admin Checkbox runs passively for now)
+    // 3. SECURE AUTH ACTION FORM HANDLERS
     // Sign Up Process Handler
     signupBtn.addEventListener('click', async () => {
         const username = usernameInput.value.trim().replace(/\s+/g, '_');
@@ -94,7 +94,7 @@ window.addEventListener('load', () => {
         checkUserSession();
     });
 
-    // 4. WRITE ACCOUNT TRANSITIONS TO MESS ROW CHANNELS
+    // 4. WRITE ACCOUNT DATA TO MESS ROW CHANNELS
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const txt = chatInput.value.trim();

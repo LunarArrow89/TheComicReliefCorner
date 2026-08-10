@@ -8,19 +8,19 @@ window.isAudioLooping = window.isAudioLooping || false;
 function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
-
+    
     if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
         fetch("sidebar.html")
             .then(res => res.text())
             .then(html => { sidebarWrap.innerHTML = html; })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
-
+    
     if (headerWrap && headerWrap.innerHTML.trim() === "") {
         fetch("header.html")
             .then(res => res.text())
-            .then(html => {
-                headerWrap.innerHTML = html;
+            .then(html => { 
+                headerWrap.innerHTML = html; 
                 executeSystemTimeTicks();
             })
             .catch(err => console.error("Error loading header layout:", err));
@@ -31,6 +31,7 @@ function executeGlobalTemplateLighter() {
 function executeSystemTimeTicks() {
     const timeBox = document.querySelector(".time-box");
     const dateBox = document.querySelector(".date-box");
+    
     if (timeBox || dateBox) {
         const now = new Date();
         if (timeBox) {
@@ -50,12 +51,12 @@ const pipelineObserver = new MutationObserver(() => {
     executeGlobalTemplateLighter();
     executeSystemTimeTicks();
 });
-
 pipelineObserver.observe(document.body, { childList: true, subtree: true });
 
 (function autoSynchronizeAudioState() {
     const cachedSrc = localStorage.getItem("audio_active_src");
     const savedTime = localStorage.getItem("audio_active_time");
+    
     if (cachedSrc && (!window.audioEngine.src || window.audioEngine.src === window.location.href)) {
         window.audioEngine.src = cachedSrc;
         if (savedTime) {
@@ -190,7 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
 /*
 LOAD.JS GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE - PART B
 */
-
 // 5. CONTROL ENGINE AND EVENTS
 function processGlobalMiniplayerVisibility() {
     const isMusicTabActive = window.location.pathname.toLowerCase().includes('music.html');
@@ -223,11 +223,12 @@ function processGlobalMiniplayerVisibility() {
                 </div>
             </div>`;
             document.body.insertAdjacentHTML("beforeend", markup);
+            
             miniPlayer = document.getElementById("shared-global-mini-deck");
             setupMoveableDragEngine(miniPlayer);
             setupMiniPlayerControllers();
+            updateMiniplayerDataTrack();
         }
-        updateMiniplayerDataTrack();
     } else if (!cachedSrc && miniPlayer) {
         miniPlayer.remove();
     }
@@ -263,7 +264,7 @@ function setupMiniPlayerControllers() {
     const miniRestartBtn = document.getElementById("mini-deck-restart-btn");
     const miniCloseBtn = document.getElementById("mini-deck-close-btn");
     const scrubBar = document.getElementById("mini-deck-scrub-bar");
-
+    
     if (miniPauseBtn) {
         miniPauseBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -278,7 +279,7 @@ function setupMiniPlayerControllers() {
             updateMiniplayerDataTrack();
         });
     }
-
+    
     if (miniRestartBtn) {
         miniRestartBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -286,7 +287,7 @@ function setupMiniPlayerControllers() {
             localStorage.setItem("audio_active_time", 0);
         });
     }
-
+    
     if (miniCloseBtn) {
         miniCloseBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -299,7 +300,7 @@ function setupMiniPlayerControllers() {
             if (miniPlayer) miniPlayer.remove();
         });
     }
-
+    
     if (scrubBar) {
         scrubBar.addEventListener("click", (e) => {
             if (!isNaN(audio.duration) && isFinite(audio.duration)) {
@@ -314,16 +315,16 @@ function setupMiniPlayerControllers() {
 function setupMoveableDragEngine(element) {
     let activeX = 0, activeY = 0, deltaX = 0, deltaY = 0;
     const dragHandle = document.getElementById("mini-deck-drag-handle") || element;
-
+    
     dragHandle.addEventListener("mousedown", dragStartInitiation);
     dragHandle.addEventListener("touchstart", dragStartInitiation, { passive: false });
-
+    
     function dragStartInitiation(e) {
         if (e.target.closest(".mini-btn") || e.target.closest("#mini-deck-scrub-bar")) return;
         e.preventDefault();
         if (e.type === "touchstart") {
-            activeX = e.touches.clientX;
-            activeY = e.touches.clientY;
+            activeX = e.touches[0].clientX;
+            activeY = e.touches[0].clientY;
         } else {
             activeX = e.clientX;
             activeY = e.clientY;
@@ -333,27 +334,28 @@ function setupMoveableDragEngine(element) {
         document.addEventListener("touchmove", dragMotionExecution, { passive: false });
         document.addEventListener("touchend", dragClosureCleanup);
     }
-
+    
     function dragMotionExecution(e) {
         let currentClientX = 0, currentClientY = 0;
         if (e.type === "touchmove") {
-            currentClientX = e.touches.clientX;
-            currentClientY = e.touches.clientY;
+            currentClientX = e.touches[0].clientX;
+            currentClientY = e.touches[0].clientY;
         } else {
             currentClientX = e.clientX;
             currentClientY = e.clientY;
         }
+        
         deltaX = activeX - currentClientX;
         deltaY = activeY - currentClientY;
         activeX = currentClientX;
         activeY = currentClientY;
-
+        
         element.style.top = (element.offsetTop - deltaY) + "px";
         element.style.left = (element.offsetLeft - deltaX) + "px";
         element.style.bottom = "auto";
         element.style.right = "auto";
     }
-
+    
     function dragClosureCleanup() {
         document.removeEventListener("mousemove", dragMotionExecution);
         document.removeEventListener("mouseup", dragClosureCleanup);
@@ -368,15 +370,15 @@ document.body.addEventListener("click", (e) => {
         const currentSrc = tile.getAttribute("data-src");
         const currentTitle = tile.getAttribute("data-title") || "Unknown Track";
         const currentImg = tile.getAttribute("data-img") || "music-icon.png";
-
+        
         window.audioEngineSrcTitle = currentTitle;
         window.audioEngineSrcCover = currentImg;
-
+        
         localStorage.setItem("audio_active_src", currentSrc);
         localStorage.setItem("audio_active_title", currentTitle);
         localStorage.setItem("audio_active_img", currentImg);
         localStorage.setItem("audio_was_playing", "true");
-
+        
         updateMiniplayerDataTrack();
     }
 });

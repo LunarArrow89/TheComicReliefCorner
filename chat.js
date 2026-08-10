@@ -1,19 +1,18 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://supabase.co"; 
+const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co"; 
 const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
 window.addEventListener('load', () => {
-    // Framework Initialization
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Document Elements Reference Mapping
     const authContainer = document.getElementById('auth-container');
     const chatContainer = document.getElementById('secure-chat-container');
     const authForm = document.getElementById('auth-form');
-    const emailInput = document.getElementById('auth-email');
+    const usernameInput = document.getElementById('auth-username');
     const passwordInput = document.getElementById('auth-password');
+    const adminCheckbox = document.getElementById('auth-admin-check'); // Safely found but ignored
     const signupBtn = document.getElementById('signup-btn');
-    const loginBtn = document.getElementById('login-btn');
     const authError = document.getElementById('auth-error');
     
     const chatForm = document.getElementById('chat-form');
@@ -23,7 +22,6 @@ window.addEventListener('load', () => {
 
     let currentSessionUser = null;
 
-    // Helper: Appends message rows to UI box smoothly
     function displayMessage(username, text, timestamp) {
         const node = document.createElement('div');
         node.className = 'chat-bubble';
@@ -36,11 +34,12 @@ window.addEventListener('load', () => {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    // 2. CHECK FOR ACTIVE USER STATUS ON RETRY LOOPS
+    // 2. USER AUTHENTICATION SESSION STATUS VERIFIER
     async function checkUserSession() {
         const { data: { user } } = await supabaseClient.auth.getUser();
         if (user) {
-            currentSessionUser = user.email.split('@')[0]; // Creates a clean nickname from email handle
+            // Decodes your username clean token directly out of your data schema structures
+            currentSessionUser = user.email.split('@')[0];
             authContainer.style.display = 'none';
             chatContainer.style.display = 'flex';
             startDatabasePipeline();
@@ -50,31 +49,36 @@ window.addEventListener('load', () => {
         }
     }
 
-    // 3. SECURE AUTHENTICATION FLOW ACTIONS
-    // Sign-Up Register Runner
+    // 3. SECURE AUTH ACTION FORM HANDLERS (Admin Checkbox runs passively for now)
+    // Sign Up Process Handler
     signupBtn.addEventListener('click', async () => {
-        const email = emailInput.value.trim();
+        const username = usernameInput.value.trim().replace(/\s+/g, '_');
         const password = passwordInput.value;
-        if (!email || !password) return;
+        if (!username || !password) return;
 
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        const simulatedEmail = `${username}@comic.com`;
+
+        const { error } = await supabaseClient.auth.signUp({ email: simulatedEmail, password: password });
         if (error) {
             authError.textContent = error.message;
             authError.style.display = 'block';
         } else {
-            alert("Account requested! If confirmation emails are enabled in your console, verify your inbox, then press LOG IN.");
+            alert(`Account registered successfully as "${username}"! Click Log In to enter.`);
+            authError.style.display = 'none';
         }
     });
 
-    // Log-In Action Process Runner
+    // Sign In Process Handler
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = emailInput.value.trim();
+        const username = usernameInput.value.trim().replace(/\s+/g, '_');
         const password = passwordInput.value;
 
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        const simulatedEmail = `${username}@comic.com`;
+
+        const { error } = await supabaseClient.auth.signInWithPassword({ email: simulatedEmail, password: password });
         if (error) {
-            authError.textContent = error.message;
+            authError.textContent = "Access Denied: Invalid username or key password.";
             authError.style.display = 'block';
         } else {
             authError.style.display = 'none';
@@ -82,7 +86,7 @@ window.addEventListener('load', () => {
         }
     });
 
-    // Logout Session Destructor Engine
+    // Session Log Out Disconnect Handler
     logoutBtn.addEventListener('click', async () => {
         await supabaseClient.auth.signOut();
         currentSessionUser = null;
@@ -90,7 +94,7 @@ window.addEventListener('load', () => {
         checkUserSession();
     });
 
-    // 4. WRITE ACCOUNT DATA TO MESS ROW CHANNELS
+    // 4. WRITE ACCOUNT TRANSITIONS TO MESS ROW CHANNELS
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const txt = chatInput.value.trim();
@@ -103,7 +107,7 @@ window.addEventListener('load', () => {
             .insert([{ Username: currentSessionUser, Text: txt }]);
     });
 
-    // 5. LIVE MATRIX SYNC SYSTEM TRANSMISSIONS PIPELINE
+    // 5. REAL-TIME DATA SYNC FLOW CORES PIPELINE
     async function startDatabasePipeline() {
         const { data: initialLogs } = await supabaseClient
             .from('Mess')
@@ -129,6 +133,5 @@ window.addEventListener('load', () => {
             .subscribe();
     }
 
-    // Run session check instantly upon load
     checkUserSession();
 });

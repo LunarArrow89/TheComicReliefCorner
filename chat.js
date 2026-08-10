@@ -1,5 +1,5 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://supabase.co"; 
+const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co"; 
 const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
 window.addEventListener('load', () => {
@@ -36,11 +36,10 @@ window.addEventListener('load', () => {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    // 2. STYLED BLUR TARGET SWITCHES (BLURS ENTIRE SITE MINUS THE LOG IN WINDOW)
+    // 2. STYLED BLUR TARGET SWITCHES
     function openAuthModal() {
         authBackdrop.classList.add('modal-active');
         
-        // Dynamically apply blur filtering parameters down onto loaded framework panels safely
         const sideNode = document.getElementById('sidebar-container');
         const headNode = document.getElementById('header-container');
         
@@ -57,7 +56,6 @@ window.addEventListener('load', () => {
     function closeAuthModal() {
         authBackdrop.classList.remove('modal-active');
         
-        // Clear background distortion filters natively
         const sideNode = document.getElementById('sidebar-container');
         const headNode = document.getElementById('header-container');
 

@@ -130,23 +130,23 @@
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
         
-        /* Native system blur utility mapping definitions */
+        /* Blur class filter mapping settings */
         .background-blur-active {
-            filter: blur(15px); /* Matches sketch specs native filters precisely */
+            filter: blur(15px);
             pointer-events: none;
             transition: filter 0.4s ease;
         }
 
-        /* Modal Backdrop styling referencing your sheet structure */
+        /* Modal Backdrop styling */
         .custom-auth-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
-            background: rgba(10, 5, 9, 0.75); /* Deep tint layer alpha variables */
+            height: 100vw;
+            background: rgba(10, 5, 9, 0.75);
             z-index: 9999;
-            display: none; /* Controlled dynamically by chat.js triggers */
+            display: none;
             align-items: center;
             justify-content: center;
             opacity: 0;
@@ -161,20 +161,20 @@
 </head> 
 <body> 
     
-    <!-- AUTOMATIC SIDEBAR INJECTION POINT (RESTORED OUTSIDE WRAPPERS TO PREVENT BOOT FREEZES) --> 
+    <!-- AUTOMATIC SIDEBAR INJECTION POINT --> 
     <div id="sidebar-container"></div> 
     
-    <!-- AUTOMATIC HEADER INJECTION POINT (RESTORED OUTSIDE WRAPPERS TO PREVENT BOOT FREEZES) --> 
+    <!-- AUTOMATIC HEADER INJECTION POINT --> 
     <div id="header-container"></div> 
     
-    <!-- MAIN WORKSPACE CANVAS UNITS PANEL --> 
+    <!-- MAIN WORKSPACE LAYER --> 
     <div class="main" id="main-content-layout"> 
         <div class="hero"> 
             <h1>Live Transmission Hub</h1> 
             <p>Connect with other operators inside the room.</p> 
         </div> 
 
-        <!-- 1. SECURE LIVE CHAT INTERFACE (Permanently visible in background layout canvas) -->
+        <!-- SECURE LIVE CHAT INTERFACE -->
         <div id="secure-chat-container" class="chat-container">
             <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <h2>Chat Lobby</h2>
@@ -190,7 +190,7 @@
         </div>
     </div> 
 
-    <!-- 2. BLURRED BACKDROP MODAL GATEWAY ENGINE (MATCHES YOUR SKETCH AND UI RULES) -->
+    <!-- BLURRED BACKDROP MODAL GATEWAY ENGINE (MATCHES YOUR SKETCH EXACTLY) -->
     <div id="auth-backdrop" class="custom-auth-backdrop">
         <div id="auth-container" class="chat-container" style="max-width: 420px; padding: 35px 25px; transform: scale(0.95); transition: transform 0.35s ease;">
             <div class="chat-header" style="text-align: center; margin-bottom: 20px;">

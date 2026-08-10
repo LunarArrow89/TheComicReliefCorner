@@ -14,7 +14,7 @@
     <!-- Loader Script (Dynamically pulls from header.html & sidebar.html files) --> 
     <script defer src="load.js"></script>
 
-    <!-- Include Supabase Core Database SDK Framework Client Package Package -->
+    <!-- Include Supabase Core Database SDK Framework Client Package -->
     <script src="https://jsdelivr.net"></script>
     
     <style>
@@ -130,6 +130,13 @@
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
         
+        /* Native system blur utility mapping definitions */
+        .background-blur-active {
+            filter: blur(15px); /* Matches sketch specs native filters precisely */
+            pointer-events: none;
+            transition: filter 0.4s ease;
+        }
+
         /* Modal Backdrop styling referencing your sheet structure */
         .custom-auth-backdrop {
             position: fixed;
@@ -154,37 +161,34 @@
 </head> 
 <body> 
     
-    <!-- AUTOMATIC SIDEBAR INJECTION POINT (Pulls straight from sidebar.html) --> 
+    <!-- AUTOMATIC SIDEBAR INJECTION POINT (RESTORED OUTSIDE WRAPPERS TO PREVENT BOOT FREEZES) --> 
     <div id="sidebar-container"></div> 
     
-    <!-- AUTOMATIC HEADER INJECTION POINT (Pulls straight from header.html) --> 
+    <!-- AUTOMATIC HEADER INJECTION POINT (RESTORED OUTSIDE WRAPPERS TO PREVENT BOOT FREEZES) --> 
     <div id="header-container"></div> 
     
-    <!-- TARGET CONTENT BLUR LAYER -->
-    <div id="main-content-blur-target" style="width: 100%; height: 100%;">
-        <!-- MAIN WORKSPACE LAYER --> 
-        <div class="main"> 
-            <div class="hero"> 
-                <h1>Live Transmission Hub</h1> 
-                <p>Connect with other operators inside the room.</p> 
-            </div> 
-
-            <!-- 1. SECURE LIVE CHAT INTERFACE (Permanently visible in background layout canvas) -->
-            <div id="secure-chat-container" class="chat-container">
-                <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <h2>Chat Lobby</h2>
-                    <button id="logout-btn" class="chat-send-btn" style="padding: 4px 12px; font-size: 0.8rem; border-color: #aaa; color: #aaa; display: none;">DISCONNECT</button>
-                </div>
-                <div class="messages-window" id="chat-window">
-                    <!-- Data transmissions print here live -->
-                </div>
-                <form class="chat-input-bar" id="chat-form">
-                    <input type="text" id="chat-msg" class="chat-input" placeholder="You must log in to transmit data..." autocomplete="off" disabled required>
-                    <button type="submit" id="chat-send-node" class="chat-send-btn" disabled>SEND</button>
-                </form>
-            </div>
+    <!-- MAIN WORKSPACE CANVAS UNITS PANEL --> 
+    <div class="main" id="main-content-layout"> 
+        <div class="hero"> 
+            <h1>Live Transmission Hub</h1> 
+            <p>Connect with other operators inside the room.</p> 
         </div> 
-    </div>
+
+        <!-- 1. SECURE LIVE CHAT INTERFACE (Permanently visible in background layout canvas) -->
+        <div id="secure-chat-container" class="chat-container">
+            <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <h2>Chat Lobby</h2>
+                <button id="logout-btn" class="chat-send-btn" style="padding: 4px 12px; font-size: 0.8rem; border-color: #aaa; color: #aaa; display: none;">DISCONNECT</button>
+            </div>
+            <div class="messages-window" id="chat-window">
+                <!-- Data transmissions print here live -->
+            </div>
+            <form class="chat-input-bar" id="chat-form">
+                <input type="text" id="chat-msg" class="chat-input" placeholder="You must log in to transmit data..." autocomplete="off" disabled required>
+                <button type="submit" id="chat-send-node" class="chat-send-btn" disabled>SEND</button>
+            </form>
+        </div>
+    </div> 
 
     <!-- 2. BLURRED BACKDROP MODAL GATEWAY ENGINE (MATCHES YOUR SKETCH AND UI RULES) -->
     <div id="auth-backdrop" class="custom-auth-backdrop">

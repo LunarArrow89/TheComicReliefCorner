@@ -1,22 +1,17 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>The Comic Relief Corner - Chatroom</title> 
-    
-    <!-- Font Awesome Link Architecture --> 
-    <link rel="stylesheet" href="https://cloudflare.com"> 
-    
-    <!-- Your CSS (Unified Spacing Architecture Asset Layer) --> 
-    <link rel="stylesheet" href="style.css?v=unified_spacing"> 
-    
-    <!-- Loader Script (Dynamically pulls from header.html & sidebar.html files) --> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comic Relief Corner - Chatroom</title>
+    <!-- Font Awesome Link Architecture -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Your CSS (Unified Spacing Architecture Asset Layer) -->
+    <link rel="stylesheet" href="style.css?v=unified_spacing">
+    <!-- Loader Script (Dynamically pulls from header.html & sidebar.html files) -->
     <script defer src="load.js"></script>
-
     <!-- Include Supabase Core Database SDK Framework Client Package -->
     <script src="https://jsdelivr.net"></script>
-    
     <style>
         /* Custom styling to align the chat element cleanly within your workspace */
         .chat-container {
@@ -33,7 +28,6 @@
             margin: 25px auto 0 auto;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
-
         .chat-header h2 {
             margin-top: 0;
             margin-bottom: 15px;
@@ -42,7 +36,6 @@
             font-weight: 700;
             text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255, 105, 180, 0.7); /* Signature website glow */
         }
-
         .messages-window {
             flex: 1;
             background: #0a0509; /* Deep inner backdrop match */
@@ -56,7 +49,6 @@
             margin-bottom: 15px;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
         }
-
         /* Webkit Scrollbar overrides matching your system aesthetic guidelines */
         .messages-window::-webkit-scrollbar {
             width: 6px;
@@ -65,7 +57,6 @@
             background: #ff69b4;
             border-radius: 10px;
         }
-
         .chat-bubble {
             color: #ffffff; /* Forces message text to be pure white */
             font-size: 0.95rem;
@@ -74,7 +65,6 @@
             padding: 4px 0;
             text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
         }
-
         .chat-meta {
             font-size: 0.75rem;
             color: #ff69b4;
@@ -83,19 +73,16 @@
             letter-spacing: 0.5px;
             margin-right: 6px;
         }
-
         .chat-timestamp {
             font-size: 0.75rem;
             color: #aaa;
             margin-left: 6px;
             font-variant-numeric: tabular-nums;
         }
-
         .chat-input-bar {
             display: flex;
             gap: 12px;
         }
-
         .chat-input {
             flex: 1;
             background: #120910;
@@ -107,12 +94,10 @@
             outline: none;
             transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
-
         .chat-input:focus {
             border-color: #ff69b4;
             box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
         }
-
         .chat-send-btn {
             background: transparent;
             border: 1px solid #ff69b4;
@@ -123,27 +108,24 @@
             cursor: pointer;
             transition: all 0.25s ease;
         }
-
         .chat-send-btn:hover {
             background: #ff69b4;
             color: #120910;
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
-        
         /* Blur class filter mapping settings */
         .background-blur-active {
             filter: blur(15px);
             pointer-events: none;
             transition: filter 0.4s ease;
         }
-
         /* Modal Backdrop styling */
         .custom-auth-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vw;
+            height: 100vh;
             background: rgba(10, 5, 9, 0.75);
             z-index: 9999;
             display: none;
@@ -152,27 +134,26 @@
             opacity: 0;
             transition: opacity 0.35s ease;
         }
-        
         .custom-auth-backdrop.modal-active {
             display: flex;
             opacity: 1;
         }
     </style>
-</head> 
-<body> 
-    
-    <!-- AUTOMATIC SIDEBAR INJECTION POINT --> 
-    <div id="sidebar-container"></div> 
-    
-    <!-- AUTOMATIC HEADER INJECTION POINT --> 
-    <div id="header-container"></div> 
-    
-    <!-- MAIN WORKSPACE LAYER --> 
-    <div class="main" id="main-content-layout"> 
-        <div class="hero"> 
-            <h1>Live Transmission Hub</h1> 
-            <p>Connect with other operators inside the room.</p> 
-        </div> 
+</head>
+<body>
+
+    <!-- AUTOMATIC SIDEBAR INJECTION POINT -->
+    <div id="sidebar-container"></div>
+
+    <!-- AUTOMATIC HEADER INJECTION POINT -->
+    <div id="header-container"></div>
+
+    <!-- MAIN WORKSPACE LAYER -->
+    <div class="main" id="main-content-layout">
+        <div class="hero">
+            <h1>Live Transmission Hub</h1>
+            <p>Connect with other operators inside the room.</p>
+        </div>
 
         <!-- SECURE LIVE CHAT INTERFACE -->
         <div id="secure-chat-container" class="chat-container">
@@ -188,36 +169,34 @@
                 <button type="submit" id="chat-send-node" class="chat-send-btn" disabled>SEND</button>
             </form>
         </div>
-    </div> 
+    </div>
 
-    <!-- BLURRED BACKDROP MODAL GATEWAY ENGINE (MATCHES YOUR SKETCH EXACTLY) -->
+    <!-- BLURRED BACKDROP MODAL GATEWAY ENGINE -->
     <div id="auth-backdrop" class="custom-auth-backdrop">
         <div id="auth-container" class="chat-container" style="max-width: 420px; padding: 35px 25px; transform: scale(0.95); transition: transform 0.35s ease;">
             <div class="chat-header" style="text-align: center; margin-bottom: 20px;">
                 <h2 id="auth-title" style="font-size: 1.6rem; letter-spacing: 0.5px; color: white; text-shadow: 0 0 3px #ff69b4;">You must sign up to chat</h2>
             </div>
             <form id="auth-form" style="display: flex; flex-direction: column; align-items: stretch;">
-                
                 <!-- USERNAME INPUT BOX -->
                 <label style="color: white; font-weight: bold; font-size: 1rem; margin-bottom: 8px; text-align: left;">Username</label>
                 <input type="text" id="auth-username" class="chat-input" placeholder="Type your operator name..." style="margin-bottom: 20px; width: 100%;" required>
-                
+
                 <!-- PASSWORD INPUT BOX -->
                 <label style="color: white; font-weight: bold; font-size: 1rem; margin-bottom: 8px; text-align: left;">Password</label>
                 <input type="password" id="auth-password" class="chat-input" placeholder="Type your secure key..." minlength="6" style="margin-bottom: 25px; width: 100%;" required>
-                
-                <!-- ADMIN ACCOUNT CHECKBOX (PRESERVED - DOES NOTHING FOR NOW) -->
+
+                <!-- ADMIN ACCOUNT CHECKBOX -->
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 30px; user-select: none;">
                     <input type="checkbox" id="auth-admin-check" style="width: 20px; height: 20px; accent-color: #ff69b4; cursor: pointer;">
                     <label for="auth-admin-check" style="color: white; font-weight: bold; font-size: 1rem; cursor: pointer;">Admin Account?</label>
                 </div>
-                
+
                 <!-- BUTTON ACTIONS -->
                 <div style="display: flex; justify-content: space-between; gap: 20px; width: 100%;">
                     <button type="submit" id="login-btn" class="chat-send-btn" style="flex: 1; height: 45px; border-radius: 12px;">Log in</button>
                     <button type="button" id="signup-btn" class="chat-send-btn" style="flex: 1; height: 45px; border-radius: 12px; border-color: #ff69b4; color: #ff69b4;">Sign up</button>
                 </div>
-                
                 <p id="auth-error" style="color: #ff4500; font-size: 0.85rem; margin-top: 15px; text-align: center; display: none;"></p>
             </form>
         </div>
@@ -225,5 +204,5 @@
 
     <!-- Client-Side Runtime JavaScript Logic Link Asset -->
     <script src="chat.js"></script>
-</body> 
+</body>
 </html>

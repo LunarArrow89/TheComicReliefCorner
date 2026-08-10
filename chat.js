@@ -1,12 +1,12 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co"; 
+const SUPABASE_URL = "https://supabase.co"; 
 const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
 window.addEventListener('load', () => {
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Document Elements Reference Mapping
-    const blurTarget = document.getElementById('main-content-blur-target');
+    const mainContentLayout = document.getElementById('main-content-layout');
     const authBackdrop = document.getElementById('auth-backdrop');
     const authForm = document.getElementById('auth-form');
     const usernameInput = document.getElementById('auth-username');
@@ -36,21 +36,37 @@ window.addEventListener('load', () => {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    // 2. MODAL LAYER TOGGLES (APPLIES VIBE BLUR EFFECT NATIVELY)
+    // 2. STYLED BLUR TARGET SWITCHES (BLURS ENTIRE SITE MINUS THE LOG IN WINDOW)
     function openAuthModal() {
         authBackdrop.classList.add('modal-active');
-        if (blurTarget) blurTarget.classList.add('background-blur-active'); // Triggers your native 15px CSS blur rule
+        
+        // Dynamically apply blur filtering parameters down onto loaded framework panels safely
+        const sideNode = document.getElementById('sidebar-container');
+        const headNode = document.getElementById('header-container');
+        
+        if (mainContentLayout) mainContentLayout.classList.add('background-blur-active');
+        if (sideNode) sideNode.classList.add('background-blur-active');
+        if (headNode) headNode.classList.add('background-blur-active');
+
         chatInput.disabled = true;
-        chatSendNode.disabled = true;
+        if (chatSendNode) chatSendNode.disabled = true;
         chatInput.placeholder = "You must log in to transmit data...";
         logoutBtn.style.display = 'none';
     }
 
     function closeAuthModal() {
         authBackdrop.classList.remove('modal-active');
-        if (blurTarget) blurTarget.classList.remove('background-blur-active'); // Restores clear view state
+        
+        // Clear background distortion filters natively
+        const sideNode = document.getElementById('sidebar-container');
+        const headNode = document.getElementById('header-container');
+
+        if (mainContentLayout) mainContentLayout.classList.remove('background-blur-active');
+        if (sideNode) sideNode.classList.remove('background-blur-active');
+        if (headNode) headNode.classList.remove('background-blur-active');
+
         chatInput.disabled = false;
-        chatSendNode.disabled = false;
+        if (chatSendNode) chatSendNode.disabled = false;
         chatInput.placeholder = "Type an encrypted transmission...";
         logoutBtn.style.display = 'block';
     }
@@ -67,7 +83,7 @@ window.addEventListener('load', () => {
         }
     }
 
-    // 4. MODAL GATEWAY FORM HANDLERS
+    // 4. AUTHENTICATION TRANSACTION FORM LOGIC
     signupBtn.addEventListener('click', async () => {
         const username = usernameInput.value.trim().replace(/\s+/g, '_');
         const password = passwordInput.value;
@@ -109,7 +125,7 @@ window.addEventListener('load', () => {
         checkUserSession();
     });
 
-    // 5. WRITE ACCOUNT TRANSITIONS TO MESS ROW CHANNELS
+    // 5. WRITE MESSAGES TO SYSTEM TABLES
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const txt = chatInput.value.trim();
@@ -122,7 +138,7 @@ window.addEventListener('load', () => {
             .insert([{ Username: currentSessionUser, Text: txt }]);
     });
 
-    // 6. REAL-TIME DATA SYNC FLOW CORES PIPELINE
+    // 6. REAL-TIME DATA STREAM SYNC
     async function startDatabasePipeline() {
         const { data: initialLogs } = await supabaseClient
             .from('Mess')

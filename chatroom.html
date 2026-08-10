@@ -139,12 +139,36 @@
     
     <!-- MAIN WORKSPACE LAYER --> 
     <div class="main"> 
-        <div class="chat-container">
+        <div class="hero"> 
+            <h1>Live Transmission Hub</h1> 
+            <p>Connect with other operators inside the room.</p> 
+        </div> 
+
+        <!-- 1. NEON LOG IN & SIGN UP INTERFACE GATEWAY -->
+        <div id="auth-container" class="chat-container">
             <div class="chat-header">
-                <h2>Live Transmission</h2>
+                <h2 id="auth-title">System Access</h2>
+            </div>
+            <form id="auth-form" class="chat-input-bar" style="flex-direction: column; gap: 15px;">
+                <input type="email" id="auth-email" class="chat-input" placeholder="Enter Secure Email Address..." required>
+                <input type="password" id="auth-password" class="chat-input" placeholder="Enter Key Password..." minlength="6" required>
+                
+                <div style="display: flex; gap: 12px; width: 100%;">
+                    <button type="submit" id="login-btn" class="chat-send-btn" style="flex: 1; height: 45px;">LOG IN</button>
+                    <button type="button" id="signup-btn" class="chat-send-btn" style="flex: 1; height: 45px; border-color: #00bfff; color: #00bfff;">REGISTER</button>
+                </div>
+                <p id="auth-error" style="color: #ff4500; font-size: 0.85rem; margin: 5px 0 0 0; display: none;"></p>
+            </form>
+        </div>
+
+        <!-- 2. SECURE CHAT INTERFACE (Hidden dynamically until logged in) -->
+        <div id="secure-chat-container" class="chat-container" style="display: none;">
+            <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <h2 style="margin: 0;">Chat Lobby</h2>
+                <button id="logout-btn" class="chat-send-btn" style="padding: 4px 12px; font-size: 0.8rem; border-color: #aaa; color: #aaa;">DISCONNECT</button>
             </div>
             <div class="messages-window" id="chat-window">
-                <!-- Database transmission lines stream here live -->
+                <!-- Database transmissions stream here -->
             </div>
             <form class="chat-input-bar" id="chat-form">
                 <input type="text" id="chat-msg" class="chat-input" placeholder="Type an encrypted transmission..." autocomplete="off" required>
@@ -152,8 +176,3 @@
             </form>
         </div>
     </div> 
-
-    <!-- Client-Side Runtime JavaScript Logic Link Asset -->
-    <script src="chat.js"></script>
-</body> 
-</html>

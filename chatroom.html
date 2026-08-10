@@ -18,7 +18,7 @@
     <script src="https://jsdelivr.net"></script>
     
     <style>
-        /* Custom styling to align the chat element cleanly within your .main canvas workspace */
+        /* Custom styling to align the chat element cleanly within your workspace */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -129,6 +129,27 @@
             color: #120910;
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
         }
+        
+        /* Modal Backdrop styling referencing your sheet structure */
+        .custom-auth-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 5, 9, 0.75); /* Deep tint layer alpha variables */
+            z-index: 9999;
+            display: none; /* Controlled dynamically by chat.js triggers */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        
+        .custom-auth-backdrop.modal-active {
+            display: flex;
+            opacity: 1;
+        }
     </style>
 </head> 
 <body> 
@@ -139,17 +160,37 @@
     <!-- AUTOMATIC HEADER INJECTION POINT (Pulls straight from header.html) --> 
     <div id="header-container"></div> 
     
-    <!-- MAIN WORKSPACE LAYER --> 
-    <div class="main"> 
-        <div class="hero"> 
-            <h1>Live Transmission Hub</h1> 
-            <p>Connect with other operators inside the room.</p> 
-        </div> 
+    <!-- TARGET CONTENT BLUR LAYER -->
+    <div id="main-content-blur-target" style="width: 100%; height: 100%;">
+        <!-- MAIN WORKSPACE LAYER --> 
+        <div class="main"> 
+            <div class="hero"> 
+                <h1>Live Transmission Hub</h1> 
+                <p>Connect with other operators inside the room.</p> 
+            </div> 
 
-        <!-- 1. NEON LOG IN & SIGN UP GATEWAY (MATCHES YOUR SKETCH EXACTLY) -->
-        <div id="auth-container" class="chat-container" style="max-width: 420px; padding: 35px 25px;">
+            <!-- 1. SECURE LIVE CHAT INTERFACE (Permanently visible in background layout canvas) -->
+            <div id="secure-chat-container" class="chat-container">
+                <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <h2>Chat Lobby</h2>
+                    <button id="logout-btn" class="chat-send-btn" style="padding: 4px 12px; font-size: 0.8rem; border-color: #aaa; color: #aaa; display: none;">DISCONNECT</button>
+                </div>
+                <div class="messages-window" id="chat-window">
+                    <!-- Data transmissions print here live -->
+                </div>
+                <form class="chat-input-bar" id="chat-form">
+                    <input type="text" id="chat-msg" class="chat-input" placeholder="You must log in to transmit data..." autocomplete="off" disabled required>
+                    <button type="submit" id="chat-send-node" class="chat-send-btn" disabled>SEND</button>
+                </form>
+            </div>
+        </div> 
+    </div>
+
+    <!-- 2. BLURRED BACKDROP MODAL GATEWAY ENGINE (MATCHES YOUR SKETCH AND UI RULES) -->
+    <div id="auth-backdrop" class="custom-auth-backdrop">
+        <div id="auth-container" class="chat-container" style="max-width: 420px; padding: 35px 25px; transform: scale(0.95); transition: transform 0.35s ease;">
             <div class="chat-header" style="text-align: center; margin-bottom: 20px;">
-                <h2 id="auth-title" style="font-size: 1.6rem; letter-spacing: 0.5px; color: white;">You must sign up to chat</h2>
+                <h2 id="auth-title" style="font-size: 1.6rem; letter-spacing: 0.5px; color: white; text-shadow: 0 0 3px #ff69b4;">You must sign up to chat</h2>
             </div>
             <form id="auth-form" style="display: flex; flex-direction: column; align-items: stretch;">
                 
@@ -176,22 +217,7 @@
                 <p id="auth-error" style="color: #ff4500; font-size: 0.85rem; margin-top: 15px; text-align: center; display: none;"></p>
             </form>
         </div>
-
-        <!-- 2. SECURE LIVE CHAT INTERFACE (Displays instantly when logged in successfully) -->
-        <div id="secure-chat-container" class="chat-container" style="display: none;">
-            <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <h2 style="margin: 0;">Chat Lobby</h2>
-                <button id="logout-btn" class="chat-send-btn" style="padding: 4px 12px; font-size: 0.8rem; border-color: #aaa; color: #aaa;">DISCONNECT</button>
-            </div>
-            <div class="messages-window" id="chat-window">
-                <!-- Data transmissions print here live -->
-            </div>
-            <form class="chat-input-bar" id="chat-form">
-                <input type="text" id="chat-msg" class="chat-input" placeholder="Type an encrypted transmission..." autocomplete="off" required>
-                <button type="submit" class="chat-send-btn">SEND</button>
-            </form>
-        </div>
-    </div> 
+    </div>
 
     <!-- Client-Side Runtime JavaScript Logic Link Asset -->
     <script src="chat.js"></script>

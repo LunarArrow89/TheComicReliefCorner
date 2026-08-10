@@ -31,19 +31,36 @@ function executeGlobalTemplateLighter() {
 function executeSystemTimeTicks() {
     const timeBox = document.querySelector(".time-box");
     const dateBox = document.querySelector(".date-box");
-    if (timeBox || dateBox) {
-        const now = new Date();
-        if (timeBox) {
-            timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-        if (dateBox) {
-            const choices = { month: 'short', day: 'numeric' };
-            dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
+
+    function renderTime() {
+        if (timeBox || dateBox) {
+            const now = new Date();
+            
+            if (timeBox) {
+                timeBox.textContent = now.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            if (dateBox) {
+                const choices = { month: 'short', day: 'numeric' };
+                dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
+            }
         }
     }
-}
 
-executeGlobalTemplateLighter();
+    // Run immediately so the time displays without a 1-second delay
+    renderTime();
+
+    // Clear any existing clock intervals to prevent multiple loops running at once
+    if (window.clockIntervalId) {
+        clearInterval(window.clockIntervalId);
+    }
+
+    // Update the clock every 1000ms (1 second) to keep it accurate in real-time
+    window.clockIntervalId = setInterval(renderTime, 1000);
+}
 
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
 const pipelineObserver = new MutationObserver(() => {

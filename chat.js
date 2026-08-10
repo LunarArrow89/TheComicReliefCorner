@@ -1,6 +1,6 @@
 // 1. SUPABASE ACCESS CONFIGURATION BLOCK
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://pmovxvgnhnfrtfgsgqgp.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
 
 // Check if credentials are placeholders or populated keys
 const isConfigActive = SUPABASE_URL && !SUPABASE_URL.includes("YOUR_");

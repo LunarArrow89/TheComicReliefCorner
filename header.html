@@ -10,3 +10,13 @@
     </div>
 
 </div>
+
+<script>
+function updateClock(){
+    const now = new Date();
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString();
+    document.getElementById("dateBox").innerText = now.toLocaleDateString();
+}
+setInterval(updateClock,1000);
+updateClock();
+</script>

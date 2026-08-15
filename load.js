@@ -4,7 +4,7 @@ function executeGlobalTemplateLighter() {
     const headerWrap = document.getElementById("header-container");
     
     if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-        fetch("/sidebar.html")
+        fetch("/TheComicReliefCorner/sidebar.html")
             .then(res => res.text())
             .then(html => {
                 sidebarWrap.innerHTML = html;
@@ -13,7 +13,7 @@ function executeGlobalTemplateLighter() {
     }
     
     if (headerWrap && headerWrap.innerHTML.trim() === "") {
-        fetch("/header.html")
+        fetch("/TheComicReliefCorner/header.html")
             .then(res => res.text())
             .then(html => {
                 headerWrap.innerHTML = html;

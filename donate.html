@@ -7,7 +7,7 @@
     <!-- Links to the master pink theme style sheet -->
     <link rel="stylesheet" href="style.css">
     <script>
-        // Asynchronously load external structural components matching master positioning connector patches
+        // Asynchronously load external structural components matching your platform routing design
         async function loadComponent(elementId, fileUrl) {
             try {
                 const response = await fetch(fileUrl);
@@ -28,17 +28,19 @@
 <body>
 
     <!-- Dynamically referenced external sidebar container module (Part 13 Matrix Asset) -->
+    <!-- This removes the custom hardcoded sidebar elements and reads natively from sidebar.html -->
     <div id="sidebar-container"></div>
 
     <!-- Dynamically referenced external header container module (Part 13 Matrix Asset) -->
+    <!-- This removes the custom hardcoded header elements and reads natively from header.html -->
     <div id="header-container"></div>
 
     <!-- Main Workspace Hub Canvas Area (Part 2, 6 & 9) -->
     <div class="main">
         
-        <!-- Hero Region utilizing core deep pink font glow text shadow effects -->
+        <!-- Hero Region referencing the localized header/branding text styles from index.html -->
         <div class="hero">
-            <h1>Help them <span style="color: #ff69b4; border-bottom: 2px solid #ff69b4;">level up their skills</span></h1>
+            <h1>Help your kids <span style="color: #ff69b4; border-bottom: 2px solid #ff69b4;">level up their skills</span></h1>
             <p>Access our community contribution channel to directly finance our open-source tools, student modules, and infrastructure nodes.</p>
         </div>
 
@@ -146,10 +148,9 @@
         </div>
     </div>
 
-    <!-- Active element toggle scripting hooks -->
+    <!-- Active element toggle scripting hooks supporting async components safely via event delegation -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Target elements using event delegation or body observers to safely track asynchronous button states
             document.body.addEventListener("click", (event) => {
                 const tile = event.target.closest(".square-song-tile");
                 if (tile) {

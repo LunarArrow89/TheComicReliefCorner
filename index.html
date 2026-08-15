@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Portal</title>
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* Smooth transition style for the body fade out */
+            transition: opacity 1s ease;
+            opacity: 1;
+        }
+
+        /* Nav and Page Styling */
+        .navbar {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--accent);
+            border-radius: var(--radius);
+            display: grid;
+            place-items: center;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 4rem 2rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .dynamic-keyword {
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="brand">
+            <div class="brand-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+            </div>
+            <span>EduSphere</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Login</a></li>
+            <li><a href="#" class="nav-link">Campus Portal</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1 class="hero-title">
+                Welcome to <br>
+                <span class="dynamic-keyword" id="target-word">...</span>
+            </h1>
+            <p class="hero-desc">
+                Preparing your academic dashboard environment. Please wait.
+            </p>
+        </section>
+    </main>
+
+    <script>
+        // Dictionary for generation
+        const words = ["Innovation", "Excellence", "Discovery", "Sovereignty", "Perspective"];
+        
+        // Instantly pick a random word on load
+        document.getElementById('target-word').textContent = words[Math.floor(Math.random() * words.length)];
+
+        // Core Timers: Wait 2 seconds, fade for 1 second (total 3 seconds), then redirect
+        setTimeout(() => {
+            document.body.style.opacity = '0'; 
+        }, 2000); 
+
+        setTimeout(() => {
+            window.location.href = 'index.html'; 
+        }, 3000); 
+    </script>
+</body>
+</html>

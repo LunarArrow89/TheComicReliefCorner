@@ -13,7 +13,6 @@
             --accent: #0f5132;
             --border: #e5e5e7;
             --radius: 6px;
-            --success: #198754;
         }
 
         * {
@@ -29,7 +28,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease;
             opacity: 1;
         }
 
@@ -49,12 +48,12 @@
             text-decoration: none;
             color: var(--accent);
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
         }
 
         .brand-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background-color: var(--accent);
             border-radius: var(--radius);
             display: grid;
@@ -72,10 +71,15 @@
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-family: -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
         }
 
         .container {
@@ -85,9 +89,9 @@
             padding: 4rem 2rem;
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 4rem;
-            align-items: center;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            align-items: flex-start;
         }
 
         @media (max-width: 768px) {
@@ -101,10 +105,11 @@
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1.5rem;
+            color: var(--text-main);
         }
 
         .dynamic-keyword {
@@ -115,48 +120,55 @@
         .hero-desc {
             font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 650px;
+            max-width: 600px;
             margin-bottom: 2.5rem;
             line-height: 1.7;
         }
 
-        .status-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-width: 420px;
-            font-family: -apple-system, sans-serif;
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
         }
 
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
+        .portal-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: left;
+            text-decoration: none;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .portal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 81, 50, 0.05);
+            border-color: var(--accent);
+        }
+
+        .portal-btn h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
             font-weight: 600;
+        }
+
+        .portal-btn p {
+            font-size: 0.85rem;
             color: var(--text-muted);
-        }
-
-        .progress-bar-bg {
-            background-color: var(--border);
-            height: 4px;
-            border-radius: 2px;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .progress-bar-fill {
-            background-color: var(--accent);
-            height: 100%;
-            width: 0%;
-            transition: width 0.1s linear;
+            line-height: 1.4;
         }
 
         .sidebar {
             background-color: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 2rem 1.5rem;
-            font-family: -apple-system, sans-serif;
+            padding: 1.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         .sidebar-title {
@@ -164,49 +176,27 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 1.25rem;
-            color: var(--text-main);
-        }
-
-        .info-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-        }
-
-        .info-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
             color: var(--text-muted);
-            font-weight: 700;
         }
 
-        .info-value {
-            font-size: 0.9rem;
-            font-weight: 500;
+        .notice-item {
+            margin-bottom: 1.25rem;
         }
 
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--success);
+        .notice-date {
+            font-size: 0.75rem;
+            color: var(--accent);
             font-weight: 600;
         }
 
-        .dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--success);
-            border-radius: 50%;
+        .notice-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -223,94 +213,57 @@
             <span>Athena Scholar Network</span>
         </a>
         <ul class="nav-menu">
-            <li><a href="#" class="nav-link">Network Status</a></li>
-            <li><a href="#" class="nav-link">Library Catalogs</a></li>
-            <li><a href="#" class="nav-link">Help Desk</a></li>
+            <li><a href="index.html" class="nav-link system-trigger">Student Directory</a></li>
+            <li><a href="index.html" class="nav-link system-trigger">Faculty Desk</a></li>
         </ul>
     </nav>
 
     <main class="container">
-        <section class="hero">
-            <h1 class="hero-title">
-                Welcome to <br>
-                <span class="dynamic-keyword" id="target-word">...</span>
-            </h1>
+        <section class="content-main">
+            <h1 class="hero-title">Academic & <span class="dynamic-keyword">Campus Services</span></h1>
             <p class="hero-desc">
-                Establishing verification nodes and loading secure repository configurations. System protocols are checking structural dependencies to build your regional access gateway.
+                Access your standardized course modules, official grading configurations, class distribution schedules, and personal administrative reference logs.
             </p>
             
-            <div class="status-container">
-                <div class="status-header">
-                    <span id="status-text">Initializing core sub-modules...</span>
-                    <span id="status-percentage">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progress-fill"></div>
-                </div>
+            <div class="portal-grid">
+                <a href="index.html" class="portal-btn system-trigger">
+                    <h3>Course Management</h3>
+                    <p>Review current syllabi, upload general assignments, and check active resource boards.</p>
+                </a>
+                <a href="index.html" class="portal-btn system-trigger">
+                    <h3>Registration Terminal</h3>
+                    <p>Modify active lecture timelines, monitor prerequisites, and submit enrollment requests.</p>
+                </a>
             </div>
         </section>
 
         <aside class="sidebar">
-            <h2 class="sidebar-title">Terminal State</h2>
-            <ul class="info-list">
-                <li class="info-item">
-                    <span class="info-label">Network Status</span>
-                    <span class="info-value status-indicator"><span class="dot"></span> Online</span>
-                </li>
-                <li class="info-item">
-                    <span class="info-label">Gateway ID</span>
-                    <span class="info-value" id="node-id">Detecting gateway...</span>
-                </li>
-                <li class="info-item">
-                    <span class="info-label">Cipher Method</span>
-                    <span class="info-value">ECDHE-RSA-AES128-GCM</span>
-                </li>
-            </ul>
+            <h2 class="sidebar-title">System Bulletins</h2>
+            <div class="notice-item">
+                <span class="notice-date">August 24</span>
+                <p class="notice-text">Scheduled baseline maintenance completed successfully on database nodes.</p>
+            </div>
+            <div class="notice-item">
+                <span class="notice-date">August 18</span>
+                <p class="notice-text">Fall distribution schedules have been fully verified and published for tracking.</p>
+            </div>
         </aside>
     </main>
 
     <script>
-        const totalDuration = 3000; 
-        const words = ["Innovation", "Excellence", "Discovery", "Sovereignty", "Perspective"];
-        const statusMessages = [
-            "Initializing core sub-modules...",
-            "Verifying authorization tokens...",
-            "Loading interface layouts...",
-            "Finalizing connection tunnels..."
-        ];
-
-        document.getElementById('target-word').textContent = words[Math.floor(Math.random() * words.length)];
-        document.getElementById('node-id').textContent = 'GW-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-
-        const startTime = Date.now();
-        const progressFill = document.getElementById('progress-fill');
-        const statusPercentage = document.getElementById('status-percentage');
-        const statusText = document.getElementById('status-text');
-
-        const interval = setInterval(() => {
-            const elapsedTime = Date.now() - startTime;
-            const progress = Math.min((elapsedTime / totalDuration) * 100, 100);
-            
-            progressFill.style.width = progress + '%';
-            statusPercentage.textContent = Math.floor(progress) + '%';
-
-            if (progress > 75) {
-                statusText.textContent = statusMessages[3];
-            } else if (progress > 50) {
-                statusText.textContent = statusMessages[2];
-            } else if (progress > 25) {
-                statusText.textContent = statusMessages[1];
-            }
-
-            if (elapsedTime >= totalDuration - 500) {
+        // Formulate target handlers for clean click sequences
+        document.querySelectorAll('.system-trigger').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetUrl = this.getAttribute('href');
+                
                 document.body.style.opacity = '0';
-            }
-
-            if (elapsedTime >= totalDuration) {
-                clearInterval(interval);
-                window.location.href = 'index.html';
-            }
-        }, 30);
+                
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 400);
+            });
+        });
     </script>
 </body>
 </html>

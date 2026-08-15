@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Portal | Institutional Dashboard</title>
+    <title>The Comic Relief Corner</title>
     <style>
         :root {
             --bg-primary: #fafafa;
@@ -28,7 +28,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: opacity 0.5s ease;
+            transition: opacity 1s ease;
             opacity: 1;
         }
 
@@ -75,11 +75,6 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
         }
 
         .container {
@@ -139,15 +134,7 @@
             text-align: left;
             text-decoration: none;
             color: var(--text-main);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        .portal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(15, 81, 50, 0.05);
-            border-color: var(--accent);
         }
 
         .portal-btn h3 {
@@ -203,37 +190,37 @@
 <body>
 
     <nav class="navbar">
-        <a href="#" class="brand">
+        <div class="brand">
             <div class="brand-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
                     <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
                 </svg>
             </div>
-            <span>Athena Scholar Network</span>
-        </a>
+            <span>The Comic Relief Corner</span>
+        </div>
         <ul class="nav-menu">
-            <li><a href="index.html" class="nav-link system-trigger">Student Directory</a></li>
-            <li><a href="index.html" class="nav-link system-trigger">Faculty Desk</a></li>
+            <li><span class="nav-link">Student Portal</span></li>
+            <li><span class="nav-link">Info</span></li>
         </ul>
     </nav>
 
     <main class="container">
         <section class="content-main">
-            <h1 class="hero-title">Academic & <span class="dynamic-keyword">Campus Services</span></h1>
+            <h1 class="hero-title">Help your kids<span class="dynamic-keyword">level up their skills</span></h1>
             <p class="hero-desc">
                 Access your standardized course modules, official grading configurations, class distribution schedules, and personal administrative reference logs.
             </p>
             
             <div class="portal-grid">
-                <a href="index.html" class="portal-btn system-trigger">
-                    <h3>Course Management</h3>
-                    <p>Review current syllabi, upload general assignments, and check active resource boards.</p>
-                </a>
-                <a href="index.html" class="portal-btn system-trigger">
-                    <h3>Registration Terminal</h3>
-                    <p>Modify active lecture timelines, monitor prerequisites, and submit enrollment requests.</p>
-                </a>
+                <div class="portal-btn">
+                    <h3>Why choose us?</h3>
+                    <p>Choose us to help your kids grow</p>
+                </div>
+                <div class="portal-btn">
+                    <h3>Many students of unique backgrounds</h3>
+                    <p>For an inclusive school culture</p>
+                </div>
             </div>
         </section>
 
@@ -251,19 +238,14 @@
     </main>
 
     <script>
-        // Formulate target handlers for clean click sequences
-        document.querySelectorAll('.system-trigger').forEach(element => {
-            element.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetUrl = this.getAttribute('href');
-                
-                document.body.style.opacity = '0';
-                
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 400);
-            });
-        });
+        // Automatic timed sequence to fade out and transfer cleanly after 3 seconds
+        setTimeout(() => {
+            document.body.style.opacity = '0';
+        }, 2000); // Initiates the 1-second fade styling at mark 2000ms
+
+        setTimeout(() => {
+            window.location.href = 'home.html';
+        }, 3000); // Triggers hardware location swap at exactly 3000ms
     </script>
 </body>
 </html>

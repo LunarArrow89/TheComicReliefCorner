@@ -6,46 +6,32 @@
     <title>The Comic Relief Corner - Support Our Project</title>
     <!-- Links to the master pink theme style sheet -->
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Asynchronously load external structural components matching master positioning connector patches
+        async function loadComponent(elementId, fileUrl) {
+            try {
+                const response = await fetch(fileUrl);
+                if (response.ok) {
+                    document.getElementById(elementId).innerHTML = await response.text();
+                }
+            } catch (error) {
+                console.error(`Failed to load component: ${fileUrl}`, error);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            loadComponent("sidebar-container", "sidebar.html");
+            loadComponent("header-container", "header.html");
+        });
+    </script>
 </head>
 <body>
 
-    <!-- Fixed Sidebar Navigation Panel Controls (Part 1 & 13) -->
-    <div id="sidebar-container">
-        <div class="sidebar">
-            <div class="logo-container">
-                <div class="logo-ring"></div>
-                <!-- Brand icon structure matching the layout of your index page -->
-                <div class="logo-image" style="background: var(--accent, #ff69b4); width: 60px; height: 60px; border-radius: 16px; display: grid; place-items: center;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#120910" stroke-width="2.5">
-                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                        <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
-                    </svg>
-                </div>
-            </div>
-            
-            <!-- Navigation Links built using nav-btn engine rules -->
-            <a href="home.html" class="nav-btn">
-                <span class="grid-inner-text" style="font-size: 1.2rem;">🏠</span>
-                <span>Student Portal</span>
-            </a>
-            <a href="#" class="nav-btn">
-                <span class="grid-inner-text" style="font-size: 1.2rem;">💝</span>
-                <span>Donate Hub</span>
-            </a>
-        </div>
-    </div>
+    <!-- Dynamically referenced external sidebar container module (Part 13 Matrix Asset) -->
+    <div id="sidebar-container"></div>
 
-    <!-- Fixed Header Region Panel Controls (Part 2 & 13) -->
-    <div id="header-container">
-        <div class="header">
-            <div class="time-box">Target: $10,000</div>
-            <div class="ticker-wrap">
-                <!-- Ticker animation stream matching original theme spec -->
-                <div class="ticker">💖 Every dollar helps level up our students' workspace! Recent support: Anonymous ($25) • Supporter ($100) • Parent Ally ($50) 💖</div>
-            </div>
-            <div class="date-box">Active Goal</div>
-        </div>
-    </div>
+    <!-- Dynamically referenced external header container module (Part 13 Matrix Asset) -->
+    <div id="header-container"></div>
 
     <!-- Main Workspace Hub Canvas Area (Part 2, 6 & 9) -->
     <div class="main">
@@ -163,12 +149,14 @@
     <!-- Active element toggle scripting hooks -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const tiles = document.querySelectorAll(".square-song-tile");
-            tiles.forEach(tile => {
-                tile.addEventListener("click", () => {
+            // Target elements using event delegation or body observers to safely track asynchronous button states
+            document.body.addEventListener("click", (event) => {
+                const tile = event.target.closest(".square-song-tile");
+                if (tile) {
+                    const tiles = document.querySelectorAll(".square-song-tile");
                     tiles.forEach(t => t.classList.remove("active"));
                     tile.classList.add("active");
-                });
+                }
             });
         });
     </script>

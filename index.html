@@ -236,16 +236,16 @@
             </div>
         </aside>
     </main>
+<script>
+  // Automatic timed sequence to fade out and transfer cleanly after 6 seconds
+  setTimeout(() => {
+    document.body.style.opacity = '0'; 
+  }, 5000); // Starts the 1-second fade styling at mark 5000ms (5 seconds)
 
-    <script>
-        // Automatic timed sequence to fade out and transfer cleanly after 3 seconds
-        setTimeout(() => {
-            document.body.style.opacity = '0';
-        }, 2000); // Initiates the 1-second fade styling at mark 2000ms
+  setTimeout(() => {
+    window.location.href = 'home.html'; 
+  }, 6000); // Triggers hardware location swap at exactly 6000ms (6 seconds)
+</script>
 
-        setTimeout(() => {
-            window.location.href = 'home.html';
-        }, 3000); // Triggers hardware location swap at exactly 3000ms
-    </script>
 </body>
 </html>

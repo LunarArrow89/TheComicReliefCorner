@@ -3,160 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Us</title>
-    <!-- Linking the specific stylesheet provided -->
+    <title>The Comic Relief Corner - Support Our Project</title>
+    <!-- Links to the master pink theme style sheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Fixed Sidebar Navigation Panel Controls matching Part 1 & 13 -->
+    <!-- Fixed Sidebar Navigation Panel Controls (Part 1 & 13) -->
     <div id="sidebar-container">
         <div class="sidebar">
             <div class="logo-container">
                 <div class="logo-ring"></div>
-                <div class="logo-image" style="background: #ff69b4; height: 60px; width: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #120910;">♥</div>
+                <!-- Brand icon structure matching the layout of your index page -->
+                <div class="logo-image" style="background: var(--accent, #ff69b4); width: 60px; height: 60px; border-radius: 16px; display: grid; place-items: center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#120910" stroke-width="2.5">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
+                    </svg>
+                </div>
             </div>
-            <a href="#" class="nav-btn">
+            
+            <!-- Navigation Links built using nav-btn engine rules -->
+            <a href="home.html" class="nav-btn">
                 <span class="grid-inner-text" style="font-size: 1.2rem;">🏠</span>
-                <span>Home Hub</span>
+                <span>Student Portal</span>
             </a>
             <a href="#" class="nav-btn">
-                <span class="grid-inner-text" style="font-size: 1.2rem;">🎁</span>
-                <span>Donate</span>
+                <span class="grid-inner-text" style="font-size: 1.2rem;">💝</span>
+                <span>Donate Hub</span>
             </a>
         </div>
     </div>
 
-    <!-- Fixed Header Region Panel matching Part 2 & 13 -->
+    <!-- Fixed Header Region Panel Controls (Part 2 & 13) -->
     <div id="header-container">
         <div class="header">
             <div class="time-box">Target: $10,000</div>
             <div class="ticker-wrap">
-                <div class="ticker">🎉 Huge thanks to our latest donor: Anonymous ($50) • Supporter ($100) • Join the wall of creators below! 🎉</div>
+                <!-- Ticker animation stream matching original theme spec -->
+                <div class="ticker">💖 Every dollar helps level up our students' workspace! Recent support: Anonymous ($25) • Supporter ($100) • Parent Ally ($50) 💖</div>
             </div>
-            <div class="date-box">Live Tracker</div>
+            <div class="date-box">Active Goal</div>
         </div>
     </div>
 
-    <!-- Main Workspace Hub Canvas Area matching Part 2 & Part 3B Layouts -->
+    <!-- Main Workspace Hub Canvas Area (Part 2, 6 & 9) -->
     <div class="main">
         
-        <!-- Hero section with text shadows from style rules -->
+        <!-- Hero Region utilizing core deep pink font glow text shadow effects -->
         <div class="hero">
-            <h1>Support Our Dream</h1>
-            <p>Help us reach our milestones and unlock brand new system updates for everyone.</p>
+            <h1>Help them <span style="color: #ff69b4; border-bottom: 2px solid #ff69b4;">level up their skills</span></h1>
+            <p>Access our community contribution channel to directly finance our open-source tools, student modules, and infrastructure nodes.</p>
         </div>
 
-        <!-- Split Layout Configuration matching Part 3B Logic (Library Column vs Controls Pane) -->
+        <!-- Split Layout Content Matrix (Part 3B Engine Structure) -->
         <div class="split-player-layout">
             
-            <!-- Left Side Core Content Panel: Donation Progress & Goals -->
+            <!-- Left Side Column Panel: Donation Progress and Campaign Milestones -->
             <div class="music-library-column">
                 
-                <!-- Core Campaign Progress Block utilizing the custom-control-bar syntax features -->
+                <!-- Active Campaign Progress Block built out of note-box layouts -->
                 <div class="note-box" style="height: auto; gap: 15px;">
                     <h2>Current Campaign Progress</h2>
-                    <p>We are currently funding our next major infrastructure expansion block.</p>
+                    <p>We are raising funds to deliver standard updates, expand resources, and provide an inclusive environment for kids of unique backgrounds.</p>
                     
-                    <!-- Progress Container with Custom Slider System Elements (Part 2F) -->
+                    <!-- Core Progress Bar Container adapting tracking timeline scrubber code properties -->
                     <div class="progress-container" style="width: 100%; margin-top: 10px;">
-                        <span class="time-stamp">$4,250 raised</span>
-                        <input type="range" id="progress-slider" min="0" max="100" value="42.5" disabled style="pointer-events: none; width: 100%;">
+                        <span class="time-stamp" style="font-weight: bold; color: #ff69b4;">$4,250 Raised</span>
+                        <input type="range" id="progress-slider" min="0" max="100" value="42.5" disabled style="pointer-events: none; width: 100%; filter: drop-shadow(0 0 4px #ff69b4);">
                         <span class="time-stamp">42.5%</span>
                     </div>
                 </div>
 
-                <!-- Goals Matrix Layout using Content Block Structures (Part 2B) -->
+                <!-- Goals Stack Grid Block utilizing Part 14 Card Architectures -->
                 <div class="creators-stack-container">
                     
-                    <!-- Goal Tier 1 (Reached state styling via layout cues) -->
+                    <!-- Goal Tier 1 (Unlocked Status) -->
                     <div class="creator-card-box" style="border-color: #ff69b4;">
-                        <div class="creator-media-frame" style="font-size: 2.5rem; color: #ff69b4;">🔓</div>
+                        <div class="creator-media-frame" style="font-size: 2.2rem; color: #ff69b4;">🔓</div>
                         <div class="creator-details-pane">
                             <div class="creator-top-row">
-                                <h3 class="creator-name-headline">$2,500 - Core Server Upgrade</h3>
+                                <h3 class="creator-name-headline">$2,500 - Baseline Maintenance</h3>
                             </div>
-                            <span class="creator-role-subtext" style="color: #00ff7f; text-shadow: 0 0 8px rgba(0,255,127,0.5);">Goal Achieved!</span>
-                            <p class="creator-desc-paragraph">Secures high-density operational data servers for the engine database layers.</p>
+                            <span class="creator-role-subtext" style="color: #00ff7f; text-shadow: 0 0 8px rgba(0,255,127,0.5);">Completed Successfully</span>
+                            <p class="creator-desc-paragraph">Secures direct database node support and maintains fluid infrastructure loading parameters across pages.</p>
                         </div>
                     </div>
 
-                    <!-- Goal Tier 2 (Active/Current tracking state layout) -->
-                    <div class="creator-card-box" style="box-shadow: 0 0 15px rgba(255, 105, 180, 0.25);">
-                        <div class="creator-media-frame" style="font-size: 2.5rem; color: #ff69b4;">⚡</div>
+                    <!-- Goal Tier 2 (Active Target Milestone Status) -->
+                    <div class="creator-card-box" style="box-shadow: 0 0 15px rgba(255, 105, 180, 0.25); border-color: rgba(255,105,180,0.4);">
+                        <div class="creator-media-frame" style="font-size: 2.2rem; color: #ff69b4;">⚡</div>
                         <div class="creator-details-pane">
                             <div class="creator-top-row">
-                                <h3 class="creator-name-headline">$6,000 - Immersive UI Framework</h3>
+                                <h3 class="creator-name-headline">$6,000 - Course Modules Enhancement</h3>
                             </div>
-                            <span class="creator-role-subtext">In Progress</span>
-                            <p class="creator-desc-paragraph">Deploys rapid responsive layouts, customized themes, and client fluid modules seamlessly.</p>
+                            <span class="creator-role-subtext">Active Target</span>
+                            <p class="creator-desc-paragraph">Funds high-density interactive tools, grading configurations, and customizable responsive dashboard units.</p>
                         </div>
                     </div>
 
-                    <!-- Goal Tier 3 (Locked state layout) -->
-                    <div class="creator-card-box" style="opacity: 0.6;">
-                        <div class="creator-media-frame" style="font-size: 2.5rem; color: #aaa;">🔒</div>
+                    <!-- Goal Tier 3 (Locked Milestone Status) -->
+                    <div class="creator-card-box" style="opacity: 0.5;">
+                        <div class="creator-media-frame" style="font-size: 2.2rem; color: #aaa;">🔒</div>
                         <div class="creator-details-pane">
                             <div class="creator-top-row">
-                                <h3 class="creator-name-headline">$10,000 - The Master Hub App</h3>
+                                <h3 class="creator-name-headline">$10,000 - Global Administrative Hub</h3>
                             </div>
-                            <span class="creator-role-subtext" style="color: #aaa; text-shadow: none;">Locked Milestone</span>
-                            <p class="creator-desc-paragraph">Full standalone distribution across multiple system ecosystems with automatic sync tracking modules.</p>
+                            <span class="creator-role-subtext" style="color: #aaa; text-shadow: none;">Locked Tier</span>
+                            <p class="creator-desc-paragraph">Full expansion of distribution schedules, comprehensive reference logging, and localized multi-tab mini dashboards.</p>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- Right Side Interactive Input Actions Area matching Now Playing Layout Panel -->
+            <!-- Right Side Column Panel: Amount Selection Actions Box -->
             <div class="now-playing-column">
                 <div class="showcase-box">
-                    <span class="showcase-header">Make a Contribution</span>
+                    <span class="showcase-header">Select Contribution Tier</span>
                     
-                    <!-- Selection Tier Cards utilizing the square song tile grid parameters internally -->
+                    <!-- Choice Tiles matrix matching square-song-grid multi-column breakpoints rules -->
                     <div class="square-song-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
                         
                         <div class="square-song-tile active">
-                            <div class="tile-art" style="font-size: 1.5rem; font-weight: bold; color: #ff69b4;">$15</div>
+                            <div class="tile-art" style="font-size: 1.4rem; font-weight: 800; color: #ff69b4;">$20</div>
                             <div class="tile-title">Supporter</div>
                         </div>
 
                         <div class="square-song-tile">
-                            <div class="tile-art" style="font-size: 1.5rem; font-weight: bold; color: #ff69b4;">$35</div>
-                            <div class="tile-title">Pro Creator</div>
+                            <div class="tile-art" style="font-size: 1.4rem; font-weight: 800; color: #ff69b4;">$50</div>
+                            <div class="tile-title">Level Up Tier</div>
                         </div>
 
                         <div class="square-song-tile">
-                            <div class="tile-art" style="font-size: 1.5rem; font-weight: bold; color: #ff69b4;">$75</div>
-                            <div class="tile-title">Elite Status</div>
+                            <div class="tile-art" style="font-size: 1.4rem; font-weight: 800; color: #ff69b4;">$100</div>
+                            <div class="tile-title">Sustainer</div>
                         </div>
 
                         <div class="square-song-tile">
-                            <div class="tile-art" style="font-size: 1.5rem; font-weight: bold; color: #ff69b4;">Custom</div>
-                            <div class="tile-title">Your Choice</div>
+                            <div class="tile-art" style="font-size: 1.4rem; font-weight: 800; color: #ff69b4;">Custom</div>
+                            <div class="tile-title">Any Amount</div>
                         </div>
 
                     </div>
 
-                    <!-- Custom Search / Input Text box style maps matching Part 3B -->
+                    <!-- Input block styled to match live looking string search containers -->
                     <div class="music-search-wrap" style="margin-bottom: 20px;">
-                        <input type="text" class="music-search-box" style="padding-left: 20px;" placeholder="Enter custom amount ($)">
+                        <input type="text" class="music-search-box" style="padding-left: 20px;" placeholder="Or type a custom value ($)">
                     </div>
 
-                    <!-- Submit action element styled directly like watch-now-btn properties -->
-                    <a href="#" class="watch-now-btn" style="text-align: center; width: 100%;">Process Secure Donation</a>
+                    <!-- Secure Submission Button using signature cinema text properties elements -->
+                    <a href="#" class="watch-now-btn" style="text-align: center; width: 100%; display: block; box-sizing: border-box;">Process Secure Donation</a>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- Inline script engine component connection mapping framework nodes -->
+    <!-- Active element toggle scripting hooks -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const tiles = document.querySelectorAll(".square-song-tile");
-            const customInput = document.querySelector(".music-search-box");
-
             tiles.forEach(tile => {
                 tile.addEventListener("click", () => {
                     tiles.forEach(t => t.classList.remove("active"));

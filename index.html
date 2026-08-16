@@ -10,8 +10,8 @@
             --surface: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --accent-primary: #1e3a8a; /* Deep institutional blue */
-            --accent-secondary: #0f766e; /* Teal academic accent */
+            --accent-primary: #1e3a8a;
+            --accent-secondary: #0f766e;
             --border: #e2e8f0;
             --radius: 4px;
         }
@@ -214,7 +214,6 @@
     </style>
 </head>
 <body>
-
     <nav class="navbar">
         <div class="brand">
             <div class="brand-icon">
@@ -232,7 +231,7 @@
             <li><span class="nav-link">Sign in</span></li>
         </ul>
     </nav>
-
+<!-- Configured Lines Verification -->
     <main class="container">
         <section class="content-main">
             <div class="main-header">
@@ -241,9 +240,7 @@
                     View courses to help level up your kids math, science, and literacy skills.
                 </p>
             </div>
-
             <div class="portal-grid">
-                <!-- Section 1.1 -->
                 <div class="module-card">
                     <div class="module-info">
                         <span class="module-tag">Section 1.1</span>
@@ -252,8 +249,6 @@
                     </div>
                     <button class="launch-btn">Open Unit</button>
                 </div>
-
-                <!-- Section 1.2 -->
                 <div class="module-card">
                     <div class="module-info">
                         <span class="module-tag">Section 1.2</span>
@@ -262,8 +257,6 @@
                     </div>
                     <button class="launch-btn">Open Unit</button>
                 </div>
-
-                <!-- Section 1.3 -->
                 <div class="module-card">
                     <div class="module-info">
                         <span class="module-tag">Section 1.3</span>
@@ -272,8 +265,6 @@
                     </div>
                     <button class="launch-btn">Open Unit</button>
                 </div>
-
-                <!-- Section 2.1 -->
                 <div class="module-card">
                     <div class="module-info">
                         <span class="module-tag">Section 2.1</span>
@@ -282,9 +273,40 @@
                     </div>
                     <button class="launch-btn">Open Unit</button>
                 </div>
+                <div class="module-card">
+                    <div class="module-info">
+                        <span class="module-tag">Section 2.2</span>
+                        <h3>Reading "Of Mice and Men"</h3>
+                        <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
+                    </div>
+                    <button class="launch-btn">Open Unit</button>
+                </div>
+                <div class="module-card">
+                    <div class="module-info">
+                        <span class="module-tag">Section 2.3</span>
+                        <h3>Anti-bullying PSA</h3>
+                        <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
+                    </div>
+                    <button class="launch-btn">Open Unit</button>
+                </div>
+                <div class="module-card">
+                    <div class="module-info">
+                        <span class="module-tag">Section 2.4</span>
+                        <h3>Mental Health and Influences</h3>
+                        <p>This section teaches kids the importance of mental health and how social media influences them.</p>
+                    </div>
+                    <button class="launch-btn">Open Unit</button>
+                </div>
+                <div class="module-card">
+                    <div class="module-info">
+                        <span class="module-tag">Section 2.5</span>
+                        <h3>Natural Disaster Survival and Wants vs. Needs</h3>
+                        <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
+                    </div>
+                    <button class="launch-btn">Open Unit</button>
+                </div>
             </div>
         </section>
-
         <aside class="sidebar">
             <h2 class="sidebar-title">Administrative Logs</h2>
             <div class="notice-item">
@@ -297,34 +319,28 @@
             </div>
         </aside>
     </main>
-
+    <script>
+        (function() {
+            let inputSequence = '';
+            const targetSequence = 'crc';
+            function triggerImmediateRedirect() {
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1000);
+            }
+            document.addEventListener('keydown', (event) => {
+                if (event.key.length > 1) return;
+                inputSequence += event.key.toLowerCase();
+                if (inputSequence.length > targetSequence.length) {
+                    inputSequence = inputSequence.slice(-targetSequence.length);
+                }
+                if (inputSequence === targetSequence) {
+                    triggerImmediateRedirect();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
-<script>
-    (function() {
-        let inputSequence = '';
-        const targetSequence = 'crc';
-
-        function triggerImmediateRedirect() {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                window.location.href = 'home.html';
-            }, 1000);
-        }
-
-        document.addEventListener('keydown', (event) => {
-            // Ignore modifier keys like Shift, Ctrl, Alt, or Cmd
-            if (event.key.length > 1) return;
-            
-            inputSequence += event.key.toLowerCase();
-            
-            if (inputSequence.length > targetSequence.length) {
-                inputSequence = inputSequence.slice(-targetSequence.length);
-            }
-            
-            if (inputSequence === targetSequence) {
-                triggerImmediateRedirect();
-            }
-        });
-    })();
-</script>
+<!-- Layout Verification Line -->

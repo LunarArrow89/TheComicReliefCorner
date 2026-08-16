@@ -99,7 +99,7 @@
     }
 
     .main-header {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--border);
     }
@@ -118,40 +118,36 @@
       line-height: 1.5;
     }
 
-    /* --- C.R.C Styled Header Component --- */
-    .crc-logo-container {
-      margin-top: 0.5rem;
-      margin-bottom: 2.5rem;
-      padding: 1.5rem;
+    /* --- Serious & Professional C.R.C Branding Component --- */
+    .crc-brand-container {
+      margin-bottom: 2rem;
+      padding: 1.5rem 2rem;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-primary);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       border-radius: var(--radius);
-      text-align: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
-    .crc-logo {
-      font-family: "Comic Sans MS", "Chalkboard SE", "Handlee", sans-serif;
-      font-size: 2.2rem;
-      font-weight: bold;
-      color: #000000;
+    .crc-title {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      text-transform: uppercase;
     }
 
     .crc-accent {
-      color: #0000ff;
-      font-size: 3.8rem;
-      line-height: 1;
-      display: inline-block;
-      vertical-align: middle;
+      color: var(--accent-primary);
+      font-size: 1.85rem;
     }
 
     .crc-text {
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: -2px;
-      margin-right: 12px;
+      margin-right: 0.75rem;
     }
-    /* ------------------------------------- */
+    /* -------------------------------------------------------- */
 
     .portal-grid {
       display: flex;
@@ -278,13 +274,13 @@
         </p>
       </div>
 
-      <!-- Cool and Ready Class Graphic Element -->
-      <div class="crc-logo-container">
-        <h2 class="crc-logo">
+      <!-- Professional C.R.C Structural Branding Block -->
+      <div class="crc-brand-container">
+        <div class="crc-title">
           <span class="crc-accent">C</span><span class="crc-text">ool and</span>
           <span class="crc-accent">R</span><span class="crc-text">eady</span>
           <span class="crc-accent">C</span><span class="crc-text">lass</span>
-        </h2>
+        </div>
       </div>
 
       <div class="portal-grid">

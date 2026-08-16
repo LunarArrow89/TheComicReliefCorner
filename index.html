@@ -1,346 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Portal</title>
-    <style>
-        :root {
-            --bg-primary: #f4f5f7;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --accent-primary: #1e3a8a;
-            --accent-secondary: #0f766e;
-            --border: #e2e8f0;
-            --radius: 4px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal</title>
+  <style>
+    :root {
+      --bg-primary: #f4f5f7;
+      --surface: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --accent-primary: #1e3a8a;
+      --accent-secondary: #0f766e;
+      --border: #e2e8f0;
+      --radius: 4px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: opacity 1s ease;
-            opacity: 1;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: opacity 1s ease;
+      opacity: 1;
+    }
 
-        .navbar {
-            background-color: var(--surface);
-            border-bottom: 3px solid var(--accent-primary);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
+    .navbar {
+      background-color: var(--surface);
+      border-bottom: 3px solid var(--accent-primary);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--accent-primary);
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--accent-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
 
-        .brand-icon {
-            width: 28px;
-            height: 28px;
-            background-color: var(--accent-primary);
-            border-radius: var(--radius);
-            display: grid;
-            place-items: center;
-            color: white;
-        }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      background-color: var(--accent-primary);
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      color: white;
+    }
 
-        .nav-menu {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
+    .nav-menu {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 2.5rem 2rem;
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 2rem;
-            align-items: flex-start;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: flex-start;
+    }
 
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-                padding: 1.5rem 1rem;
-            }
-        }
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 1rem;
+      }
+    }
 
-        .main-header {
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
+    .main-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .hero-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.3;
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-        }
+    .hero-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--accent-primary);
+      margin-bottom: 0.5rem;
+    }
 
-        .hero-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
 
-        .portal-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+    /* --- C.R.C Styled Header Component --- */
+    .crc-logo-container {
+      margin-top: 0.5rem;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
 
-        .module-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .crc-logo {
+      font-family: "Comic Sans MS", "Chalkboard SE", "Handlee", sans-serif;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #000000;
+    }
 
-        .module-info {
-            max-width: 75%;
-        }
+    .crc-accent {
+      color: #0000ff;
+      font-size: 3.8rem;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
 
-        .module-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--accent-secondary);
-            letter-spacing: 0.05em;
-            margin-bottom: 0.25rem;
-            display: inline-block;
-        }
+    .crc-text {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: -2px;
+      margin-right: 12px;
+    }
+    /* ------------------------------------- */
 
-        .module-card h3 {
-            font-size: 1.05rem;
-            margin-bottom: 0.35rem;
-            color: var(--text-main);
-            font-weight: 600;
-        }
+    .portal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-        .module-card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .launch-btn {
-            background-color: var(--accent-primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: var(--radius);
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
+    .module-info {
+      max-width: 75%;
+    }
 
-        .sidebar {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-        }
+    .module-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent-secondary);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+      display: inline-block;
+    }
 
-        .sidebar-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-muted);
-        }
+    .module-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+      font-weight: 600;
+    }
 
-        .notice-item {
-            margin-bottom: 1rem;
-        }
+    .module-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
 
-        .notice-item:last-child {
-            margin-bottom: 0;
-        }
+    .launch-btn {
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
 
-        .notice-date {
-            font-size: 0.7rem;
-            color: var(--accent-secondary);
-            font-weight: 700;
-        }
+    .sidebar {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
 
-        .notice-text {
-            font-size: 0.8rem;
-            margin-top: 0.15rem;
-            line-height: 1.45;
-        }
-    </style>
+    .sidebar-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .notice-item {
+      margin-bottom: 1rem;
+    }
+
+    .notice-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .notice-date {
+      font-size: 0.7rem;
+      color: var(--accent-secondary);
+      font-weight: 700;
+    }
+
+    .notice-text {
+      font-size: 0.8rem;
+      margin-top: 0.15rem;
+      line-height: 1.45;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="brand">
-            <div class="brand-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
-                </svg>
-            </div>
-            <span>Student Portal</span>
+
+  <nav class="navbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
+        </svg>
+      </div>
+      <span>Student Portal</span>
+    </div>
+    <ul class="nav-menu">
+      <li><span class="nav-link">Tutoring</span></li>
+      <li><span class="nav-link">Enroll</span></li>
+      <li><span class="nav-link">Sign up</span></li>
+      <li><span class="nav-link">Sign in</span></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="content-main">
+      
+      <div class="main-header">
+        <h1 class="hero-title">Course Overview</h1>
+        <p class="hero-desc">
+          View courses to help level up your kids math, science, and literacy skills.
+        </p>
+      </div>
+
+      <!-- Cool and Ready Class Graphic Element -->
+      <div class="crc-logo-container">
+        <h2 class="crc-logo">
+          <span class="crc-accent">C</span><span class="crc-text">ool and</span>
+          <span class="crc-accent">R</span><span class="crc-text">eady</span>
+          <span class="crc-accent">C</span><span class="crc-text">lass</span>
+        </h2>
+      </div>
+
+      <div class="portal-grid">
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 1.1</span>
+            <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
+            <p>Teaches kids about decision making, different traditions, and moral dilemmas such as free will, the trolley problem, and The Heinz Dilemma.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
         </div>
-        <ul class="nav-menu">
-            <li><span class="nav-link">Tutoring</span></li>
-            <li><span class="nav-link">Enroll</span></li>
-            <li><span class="nav-link">Sign up</span></li>
-            <li><span class="nav-link">Sign in</span></li>
-        </ul>
-    </nav>
-<!-- Configured Lines Verification -->
-    <main class="container">
-        <section class="content-main">
-            <div class="main-header">
-                <h1 class="hero-title">Course Overview</h1>
-                <p class="hero-desc">
-                    View courses to help level up your kids math, science, and literacy skills.
-                </p>
-            </div>
-            <div class="portal-grid">
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 1.1</span>
-                        <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
-                        <p>Teaches kids about decision making, different traditions, and moral dilemmas such as free will, the trolley problem, and The Heinz Dilemma.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 1.2</span>
-                        <h3>Climate Change and Coding</h3>
-                        <p>Explore the different problems of climate change and discover coding websites for kids like Scratch, Tynker, and Code.org.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 1.3</span>
-                        <h3>Careers and Goals</h3>
-                        <p>Help kids research different careers and set goals for their future self in order to live a successful life.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 2.1</span>
-                        <h3>Algebra and Marine Biology</h3>
-                        <p>Teach children about the wonders of the sea and the awes of algebra.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 2.2</span>
-                        <h3>Reading "Of Mice and Men"</h3>
-                        <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 2.3</span>
-                        <h3>Anti-bullying PSA</h3>
-                        <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 2.4</span>
-                        <h3>Mental Health and Influences</h3>
-                        <p>This section teaches kids the importance of mental health and how social media influences them.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-                <div class="module-card">
-                    <div class="module-info">
-                        <span class="module-tag">Section 2.5</span>
-                        <h3>Natural Disaster Survival and Wants vs. Needs</h3>
-                        <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
-                    </div>
-                    <button class="launch-btn">Open Unit</button>
-                </div>
-            </div>
-        </section>
-        <aside class="sidebar">
-            <h2 class="sidebar-title">Administrative Logs</h2>
-            <div class="notice-item">
-                <span class="notice-date">Website created</span>
-                <p class="notice-text">Website has been designed and finished to help share the world of education to kids as easy as C.R.C</p>
-            </div>
-            <div class="notice-item">
-                <span class="notice-date">Units still in progress</span>
-                <p class="notice-text">Units are still being added to this website.</p>
-            </div>
-        </aside>
-    </main>
-    <script>
-        (function() {
-            let inputSequence = '';
-            const targetSequence = 'crc';
-            function triggerImmediateRedirect() {
-                document.body.style.opacity = '0';
-                setTimeout(() => {
-                    window.location.href = 'home.html';
-                }, 1000);
-            }
-            document.addEventListener('keydown', (event) => {
-                if (event.key.length > 1) return;
-                inputSequence += event.key.toLowerCase();
-                if (inputSequence.length > targetSequence.length) {
-                    inputSequence = inputSequence.slice(-targetSequence.length);
-                }
-                if (inputSequence === targetSequence) {
-                    triggerImmediateRedirect();
-                }
-            });
-        })();
-    </script>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 1.2</span>
+            <h3>Climate Change and Coding</h3>
+            <p>Explore the different problems of climate change and discover coding websites for kids like Scratch, Tynker, and Code.org.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 1.3</span>
+            <h3>Careers and Goals</h3>
+            <p>Help kids research different careers and set goals for their future self in order to live a successful life.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 2.1</span>
+            <h3>Algebra and Marine Biology</h3>
+            <p>Teach children about the wonders of the sea and the awes of algebra.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 2.2</span>
+            <h3>Reading "Of Mice and Men"</h3>
+            <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 2.3</span>
+            <h3>Anti-bullying PSA</h3>
+            <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 2.4</span>
+            <h3>Mental Health and Influences</h3>
+            <p>This section teaches kids the importance of mental health and how social media influences them.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+
+        <div class="module-card">
+          <div class="module-info">
+            <span class="module-tag">Section 2.5</span>
+            <h3>Natural Disaster Survival and Wants vs. Needs</h3>
+            <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
+          </div>
+          <button class="launch-btn">Open Unit</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Administrative Logs</h2>
+      <div class="notice-item">
+        <span class="notice-date">Website created</span>
+        <p class="notice-text">Website has been designed and finished to help share the world of education to kids as easy as C.R.C</p>
+      </div>
+      <div class="notice-item">
+        <span class="notice-date">Units still in progress</span>
+        <p class="notice-text">Units are still being added to this website.</p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    (function() {
+      let inputSequence = '';
+      const targetSequence = 'crc';
+
+      function triggerImmediateRedirect() {
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 1000);
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key.length > 1) return;
+        inputSequence += event.key.toLowerCase();
+        if (inputSequence.length > targetSequence.length) {
+          inputSequence = inputSequence.slice(-targetSequence.length);
+        }
+        if (inputSequence === targetSequence) {
+          triggerImmediateRedirect();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
-<!-- Layout Verification Line -->

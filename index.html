@@ -14,13 +14,11 @@
             --border: #e5e5e7;
             --radius: 6px;
         }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         body {
             font-family: Georgia, serif;
             background-color: var(--bg-primary);
@@ -31,7 +29,6 @@
             transition: opacity 1s ease;
             opacity: 1;
         }
-
         .navbar {
             background-color: var(--surface);
             border-bottom: 2px solid var(--accent);
@@ -40,7 +37,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .brand {
             display: flex;
             align-items: center;
@@ -50,7 +46,6 @@
             font-weight: 700;
             font-size: 1.15rem;
         }
-
         .brand-icon {
             width: 32px;
             height: 32px;
@@ -60,13 +55,11 @@
             place-items: center;
             color: white;
         }
-
         .nav-menu {
             display: flex;
             gap: 1.5rem;
             list-style: none;
         }
-
         .nav-link {
             text-decoration: none;
             color: var(--text-muted);
@@ -76,7 +69,6 @@
             letter-spacing: 0.05em;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -88,7 +80,6 @@
             gap: 3rem;
             align-items: flex-start;
         }
-
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -98,7 +89,6 @@
                 display: none;
             }
         }
-
         .hero-title {
             font-size: 2.8rem;
             font-weight: 700;
@@ -106,12 +96,10 @@
             margin-bottom: 1.5rem;
             color: var(--text-main);
         }
-
         .dynamic-keyword {
             color: var(--accent);
             border-bottom: 2px solid var(--accent);
         }
-
         .hero-desc {
             font-size: 1.1rem;
             color: var(--text-muted);
@@ -119,13 +107,11 @@
             margin-bottom: 2.5rem;
             line-height: 1.7;
         }
-
         .portal-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
         }
-
         .portal-btn {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -136,20 +122,17 @@
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-
         .portal-btn h3 {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--accent);
             font-weight: 600;
         }
-
         .portal-btn p {
             font-size: 0.85rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
-
         .sidebar {
             background-color: var(--surface);
             border: 1px solid var(--border);
@@ -157,7 +140,6 @@
             padding: 1.5rem;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-
         .sidebar-title {
             font-size: 0.9rem;
             font-weight: 700;
@@ -168,17 +150,14 @@
             border-bottom: 1px solid var(--border);
             color: var(--text-muted);
         }
-
         .notice-item {
             margin-bottom: 1.25rem;
         }
-
         .notice-date {
             font-size: 0.75rem;
             color: var(--accent);
             font-weight: 600;
         }
-
         .notice-text {
             font-size: 0.85rem;
             font-weight: 500;
@@ -211,7 +190,6 @@
             <p class="hero-desc">
                 Access your standardized course modules, official grading configurations, class distribution schedules, and personal administrative reference logs.
             </p>
-            
             <div class="portal-grid">
                 <div class="portal-btn">
                     <h3>Why choose us?</h3>
@@ -236,16 +214,38 @@
             </div>
         </aside>
     </main>
-<script>
-  // Automatic timed sequence to fade out and transfer cleanly after 6 seconds
-  setTimeout(() => {
-    document.body.style.opacity = '0'; 
-  }, 5000); // Starts the 1-second fade styling at mark 5000ms (5 seconds)
 
-  setTimeout(() => {
-    window.location.href = 'home.html'; 
-  }, 6000); // Triggers hardware location swap at exactly 6000ms (6 seconds)
-</script>
+    <script>
+        // Store user keystrokes
+        let inputSequence = '';
+        const targetSequence = 'crc';
 
+        // Trigger immediate fade out and destination change
+        function triggerImmediateRedirect() {
+            // Instantly trigger 1-second CSS opacity shift
+            document.body.style.opacity = '0';
+            
+            // Allow 1 second (1000ms) for visual fade to complete before changing pages
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        }
+
+        // Global keydown event listener
+        document.addEventListener('keydown', (event) => {
+            // Append the lowercase version of the pressed key
+            inputSequence += event.key.toLowerCase();
+
+            // Keep only the last 3 characters typed to match 'crc' length
+            if (inputSequence.length > targetSequence.length) {
+                inputSequence = inputSequence.slice(-targetSequence.length);
+            }
+
+            // If sequence matches 'crc', fire the redirect
+            if (inputSequence === targetSequence) {
+                triggerImmediateRedirect();
+            }
+        });
+    </script>
 </body>
 </html>

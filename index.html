@@ -14,6 +14,7 @@
       --accent-secondary: #0f766e;
       --border: #e2e8f0;
       --radius: 4px;
+      --success: #16a34a;
     }
 
     * {
@@ -201,7 +202,27 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       font-size: 0.9rem;
+      outline: none;
     }
+
+    .form-group input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    /* --- Dynamic Form Status Alerts --- */
+    .form-alert {
+      display: none;
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: var(--success);
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+      animation: viewFadeIn 0.2s ease;
+    }
+    /* --------------------------------- */
 
     .portal-grid {
       display: flex;
@@ -257,6 +278,11 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.02em;
+      transition: background-color 0.2s ease;
+    }
+
+    .launch-btn:hover {
+      background-color: #162e70;
     }
 
     .sidebar {
@@ -311,7 +337,6 @@
       <span>Student Portal</span>
     </div>
     <ul class="nav-menu">
-      <!-- Restored Home Navigation Link Node Element -->
       <li><span class="nav-link active" data-target="home" onclick="navigateToPage('home')">Home</span></li>
       <li><span class="nav-link" data-target="tutoring" onclick="navigateToPage('tutoring')">Tutoring</span></li>
       <li><span class="nav-link" data-target="enroll" onclick="navigateToPage('enroll')">Enroll</span></li>
@@ -405,7 +430,6 @@
           </div>
         </div>
       </div>
-
       <!-- ================= PAGE 2: TUTORING ================= -->
       <div id="page-tutoring" class="app-page">
         <div class="main-header">
@@ -413,9 +437,14 @@
           <p class="hero-desc">Schedule a private personalized learning session with our certified instructors.</p>
         </div>
         <div class="form-wrapper">
+          <div id="alert-tutoring" class="form-alert">Submission Received! Our specialists will contact you shortly.</div>
           <h3>Request a Tutor</h3>
           <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Match your kid with specialists.</p>
-          <button class="launch-btn">Browse Available Schedules</button>
+          <div class="form-group">
+            <label>Student Grade Level</label>
+            <input type="text" id="input-tutor-grade" placeholder="e.g. 4th Grade" />
+          </div>
+          <button class="launch-btn" onclick="processFakeSubmission('tutoring', ['input-tutor-grade'])">Browse Available Schedules</button>
         </div>
       </div>
 
@@ -426,11 +455,12 @@
           <p class="hero-desc">Secure registration placements for upcoming academic semesters.</p>
         </div>
         <div class="form-wrapper">
+          <div id="alert-enroll" class="form-alert">Enrollment successfully submitted! Check your inbox for confirmation.</div>
           <div class="form-group">
             <label>Select Learning Module Track</label>
-            <input type="text" placeholder="e.g. Algebra & Marine Biology" />
+            <input type="text" id="input-enroll-track" placeholder="e.g. Algebra & Marine Biology" />
           </div>
-          <button class="launch-btn">Submit Enrollment Registration</button>
+          <button class="launch-btn" onclick="processFakeSubmission('enroll', ['input-enroll-track'])">Submit Enrollment Registration</button>
         </div>
       </div>
 
@@ -441,10 +471,11 @@
           <p class="hero-desc">Register to track metrics, access homework vaults, and view child report logs.</p>
         </div>
         <div class="form-wrapper">
-          <div class="form-group"><label>Full Name</label><input type="text" /></div>
-          <div class="form-group"><label>Email Address</label><input type="email" /></div>
-          <div class="form-group"><label>Choose Password</label><input type="password" /></div>
-          <button class="launch-btn">Create Account</button>
+          <div id="alert-signup" class="form-alert">Account successfully registered! Welcome aboard.</div>
+          <div class="form-group"><label>Full Name</label><input type="text" id="input-signup-name" /></div>
+          <div class="form-group"><label>Email Address</label><input type="email" id="input-signup-email" /></div>
+          <div class="form-group"><label>Choose Password</label><input type="password" id="input-signup-pass" /></div>
+          <button class="launch-btn" onclick="processFakeSubmission('signup', ['input-signup-name', 'input-signup-email', 'input-signup-pass'])">Create Account</button>
         </div>
       </div>
 
@@ -455,9 +486,10 @@
           <p class="hero-desc">Verify your credentials to open your academic portal terminal.</p>
         </div>
         <div class="form-wrapper">
-          <div class="form-group"><label>Email Address</label><input type="email" /></div>
-          <div class="form-group"><label>Password</label><input type="password" /></div>
-          <button class="launch-btn">Authorize Entry</button>
+          <div id="alert-signin" class="form-alert">Secure authorization complete. Accessing portal database...</div>
+          <div class="form-group"><label>Email Address</label><input type="email" id="input-signin-email" /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="input-signin-pass" /></div>
+          <button class="launch-btn" onclick="processFakeSubmission('signin', ['input-signin-email', 'input-signin-pass'])">Authorize Entry</button>
         </div>
       </div>
 
@@ -495,6 +527,28 @@
       if (activeLink) {
         activeLink.classList.add('active');
       }
+    }
+
+    function processFakeSubmission(formKey, fieldIds) {
+      const alertBox = document.getElementById(`alert-${formKey}`);
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        
+        setTimeout(() => {
+          alertBox.style.opacity = '0';
+          setTimeout(() => {
+            alertBox.style.display = 'none';
+            alertBox.style.opacity = '1';
+          }, 300);
+        }, 4000);
+      }
+
+      fieldIds.forEach(id => {
+        const targetInput = document.getElementById(id);
+        if (targetInput) {
+          targetInput.value = '';
+        }
+      });
     }
 
     (function() {

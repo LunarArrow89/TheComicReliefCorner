@@ -67,7 +67,7 @@
 
     .nav-menu {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
       list-style: none;
     }
 
@@ -311,6 +311,8 @@
       <span>Student Portal</span>
     </div>
     <ul class="nav-menu">
+      <!-- Restored Home Navigation Link Node Element -->
+      <li><span class="nav-link active" data-target="home" onclick="navigateToPage('home')">Home</span></li>
       <li><span class="nav-link" data-target="tutoring" onclick="navigateToPage('tutoring')">Tutoring</span></li>
       <li><span class="nav-link" data-target="enroll" onclick="navigateToPage('enroll')">Enroll</span></li>
       <li><span class="nav-link" data-target="signup" onclick="navigateToPage('signup')">Sign up</span></li>

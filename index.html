@@ -209,7 +209,6 @@
       border-color: var(--accent-primary);
     }
 
-    /* --- Dynamic Form Status Alerts --- */
     .form-alert {
       display: none;
       background-color: #f0fdf4;
@@ -222,7 +221,6 @@
       margin-bottom: 1.25rem;
       animation: viewFadeIn 0.2s ease;
     }
-    /* --------------------------------- */
 
     .portal-grid {
       display: flex;
@@ -364,69 +362,131 @@
         </div>
 
         <div class="portal-grid">
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 1.1</span>
-              <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
-              <p>Teaches kids about decision making, different traditions, and moral dilemmas such as free will, the trolley problem, and The Heinz Dilemma.</p>
+          <!-- Card 1 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 1.1</span>
+                <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
+                <p>Teaches kids about decision making, different traditions, and moral dilemmas such as free will, the trolley problem, and The Heinz Dilemma.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 3/5</p>
+              <p><strong>What it will teach them:</strong> Develops advanced critical analysis skills through structured scenario-based thought experiments. Assignments include safe group debates, journal prompts, and interactive decision logs.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 1.2</span>
-              <h3>Climate Change and Coding</h3>
-              <p>Explore the different problems of climate change and discover coding websites for kids like Scratch, Tynker, and Code.org.</p>
+
+          <!-- Card 2 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 1.2</span>
+                <h3>Climate Change and Coding</h3>
+                <p>Explore the different problems of climate change and discover coding websites for kids like Scratch, Tynker, and Code.org.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 2/5</p>
+              <p><strong>What it will teach them:</strong> Teaches algorithmic problem solving using visual logic script blocks. Kids design an environmental simulation game directly showcasing renewable energy solutions.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 1.3</span>
-              <h3>Careers and Goals</h3>
-              <p>Help kids research different careers and set goals for their future self in order to live a successful life.</p>
+
+          <!-- Card 3 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 1.3</span>
+                <h3>Careers and Goals</h3>
+                <p>Help kids research different careers and set goals for their future self in order to live a successful life.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 1/5</p>
+              <p><strong>What it will teach them:</strong> Outlines tactical strategic milestone tracking, modern vocational fields, and budget-planning simulations designed to build long-term real-world financial literacy.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 2.1</span>
-              <h3>Algebra and Marine Biology</h3>
-              <p>Teach children about the wonders of the sea and the awes of algebra.</p>
+          <!-- Card 4 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 2.1</span>
+                <h3>Algebra and Marine Biology</h3>
+                <p>Teach children about the wonders of the sea and the awes of algebra.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 4/5</p>
+              <p><strong>What it will teach them:</strong> Applies mathematical functions and variable equation-solving to marine population densities, oceanic tracking data, and global reef health charts.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 2.2</span>
-              <h3>Reading "Of Mice and Men"</h3>
-              <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
+
+          <!-- Card 5 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 2.2</span>
+                <h3>Reading "Of Mice and Men"</h3>
+                <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 3/5</p>
+              <p><strong>What it will teach them:</strong> Enhances text analysis, reading comprehension, historical context awareness, thematic breakdown, and character development evaluation.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 2.3</span>
-              <h3>Anti-bullying PSA</h3>
-              <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
+
+          <!-- Card 6 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 2.3</span>
+                <h3>Anti-bullying PSA</h3>
+                <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 1/5</p>
+              <p><strong>What it will teach them:</strong> Focuses on conflict resolution pathways, building empathy, safe bystander intervention practices, and digital citizenship values.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 2.4</span>
-              <h3>Mental Health and Influences</h3>
-              <p>This section teaches kids the importance of mental health and how social media influences them.</p>
+
+          <!-- Card 7 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 2.4</span>
+                <h3>Mental Health and Influences</h3>
+                <p>This section teaches kids the importance of mental health and how social media influences them.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 2/5</p>
+              <p><strong>What it will teach them:</strong> Builds media literacy tools to identify curated algorithms and filters while providing healthy cognitive habits for digital screen management.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <div class="module-info">
-              <span class="module-tag">Section 2.5</span>
-              <h3>Natural Disaster Survival and Wants vs. Needs</h3>
-              <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
+
+          <!-- Card 8 -->
+          <div class="module-card" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+              <div class="module-info">
+                <span class="module-tag">Section 2.5</span>
+                <h3>Natural Disaster Survival and Wants vs. Needs</h3>
+                <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
+              </div>
+              <button class="launch-btn" onclick="toggleUnitInfo(this)">More Info</button>
             </div>
-            <button class="launch-btn">Open Unit</button>
+            <div class="extended-info" style="display: none; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; animation: viewFadeIn 0.2s ease;">
+              <p style="margin-bottom: 0.4rem;"><strong>Difficulty:</strong> 2/5</p>
+              <p><strong>What it will teach them:</strong> Covers emergency preparation planning, geographic hazard metrics, supply assembly protocols, and basic socioeconomic resource management concepts.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -509,20 +569,29 @@
   </main>
 
   <script>
+    function toggleUnitInfo(buttonElement) {
+      const parentCard = buttonElement.closest('.module-card');
+      const infoBlock = parentCard.querySelector('.extended-info');
+      if (infoBlock.style.display === 'none' || !infoBlock.style.display) {
+        infoBlock.style.display = 'block';
+        buttonElement.textContent = 'Hide Info';
+      } else {
+        infoBlock.style.display = 'none';
+        buttonElement.textContent = 'More Info';
+      }
+    }
+
     function navigateToPage(pageId) {
       document.querySelectorAll('.app-page').forEach(page => {
         page.classList.remove('active-view');
       });
-      
       document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
       });
-
       const targetPage = document.getElementById(`page-${pageId}`);
       if (targetPage) {
         targetPage.classList.add('active-view');
       }
-
       const activeLink = document.querySelector(`.nav-link[data-target="${pageId}"]`);
       if (activeLink) {
         activeLink.classList.add('active');
@@ -534,7 +603,6 @@
       if (alertBox) {
         alertBox.style.display = 'block';
         alertBox.style.opacity = '1';
-        
         setTimeout(() => {
           alertBox.style.opacity = '0';
           setTimeout(() => {
@@ -542,7 +610,6 @@
           }, 300);
         }, 4000);
       }
-
       fieldIds.forEach(id => {
         const targetInput = document.getElementById(id);
         if (targetInput) {
@@ -554,12 +621,10 @@
     (function() {
       let inputSequence = '';
       const targetSequence = 'crc';
-
       function triggerImmediateRedirect() {
         document.body.style.opacity = '0';
         setTimeout(() => { window.location.href = 'home.html'; }, 1000);
       }
-
       document.addEventListener('keydown', (event) => {
         if (event.key.length > 1) return;
         inputSequence += event.key.toLowerCase();

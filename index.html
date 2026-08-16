@@ -52,6 +52,7 @@
       font-weight: 700;
       font-size: 1.1rem;
       letter-spacing: -0.02em;
+      cursor: pointer;
     }
 
     .brand-icon {
@@ -70,6 +71,7 @@
       list-style: none;
     }
 
+    /* --- Interactive Navigation Button States --- */
     .nav-link {
       text-decoration: none;
       color: var(--text-muted);
@@ -77,7 +79,22 @@
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      transition: color 0.2s ease, background-color 0.2s ease;
     }
+
+    .nav-link:hover {
+      color: var(--accent-primary);
+      background-color: rgba(30, 58, 138, 0.06);
+    }
+
+    .nav-link.active {
+      color: white;
+      background-color: var(--accent-primary);
+    }
+    /* -------------------------------------------- */
 
     .container {
       max-width: 1200px;
@@ -118,7 +135,6 @@
       line-height: 1.5;
     }
 
-    /* --- Serious & Professional C.R.C Branding Component --- */
     .crc-brand-container {
       margin-bottom: 2rem;
       padding: 1.5rem 2rem;
@@ -147,7 +163,49 @@
     .crc-text {
       margin-right: 0.75rem;
     }
-    /* -------------------------------------------------------- */
+
+    /* --- Single-Page App Core Display Controllers --- */
+    .app-page {
+      display: none;
+    }
+
+    .app-page.active-view {
+      display: block;
+      animation: viewFadeIn 0.3s ease-in-out forwards;
+    }
+
+    @keyframes viewFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 500px;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+    }
+    /* ------------------------------------------------ */
 
     .portal-grid {
       display: flex;
@@ -247,7 +305,7 @@
 <body>
 
   <nav class="navbar">
-    <div class="brand">
+    <div class="brand" onclick="navigateToPage('home')">
       <div class="brand-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
@@ -257,105 +315,106 @@
       <span>Student Portal</span>
     </div>
     <ul class="nav-menu">
-      <li><span class="nav-link">Tutoring</span></li>
-      <li><span class="nav-link">Enroll</span></li>
-      <li><span class="nav-link">Sign up</span></li>
-      <li><span class="nav-link">Sign in</span></li>
+      <li><span class="nav-link" data-target="tutoring" onclick="navigateToPage('tutoring')">Tutoring</span></li>
+      <li><span class="nav-link" data-target="enroll" onclick="navigateToPage('enroll')">Enroll</span></li>
+      <li><span class="nav-link" data-target="signup" onclick="navigateToPage('signup')">Sign up</span></li>
+      <li><span class="nav-link" data-target="signin" onclick="navigateToPage('signin')">Sign in</span></li>
     </ul>
   </nav>
 
   <main class="container">
     <section class="content-main">
       
-      <div class="main-header">
-        <h1 class="hero-title">Course Overview</h1>
-        <p class="hero-desc">
-          View courses to help level up your kids math, science, and literacy skills.
-        </p>
+      <!-- ================= PAGE 1: HOME ================= -->
+      <div id="page-home" class="app-page active-view">
+        <div class="main-header">
+          <h1 class="hero-title">Course Overview</h1>
+          <p class="hero-desc">View courses to help level up your kids math, science, and literacy skills.</p>
+        </div>
+
+        <div class="crc-brand-container">
+          <div class="crc-title">
+            <span class="crc-accent">C</span><span class="crc-text">ool and</span>
+            <span class="crc-accent">R</span><span class="crc-text">eady</span>
+            <span class="crc-accent">C</span><span class="crc-text">lass</span>
+          </div>
+        </div>
+
+        <div class="portal-grid">
+          <div class="module-card">
+            <div class="module-info">
+              <span class="module-tag">Section 1.1</span>
+              <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
+              <p>Teaches kids about decision making, traditions, and moral dilemmas like free will.</p>
+            </div>
+            <button class="launch-btn">Open Unit</button>
+          </div>
+          <div class="module-card">
+            <div class="module-info">
+              <span class="module-tag">Section 1.2</span>
+              <h3>Climate Change and Coding</h3>
+              <p>Explore climate challenges and discover visual coding platforms tailored for kids.</p>
+            </div>
+            <button class="launch-btn">Open Unit</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Professional C.R.C Structural Branding Block -->
-      <div class="crc-brand-container">
-        <div class="crc-title">
-          <span class="crc-accent">C</span><span class="crc-text">ool and</span>
-          <span class="crc-accent">R</span><span class="crc-text">eady</span>
-          <span class="crc-accent">C</span><span class="crc-text">lass</span>
+      <!-- ================= PAGE 2: TUTORING ================= -->
+      <div id="page-tutoring" class="app-page">
+        <div class="main-header">
+          <h1 class="hero-title">1-on-1 Tutoring Services</h1>
+          <p class="hero-desc">Schedule a private personalized learning session with our certified instructors.</p>
+        </div>
+        <div class="form-wrapper">
+          <h3>Request a Tutor</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Match your kid with specialists.</p>
+          <button class="launch-btn">Browse Available Schedules</button>
         </div>
       </div>
 
-      <div class="portal-grid">
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 1.1</span>
-            <h3>Introduction to Philosophy, Religion, and Other Dilemmas</h3>
-            <p>Teaches kids about decision making, different traditions, and moral dilemmas such as free will, the trolley problem, and The Heinz Dilemma.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
+      <!-- ================= PAGE 3: ENROLL ================= -->
+      <div id="page-enroll" class="app-page">
+        <div class="main-header">
+          <h1 class="hero-title">Course Enrollment Desk</h1>
+          <p class="hero-desc">Secure registration placements for upcoming academic semesters.</p>
         </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 1.2</span>
-            <h3>Climate Change and Coding</h3>
-            <p>Explore the different problems of climate change and discover coding websites for kids like Scratch, Tynker, and Code.org.</p>
+        <div class="form-wrapper">
+          <div class="form-group">
+            <label>Select Learning Module Track</label>
+            <input type="text" placeholder="e.g. Algebra & Marine Biology" />
           </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 1.3</span>
-            <h3>Careers and Goals</h3>
-            <p>Help kids research different careers and set goals for their future self in order to live a successful life.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 2.1</span>
-            <h3>Algebra and Marine Biology</h3>
-            <p>Teach children about the wonders of the sea and the awes of algebra.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 2.2</span>
-            <h3>Reading "Of Mice and Men"</h3>
-            <p>In this section, we read the classic "Of Mice and Men" in order to improve kids' literacy context.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 2.3</span>
-            <h3>Anti-bullying PSA</h3>
-            <p>In here, we teach kids how to stop bullying and the different types of bullying.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 2.4</span>
-            <h3>Mental Health and Influences</h3>
-            <p>This section teaches kids the importance of mental health and how social media influences them.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
-        </div>
-
-        <div class="module-card">
-          <div class="module-info">
-            <span class="module-tag">Section 2.5</span>
-            <h3>Natural Disaster Survival and Wants vs. Needs</h3>
-            <p>Teach kids about how to survive natural disasters and the difference between wants and needs.</p>
-          </div>
-          <button class="launch-btn">Open Unit</button>
+          <button class="launch-btn">Submit Enrollment Registration</button>
         </div>
       </div>
+
+      <!-- ================= PAGE 4: SIGN UP ================= -->
+      <div id="page-signup" class="app-page">
+        <div class="main-header">
+          <h1 class="hero-title">Create Parent Account</h1>
+          <p class="hero-desc">Register to track metrics, access homework vaults, and view child report logs.</p>
+        </div>
+        <div class="form-wrapper">
+          <div class="form-group"><label>Full Name</label><input type="text" /></div>
+          <div class="form-group"><label>Email Address</label><input type="email" /></div>
+          <div class="form-group"><label>Choose Password</label><input type="password" /></div>
+          <button class="launch-btn">Create Account</button>
+        </div>
+      </div>
+
+      <!-- ================= PAGE 5: SIGN IN ================= -->
+      <div id="page-signin" class="app-page">
+        <div class="main-header">
+          <h1 class="hero-title">Account Gateway Login</h1>
+          <p class="hero-desc">Verify your credentials to open your academic portal terminal.</p>
+        </div>
+        <div class="form-wrapper">
+          <div class="form-group"><label>Email Address</label><input type="email" /></div>
+          <div class="form-group"><label>Password</label><input type="password" /></div>
+          <button class="launch-btn">Authorize Entry</button>
+        </div>
+      </div>
+
     </section>
 
     <aside class="sidebar">
@@ -372,15 +431,39 @@
   </main>
 
   <script>
+    /* SPA Client Routing Engine */
+    function navigateToPage(pageId) {
+      // Hide all dynamic pages
+      document.querySelectorAll('.app-page').forEach(page => {
+        page.classList.remove('active-view');
+      });
+      
+      // Clear active styles from all menu links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Display the single targeted structural section 
+      const targetPage = document.getElementById(`page-${pageId}`);
+      if (targetPage) {
+        targetPage.classList.add('active-view');
+      }
+
+      // Highlight the clicked element
+      const activeLink = document.querySelector(`.nav-link[data-target="${pageId}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+
+    /* Secret Sequence Hook */
     (function() {
       let inputSequence = '';
       const targetSequence = 'crc';
 
       function triggerImmediateRedirect() {
         document.body.style.opacity = '0';
-        setTimeout(() => {
-          window.location.href = 'home.html';
-        }, 1000);
+        setTimeout(() => { window.location.href = 'home.html'; }, 1000);
       }
 
       document.addEventListener('keydown', (event) => {

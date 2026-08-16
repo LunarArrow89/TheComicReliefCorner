@@ -215,37 +215,33 @@
         </aside>
     </main>
 
-    <script>
-        // Store user keystrokes
-        let inputSequence = '';
-        const targetSequence = 'crc';
+   <script>
+(function() {
+    let inputSequence = '';
+    const targetSequence = 'crc';
 
-        // Trigger immediate fade out and destination change
-        function triggerImmediateRedirect() {
-            // Instantly trigger 1-second CSS opacity shift
-            document.body.style.opacity = '0';
-            
-            // Allow 1 second (1000ms) for visual fade to complete before changing pages
-            setTimeout(() => {
-                window.location.href = 'home.html';
-            }, 1000);
+    function triggerImmediateRedirect() {
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            window.location.href = 'home.html';
+        }, 1000);
+    }
+
+    document.addEventListener('keydown', (event) => {
+        // Ignore modifier keys like Shift, Ctrl, Alt, or Cmd
+        if (event.key.length > 1) return; 
+
+        inputSequence += event.key.toLowerCase();
+        
+        if (inputSequence.length > targetSequence.length) {
+            inputSequence = inputSequence.slice(-targetSequence.length);
         }
 
-        // Global keydown event listener
-        document.addEventListener('keydown', (event) => {
-            // Append the lowercase version of the pressed key
-            inputSequence += event.key.toLowerCase();
-
-            // Keep only the last 3 characters typed to match 'crc' length
-            if (inputSequence.length > targetSequence.length) {
-                inputSequence = inputSequence.slice(-targetSequence.length);
-            }
-
-            // If sequence matches 'crc', fire the redirect
-            if (inputSequence === targetSequence) {
-                triggerImmediateRedirect();
-            }
-        });
-    </script>
+        if (inputSequence === targetSequence) {
+            triggerImmediateRedirect();
+        }
+    });
+})();
+</script>
 </body>
 </html>

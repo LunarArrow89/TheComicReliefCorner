@@ -2,7 +2,7 @@
     <div class="time-box" id="timeBox"></div> 
     <div class="date-box" id="dateBox"></div> 
     
-    <!-- Inline Donate Button -->
+    <!-- Matched Styling Donate Button -->
     <a href="https://buymeacoffee.com/LunarArrow89" target="_blank" class="bmc-inline-btn">
         Donate
     </a>
@@ -13,32 +13,48 @@
 </div> 
 
 <style>
-    /* Styling to blend seamlessly with the header text boxes */
     .header {
         display: flex;
         align-items: center;
-        gap: 10px; /* Adjust spacing to match your other elements */
+        gap: 10px;
     }
     
+    /* Styled to match your existing time and date boxes exactly */
     .bmc-inline-btn {
-        background-color: #FFDD00;
-        color: #000000;
-        font-family: sans-serif;
+        background-color: rgba(26, 14, 36, 0.6); /* Translucent dark purple background */
+        color: #ffffff; /* White text matching the clock */
+        font-family: inherit; /* Inherits your website's clean font */
         font-size: 14px;
-        font-weight: bold;
         text-decoration: none;
-        padding: 6px 16px;
-        border-radius: 4px;
+        padding: 8px 16px;
+        border-radius: 8px; /* Matches the rounded look of your UI containers */
+        border: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
         white-space: nowrap;
         height: fit-content;
-        transition: background-color 0.2s;
+        cursor: pointer;
+        
+        /* Subtle glow effect that pulses to draw attention without clashing */
+        box-shadow: 0 0 8px rgba(162, 89, 255, 0.3);
+        animation: subtlePulse 2.5s infinite ease-in-out;
+        transition: all 0.3s ease;
     }
 
+    /* Vibrant purple glow on hover */
     .bmc-inline-btn:hover {
-        background-color: #ffea6c;
+        background-color: rgba(162, 89, 255, 0.2);
+        border-color: #a259ff;
+        box-shadow: 0 0 15px rgba(162, 89, 255, 0.8);
+        transform: translateY(-1px);
+    }
+
+    /* Gentle pulsing loop to make it eye-catching */
+    @keyframes subtlePulse {
+        0% { box-shadow: 0 0 4px rgba(162, 89, 255, 0.2); }
+        50% { box-shadow: 0 0 12px rgba(162, 89, 255, 0.6); border-color: rgba(162, 89, 255, 0.4); }
+        100% { box-shadow: 0 0 4px rgba(162, 89, 255, 0.2); }
     }
 </style>
 

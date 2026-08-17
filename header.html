@@ -2,12 +2,10 @@
     <div class="time-box" id="timeBox"></div> 
     <div class="date-box" id="dateBox"></div> 
     
-    <!-- Donate Button Added Here -->
-    <div class="donate-box">
-        <a href="https://buymeacoffee.com/LunarArrow89" target="_blank" class="bmc-button">
-            Donate
-        </a>
-    </div>
+    <!-- Inline Donate Button -->
+    <a href="https://buymeacoffee.com/LunarArrow89" target="_blank" class="bmc-inline-btn">
+        Donate
+    </a>
 
     <div class="ticker-wrap"> 
         <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
@@ -15,23 +13,31 @@
 </div> 
 
 <style>
-    /* Optional styles to make the button look clean and professional */
-    .donate-box {
-        margin: 10px 0;
-        text-align: center;
+    /* Styling to blend seamlessly with the header text boxes */
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adjust spacing to match your other elements */
     }
-    .bmc-button {
+    
+    .bmc-inline-btn {
         background-color: #FFDD00;
         color: #000000;
-        border-radius: 5px;
-        padding: 8px 16px;
         font-family: sans-serif;
+        font-size: 14px;
         font-weight: bold;
         text-decoration: none;
-        display: inline-block;
-        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        padding: 6px 16px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        height: fit-content;
+        transition: background-color 0.2s;
     }
-    .bmc-button:hover {
+
+    .bmc-inline-btn:hover {
         background-color: #ffea6c;
     }
 </style>
@@ -39,8 +45,8 @@
 <script> 
 function updateClock(){ 
     const now = new Date(); 
-    document.getElementById("timeBox").innerText = now.toLocaleTimeString(); 
-    document.getElementById("dateBox").innerText = now.toLocaleDateString(); 
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
+    document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'SHORT_OR_YOUR_FORMAT', day: 'numeric'}); 
 } 
 setInterval(updateClock,1000); 
 updateClock(); 

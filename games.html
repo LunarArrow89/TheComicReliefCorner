@@ -1,343 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner - Games</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <!-- Your Base CSS (Unified Spacing Architecture) -->
-    <link rel="stylesheet" href="style.css?v=unified_spacing">
-    <!-- Game Layer Stylesheet -->
-    <link rel="stylesheet" href="game-style.css">
-    <!-- Loader Script -->
-    <script defer src="load.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Comic Relief Corner - Games</title>
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cloudflare.com">
+<!-- Your Base CSS (Unified Spacing Architecture) -->
+<link rel="stylesheet" href="style.css?v=unified_spacing">
+<!-- Game Layer Stylesheet -->
+<link rel="stylesheet" href="game-style.css">
+<!-- Loader Script -->
+<script defer src="load.js"></script>
+<style>
+/* Dashboard Controls Alignment Layouts */
+.controls-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+.search-input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.search-input:focus {
+    border-color: #ff4757;
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+}
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+.games-counter {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+</style>
 </head>
 <body>
+<!-- OVERVIEW CONTROLLERS LOADS FROM LOAD.JS -->
+<div id="sidebar-container"></div>
+<div id="header-container"></div>
 
-    <!-- OVERVIEW CONTROLLERS LOADS FROM LOAD.JS -->
-    <div id="sidebar-container"></div>
-    <div id="header-container"></div>
+<!-- MAIN CONTENT ENGINE CONTAINER AREA -->
+<div class="main" id="main-content-blur-target">
+<div class="hero">
+<h1>The Gaming Zone</h1>
+<p>PLAY UNDERTALE RIGHT FRICKING NOW</p>
 
-    <!-- MAIN CONTENT ENGINE CONTAINER AREA -->
-    <div class="main" id="main-content-blur-target">
-        
-        <div class="hero">
-            <h1>The Gaming Zone</h1>
-            <p>PLAY UNDERTALE RIGHT FRICKING NOW</p>
-        </div>
-
-        <!-- GAME SELECTION HOVER SQUARE GRID -->
-        <div class="game-square-grid">
-            
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Cookie Clicker', 'cookie_clicker.html')">
-                <img src="cookie_clicker.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Cookie Clicker</h3>
-                </div>
-            </div>
-
-                         <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('The Worlds Hardest Game', 'the_world_s_hardest_game.html')">
-                <img src="the_worlds_hardest_game.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">The Worlds Hardest Game</h3>
-                </div>
-            </div>
-
-             <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Cloverpit', 'cloverpit.html')">
-                <img src="cloverpit.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Cloverpit</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Plants VS Zombies 2', 'plants_vs_zombies_2.html')">
-                <img src="plants_vs_zombies_2.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Plants VS Zombies 2</h3>
-                </div>
-            </div>
-
-             <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Plants VS Zombies', 'plants_vs_zombies.html')">
-                <img src="plants_vs_zombies.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Plants VS Zombies</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Celste', 'celeste.html')">
-                <img src="celeste.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Celeste</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Bart Blast', 'bart_blast.html')">
-                <img src="bart_blast.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Bart Blast</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Earthbound', 'earthbound.html')">
-                <img src="earthbound.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Earthbound</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Terraria', 'terraria.html')">
-                <img src="terraria.jfif" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Terraria</h3>
-                </div>
-            </div>
-
-                         <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Level Devil', 'level_devil.html')">
-                <img src="level_devil.jfif" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Level Devil</h3>
-                </div>
-            </div>
-            
-             <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Totally Accurate Battle Simulator', 'tabs.html')">
-                <img src="tabs.jfif" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Totally Accurate Battle Simulator</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Balatro', 'balatro.html')">
-                <img src="balatro.jfif" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Balatro</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Bitlife', 'bitlife.html')">
-                <img src="bitlife.jfif" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Bitlife</h3>
-                </div>
-            </div>
-
-                                    <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Just Shapes and Beats', 'just_shapes___beats.html')">
-                <img src="just_shapes_and_beats.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Just Shapes and Beats</h3>
-                </div>
-            </div>
-
-                                    <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Geometry Dash', 'geometry_dash.html')">
-                <img src="geometry_dash.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Geometry Dash</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Untitiled Goose Game', 'untitled_goose_game.html')">
-                <img src="untitled_goose_game.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Untitiled Goose Game</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Friday Night Funkin', 'friday_night_funkin.html')">
-                <img src="friday_night_funkin.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Friday Night Funkin</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Block Blast', 'block_blast.html')">
-                <img src="block_blast.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Block Blast</h3>
-                </div>
-            </div>
-
-                         <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Jetpack Joyride', 'jetpack_joyride.html')">
-                <img src="jetpack_joyride.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Jetpack Joyride</h3>
-                </div>
-            </div>
-
-             <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Undertale', 'undertale.html')">
-                <img src="undertale.png" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Undertale</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Stardew Valley', 'stardew_valley.html')">
-                <img src="stardew_valley.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Stardew Valley</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Brotato', 'brotato.html')">
-                <img src="brotato.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Brotato</h3>
-                </div>
-            </div>
-
-                        <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Kick the Buddy', 'kick_the_buddy.html')">
-                <img src="kick_buddy.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Kick the Buddy</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Hole.io', 'hole_io.html')">
-                <img src="hole_io.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Hole.io</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Human Expenditure Program', 'Human Expenditure Program.html')">
-                <img src="human_expidenture.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Human Expenditure Program</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Kindergarten', 'Kindergarten.html')">
-                <img src="kindergarten.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Kindergarten</h3>
-                </div>
-            </div>
-
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Basket Random', 'basket_random.html')">
-                <img src="basket_random.jpeg" alt="Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Basket Random</h3>
-                </div>
-            </div>
-            
-            <!-- CUPHEAD GAME CARD LINK -->
-            <div class="game-card" onclick="openGameModal('Cuphead', 'cup_head.html')">
-                <img src="cup_head.jpeg" alt="Cuphead Cover Image" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Cuphead</h3>
-                </div>
-            </div>
-
-            <!-- GAME CARD 2 -->
-            <div class="game-card" onclick="openGameModal('Bridge Race', 'Bridge_Race.html')">
-                <img src="Bridge_Race.jpeg" alt="Game Cover" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Bridge Race</h3>
-                </div>
-            </div>
-
-            <!-- GAME CARD 3 -->
-            <div class="game-card" onclick="openGameModal('Bart Bash', 'bart_bash.html')">
-                <img src="bart_bash.jpeg" alt="Game Cover" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Bart Bash</h3>
-                </div>
-            </div>
-
-            <!-- GAME CARD 4 -->
-            <div class="game-card" onclick="openGameModal('Oneshot', 'oneshot.html')">
-                <img src="oneshot.jpeg" alt="Game Cover" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Oneshot</h3>
-                </div>
-            </div>
-
-            <!-- GAME CARD 5 -->
-            <div class="game-card" onclick="openGameModal('Hollow Knight', 'hollow_knight.html')">
-                <img src="hollow_knight.jpeg" alt="Game Cover" class="game-card-img">
-                <div class="game-card-overlay">
-                    <h3 class="game-card-title">Hollow Knight</h3>
-                </div>
-            </div>
-
-        </div>
+<!-- DYNAMIC CONTROLS ENGAGEMENT REGION -->
+<div class="controls-container">
+    <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="gameSearch" class="search-input" placeholder="Search games...">
     </div>
-
-    <!-- OVERLAY POP-UP SYSTEM CONTAINER (Matches your structural drawing sketch layout) -->
-    <div class="game-modal-backdrop" id="gameModal">
-        <div class="game-modal-window">
-            
-            <!-- Header Row Controls Bar -->
-            <div class="game-modal-header">
-                <span class="game-modal-title" id="modalGameTitle">Game Title</span>
-                <button class="game-modal-close-btn" onclick="closeGameModal()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Sandbox Viewport Frame Box Layer -->
-            <div class="game-modal-viewport">
-                <iframe src="about:blank" id="modalGameIframe"></iframe>
-            </div>
-
-        </div>
+    <div class="games-counter">
+        Total Games: <span id="gameCount">0</span>
     </div>
+</div>
+</div>
 
-    <!-- CORE GAME ENGINE INTERACTION FUNCTIONS -->
-    <script>
-        const modal = document.getElementById('gameModal');
-        const mainContent = document.getElementById('main-content-blur-target');
-        const iframe = document.getElementById('modalGameIframe');
-        const titleText = document.getElementById('modalGameTitle');
+<!-- GAME SELECTION HOVER SQUARE GRID (PART 1) -->
+<div class="game-square-grid">
+<!-- COOKIE CLICKER -->
+<div class="game-card" onclick="openGameModal('Cookie Clicker', 'cookie_clicker.html')">
+<img src="cookie_clicker.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Cookie Clicker</h3></div>
+</div>
+<!-- THE WORLDS HARDEST GAME -->
+<div class="game-card" onclick="openGameModal('The Worlds Hardest Game', 'the_world_s_hardest_game.html')">
+<img src="the_worlds_hardest_game.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">The Worlds Hardest Game</h3></div>
+</div>
+<!-- CLOVERPIT -->
+<div class="game-card" onclick="openGameModal('Cloverpit', 'cloverpit.html')">
+<img src="cloverpit.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Cloverpit</h3></div>
+</div>
+<!-- PLANTS VS ZOMBIES 2 -->
+<div class="game-card" onclick="openGameModal('Plants VS Zombies 2', 'plants_vs_zombies_2.html')">
+<img src="plants_vs_zombies_2.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Plants VS Zombies 2</h3></div>
+</div>
+<!-- PLANTS VS ZOMBIES -->
+<div class="game-card" onclick="openGameModal('Plants VS Zombies', 'plants_vs_zombies.html')">
+<img src="plants_vs_zombies.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Plants VS Zombies</h3></div>
+</div>
+<!-- CELESTE -->
+<div class="game-card" onclick="openGameModal('Celste', 'celeste.html')">
+<img src="celeste.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Celeste</h3></div>
+</div>
+<!-- BART BLAST -->
+<div class="game-card" onclick="openGameModal('Bart Blast', 'bart_blast.html')">
+<img src="bart_blast.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Bart Blast</h3></div>
+</div>
+<!-- EARTHBOUND -->
+<div class="game-card" onclick="openGameModal('Earthbound', 'earthbound.html')">
+<img src="earthbound.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Earthbound</h3></div>
+</div>
+<!-- TERRARIA -->
+<div class="game-card" onclick="openGameModal('Terraria', 'terraria.html')">
+<img src="terraria.jfif" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Terraria</h3></div>
+</div>
+<!-- LEVEL DEVIL -->
+<div class="game-card" onclick="openGameModal('Level Devil', 'level_devil.html')">
+<img src="level_devil.jfif" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Level Devil</h3></div>
+</div>
+<!-- TOTALLY ACCURATE BATTLE SIMULATOR -->
+<div class="game-card" onclick="openGameModal('Totally Accurate Battle Simulator', 'tabs.html')">
+<img src="tabs.jfif" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Totally Accurate Battle Simulator</h3></div>
+</div>
+<!-- BALATRO -->
+<div class="game-card" onclick="openGameModal('Balatro', 'balatro.html')">
+<img src="balatro.jfif" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Balatro</h3></div>
+</div>
+<!-- BITLIFE -->
+<div class="game-card" onclick="openGameModal('Bitlife', 'bitlife.html')">
+<img src="bitlife.jfif" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Bitlife</h3></div>
+</div>
+<!-- JUST SHAPES AND BEATS -->
+<div class="game-card" onclick="openGameModal('Just Shapes and Beats', 'just_shapes_beats.html')">
+<img src="just_shapes_and_beats.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Just Shapes and Beats</h3></div>
+</div>
+<!-- GEOMETRY DASH -->
+<div class="game-card" onclick="openGameModal('Geometry Dash', 'geometry_dash.html')">
+<img src="geometry_dash.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Geometry Dash</h3></div>
+</div>
+<!-- UNTITLED GOOSE GAME -->
+<div class="game-card" onclick="openGameModal('Untitiled Goose Game', 'untitled_goose_game.html')">
+<img src="untitled_goose_game.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Untitiled Goose Game</h3></div>
+</div>
+<!-- GAME SELECTION HOVER SQUARE GRID (PART 2) -->
+<!-- FRIDAY NIGHT FUNKIN -->
+<div class="game-card" onclick="openGameModal('Friday Night Funkin', 'friday_night_funkin.html')">
+<img src="friday_night_funkin.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Friday Night Funkin</h3></div>
+</div>
+<!-- BLOCK BLAST -->
+<div class="game-card" onclick="openGameModal('Block Blast', 'block_blast.html')">
+<img src="block_blast.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Block Blast</h3></div>
+</div>
+<!-- JETPACK JOYRIDE -->
+<div class="game-card" onclick="openGameModal('Jetpack Joyride', 'jetpack_joyride.html')">
+<img src="jetpack_joyride.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Jetpack Joyride</h3></div>
+</div>
+<!-- UNDERTALE -->
+<div class="game-card" onclick="openGameModal('Undertale', 'undertale.html')">
+<img src="undertale.png" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Undertale</h3></div>
+</div>
+<!-- STARDEW VALLEY -->
+<div class="game-card" onclick="openGameModal('Stardew Valley', 'stardew_valley.html')">
+<img src="stardew_valley.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Stardew Valley</h3></div>
+</div>
+<!-- BROTATO -->
+<div class="game-card" onclick="openGameModal('Brotato', 'brotato.html')">
+<img src="brotato.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Brotato</h3></div>
+</div>
+<!-- KICK THE BUDDY -->
+<div class="game-card" onclick="openGameModal('Kick the Buddy', 'kick_the_buddy.html')">
+<img src="kick_buddy.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Kick the Buddy</h3></div>
+</div>
+<!-- HOLE.IO -->
+<div class="game-card" onclick="openGameModal('Hole.io', 'hole_io.html')">
+<img src="hole_io.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Hole.io</h3></div>
+</div>
+<!-- HUMAN EXPENDITURE PROGRAM -->
+<div class="game-card" onclick="openGameModal('Human Expenditure Program', 'Human Expenditure Program.html')">
+<img src="human_expidenture.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Human Expenditure Program</h3></div>
+</div>
+<!-- KINDERGARTEN -->
+<div class="game-card" onclick="openGameModal('Kindergarten', 'Kindergarten.html')">
+<img src="kindergarten.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Kindergarten</h3></div>
+</div>
+<!-- BASKET RANDOM -->
+<div class="game-card" onclick="openGameModal('Basket Random', 'basket_random.html')">
+<img src="basket_random.jpeg" alt="Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Basket Random</h3></div>
+</div>
+<!-- CUPHEAD -->
+<div class="game-card" onclick="openGameModal('Cuphead', 'cup_head.html')">
+<img src="cup_head.jpeg" alt="Cuphead Cover Image" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Cuphead</h3></div>
+</div>
+<!-- BRIDGE RACE -->
+<div class="game-card" onclick="openGameModal('Bridge Race', 'Bridge_Race.html')">
+<img src="Bridge_Race.jpeg" alt="Game Cover" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Bridge Race</h3></div>
+</div>
+<!-- BART BASH -->
+<div class="game-card" onclick="openGameModal('Bart Bash', 'bart_bash.html')">
+<img src="bart_bash.jpeg" alt="Game Cover" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Bart Bash</h3></div>
+</div>
+<!-- ONESHOT -->
+<div class="game-card" onclick="openGameModal('Oneshot', 'oneshot.html')">
+<img src="oneshot.jpeg" alt="Game Cover" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Oneshot</h3></div>
+</div>
+<!-- HOLLOW KNIGHT -->
+<div class="game-card" onclick="openGameModal('Hollow Knight', 'hollow_knight.html')">
+<img src="hollow_knight.jpeg" alt="Game Cover" class="game-card-img">
+<div class="game-card-overlay"><h3 class="game-card-title">Hollow Knight</h3></div>
+</div>
+</div> <!-- Closes game-square-grid -->
+</div> <!-- Closes main content container -->
 
-        // Function execution loop triggering overlay systems viewstate
-        function openGameModal(title, fileUrl) {
-            titleText.textContent = title;
-            iframe.src = fileUrl;
-            modal.classList.add('modal-active');
-            mainContent.classList.add('background-blur-active');
-        }
+<!-- MODAL OVERLAY PORTALS -->
+<div class="game-modal-backdrop" id="gameModal">
+<div class="game-modal-window">
+<div class="game-modal-header">
+<span class="game-modal-title" id="modalGameTitle">Game Title</span>
+<button class="game-modal-close-btn" onclick="closeGameModal()">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+<div class="game-modal-viewport">
+<iframe src="about:blank" id="modalGamelframe"></iframe>
+</div>
+</div>
+</div>
 
-        // Clean interface reset dumping active frames components cleanly
-        function closeGameModal() {
-            modal.classList.remove('modal-active');
-            mainContent.classList.remove('background-blur-active');
-            iframe.src = 'about:blank'; // Stops performance threads or game sound buffers instantly
-        }
+<script>
+const modal = document.getElementById('gameModal');
+const mainContent = document.getElementById('main-content-blur-target');
+const iframe = document.getElementById('modalGamelframe');
+const titleText = document.getElementById('modalGameTitle');
 
-        // Close instantly if user clicks out inside background layer space bounds
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeGameModal();
+// Grab element nodes for real-time dashboards
+const searchInput = document.getElementById('gameSearch');
+const countDisplay = document.getElementById('gameCount');
+const gameCards = document.querySelectorAll('.game-card');
+
+// Dynamic layout filtering calculations loop
+function updateGameDashboard() {
+    const filterText = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    gameCards.forEach(card => {
+        const titleElement = card.querySelector('.game-card-title');
+        if (titleElement) {
+            const currentTitle = titleElement.textContent.toLowerCase();
+            if (currentTitle.includes(filterText)) {
+                card.style.display = ""; 
+                visibleCount++;
+            } else {
+                card.style.display = "none"; 
             }
-        });
-    </script>
+        }
+    });
+    countDisplay.textContent = visibleCount;
+}
 
+// Map keypress inputs and initiation sequences
+searchInput.addEventListener('input', updateGameDashboard);
+window.addEventListener('DOMContentLoaded', updateGameDashboard);
+
+function openGameModal(title, fileUrl) {
+titleText.textContent = title;
+iframe.src = fileUrl;
+modal.classList.add('modal-active');
+mainContent.classList.add('background-blur-active');
+}
+
+function closeGameModal() {
+modal.classList.remove('modal-active');
+mainContent.classList.remove('background-blur-active');
+iframe.src = 'about:blank'; 
+}
+
+modal.addEventListener('click', function(e) {
+if (e.target === modal) {
+closeGameModal();
+}
+});
+</script>
 </body>
 </html>

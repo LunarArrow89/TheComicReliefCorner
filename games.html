@@ -13,48 +13,59 @@
 <!-- Loader Script -->
 <script defer src="load.js"></script>
 <style>
-/* Dashboard Controls Alignment Layouts */
+/* Seamless Dark-Themed Control Layout */
 .controls-container {
-    margin-top: 20px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    width: 100%;
 }
 .search-wrapper {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 440px;
 }
 .search-input {
     width: 100%;
-    padding: 12px 20px 12px 45px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 25px;
+    padding: 14px 20px 14px 50px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #ffffff;
+    /* Matches your sidebar option background color */
+    background-color: rgba(255, 255, 255, 0.06); 
+    /* Matches the subtle rounded boundaries of your navigation */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     outline: none;
-    transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.25s ease-in-out;
 }
 .search-input:focus {
-    border-color: #ff4757;
-    box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 .search-icon {
     position: absolute;
-    left: 18px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #888;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
 }
 .games-counter {
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 6px 16px;
-    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
     letter-spacing: 0.5px;
+}
+.games-counter span {
+    color: #ffffff;
+    font-weight: 700;
 }
 </style>
 </head>
@@ -69,14 +80,14 @@
 <h1>The Gaming Zone</h1>
 <p>PLAY UNDERTALE RIGHT FRICKING NOW</p>
 
-<!-- DYNAMIC CONTROLS ENGAGEMENT REGION -->
+<!-- SEAMLESSLY INTEGRATED CONTROL DASHBOARD -->
 <div class="controls-container">
     <div class="search-wrapper">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="gameSearch" class="search-input" placeholder="Search games...">
+        <input type="text" id="gameSearch" class="search-input" placeholder="Search your games...">
     </div>
     <div class="games-counter">
-        Total Games: <span id="gameCount">0</span>
+        Showing 	<span id="gameCount">0</span> total titles
     </div>
 </div>
 </div>

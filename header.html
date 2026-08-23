@@ -14,16 +14,16 @@
     </div> 
   </div> 
 
-  <!-- Send Request Action Button Trigger (FIXED: Added direct inline force-open action) --> 
-  <a href="#" class="send-btn" id="openModalBtn" aria-label="Send to Creator" onclick="document.getElementById('requestModal').style.display = 'flex'; return false;"> 
+  <!-- Send Request Action Button Trigger (FIXED: Changed tag structure to raw button element) --> 
+  <button type="button" class="send-btn" id="openModalBtn" aria-label="Send to Creator" onclick="document.getElementById('requestModal').style.display = 'flex';"> 
     <img src="send.png" alt="Send Icon" class="send-icon"> 
-  </a> 
+  </button> 
 </div> 
 
 <!-- Backdrop Blur Modal Overlay Box (THE REQUEST THING) --> 
 <div class="modal-overlay" id="requestModal"> 
   <div class="modal-content"> 
-    <!-- Close Panel Icon Button (FIXED: Added direct inline force-close action) -->
+    <!-- Close Panel Icon Button -->
     <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close request panel" onclick="document.getElementById('requestModal').style.display = 'none';">&times;</button> 
     
     <h2>Submit a Request</h2> 

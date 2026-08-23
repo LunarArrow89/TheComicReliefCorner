@@ -14,8 +14,8 @@
     </div> 
   </div> 
 
-  <!-- Send Request Action Button Trigger --> 
-  <a href="#" class="send-btn" id="openModalBtn" aria-label="Send to Creator"> 
+  <!-- Send Request Action Button Trigger (FIXED: Added direct inline force-open action) --> 
+  <a href="#" class="send-btn" id="openModalBtn" aria-label="Send to Creator" onclick="document.getElementById('requestModal').style.display = 'flex'; return false;"> 
     <img src="send.png" alt="Send Icon" class="send-icon"> 
   </a> 
 </div> 
@@ -23,8 +23,8 @@
 <!-- Backdrop Blur Modal Overlay Box (THE REQUEST THING) --> 
 <div class="modal-overlay" id="requestModal"> 
   <div class="modal-content"> 
-    <!-- Close Panel Icon Button -->
-    <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close request panel">&times;</button> 
+    <!-- Close Panel Icon Button (FIXED: Added direct inline force-close action) -->
+    <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close request panel" onclick="document.getElementById('requestModal').style.display = 'none';">&times;</button> 
     
     <h2>Submit a Request</h2> 
     <p>Got an idea, feedback, or a game recommendation? Type your message below to test out the submission button.</p> 
@@ -171,31 +171,12 @@
 
 <!-- CLIENT MODAL ACTION CONTROL JAVASCRIPT LOGIC ENGINE -->
 <script> 
-// Cache Reference Elements 
 const modal = document.getElementById('requestModal'); 
-const openBtn = document.getElementById('openModalBtn'); 
-const closeBtn = document.getElementById('closeModalBtn'); 
 const form = document.getElementById('requestForm'); 
 const statusMsg = document.getElementById('formStatus'); 
 const submitBtn = document.getElementById('submitBtn'); 
 
-// Click Trigger Logic: Open Panel 
-if (openBtn) { 
-  openBtn.onclick = (e) => { 
-    e.preventDefault(); 
-    if (modal) modal.style.display = 'flex'; /* Pops open layout box overlay smoothly */
-    if (statusMsg) statusMsg.innerText = ''; 
-  }; 
-} 
-
-/* Click Trigger Logic: Close Panel via X button */
-if (closeBtn && modal) {
-  closeBtn.onclick = () => {
-    modal.style.display = 'none';
-  };
-}
-
-/* Click Trigger Logic: Close Panel by clicking background space layout mask area */
+/* Backup click trigger logic to close the panel if clicking on the background space shadow mask area */
 window.onclick = (e) => { 
   if (modal && e.target === modal) {
     modal.style.display = 'none'; 

@@ -20,40 +20,49 @@
   </button> 
 </div> 
 
-<!-- Backdrop Blur Modal Overlay Box (Kept inside header file but forced to top layer) --> 
+<!-- Backdrop Blur Modal Overlay Box --> 
 <div class="modal-overlay" id="requestModal"> 
-  <div class="modal-content"> 
+  <div class="modal-content" id="modalContentArea"> 
     <!-- Close Panel Icon Button -->
     <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close request panel" onclick="document.getElementById('requestModal').style.display = 'none';">&times;</button> 
     
-    <h2>Submit a Request</h2> 
-    <p>Got an idea, feedback, or a game recommendation? Type your message below to test out the submission button.</p> 
-    
-    <!-- Submission Text Area Form Block -->
-    <form id="requestForm"> 
-      <div class="input-group"> 
-        <textarea id="userMessage" name="Message" placeholder="Type your request here..." required></textarea> 
-      </div> 
-      <button type="submit" class="submit-btn" id="submitBtn">Send Request</button> 
-    </form> 
-    
-    <!-- Submission Status Handling Text Block -->
-    <div id="formStatus" class="status-msg"></div> 
+    <!-- View 1: Main Submission Layout Form -->
+    <div id="formView" style="display: block;">
+      <h2>Submit a Request</h2> 
+      <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
+      
+      <form id="requestForm"> 
+        <div class="input-group"> 
+          <textarea id="userMessage" name="Message" placeholder="Type your request here..." required></textarea> 
+        </div> 
+        <button type="submit" class="submit-btn" id="submitBtn">Send Request</button> 
+      </form> 
+      
+      <div id="formStatus" class="status-msg"></div> 
+    </div>
+
+    <!-- View 2: Stored Request Database Collection Viewer Dashboard -->
+    <div id="collectionView" style="display: none; height: 100%; flex-direction: column;">
+      <h2>Stored User Requests</h2>
+      <p>Viewing all entries saved to this local storage profile node.</p>
+      
+      <!-- Scrollable Container Box for Logs -->
+      <div id="requestLogContainer" class="request-log-box"></div>
+      
+      <button type="button" class="submit-btn" style="margin-top: 15px;" onclick="document.getElementById('collectionView').style.display='none'; document.getElementById('formView').style.display='block';">← Go Back</button>
+    </div>
   </div> 
 </div> 
-
 <!-- ALL-IN-ONE INLINE CSS STYLES (Forces overlay out of header restrictions) -->
 <style>
-/* Request Modal Overlay Backdrop Shield */
 .modal-overlay {
   display: none; 
-  /* CRITICAL FORCE-LAYER FIXES: */
   position: fixed !important; 
   top: 0 !important;          
   left: 0 !important;         
   width: 100vw !important;    
   height: 100vh !important;   
-  z-index: 9999999 !important; /* Forces layout completely out of header block restrictions */
+  z-index: 9999999 !important; 
   background-color: rgba(10, 5, 12, 0.85) !important; 
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
@@ -61,8 +70,6 @@
   align-items: center !important;        
   box-sizing: border-box !important;
 }
-
-/* Central Input Window Block Frame */
 .modal-content {
   background-color: #120910 !important;
   border: 1px solid rgba(255, 105, 180, 0.25) !important;
@@ -77,7 +84,6 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 105, 180, 0.1) !important;
   color: white !important;
 }
-
 .modal-content h2 {
   margin: 0 0 8px 0 !important;
   font-size: 24px !important;
@@ -85,20 +91,16 @@
   color: white !important;
   text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255, 105, 180, 0.5) !important;
 }
-
 .modal-content p {
   color: #bbb !important;
   font-size: 14px !important;
   margin: 0 0 20px 0 !important;
   line-height: 1.4 !important;
 }
-
 .input-group {
   width: 100% !important;
   margin-bottom: 20px !important;
 }
-
-/* Form Typing Textarea Field Style Box */
 .modal-content textarea {
   width: 100% !important;
   height: 140px !important;
@@ -113,13 +115,38 @@
   box-sizing: border-box !important;
   outline: none !important;
 }
-
 .modal-content textarea:focus {
   border-color: #ff69b4 !important;
   box-shadow: 0 0 10px rgba(255, 105, 180, 0.2) !important;
 }
-
-/* Panel Form Send Request Action Button */
+.request-log-box {
+  flex-grow: 1;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #1f121b;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.request-log-box::-webkit-scrollbar {
+  width: 6px;
+}
+.request-log-box::-webkit-scrollbar-thumb {
+  background: rgba(255, 105, 180, 0.3);
+  border-radius: 10px;
+}
+.single-request-item {
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 105, 180, 0.1);
+  padding: 8px 0;
+  color: #e7e7e7;
+  word-break: break-word;
+  text-align: left;
+}
+.single-request-item:last-child {
+  border-bottom: none;
+}
 .modal-content .submit-btn {
   background-color: #1f121b !important;
   color: #ffffff !important;
@@ -129,19 +156,16 @@
   font-size: 14px !important;
   font-weight: bold !important;
   font-family: inherit !important;
-  cursor: pointer !important;
+  cursor: pointer;
   width: 100% !important;
   transition: all 0.25s ease-in-out !important;
 }
-
 .modal-content .submit-btn:hover {
   background-color: #261120 !important;
   color: #ff69b4 !important;
   border-color: #ff69b4 !important;
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4) !important;
 }
-
-/* Panel Close X Button Style Element */
 .close-btn {
   position: absolute !important;
   top: 20px !important;
@@ -153,11 +177,9 @@
   cursor: pointer !important;
   line-height: 1 !important;
   padding: 0 !important;
+  z-index: 10;
 }
-.close-btn:hover { 
-  color: #ff69b4 !important; 
-}
-
+.close-btn:hover { color: #ff69b4 !important; }
 .status-msg {
   font-size: 13px !important;
   text-align: center !important;
@@ -168,57 +190,88 @@
 
 <!-- CLIENT MODAL ACTION CONTROL JAVASCRIPT LOGIC ENGINE -->
 <script> 
-// Backup click trigger logic to close the panel if clicking on the background space shadow mask area
 window.onclick = (e) => { 
   const modal = document.getElementById('requestModal'); 
-  if (modal && e.target === modal) {
-    modal.style.display = 'none'; 
-  }
+  if (modal && e.target === modal) modal.style.display = 'none'; 
 }; 
 
-// Local Form Simulation Logic
 const form = document.getElementById('requestForm');
 if (form) { 
   form.addEventListener('submit', function(e) { 
     e.preventDefault(); 
+    
     const submitBtn = document.getElementById('submitBtn');
     const statusMsg = document.getElementById('formStatus');
+    const userMessageInput = document.getElementById('userMessage');
+    const typedText = userMessageInput.value.trim();
     
+    // SECRET CODE VIEWING ACCESS
+    if (typedText === '2697') {
+      userMessageInput.value = ''; 
+      let savedRequests = [];
+      try {
+        savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
+      } catch(err) {
+        savedRequests = [];
+      }
+      
+      const container = document.getElementById('requestLogContainer');
+      container.innerHTML = ''; 
+      
+      if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
+        container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
+      } else {
+        savedRequests.slice().reverse().forEach(text => {
+          let item = document.createElement('div');
+          item.className = 'single-request-item';
+          item.innerText = text;
+          container.appendChild(item);
+        });
+      }
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('collectionView').style.display = 'flex';
+      return;
+    }
+
+    // STANDARD VISITOR SUBMISSION FLOW
     submitBtn.disabled = true; 
     submitBtn.innerText = 'Sending...'; 
-    
     if (statusMsg) {
       statusMsg.style.color = '#b3a6b5'; 
       statusMsg.innerText = 'Processing your text request...'; 
     }
     
     setTimeout(() => {
-      submitBtn.disabled = false; 
-      submitBtn.innerText = 'Send Request'; 
-      
-      if (statusMsg) {
-        statusMsg.style.color = '#00ffcc'; 
-        statusMsg.innerText = '✓ Request processed successfully (Local Test Mode)!'; 
+      let currentLogs = [];
+      try {
+        currentLogs = JSON.parse(localStorage.getItem('cornerRequests')) || [];
+        if (!Array.isArray(currentLogs)) currentLogs = [];
+      } catch(err) {
+        currentLogs = [];
       }
       
-      form.reset(); 
+      currentLogs.push(typedText);
+      localStorage.setItem('cornerRequests', JSON.stringify(currentLogs));
       
+      submitBtn.disabled = false; 
+      submitBtn.innerText = 'Send Request'; 
+      if (statusMsg) {
+        statusMsg.style.color = '#00ffcc'; 
+        statusMsg.innerText = '✓ Request processed successfully!'; 
+      }
+      form.reset(); 
       setTimeout(() => { 
         document.getElementById('requestModal').style.display = 'none'; 
       }, 1500);
-      
     }, 1000);
   }); 
 } 
 
-// Live-Updating Synchronized Clock Engine 
 function updateClock(){ 
   const now = new Date(); 
   const timeBox = document.getElementById("timeBox"); 
   const dateBox = document.getElementById("dateBox"); 
-  if (timeBox) { 
-    timeBox.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
-  } 
+  if (timeBox) timeBox.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
   if (dateBox) { 
     const rawDate = now.toLocaleDateString([], {month: 'short', day: 'numeric'}); 
     dateBox.innerText = rawDate.toUpperCase(); 

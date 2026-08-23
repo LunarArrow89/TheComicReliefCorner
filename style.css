@@ -131,12 +131,12 @@ body {
   align-items: center;
   gap: 15px;
   padding: 15px;
-  /* FIX: Reserves hard space on the far right wall so text never covers the icon */
+  /* FIX: Added hard right padding constraint so the text scrolling ticker can never mask your action button */
   padding-right: 68px; 
   background: #120910;
   border-bottom: 1px solid rgba(255, 105, 180, 0.15);
   z-index: 1000;
-  box-sizing: border-box; /* Forces layout padding inside calculation math */
+  box-sizing: border-box; /* FIX: Crucial to keep layout math from over-expanding the container width */
 }
 
 .time-box, .date-box {
@@ -147,10 +147,10 @@ body {
   color: white;
   min-width: 120px;
   text-align: center;
-  flex-shrink: 0; /* Prevents time/date elements from crushing down */
+  flex-shrink: 0; /* FIX: Added constraint preventing layout columns from squeezing down on narrow windows */
 }
 
-/* FIX: Added missing layout parameters for the inline donate link style */
+/* FIX: Unified Donate Button theme declarations to cleanly map onto your pink theme styles */
 .bmc-inline-btn {
   background-color: #1f121b;
   color: #ffffff;
@@ -177,11 +177,11 @@ body {
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
-/* FIX: Refactored container bounds to restrict text track bleed */
+/* Update your scrolling text wrap container */
 .ticker-wrap {
   flex: 1;
-  min-width: 0;       /* CRITICAL FIX: Breaks flexbox rule preventing text from clipping off-screen */
-  overflow: hidden;   /* Masks and clips text string boundaries inside the bar track */
+  min-width: 0;       /* CRITICAL FIX: Forces element to stay bounded inside available layout width rather than ballooning off-screen */
+  overflow: hidden;   /* Keeps long text content locked down inside border wrap rules */
   background: #1f121b;
   border: 1px solid rgba(255, 105, 180, 0.15);
   border-radius: 12px;
@@ -190,21 +190,23 @@ body {
   align-items: center;
 }
 
+/* FIX: Upgraded layout layer assignment for marquee ticker rendering */
 .ticker {
   white-space: nowrap;
   padding-left: 100%;
   animation: scroll 18s linear infinite;
   color: white;
   font-weight: 600;
-  display: inline-block; /* Forces text element onto an independent layout rendering layer */
+  display: inline-block;
 }
 
+/* FIX: Upgraded transform rendering to use hardware accelerated translate3d mechanics */
 @keyframes scroll {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); } /* Uses hardware accelerated translate3d mechanics */
+  100% { transform: translate3d(-100%, 0, 0); }
 }
 
-/* FIX: Added missing style code for your message open button */
+/* Protected Send Button Rules */
 .send-btn {
   background-color: #1f121b;
   border: 1px solid rgba(255, 105, 180, 0.15);
@@ -219,10 +221,10 @@ body {
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   position: absolute;
-  right: 15px; /* Safely anchors element to the bar side under right padding protection */
+  right: 15px; /* FIX: Repositioned neatly on the bar wall, protected by your custom right padding boundaries */
   top: 50%;
-  transform: translateY(-50%);
-  z-index: 1001; /* Layer placement ensures button can be clicked over scrolling elements */
+  transform: translateY(-50%); /* Centers perfectly on the horizontal toolbar line */
+  z-index: 1001;
 }
 
 .send-btn:hover {
@@ -231,11 +233,13 @@ body {
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
+/* Scales the icon image cleanly inside the square */
 .send-icon {
   width: 18px;
   height: 18px;
   object-fit: contain;
 }
+
 
 /* ==========================================================================
    5. Workspace Hub Content Blocks

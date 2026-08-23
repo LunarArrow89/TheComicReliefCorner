@@ -118,185 +118,260 @@ body {
    PART 2: HEADER REGIONS, MODULE TIERS & WORKSPACE CANVAS UNITS
    ========================================================================== */
 
-/* 4. Header Regions & Marquee Embed */
+/* ==========================================================================
+   4. Header Regions & Marquee Embed (FIXED BOUNDARIES)
+   ========================================================================== */
 .header {
-    position: fixed;
-    top: 0;
-    left: 220px;
-    width: calc(100% - 220px);
-    height: 80px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    background: #120910;
-    border-bottom: 1px solid rgba(255, 105, 180, 0.15);
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 220px;
+  width: calc(100% - 220px);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  /* FIX: Reserves hard space on the far right wall so text never covers the icon */
+  padding-right: 68px; 
+  background: #120910;
+  border-bottom: 1px solid rgba(255, 105, 180, 0.15);
+  z-index: 1000;
+  box-sizing: border-box; /* Forces layout padding inside calculation math */
 }
 
 .time-box, .date-box {
-    background: #1f121b;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    border-radius: 12px;
-    padding: 10px 15px;
-    color: white;
-    min-width: 120px;
-    text-align: center;
+  background: #1f121b;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  padding: 10px 15px;
+  color: white;
+  min-width: 120px;
+  text-align: center;
+  flex-shrink: 0; /* Prevents time/date elements from crushing down */
 }
 
+/* FIX: Added missing layout parameters for the inline donate link style */
+.bmc-inline-btn {
+  background-color: #1f121b;
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  height: 42px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  flex-shrink: 0;
+}
+
+.bmc-inline-btn:hover {
+  background-color: #261120;
+  color: #ff69b4;
+  border-color: #ff69b4;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+/* FIX: Refactored container bounds to restrict text track bleed */
 .ticker-wrap {
-    flex: 1;
-    overflow: hidden;
-    background: #1f121b;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
+  flex: 1;
+  min-width: 0;       /* CRITICAL FIX: Breaks flexbox rule preventing text from clipping off-screen */
+  overflow: hidden;   /* Masks and clips text string boundaries inside the bar track */
+  background: #1f121b;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  height: 42px;
+  display: flex;
+  align-items: center;
 }
 
 .ticker {
-    white-space: nowrap;
-    padding-left: 100%;
-    animation: scroll 18s linear infinite;
-    color: white;
-    font-weight: 600;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: scroll 18s linear infinite;
+  color: white;
+  font-weight: 600;
+  display: inline-block; /* Forces text element onto an independent layout rendering layer */
 }
 
 @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); } /* Uses hardware accelerated translate3d mechanics */
 }
 
-/* 5. Workspace Hub Content Blocks */
+/* FIX: Added missing style code for your message open button */
+.send-btn {
+  background-color: #1f121b;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 42px;
+  height: 42px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  position: absolute;
+  right: 15px; /* Safely anchors element to the bar side under right padding protection */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001; /* Layer placement ensures button can be clicked over scrolling elements */
+}
+
+.send-btn:hover {
+  background-color: #261120;
+  border-color: #ff69b4;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+.send-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   5. Workspace Hub Content Blocks
+   ========================================================================== */
 .main {
-    margin-left: 220px;
-    margin-top: 95px;
-    padding: 25px;
-    width: calc(100% - 220px);
+  margin-left: 220px;
+  margin-top: 95px;
+  padding: 25px;
+  width: calc(100% - 220px);
 }
 
 .hero {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 .hero h1 {
-    font-size: 56px;
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
+  font-size: 56px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255,105,180,.7);
 }
 
 .hero p {
-    margin-top: 8px;
-    color: #ddd;
+  margin-top: 8px;
+  color: #ddd;
 }
 
 .note-box {
-    margin-top: 20px;
-    background: #1f121b;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    height: 200px;
+  margin-top: 20px;
+  background: #1f121b;
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 200px;
 }
 
 .note-box h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: white;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .note-box p {
-    margin: 0;
-    color: #e7e7e7;
-    line-height: 1.6;
+  margin: 0;
+  color: #e7e7e7;
+  line-height: 1.6;
 }
 
-/* 6. Feature Split Block Row Elements */
+/* ==========================================================================
+   6. Feature Split Block Row Elements
+   ========================================================================== */
 .feature-layout-row {
-    display: flex;
-    gap: 20px;
-    margin-top: 25px;
-    width: 100%;
-    align-items: stretch;
+  display: flex;
+  gap: 20px;
+  margin-top: 25px;
+  width: 100%;
+  align-items: stretch;
 }
 
 .feature-box-square {
-    flex: 0 0 auto;
-    background: #1f121b;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    width: 200px;
-    height: 200px;
-    box-sizing: border-box;
+  flex: 0 0 auto;
+  background: #1f121b;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+  box-sizing: border-box;
 }
 
 .feature-box-square img {
-    width: 100%;
-    height: 100%;
-    max-width: 160px; /* Adapts for padding constraints */
-    max-height: 160px; 
-    object-fit: contain;
-    display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 160px; /* Adapts for padding constraints */
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
 }
 
 .feature-box-rectangle {
-    flex: 1;
-    background: #1f121b;
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid rgba(255, 105, 180, 0.15);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    height: 200px;
+  flex: 1;
+  background: #1f121b;
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 200px;
 }
 
 .feature-box-rectangle h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: white;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .feature-box-rectangle p {
-    margin: 0;
-    color: #e7e7e7;
-    line-height: 1.6;
+  margin: 0;
+  color: #e7e7e7;
+  line-height: 1.6;
 }
 
-/* 7. Home Hub Multi-Color Link Quadrants */
+/* ==========================================================================
+   7. Home Hub Multi-Color Link Quadrants
+   ========================================================================== */
 .four-square-grid {
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-between; 
-    gap: 20px;
-    margin: 25px auto 0 auto;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 25px auto 0 auto;
+  width: 100%;
 }
 
 .grid-square {
-    flex: 1; 
-    aspect-ratio: 1 / 1; 
-    border: 1px solid rgba(255, 105, 180, 0.15); 
-    border-radius: 20px;
-    padding: 15px;
-    text-align: center;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-decoration: none; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 20px;
+  padding: 15px;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .grid-square:nth-child(1) { background: #261120; }
@@ -304,83 +379,95 @@ body {
 .grid-square:nth-child(3) { background: #0f2116; }
 .grid-square:nth-child(4) { background: #261911; }
 
-.grid-square:hover { transform: translateY(-8px); }
+.grid-square:hover {
+  transform: translateY(-8px);
+}
 
 .grid-square:nth-child(1):hover {
-    border-color: #ff69b4; 
-    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.25);
+  border-color: #ff69b4;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 105, 180, 0.25);
 }
+
 .grid-square:nth-child(2):hover {
-    border-color: #00bfff; 
-    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 191, 255, 0.25);
+  border-color: #00bfff;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 191, 255, 0.25);
 }
+
 .grid-square:nth-child(3):hover {
-    border-color: #00ff7f; 
-    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 127, 0.25);
+  border-color: #00ff7f;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 127, 0.25);
 }
+
 .grid-square:nth-child(4):hover {
-    border-color: #ffd700; 
-    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.25);
+  border-color: #ffd700;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.25);
 }
 
 .grid-img-wrap {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 14px;
-    width: 100%; 
-    height: 60%; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px; 
-    flex-shrink: 0;
-    overflow: hidden;
-    transition: background-color 0.25s ease;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: background-color 0.25s ease;
 }
 
 .grid-inner-text {
-    font-size: 3.5rem; 
-    line-height: 1;
-    display: inline-block;
-    user-select: none; 
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-    transition: transform 0.25s ease;
+  font-size: 3.5rem;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  transition: transform 0.25s ease;
 }
 
-.grid-square:hover .grid-inner-text { transform: scale(1.1); }
+.grid-square:hover .grid-inner-text {
+  transform: scale(1.1);
+}
 
 .grid-square:nth-child(1) .grid-img-wrap { background: #ff85c2; }
 .grid-square:nth-child(1):hover .grid-img-wrap { background: #ffb3d9; }
+
 .grid-square:nth-child(2) .grid-img-wrap { background: #3399ff; }
 .grid-square:nth-child(2):hover .grid-img-wrap { background: #66b2ff; }
+
 .grid-square:nth-child(3) .grid-img-wrap { background: #29e68a; }
 .grid-square:nth-child(3):hover .grid-img-wrap { background: #66ffb3; }
+
 .grid-square:nth-child(4) .grid-img-wrap { background: #ffaa44; }
 .grid-square:nth-child(4):hover .grid-img-wrap { background: #ffcc88; }
 
 .grid-square p {
-    margin: 0 0 2px 0;
-    font-size: 1.1rem;
-    font-weight: bold; 
-    color: #e7e7e7;
-    text-align: center;
-    line-height: 1.2;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    width: 100%;
+  margin: 0 0 2px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #e7e7e7;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .grid-desc {
-    font-size: 0.8rem; 
-    color: #aaa; 
-    text-align: center;
-    line-height: 1.2;
-    display: block;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; 
-    -webkit-box-orient: vertical;
-    width: 100%;
+  font-size: 0.8rem;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.2;
+  display: block;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+}
+
 }
 /* ==========================================================================
    PART 3A: CINEMA SYSTEM LAYOUTS & GENERAL GRIDS

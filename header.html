@@ -1,6 +1,6 @@
 <!-- Header Navigation Bar Layout --> 
 <div class="header"> 
-  <div class="time-box" id="timeBox">06:05 PM</div> 
+  <div class="time-box" id="timeBox">06:20 PM</div> 
   <div class="date-box" id="dateBox">AUG 23</div> 
   
   <a href="https://buymeacoffee.com" target="_blank" class="bmc-inline-btn"> 
@@ -32,20 +32,20 @@
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
       <div class="input-group"> 
-        <!-- FIXED INLINE CODE LISTENER: Triggers instantly on the 4th digit without any button logic dependencies -->
-        <textarea id="userMessage" placeholder="Type your request here..." oninput="if(this.value.trim() === '2697') { this.value = ''; let r = []; try { r = JSON.parse(localStorage.getItem('cornerRequests')) || []; } catch(e){} const c = document.getElementById('requestLogContainer'); if(c) { c.innerHTML = ''; if(r.length === 0) { c.innerHTML = '<div class=\'single-request-item\' style=\'color:#aaa; text-align:center;\'>No requests yet!</div>'; } else { r.slice().reverse().forEach(t => { let i = document.createElement('div'); i.className = 'single-request-item'; i.innerText = t; c.appendChild(i); }); } } document.getElementById('formView').style.display = 'none'; document.getElementById('collectionView').style.display = 'flex'; }"></textarea> 
+        <!-- GLOBAL LIVE CODE LISTENER: Directly queries the live global database on code type -->
+        <textarea id="userMessage" placeholder="Type your request here..." oninput="if(this.value.trim() === '2697') { this.value = ''; const c = document.getElementById('requestLogContainer'); if(c) { c.innerHTML = '<div class=\'single-request-item\' style=\'color:#ff69b4; text-align:center;\'>Connecting to global database...</div>'; } document.getElementById('formView').style.display = 'none'; document.getElementById('collectionView').style.display = 'flex'; fetch('https://kvdb.io').then(res => res.json()).then(data => { if(c) { c.innerHTML = ''; if(!data || data.length === 0) { c.innerHTML = '<div class=\'single-request-item\' style=\'color:#aaa; text-align:center;\'>No global requests found.</div>'; } else { data.slice().reverse().forEach(t => { let i = document.createElement('div'); i.className = 'single-request-item'; i.innerText = t; c.appendChild(i); }); } } }).catch(err => { if(c) c.innerHTML = '<div class=\'single-request-item\' style=\'color:#ff3366; text-align:center;\'>Failed to load global data.</div>'; }); }"></textarea> 
       </div> 
       
-      <!-- FIXED INLINE SUBMISSION ENGINE: Processes memory array updates and closes window locally on click -->
-      <button type="button" class="submit-btn" id="submitBtn" onclick="const txt = document.getElementById('userMessage'); const msg = document.getElementById('formStatus'); if(!txt || !txt.value.trim()) { if(msg) { msg.style.color = '#ff3366'; msg.innerText = 'Please enter a request first!'; } return; } this.disabled = true; this.innerText = 'Sending...'; if(msg) { msg.style.color = '#b3a6b5'; msg.innerText = 'Processing request...'; } setTimeout(() => { let logs = []; try { logs = JSON.parse(localStorage.getItem('cornerRequests')) || []; if(!Array.isArray(logs)) logs = []; } catch(e){} logs.push(txt.value.trim()); localStorage.setItem('cornerRequests', JSON.stringify(logs)); this.disabled = false; this.innerText = 'Send Request'; if(msg) { msg.style.color = '#00ffcc'; msg.innerText = '✓ Request processed successfully!'; } txt.value = ''; setTimeout(() => { document.getElementById('requestModal').style.display = 'none'; if(msg) msg.innerText = ''; }, 1200); }, 800); return false;">Send Request</button> 
+      <!-- GLOBAL INLINE SUBMISSION ENGINE: Pulls live arrays, updates data keys, and uploads back to the cloud network -->
+      <button type="button" class="submit-btn" id="submitBtn" onclick="const txt = document.getElementById('userMessage'); const msg = document.getElementById('formStatus'); if(!txt || !txt.value.trim()) { if(msg) { msg.style.color = '#ff3366'; msg.innerText = 'Please enter a request first!'; } return; } const cleanTxt = txt.value.trim(); this.disabled = true; this.innerText = 'Sending...'; if(msg) { msg.style.color = '#b3a6b5'; msg.innerText = 'Uploading to global database...'; } fetch('https://kvdb.io').then(res => res.json()).catch(() => []).then(currentLogs => { if(!Array.isArray(currentLogs)) currentLogs = []; currentLogs.push(cleanTxt); return fetch('https://kvdb.io', { method: 'POST', body: JSON.stringify(currentLogs) }); }).then(() => { this.disabled = false; this.innerText = 'Send Request'; if(msg) { msg.style.color = '#00ffcc'; msg.innerText = '✓ Request sent to Creator globally!'; } txt.value = ''; setTimeout(() => { document.getElementById('requestModal').style.display = 'none'; if(msg) msg.innerText = ''; }, 1500); }).catch(err => { this.disabled = false; this.innerText = 'Send Request'; if(msg) { msg.style.color = '#ff3366'; msg.innerText = 'Network error! Try again.'; } }); return false;">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
     </div>
 
     <!-- View 2: Stored Request Database Collection Viewer Dashboard -->
     <div id="collectionView" style="display: none; height: 100%; flex-direction: column;">
-      <h2>Stored User Requests</h2>
-      <p>Viewing all entries saved to this local storage profile node.</p>
+      <h2>Global User Requests</h2>
+      <p>Viewing all entries submitted by everyone across the web.</p>
       
       <!-- Scrollable Container Box for Logs -->
       <div id="requestLogContainer" class="request-log-box"></div>
@@ -186,7 +186,7 @@
 </style>
 
 <script>
-// Streamlined system clock engine backup logic
+// Streamlined clock engine
 function updateClock(){ 
   const now = new Date(); 
   const timeBox = document.getElementById("timeBox"); 

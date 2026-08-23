@@ -1,61 +1,277 @@
+<!-- HTML Structure -->
 <div class="header"> 
-    <div class="time-box" id="timeBox"></div> 
-    <div class="date-box" id="dateBox"></div> 
-    
-    <!-- Neon Interactive Donate Button -->
-    <a href="https://buymeacoffee.com/LunarArrow89" target="_blank" class="bmc-inline-btn">
-        Donate
-    </a>
+  <div class="time-box" id="timeBox">04:55 PM</div> 
+  <div class="date-box" id="dateBox">AUG 23</div> 
+  
+  <a href="https://buymeacoffee.com" target="_blank" class="bmc-inline-btn"> Donate </a> 
+  
+  <div class="ticker-wrap"> 
+    <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
+  </div> 
 
-    <div class="ticker-wrap"> 
-        <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
-    </div> 
+  <!-- Square Send Button (Far Right) -->
+  <button type="button" class="send-btn" id="openModalBtn" aria-label="Send to Creator">
+    <img src="send.png" alt="Send Icon" class="send-icon">
+  </button>
 </div> 
 
-<style>
-    .header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+<!-- Backdrop Blur Modal Overlay -->
+<div class="modal-overlay" id="requestModal">
+  <div class="modal-content">
+    <button type="button" class="close-btn" id="closeModalBtn">&times;</button>
+    <h2>Submit a Request</h2>
+    <p>Got an idea or feedback? Send it straight to the creator.</p>
     
-    /* Identical to your standard boxes when idle */
-    .bmc-inline-btn {
-        background-color: #1a0e1c; 
-        color: #ffffff; 
-        font-family: inherit; 
-        font-size: 14px;
-        text-decoration: none;
-        padding: 6px 16px;
-        border-radius: 8px; 
-        border: 1px solid rgba(255, 255, 255, 0.08); 
-        
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        white-space: nowrap;
-        height: fit-content;
-        box-sizing: border-box;
-        cursor: pointer;
-        transition: all 0.25s ease-in-out;
-    }
+    <!-- Native Form running completely inside your website code -->
+    <form id="requestForm">
+      <div class="input-group">
+        <textarea id="userMessage" name="Message" placeholder="Type your request here..." required></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Send Request</button>
+    </form>
+    <div id="formStatus" class="status-msg"></div>
+  </div>
+</div>
 
-    /* Eye-catching neon pink transformation on hover */
-    .bmc-inline-btn:hover {
-        background-color: #251429;
-        color: #ff5ebb; /* Sharp neon pink text color */
-        border-color: #ff5ebb; /* Neon pink border */
-        box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), /* Bright pink outer glow */
-                    inset 0 0 4px rgba(255, 94, 187, 0.4); /* Subtle internal neon glow */
-    }
+<style> 
+/* Navigation Layout Alignment */
+.header { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+} 
+
+.bmc-inline-btn { 
+  background-color: #1a0e1c; 
+  color: #ffffff; 
+  font-family: inherit; 
+  font-size: 14px; 
+  text-decoration: none; 
+  padding: 6px 16px; 
+  border-radius: 8px; 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  white-space: nowrap; 
+  height: fit-content; 
+  box-sizing: border-box; 
+  cursor: pointer; 
+  transition: all 0.25s ease-in-out; 
+} 
+
+.bmc-inline-btn:hover { 
+  background-color: #251429; 
+  color: #ff5ebb; 
+  border-color: #ff5ebb; 
+  box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), inset 0 0 4px rgba(255, 94, 187, 0.4); 
+} 
+
+.send-btn {
+  background-color: #1a0e1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;       
+  height: 34px;      
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  margin-left: auto; 
+}
+
+.send-btn:hover {
+  background-color: #251429;
+  border-color: #ff5ebb;
+  box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), inset 0 0 4px rgba(255, 94, 187, 0.4);
+}
+
+.send-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* ==========================================================
+   MODAL & BLUR THEME ACCENT STYLES
+   ========================================================== */
+.modal-overlay {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 5, 12, 0.6); 
+  backdrop-filter: blur(8px); 
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Theme accurate square container dimensions */
+.modal-content {
+  background-color: #120814; 
+  border: 2px solid rgba(255, 94, 187, 0.3); 
+  border-radius: 12px;
+  width: 400px;
+  height: 400px; 
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 94, 187, 0.1);
+  color: #ffffff;
+  font-family: inherit;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 22px;
+  color: #ff5ebb; 
+}
+
+.modal-content p {
+  color: #b3a6b5;
+  font-size: 13px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+textarea {
+  width: 100%;
+  height: 140px;
+  background-color: #1a0e1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+textarea:focus {
+  border-color: #ff5ebb;
+  box-shadow: 0 0 10px rgba(255, 94, 187, 0.3);
+}
+
+.submit-btn {
+  background-color: #1a0e1c;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.25s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #251429;
+  color: #ff5ebb;
+  border-color: #ff5ebb;
+  box-shadow: 0 0 15px rgba(255, 94, 187, 0.5);
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #b3a6b5;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.close-btn:hover {
+  color: #ff5ebb;
+}
+
+.status-msg {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+}
 </style>
 
-<script> 
+<script>
+// Modal Visibility Handlers
+const modal = document.getElementById('requestModal');
+const openBtn = document.getElementById('openModalBtn');
+const closeBtn = document.getElementById('closeModalBtn');
+const form = document.getElementById('requestForm');
+const statusMsg = document.getElementById('formStatus');
+const submitBtn = document.getElementById('submitBtn');
+
+openBtn.onclick = () => { modal.style.display = 'flex'; statusMsg.innerText = ''; };
+closeBtn.onclick = () => modal.style.display = 'none';
+window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+
+// Background submission processing logic
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  submitBtn.disabled = true;
+  submitBtn.innerText = 'Sending...';
+  statusMsg.style.color = '#b3a6b5';
+  statusMsg.innerText = 'Saving response...';
+
+  // !!! REPLACE THIS LINK WITH YOUR UNIQUE FORMSPREE ENDPOINT URL !!!
+  const formspreeURL = 'https://formspree.io/f/mljrkadg';
+
+  const formData = new FormData(form);
+
+  fetch(formspreeURL, {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(response => {
+    if (response.ok) {
+      submitBtn.disabled = false;
+      submitBtn.innerText = 'Send Request';
+      statusMsg.style.color = '#00ffcc'; // Neon Cyan Success Msg
+      statusMsg.innerText = '✓ Request saved successfully!';
+      form.reset();
+      setTimeout(() => { modal.style.display = 'none'; }, 1500);
+    } else {
+      throw new Error('Network error');
+    }
+  })
+  .catch(error => {
+    submitBtn.disabled = false;
+    submitBtn.innerText = 'Send Request';
+    statusMsg.style.color = '#ff3366'; // Neon Red Error Msg
+    statusMsg.innerText = 'Error saving request.';
+  });
+});
+
+// Sync Time Engine
 function updateClock(){ 
-    const now = new Date(); 
-    document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
-    document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'SHORT_OR_YOUR_FORMAT', day: 'numeric'}); 
+  const now = new Date(); 
+  document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
+  document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'short', day: 'numeric'}).toUpperCase(); 
 } 
 setInterval(updateClock,1000); 
-updateClock(); 
+updateClock();
 </script>

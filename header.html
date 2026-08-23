@@ -1,6 +1,6 @@
 <!-- Header Navigation Bar Layout --> 
 <div class="header"> 
-  <div class="time-box" id="timeBox">05:04 PM</div> 
+  <div class="time-box" id="timeBox">06:05 PM</div> 
   <div class="date-box" id="dateBox">AUG 23</div> 
   
   <a href="https://buymeacoffee.com" target="_blank" class="bmc-inline-btn"> 
@@ -32,8 +32,9 @@
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
       <div class="input-group"> 
-        <textarea id="userMessage" placeholder="Type your request here..." required></textarea> 
+        <textarea id="userMessage" placeholder="Type your request here..."></textarea> 
       </div> 
+      <!-- FIXED: Streamlined inline event listener prevents processing locks -->
       <button type="button" class="submit-btn" id="submitBtn" onclick="handleRequestSubmit();">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
@@ -214,15 +215,24 @@ function renderLogsList() {
   }
 }
 
-// MAIN SUBMISSION ROUTINE
+// SIMPLIFIED CLEAN ACTION SUBMISSION HANDLING ENGINE
 function handleRequestSubmit() {
   const submitBtn = document.getElementById('submitBtn');
   const statusMsg = document.getElementById('formStatus');
   const userMessageInput = document.getElementById('userMessage');
+  
+  if (!userMessageInput || !submitBtn) return;
   const typedText = userMessageInput.value.trim();
   
-  if (!typedText) return;
+  if (!typedText) {
+    if (statusMsg) {
+      statusMsg.style.color = '#ff3366';
+      statusMsg.innerText = 'Please enter a request first!';
+    }
+    return;
+  }
   
+  // SECRET CODE PANEL INTERACTION CHECK
   if (typedText === '2697') {
     userMessageInput.value = ''; 
     renderLogsList();
@@ -232,6 +242,7 @@ function handleRequestSubmit() {
     return;
   }
 
+  // STANDARD VISITOR SUBMISSION STORAGE SYSTEM
   submitBtn.disabled = true; 
   submitBtn.innerText = 'Sending...'; 
   if (statusMsg) {
@@ -258,8 +269,12 @@ function handleRequestSubmit() {
       statusMsg.innerText = '✓ Request processed successfully!'; 
     }
     userMessageInput.value = ''; 
+    
+    // Smooth Close Action Timeout Routine
     setTimeout(() => { 
-      document.getElementById('requestModal').style.display = 'none'; 
+      const targetModal = document.getElementById('requestModal');
+      if (targetModal) targetModal.style.display = 'none'; 
+      if (statusMsg) statusMsg.innerText = '';
     }, 1500);
   }, 1000);
 }
@@ -268,10 +283,7 @@ function handleRequestSubmit() {
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('Message') === '2697') {
-    // Force history clean to remove code from address bar links
     window.history.replaceState({}, document.title, window.location.pathname);
-    
-    // Automatically reveal the database panel view directly on screen load
     setTimeout(() => {
       renderLogsList();
       document.getElementById('requestModal').style.display = 'flex';

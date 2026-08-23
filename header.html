@@ -31,12 +31,12 @@
       <h2>Submit a Request</h2> 
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
-      <form id="requestForm"> 
-        <div class="input-group"> 
-          <textarea id="userMessage" name="Message" placeholder="Type your request here..." required></textarea> 
-        </div> 
-        <button type="submit" class="submit-btn" id="submitBtn">Send Request</button> 
-      </form> 
+      <!-- FIXED: Removed form tag to prevent default submission reloads -->
+      <div class="input-group"> 
+        <textarea id="userMessage" placeholder="Type your request here..." required></textarea> 
+      </div> 
+      <!-- FIXED: Linked direct trigger handler execution block -->
+      <button type="button" class="submit-btn" id="submitBtn" onclick="handleRequestSubmit();">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
     </div>
@@ -190,82 +190,87 @@
 
 <!-- CLIENT MODAL ACTION CONTROL JAVASCRIPT LOGIC ENGINE -->
 <script> 
-window.onclick = (e) => { 
+window.onclick = (e) => {
   const modal = document.getElementById('requestModal'); 
   if (modal && e.target === modal) modal.style.display = 'none'; 
 }; 
 
-const form = document.getElementById('requestForm');
-if (form) { 
-  form.addEventListener('submit', function(e) { 
-    e.preventDefault(); 
-    
-    const submitBtn = document.getElementById('submitBtn');
-    const statusMsg = document.getElementById('formStatus');
-    const userMessageInput = document.getElementById('userMessage');
-    const typedText = userMessageInput.value.trim();
-    
-    // SECRET CODE VIEWING ACCESS
-    if (typedText === '2697') {
-      userMessageInput.value = ''; 
-      let savedRequests = [];
-      try {
-        savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
-      } catch(err) {
-        savedRequests = [];
-      }
-      
-      const container = document.getElementById('requestLogContainer');
-      container.innerHTML = ''; 
-      
-      if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
-        container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
-      } else {
-        savedRequests.slice().reverse().forEach(text => {
-          let item = document.createElement('div');
-          item.className = 'single-request-item';
-          item.innerText = text;
-          container.appendChild(item);
-        });
-      }
-      document.getElementById('formView').style.display = 'none';
-      document.getElementById('collectionView').style.display = 'flex';
-      return;
-    }
-
-    // STANDARD VISITOR SUBMISSION FLOW
-    submitBtn.disabled = true; 
-    submitBtn.innerText = 'Sending...'; 
+// REFACTORED SUBMISSION FUNCTION
+function handleRequestSubmit() {
+  const submitBtn = document.getElementById('submitBtn');
+  const statusMsg = document.getElementById('formStatus');
+  const userMessageInput = document.getElementById('userMessage');
+  const typedText = userMessageInput.value.trim();
+  
+  if (!typedText) {
     if (statusMsg) {
-      statusMsg.style.color = '#b3a6b5'; 
-      statusMsg.innerText = 'Processing your text request...'; 
+      statusMsg.style.color = '#ff3366';
+      statusMsg.innerText = 'Please enter a request message first!';
+    }
+    return;
+  }
+  
+  // SECRET CODE PANEL INTERACTION CHECK
+  if (typedText === '2697') {
+    userMessageInput.value = ''; 
+    let savedRequests = [];
+    try {
+      savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
+    } catch(err) {
+      savedRequests = [];
     }
     
-    setTimeout(() => {
-      let currentLogs = [];
-      try {
-        currentLogs = JSON.parse(localStorage.getItem('cornerRequests')) || [];
-        if (!Array.isArray(currentLogs)) currentLogs = [];
-      } catch(err) {
-        currentLogs = [];
-      }
-      
-      currentLogs.push(typedText);
-      localStorage.setItem('cornerRequests', JSON.stringify(currentLogs));
-      
-      submitBtn.disabled = false; 
-      submitBtn.innerText = 'Send Request'; 
-      if (statusMsg) {
-        statusMsg.style.color = '#00ffcc'; 
-        statusMsg.innerText = '✓ Request processed successfully!'; 
-      }
-      form.reset(); 
-      setTimeout(() => { 
-        document.getElementById('requestModal').style.display = 'none'; 
-      }, 1500);
-    }, 1000);
-  }); 
-} 
+    const container = document.getElementById('requestLogContainer');
+    container.innerHTML = ''; 
+    
+    if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
+      container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
+    } else {
+      savedRequests.slice().reverse().forEach(text => {
+        let item = document.createElement('div');
+        item.className = 'single-request-item';
+        item.innerText = text;
+        container.appendChild(item);
+      });
+    }
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('collectionView').style.display = 'flex';
+    if (statusMsg) statusMsg.innerText = '';
+    return;
+  }
+
+  // REGULAR DATA COLLECTION STORAGE ROUTINE
+  submitBtn.disabled = true; 
+  submitBtn.innerText = 'Sending...'; 
+  if (statusMsg) {
+    statusMsg.style.color = '#b3a6b5'; 
+    statusMsg.innerText = 'Processing your text request...'; 
+  }
+  
+  setTimeout(() => {
+    let currentLogs = [];
+    try {
+      currentLogs = JSON.parse(localStorage.getItem('cornerRequests')) || [];
+      if (!Array.isArray(currentLogs)) currentLogs = [];
+    } catch(err) {
+      currentLogs = [];
+    }
+    
+    currentLogs.push(typedText);
+    localStorage.setItem('cornerRequests', JSON.stringify(currentLogs));
+    
+    submitBtn.disabled = false; 
+    submitBtn.innerText = 'Send Request'; 
+    if (statusMsg) {
+      statusMsg.style.color = '#00ffcc'; 
+      statusMsg.innerText = '✓ Request processed successfully!'; 
+    }
+    userMessageInput.value = ''; 
+    setTimeout(() => { 
+      document.getElementById('requestModal').style.display = 'none'; 
+    }, 1500);
+  }, 1000);
+}
 
 function updateClock(){ 
   const now = new Date(); 

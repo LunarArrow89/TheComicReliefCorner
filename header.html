@@ -266,12 +266,22 @@ form.addEventListener('submit', function(e) {
   });
 });
 
-// Sync Time Engine
+// Dynamic Clock Engine (Updates every 1 second)
 function updateClock(){ 
   const now = new Date(); 
-  document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
-  document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'short', day: 'numeric'}).toUpperCase(); 
+  
+  // Formats time exactly as 04:57 PM
+  document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {
+    hour: '2-digit', 
+    minute: '2-digit'
+  }); 
+  
+  // Formats date exactly as AUG 23
+  const rawDate = now.toLocaleDateString([], {month: 'short', day: 'numeric'});
+  document.getElementById("dateBox").innerText = rawDate.toUpperCase(); 
 } 
-setInterval(updateClock,1000); 
-updateClock();
+
+// Set clock to refresh every 1000 milliseconds (1 second)
+setInterval(updateClock, 1000); 
+updateClock(); // Run immediately on load so there is no blank delay
 </script>

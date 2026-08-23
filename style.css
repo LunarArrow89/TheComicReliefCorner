@@ -131,12 +131,12 @@ body {
   align-items: center;
   gap: 15px;
   padding: 15px;
-  /* FIX: Added hard right padding constraint so the text scrolling ticker can never mask your action button */
+  /* Reserves hard space on the far right wall so text never covers the icon */
   padding-right: 68px; 
   background: #120910;
   border-bottom: 1px solid rgba(255, 105, 180, 0.15);
   z-index: 1000;
-  box-sizing: border-box; /* FIX: Crucial to keep layout math from over-expanding the container width */
+  box-sizing: border-box; /* Forces layout padding inside calculation math */
 }
 
 .time-box, .date-box {
@@ -147,10 +147,10 @@ body {
   color: white;
   min-width: 120px;
   text-align: center;
-  flex-shrink: 0; /* FIX: Added constraint preventing layout columns from squeezing down on narrow windows */
+  flex-shrink: 0; /* Prevents time/date elements from crushing down */
 }
 
-/* FIX: Unified Donate Button theme declarations to cleanly map onto your pink theme styles */
+/* Inline donate link style */
 .bmc-inline-btn {
   background-color: #1f121b;
   color: #ffffff;
@@ -177,11 +177,11 @@ body {
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
-/* Update your scrolling text wrap container */
+/* Container bounds to restrict text track bleed */
 .ticker-wrap {
   flex: 1;
-  min-width: 0;       /* CRITICAL FIX: Forces element to stay bounded inside available layout width rather than ballooning off-screen */
-  overflow: hidden;   /* Keeps long text content locked down inside border wrap rules */
+  min-width: 0;       /* CRITICAL FIX: Breaks flexbox rule preventing text from clipping off-screen */
+  overflow: hidden;   /* Masks and clips text string boundaries inside the bar track */
   background: #1f121b;
   border: 1px solid rgba(255, 105, 180, 0.15);
   border-radius: 12px;
@@ -190,23 +190,21 @@ body {
   align-items: center;
 }
 
-/* FIX: Upgraded layout layer assignment for marquee ticker rendering */
 .ticker {
   white-space: nowrap;
   padding-left: 100%;
   animation: scroll 18s linear infinite;
   color: white;
   font-weight: 600;
-  display: inline-block;
+  display: inline-block; /* Forces text element onto an independent layout rendering layer */
 }
 
-/* FIX: Upgraded transform rendering to use hardware accelerated translate3d mechanics */
 @keyframes scroll {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); } /* Uses hardware accelerated translate3d mechanics */
 }
 
-/* Protected Send Button Rules */
+/* Message open button */
 .send-btn {
   background-color: #1f121b;
   border: 1px solid rgba(255, 105, 180, 0.15);
@@ -221,10 +219,10 @@ body {
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   position: absolute;
-  right: 15px; /* FIX: Repositioned neatly on the bar wall, protected by your custom right padding boundaries */
+  right: 15px; /* Safely anchors element to the bar side under right padding protection */
   top: 50%;
-  transform: translateY(-50%); /* Centers perfectly on the horizontal toolbar line */
-  z-index: 1001;
+  transform: translateY(-50%);
+  z-index: 1001; /* Layer placement ensures button can be clicked over scrolling elements */
 }
 
 .send-btn:hover {
@@ -233,12 +231,137 @@ body {
   box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
 }
 
-/* Scales the icon image cleanly inside the square */
 .send-icon {
   width: 18px;
   height: 18px;
   object-fit: contain;
 }
+
+/* ==========================================================================
+   4b. Request Modal System UI (THEMED HARMONY)
+   ========================================================================== */
+.modal-overlay {
+  display: none; /* Keeps modal completely invisible until clicked */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(18, 9, 16, 0.7); /* Deep theme fallback overlay shadow */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #120910;
+  border: 1px solid rgba(255, 105, 180, 0.25);
+  border-radius: 20px;
+  width: 440px;
+  max-width: 90%;
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 105, 180, 0.1);
+  color: white;
+  font-family: inherit;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 3px #ff69b4, 0 0 8px rgba(255, 105, 180, 0.5);
+}
+
+.modal-content p {
+  color: #bbb;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.modal-content textarea {
+  width: 100%;
+  height: 140px;
+  background-color: #1f121b;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.modal-content textarea:focus {
+  border-color: #ff69b4;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
+}
+
+.modal-content .submit-btn {
+  background-color: #1f121b;
+  color: #ffffff;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.25s ease-in-out;
+}
+
+.modal-content .submit-btn:hover {
+  background-color: #261120;
+  color: #ff69b4;
+  border-color: #ff69b4;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+/* UI Close Trigger Icon Button */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.25s, transform 0.25s;
+}
+
+.close-btn:hover {
+  color: #ff69b4;
+  transform: scale(1.1);
+}
+
+.status-msg {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
 
 
 /* ==========================================================================

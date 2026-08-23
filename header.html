@@ -23,7 +23,8 @@
 <!-- Backdrop Blur Modal Overlay --> 
 <div class="modal-overlay" id="requestModal"> 
   <div class="modal-content"> 
-    <button type="button" class="close-btn" id="closeModalBtn">&times;</button> 
+    <!-- Added Close Trigger Element Icon Button -->
+    <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close form Modal">&times;</button> 
     <h2>Submit a Request</h2> 
     <p>Got an idea or feedback? Send it straight to the creator.</p> 
     
@@ -107,19 +108,4 @@ if (form) {
   }); 
 } 
 
-// Live-Updating Synchronized Clock Engine 
-function updateClock(){ 
-  const now = new Date(); 
-  const timeBox = document.getElementById("timeBox"); 
-  const dateBox = document.getElementById("dateBox"); 
-  if (timeBox) { 
-    timeBox.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
-  } 
-  if (dateBox) { 
-    const rawDate = now.toLocaleDateString([], {month: 'short', day: 'numeric'}); 
-    dateBox.innerText = rawDate.toUpperCase(); 
-  } 
-} 
-setInterval(updateClock, 1000); 
-updateClock(); 
-</script>
+// Live-Updating Synchronized Clock Engine function updateClock(){ const now = new Date(); const timeBox = document.getElementById("timeBox"); const dateBox = document.getElementById("dateBox"); if (timeBox) { timeBox.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } if (dateBox) { const rawDate = now.toLocaleDateString([], {month: 'short', day: 'numeric'}); dateBox.innerText = rawDate.toUpperCase(); } } setInterval(updateClock, 1000); updateClock(); </script>

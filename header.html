@@ -1,116 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Comic Relief Corner</title>
+<div class="header"> 
+    <div class="time-box" id="timeBox"></div> 
+    <div class="date-box" id="dateBox"></div> 
     
-    <!-- FAVICON LINK: Replace 'favicon.png' with your actual icon file path -->
-    <link rel="icon" type="image/png" href="./favicon.png">
+    <!-- Neon Interactive Donate Button -->
+    <a href="https://buymeacoffee.com/LunarArrow89" target="_blank" class="bmc-inline-btn">
+        Donate
+    </a>
 
-    <style>
-        /* General page setup to make the header look correct */
-        body {
-            background-color: #0d060e;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .header { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            background-color: #120914;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        /* Clock and date boxes styling */
-        .time-box, .date-box {
-            background-color: #1a0e1c;
-            padding: 6px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 14px;
-            height: fit-content;
-            box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        /* Ticker styling */
-        .ticker-wrap {
-            overflow: hidden;
-            white-space: nowrap;
-            flex-grow: 1;
-            background-color: #1a0e1c;
-            padding: 6px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 14px;
-        }
-
-        /* Identical to your standard boxes when idle */ 
-        .bmc-inline-btn { 
-            background-color: #1a0e1c; 
-            color: #ffffff; 
-            font-family: inherit; 
-            font-size: 14px; 
-            text-decoration: none; 
-            padding: 6px 16px; 
-            border-radius: 8px; 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            white-space: nowrap; 
-            height: fit-content; 
-            box-sizing: border-box; 
-            cursor: pointer; 
-            transition: all 0.25s ease-in-out; 
-        } 
-
-        /* Eye-catching neon pink transformation on hover */ 
-        .bmc-inline-btn:hover { 
-            background-color: #251429; 
-            color: #ff5ebb; /* Sharp neon pink text color */ 
-            border-color: #ff5ebb; /* Neon pink border */ 
-            box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), /* Bright pink outer glow */ 
-                        inset 0 0 4px rgba(255, 94, 187, 0.4); /* Subtle internal neon glow */ 
-        } 
-    </style>
-</head>
-<body>
-
-    <div class="header"> 
-        <div class="time-box" id="timeBox"></div> 
-        <div class="date-box" id="dateBox"></div> 
-        
-        <!-- Neon Interactive Donate Button --> 
-        <a href="https://buymeacoffee.com/lunararrow89" target="_blank" class="bmc-inline-btn"> 
-            Donate 
-        </a> 
-        
-        <div class="ticker-wrap"> 
-            <div class="ticker"> 
-                \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ 
-            </div> 
-        </div> 
+    <div class="ticker-wrap"> 
+        <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
     </div> 
+</div> 
 
-    <script> 
-        function updateClock(){ 
-            const now = new Date(); 
-            document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
-            
-            // Fixed the date format argument to standard 'short' notation
-            document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'short', day: 'numeric'}); 
-        } 
-        setInterval(updateClock,1000); 
-        updateClock(); 
-    </script>
+<style>
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    /* Identical to your standard boxes when idle */
+    .bmc-inline-btn {
+        background-color: #1a0e1c; 
+        color: #ffffff; 
+        font-family: inherit; 
+        font-size: 14px;
+        text-decoration: none;
+        padding: 6px 16px;
+        border-radius: 8px; 
+        border: 1px solid rgba(255, 255, 255, 0.08); 
+        
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        height: fit-content;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: all 0.25s ease-in-out;
+    }
 
-</body>
-</html>
+    /* Eye-catching neon pink transformation on hover */
+    .bmc-inline-btn:hover {
+        background-color: #251429;
+        color: #ff5ebb; /* Sharp neon pink text color */
+        border-color: #ff5ebb; /* Neon pink border */
+        box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), /* Bright pink outer glow */
+                    inset 0 0 4px rgba(255, 94, 187, 0.4); /* Subtle internal neon glow */
+    }
+</style>
+
+<script> 
+function updateClock(){ 
+    const now = new Date(); 
+    document.getElementById("timeBox").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); 
+    document.getElementById("dateBox").innerText = now.toLocaleDateString([], {month: 'SHORT_OR_YOUR_FORMAT', day: 'numeric'}); 
+} 
+setInterval(updateClock,1000); 
+updateClock(); 
+</script>

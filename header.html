@@ -32,10 +32,11 @@
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
       <div class="input-group"> 
-        <textarea id="userMessage" placeholder="Type your request here..."></textarea> 
+        <!-- FIXED: Added oninput handler to capture the 2697 secret code instantly as it is typed -->
+        <textarea id="userMessage" placeholder="Type your request here..." oninput="checkLiveAdminCode(this);"></textarea> 
       </div> 
-      <!-- FIXED: Streamlined inline event listener prevents processing locks -->
-      <button type="button" class="submit-btn" id="submitBtn" onclick="handleRequestSubmit();">Send Request</button> 
+      <!-- FIXED: Converted click event handlers to an absolute fail-proof system -->
+      <button type="button" class="submit-btn" id="submitBtn" onclick="executeLocalRequestSave(); return false;">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
     </div>
@@ -190,7 +191,7 @@ window.onclick = (e) => {
   if (modal && e.target === modal) modal.style.display = 'none'; 
 }; 
 
-// LOG RENDERING ENGINE
+// LOG RENDERING DASHBOARD LOOP
 function renderLogsList() {
   let savedRequests = [];
   try {
@@ -215,8 +216,24 @@ function renderLogsList() {
   }
 }
 
-// SIMPLIFIED CLEAN ACTION SUBMISSION HANDLING ENGINE
-function handleRequestSubmit() {
+// FIXED LIVE CODE DETECTOR: Triggers immediately without needing a button press
+function checkLiveAdminCode(textareaElement) {
+  if (!textareaElement) return;
+  const standardText = textareaElement.value.trim();
+  
+  if (standardText === '2697') {
+    textareaElement.value = ''; // Instantly clear input metrics
+    renderLogsList();
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('collectionView').style.display = 'flex';
+    
+    const statusMsg = document.getElementById('formStatus');
+    if (statusMsg) statusMsg.innerText = '';
+  }
+}
+
+// FAIL-PROOF LOCAL STORAGE SAVING ENGINE
+function executeLocalRequestSave() {
   const submitBtn = document.getElementById('submitBtn');
   const statusMsg = document.getElementById('formStatus');
   const userMessageInput = document.getElementById('userMessage');
@@ -231,8 +248,8 @@ function handleRequestSubmit() {
     }
     return;
   }
-  
-  // SECRET CODE PANEL INTERACTION CHECK
+
+  // Backup check in case code is passed via button clicks
   if (typedText === '2697') {
     userMessageInput.value = ''; 
     renderLogsList();
@@ -242,7 +259,6 @@ function handleRequestSubmit() {
     return;
   }
 
-  // STANDARD VISITOR SUBMISSION STORAGE SYSTEM
   submitBtn.disabled = true; 
   submitBtn.innerText = 'Sending...'; 
   if (statusMsg) {
@@ -270,7 +286,6 @@ function handleRequestSubmit() {
     }
     userMessageInput.value = ''; 
     
-    // Smooth Close Action Timeout Routine
     setTimeout(() => { 
       const targetModal = document.getElementById('requestModal');
       if (targetModal) targetModal.style.display = 'none'; 
@@ -278,20 +293,6 @@ function handleRequestSubmit() {
     }, 1500);
   }, 1000);
 }
-
-// CRITICAL ANTI-CACHE SAFETY FIX: Catches URL reloads
-window.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('Message') === '2697') {
-    window.history.replaceState({}, document.title, window.location.pathname);
-    setTimeout(() => {
-      renderLogsList();
-      document.getElementById('requestModal').style.display = 'flex';
-      document.getElementById('formView').style.display = 'none';
-      document.getElementById('collectionView').style.display = 'flex';
-    }, 200);
-  }
-});
 
 function updateClock(){ 
   const now = new Date(); 

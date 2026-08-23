@@ -35,52 +35,25 @@
 
 <style> 
 /* Navigation Layout Core */
+/* Update your existing .header to include these two positioning rules */
 .header { 
   display: flex; 
   align-items: center; 
   gap: 10px; 
   width: 100%;
   box-sizing: border-box;
+  position: relative;        /* Crucial: Allows absolute positioning of the button */
+  padding-right: 48px;       /* Crucial: Hard-reserves space so text can't overlap */
 } 
 
-.bmc-inline-btn { 
-  background-color: #1a0e1c; 
-  color: #ffffff; 
-  font-family: inherit; 
-  font-size: 14px; 
-  text-decoration: none; 
-  padding: 6px 16px; 
-  border-radius: 8px; 
-  border: 1px solid rgba(255, 255, 255, 0.08); 
-  display: inline-flex; 
-  align-items: center; 
-  justify-content: center; 
-  white-space: nowrap; 
-  height: fit-content; 
-  box-sizing: border-box; 
-  cursor: pointer; 
-  transition: all 0.25s ease-in-out; 
-  flex-shrink: 0;
-} 
-
-.bmc-inline-btn:hover { 
-  background-color: #251429; 
-  color: #ff5ebb; 
-  border-color: #ff5ebb; 
-  box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), inset 0 0 4px rgba(255, 94, 187, 0.4); 
-} 
-
-/* ==========================================================
-   DYNAMIC AUTO-FLUID TICKER WRAPPER WIDTH
-   ========================================================== */
+/* Update your scrolling text wrap container */
 .ticker-wrap {
-  flex: 1;         /* Automatically expands to use all available space */
-  min-width: 0;    /* Safely lets it shrink to defend neighboring elements */
+  flex: 0 1 auto;            /* Fills remaining space, but shrinks if layout is tight */
   overflow: hidden;
   white-space: nowrap;
 }
 
-/* Layout-Proof Anchor Square Setup */
+/* Clear out old .send-btn properties and replace with these absolute rules */
 .send-btn {
   background-color: #1a0e1c;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -89,6 +62,34 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  
+  /* Restores the ideal perfectly square sizing */
+  width: 34px;       
+  height: 34px;      
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  
+  /* Forces the square into the reserved padding on the absolute right side */
+  position: absolute;
+  right: 10px;               
+  top: 50%;
+  transform: translateY(-50%); /* Centers perfectly on the horizontal line */
+}
+
+/* Keeps your matching pink hover glow */
+.send-btn:hover {
+  background-color: #251429;
+  border-color: #ff5ebb;
+  box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), inset 0 0 4px rgba(255, 94, 187, 0.4);
+}
+
+/* Scales the icon image cleanly inside the square */
+.send-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
   
   width: 34px;       
   height: 34px;      

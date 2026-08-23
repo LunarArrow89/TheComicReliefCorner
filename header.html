@@ -31,11 +31,9 @@
       <h2>Submit a Request</h2> 
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
-      <!-- FIXED: Removed form tag to prevent default submission reloads -->
       <div class="input-group"> 
         <textarea id="userMessage" placeholder="Type your request here..." required></textarea> 
       </div> 
-      <!-- FIXED: Linked direct trigger handler execution block -->
       <button type="button" class="submit-btn" id="submitBtn" onclick="handleRequestSubmit();">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
@@ -53,7 +51,7 @@
     </div>
   </div> 
 </div> 
-<!-- ALL-IN-ONE INLINE CSS STYLES (Forces overlay out of header restrictions) -->
+<!-- ALL-IN-ONE INLINE CSS STYLES -->
 <style>
 .modal-overlay {
   display: none; 
@@ -129,9 +127,7 @@
   padding: 12px;
   box-sizing: border-box;
 }
-.request-log-box::-webkit-scrollbar {
-  width: 6px;
-}
+.request-log-box::-webkit-scrollbar { width: 6px; }
 .request-log-box::-webkit-scrollbar-thumb {
   background: rgba(255, 105, 180, 0.3);
   border-radius: 10px;
@@ -144,9 +140,7 @@
   word-break: break-word;
   text-align: left;
 }
-.single-request-item:last-child {
-  border-bottom: none;
-}
+.single-request-item:last-child { border-bottom: none; }
 .modal-content .submit-btn {
   background-color: #1f121b !important;
   color: #ffffff !important;
@@ -195,51 +189,49 @@ window.onclick = (e) => {
   if (modal && e.target === modal) modal.style.display = 'none'; 
 }; 
 
-// REFACTORED SUBMISSION FUNCTION
+// LOG RENDERING ENGINE
+function renderLogsList() {
+  let savedRequests = [];
+  try {
+    savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
+  } catch(err) {
+    savedRequests = [];
+  }
+  
+  const container = document.getElementById('requestLogContainer');
+  if (!container) return;
+  container.innerHTML = ''; 
+  
+  if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
+    container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
+  } else {
+    savedRequests.slice().reverse().forEach(text => {
+      let item = document.createElement('div');
+      item.className = 'single-request-item';
+      item.innerText = text;
+      container.appendChild(item);
+    });
+  }
+}
+
+// MAIN SUBMISSION ROUTINE
 function handleRequestSubmit() {
   const submitBtn = document.getElementById('submitBtn');
   const statusMsg = document.getElementById('formStatus');
   const userMessageInput = document.getElementById('userMessage');
   const typedText = userMessageInput.value.trim();
   
-  if (!typedText) {
-    if (statusMsg) {
-      statusMsg.style.color = '#ff3366';
-      statusMsg.innerText = 'Please enter a request message first!';
-    }
-    return;
-  }
+  if (!typedText) return;
   
-  // SECRET CODE PANEL INTERACTION CHECK
   if (typedText === '2697') {
     userMessageInput.value = ''; 
-    let savedRequests = [];
-    try {
-      savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
-    } catch(err) {
-      savedRequests = [];
-    }
-    
-    const container = document.getElementById('requestLogContainer');
-    container.innerHTML = ''; 
-    
-    if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
-      container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
-    } else {
-      savedRequests.slice().reverse().forEach(text => {
-        let item = document.createElement('div');
-        item.className = 'single-request-item';
-        item.innerText = text;
-        container.appendChild(item);
-      });
-    }
+    renderLogsList();
     document.getElementById('formView').style.display = 'none';
     document.getElementById('collectionView').style.display = 'flex';
     if (statusMsg) statusMsg.innerText = '';
     return;
   }
 
-  // REGULAR DATA COLLECTION STORAGE ROUTINE
   submitBtn.disabled = true; 
   submitBtn.innerText = 'Sending...'; 
   if (statusMsg) {
@@ -272,15 +264,27 @@ function handleRequestSubmit() {
   }, 1000);
 }
 
+// CRITICAL ANTI-CACHE SAFETY FIX: Catches URL reloads
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('Message') === '2697') {
+    // Force history clean to remove code from address bar links
+    window.history.replaceState({}, document.title, window.location.pathname);
+    
+    // Automatically reveal the database panel view directly on screen load
+    setTimeout(() => {
+      renderLogsList();
+      document.getElementById('requestModal').style.display = 'flex';
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('collectionView').style.display = 'flex';
+    }, 200);
+  }
+});
+
 function updateClock(){ 
   const now = new Date(); 
   const timeBox = document.getElementById("timeBox"); 
-  const dateBox = document.getElementById("dateBox"); 
   if (timeBox) timeBox.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
-  if (dateBox) { 
-    const rawDate = now.toLocaleDateString([], {month: 'short', day: 'numeric'}); 
-    dateBox.innerText = rawDate.toUpperCase(); 
-  } 
 } 
 setInterval(updateClock, 1000); 
 updateClock(); 

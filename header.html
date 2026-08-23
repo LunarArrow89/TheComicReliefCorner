@@ -21,7 +21,7 @@
 </div> 
 
 <!-- Backdrop Blur Modal Overlay Box --> 
-<div class="modal-overlay" id="requestModal"> 
+<div class="modal-overlay" id="requestModal" onclick="if(event.target === this) this.style.display = 'none';"> 
   <div class="modal-content" id="modalContentArea"> 
     <!-- Close Panel Icon Button -->
     <button type="button" class="close-btn" id="closeModalBtn" aria-label="Close request panel" onclick="document.getElementById('requestModal').style.display = 'none';">&times;</button> 
@@ -32,11 +32,12 @@
       <p>Got an idea, feedback, or a game recommendation? Type your message below to send it straight to the creator.</p> 
       
       <div class="input-group"> 
-        <!-- FIXED: Added oninput handler to capture the 2697 secret code instantly as it is typed -->
-        <textarea id="userMessage" placeholder="Type your request here..." oninput="checkLiveAdminCode(this);"></textarea> 
+        <!-- FIXED INLINE CODE LISTENER: Triggers instantly on the 4th digit without any button logic dependencies -->
+        <textarea id="userMessage" placeholder="Type your request here..." oninput="if(this.value.trim() === '2697') { this.value = ''; let r = []; try { r = JSON.parse(localStorage.getItem('cornerRequests')) || []; } catch(e){} const c = document.getElementById('requestLogContainer'); if(c) { c.innerHTML = ''; if(r.length === 0) { c.innerHTML = '<div class=\'single-request-item\' style=\'color:#aaa; text-align:center;\'>No requests yet!</div>'; } else { r.slice().reverse().forEach(t => { let i = document.createElement('div'); i.className = 'single-request-item'; i.innerText = t; c.appendChild(i); }); } } document.getElementById('formView').style.display = 'none'; document.getElementById('collectionView').style.display = 'flex'; }"></textarea> 
       </div> 
-      <!-- FIXED: Converted click event handlers to an absolute fail-proof system -->
-      <button type="button" class="submit-btn" id="submitBtn" onclick="executeLocalRequestSave(); return false;">Send Request</button> 
+      
+      <!-- FIXED INLINE SUBMISSION ENGINE: Processes memory array updates and closes window locally on click -->
+      <button type="button" class="submit-btn" id="submitBtn" onclick="const txt = document.getElementById('userMessage'); const msg = document.getElementById('formStatus'); if(!txt || !txt.value.trim()) { if(msg) { msg.style.color = '#ff3366'; msg.innerText = 'Please enter a request first!'; } return; } this.disabled = true; this.innerText = 'Sending...'; if(msg) { msg.style.color = '#b3a6b5'; msg.innerText = 'Processing request...'; } setTimeout(() => { let logs = []; try { logs = JSON.parse(localStorage.getItem('cornerRequests')) || []; if(!Array.isArray(logs)) logs = []; } catch(e){} logs.push(txt.value.trim()); localStorage.setItem('cornerRequests', JSON.stringify(logs)); this.disabled = false; this.innerText = 'Send Request'; if(msg) { msg.style.color = '#00ffcc'; msg.innerText = '✓ Request processed successfully!'; } txt.value = ''; setTimeout(() => { document.getElementById('requestModal').style.display = 'none'; if(msg) msg.innerText = ''; }, 1200); }, 800); return false;">Send Request</button> 
       
       <div id="formStatus" class="status-msg"></div> 
     </div>
@@ -184,116 +185,8 @@
 }
 </style>
 
-<!-- CLIENT MODAL ACTION CONTROL JAVASCRIPT LOGIC ENGINE -->
-<script> 
-window.onclick = (e) => {
-  const modal = document.getElementById('requestModal'); 
-  if (modal && e.target === modal) modal.style.display = 'none'; 
-}; 
-
-// LOG RENDERING DASHBOARD LOOP
-function renderLogsList() {
-  let savedRequests = [];
-  try {
-    savedRequests = JSON.parse(localStorage.getItem('cornerRequests')) || [];
-  } catch(err) {
-    savedRequests = [];
-  }
-  
-  const container = document.getElementById('requestLogContainer');
-  if (!container) return;
-  container.innerHTML = ''; 
-  
-  if (!Array.isArray(savedRequests) || savedRequests.length === 0) {
-    container.innerHTML = '<div class="single-request-item" style="color:#aaa; text-align:center;">No requests submitted yet!</div>';
-  } else {
-    savedRequests.slice().reverse().forEach(text => {
-      let item = document.createElement('div');
-      item.className = 'single-request-item';
-      item.innerText = text;
-      container.appendChild(item);
-    });
-  }
-}
-
-// FIXED LIVE CODE DETECTOR: Triggers immediately without needing a button press
-function checkLiveAdminCode(textareaElement) {
-  if (!textareaElement) return;
-  const standardText = textareaElement.value.trim();
-  
-  if (standardText === '2697') {
-    textareaElement.value = ''; // Instantly clear input metrics
-    renderLogsList();
-    document.getElementById('formView').style.display = 'none';
-    document.getElementById('collectionView').style.display = 'flex';
-    
-    const statusMsg = document.getElementById('formStatus');
-    if (statusMsg) statusMsg.innerText = '';
-  }
-}
-
-// FAIL-PROOF LOCAL STORAGE SAVING ENGINE
-function executeLocalRequestSave() {
-  const submitBtn = document.getElementById('submitBtn');
-  const statusMsg = document.getElementById('formStatus');
-  const userMessageInput = document.getElementById('userMessage');
-  
-  if (!userMessageInput || !submitBtn) return;
-  const typedText = userMessageInput.value.trim();
-  
-  if (!typedText) {
-    if (statusMsg) {
-      statusMsg.style.color = '#ff3366';
-      statusMsg.innerText = 'Please enter a request first!';
-    }
-    return;
-  }
-
-  // Backup check in case code is passed via button clicks
-  if (typedText === '2697') {
-    userMessageInput.value = ''; 
-    renderLogsList();
-    document.getElementById('formView').style.display = 'none';
-    document.getElementById('collectionView').style.display = 'flex';
-    if (statusMsg) statusMsg.innerText = '';
-    return;
-  }
-
-  submitBtn.disabled = true; 
-  submitBtn.innerText = 'Sending...'; 
-  if (statusMsg) {
-    statusMsg.style.color = '#b3a6b5'; 
-    statusMsg.innerText = 'Processing your text request...'; 
-  }
-  
-  setTimeout(() => {
-    let currentLogs = [];
-    try {
-      currentLogs = JSON.parse(localStorage.getItem('cornerRequests')) || [];
-      if (!Array.isArray(currentLogs)) currentLogs = [];
-    } catch(err) {
-      currentLogs = [];
-    }
-    
-    currentLogs.push(typedText);
-    localStorage.setItem('cornerRequests', JSON.stringify(currentLogs));
-    
-    submitBtn.disabled = false; 
-    submitBtn.innerText = 'Send Request'; 
-    if (statusMsg) {
-      statusMsg.style.color = '#00ffcc'; 
-      statusMsg.innerText = '✓ Request processed successfully!'; 
-    }
-    userMessageInput.value = ''; 
-    
-    setTimeout(() => { 
-      const targetModal = document.getElementById('requestModal');
-      if (targetModal) targetModal.style.display = 'none'; 
-      if (statusMsg) statusMsg.innerText = '';
-    }, 1500);
-  }, 1000);
-}
-
+<script>
+// Streamlined system clock engine backup logic
 function updateClock(){ 
   const now = new Date(); 
   const timeBox = document.getElementById("timeBox"); 

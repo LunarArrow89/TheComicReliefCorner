@@ -1,16 +1,16 @@
 <!-- HTML Structure -->
 <div class="header"> 
-  <!-- Kept exactly as your template layouts expect -->
-  <div class="time-box" id="timeBox">05:00 PM</div> 
+  <div class="time-box" id="timeBox">05:04 PM</div> 
   <div class="date-box" id="dateBox">AUG 23</div> 
   
   <a href="https://buymeacoffee.com/lunararrow89" target="_blank" class="bmc-inline-btn"> Donate </a> 
   
+  <!-- Optimized fluid width layout wrapper track -->
   <div class="ticker-wrap"> 
     <div class="ticker"> \( ᐖ)/ Welcome to The Comic Relief Corner!! Here, you can play games, browse the web, or hang out in the chatroom! Can't find something you want? Request it via the request form! \(ᐖ )/ </div> 
   </div> 
 
-  <!-- Square Send Link Button (Far Right) -->
+  <!-- Square Send Link Button (Locked to Far Right) -->
   <a href="#" class="send-btn" id="openModalBtn" aria-label="Send to Creator" onclick="return false;">
     <img src="send.png" alt="Send Icon" class="send-icon">
   </a>
@@ -39,6 +39,8 @@
   display: flex; 
   align-items: center; 
   gap: 10px; 
+  width: 100%;
+  box-sizing: border-box;
 } 
 
 .bmc-inline-btn { 
@@ -58,6 +60,7 @@
   box-sizing: border-box; 
   cursor: pointer; 
   transition: all 0.25s ease-in-out; 
+  flex-shrink: 0;
 } 
 
 .bmc-inline-btn:hover { 
@@ -67,7 +70,17 @@
   box-shadow: 0 0 15px rgba(255, 94, 187, 0.8), inset 0 0 4px rgba(255, 94, 187, 0.4); 
 } 
 
-/* Fixed Native Anchor Square Setup */
+/* ==========================================================
+   DYNAMIC AUTO-FLUID TICKER WRAPPER WIDTH
+   ========================================================== */
+.ticker-wrap {
+  flex: 1;         /* Automatically expands to use all available space */
+  min-width: 0;    /* Safely lets it shrink to defend neighboring elements */
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Layout-Proof Anchor Square Setup */
 .send-btn {
   background-color: #1a0e1c;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -76,14 +89,15 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  
   width: 34px;       
   height: 34px;      
-  min-width: 34px;   /* Ensures layout engine cannot shrink the square */
-  min-height: 34px;
+  flex-shrink: 0;  /* Guarantees the text can never squash the button */
+  
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.25s ease-in-out;
-  margin-left: auto; /* Pushes element smoothly to the far right edge */
+  margin-left: auto; /* Pushes the button to the absolute far right */
 }
 
 .send-btn:hover {
@@ -93,8 +107,8 @@
 }
 
 .send-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
 }
 
@@ -216,7 +230,7 @@ textarea:focus {
 </style>
 
 <script>
-// Modal Event Elements
+// Modal Event Management 
 const modal = document.getElementById('requestModal');
 const openBtn = document.getElementById('openModalBtn');
 const closeBtn = document.getElementById('closeModalBtn');
@@ -234,7 +248,7 @@ if (openBtn) {
 if (closeBtn && modal) closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (e) => { if (modal && e.target === modal) modal.style.display = 'none'; };
 
-// Background Form Post Action Processing
+// Background Form Post Processing
 if (form) {
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -244,7 +258,7 @@ if (form) {
     statusMsg.style.color = '#b3a6b5';
     statusMsg.innerText = 'Saving response...';
 
-    // !!! REPLACE WITH YOUR UNIQUE FORMSPREE ENDPOINT URL ID !!!
+    // !!! REPLACE WITH YOUR ASSIGNED UNIQUE FORMSPREE BACKEND ID ENDPOINT !!!
     const formspreeURL = 'https://formspree.io/f/mljrkadg';
 
     const formData = new FormData(form);
@@ -275,7 +289,7 @@ if (form) {
   });
 }
 
-// Fixed Self-Updating Clock Engine 
+// Live-Updating Synchronized Clock Engine
 function updateClock(){ 
   const now = new Date(); 
   const timeBox = document.getElementById("timeBox");
@@ -294,7 +308,6 @@ function updateClock(){
   }
 } 
 
-// Checks and renders changes live every single second
 setInterval(updateClock, 1000); 
 updateClock(); 
 </script>

@@ -31,11 +31,19 @@ function executeGlobalTemplateLighter() {
 function executeSystemTimeTicks() {
     const timeBox = document.querySelector(".time-box");
     const dateBox = document.querySelector(".date-box");
+    
     if (timeBox || dateBox) {
         const now = new Date();
+        
+        // Dynamic Live Time Tracker Engine
         if (timeBox) {
-            timeBox.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            timeBox.textContent = now.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
         }
+        
+        // Dynamic Live Date Tracker Engine
         if (dateBox) {
             const choices = { month: 'short', day: 'numeric' };
             dateBox.textContent = now.toLocaleDateString([], choices).toUpperCase();
@@ -43,7 +51,11 @@ function executeSystemTimeTicks() {
     }
 }
 
-executeGlobalTemplateLighter();
+// 🔁 START CLOCK BACKGROUND INTERVAL ENGINE
+// This loop updates the text every 1000ms (1 second) so the minutes change live
+setInterval(executeSystemTimeTicks, 1000);
+executeSystemTimeTicks(); // Run immediately on load so it isn't blank
+
 
 // 3. MUTATION OBSERVER TO WATCH FOR TAB SWAPS
 const pipelineObserver = new MutationObserver(() => {

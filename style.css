@@ -1803,12 +1803,26 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* Keep the normal logo at its original full display size */
-.logo-image {
+/* Force every monthly logo to use exactly the same display dimensions. */
+.monthly-logo-wrap {
     width: 170px;
     height: 150px;
-    object-fit: contain;
+    min-width: 170px;
+    min-height: 150px;
+    flex: 0 0 170px;
+}
+
+.logo-image {
+    display: block;
+    width: 170px !important;
+    height: 150px !important;
+    min-width: 170px;
+    min-height: 150px;
+    max-width: 170px !important;
+    max-height: 150px !important;
+    object-fit: fill;
     object-position: center;
+    flex: 0 0 170px;
 }
 .monthly-logo-wrap.pride-june::after {
     -webkit-mask-size: 82% 82%;

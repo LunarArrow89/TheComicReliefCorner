@@ -1983,3 +1983,17 @@ body > .monthly-settings-panel .monthly-settings-card {
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
 }
+
+/* Make the June Pride logo react to hover just like the regular monthly artwork.
+   The visible rainbow is a pseudo-element, so .logo-image:hover alone cannot affect it. */
+.monthly-logo-wrap.pride-june::after {
+    transition: transform 0.25s ease, filter 0.25s ease;
+    transform: scale(1);
+    transform-origin: center;
+    pointer-events: auto;
+}
+.monthly-logo-wrap.pride-june:hover::after {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 7px rgba(255, 105, 180, 0.65));
+}
+

@@ -4,13 +4,19 @@ LOAD.JS GLOBAL COMPONENT & ASYNCHRONOUS TEMPLATE ENGINE
 window.audioEngine = window.audioEngine || new Audio();
 window.isAudioLooping = window.isAudioLooping || false;
 
+// Resolve shared assets from the folder containing load.js, not from a nested page URL.
+function getComicReliefAssetBase() {
+    const script = Array.from(document.scripts).find(item => new URL(item.src, window.location.href).pathname.endsWith("/load.js"));
+    return script ? new URL(".", script.src) : new URL(".", window.location.href);
+}
+
 // 1. GLOBAL SIDENAV & HEADER FETCH ENGINE
 function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
     
     if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-        fetch("sidebar.html")
+        fetch(new URL("sidebar.html?v=monthly-logo-fix-20261015", getComicReliefAssetBase()), { cache: "no-store" })
             .then(res => res.text())
             .then(html => {
                 sidebarWrap.innerHTML = html;
@@ -36,7 +42,7 @@ function executeGlobalTemplateLighter() {
 // Resolve image URLs from this script's location so the logo works on GitHub Pages
 // and on every page that shares the dynamically loaded sidebar.
 function updateComicReliefMonthlyLogo(root = document) {
-    const logo = root.querySelector("#monthly-logo") || document.querySelector("#monthly-logo");
+    const logo = root.querySelector("#monthly-logo, .logo-image") || document.querySelector("#monthly-logo, .logo-image");
     if (!logo) return;
 
     const monthlyLogos = {
@@ -53,8 +59,7 @@ function updateComicReliefMonthlyLogo(root = document) {
     };
 
     const filename = monthlyLogos[new Date().getMonth()] || "logo.png";
-    const loaderScript = Array.from(document.scripts).find(script => new URL(script.src, window.location.href).pathname.endsWith("/load.js"));
-    const assetBase = loaderScript ? new URL(".", loaderScript.src) : new URL(".", window.location.href);
+    const assetBase = getComicReliefAssetBase();
     const target = new URL(filename, assetBase);
     // A small version parameter prevents a previously cached logo from sticking.
     target.searchParams.set("month", String(new Date().getMonth() + 1));

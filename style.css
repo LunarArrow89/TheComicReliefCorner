@@ -1954,3 +1954,31 @@ document.addEventListener("DOMContentLoaded", () => {
     font-size: 11px;
     line-height: 1.4;
 }
+
+/* Settings modal: keep it above every site layer and blur the actual page behind it.
+   The panel is moved directly under body by load.js to escape sidebar stacking contexts. */
+body > .monthly-settings-panel {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100dvh;
+    z-index: 2147483000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(8, 3, 8, 0.58) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px) !important;
+    isolation: isolate;
+}
+body > .monthly-settings-panel[hidden] {
+    display: none !important;
+}
+body > .monthly-settings-panel .monthly-settings-card {
+    z-index: 1;
+    width: min(360px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+}

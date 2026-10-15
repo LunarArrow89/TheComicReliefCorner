@@ -1803,10 +1803,10 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* Keep every monthly logo comfortably inside the rotating ring */
+/* Keep the normal logo at its original full display size */
 .logo-image {
-    width: 140px;
-    height: 125px;
+    width: 170px;
+    height: 150px;
     object-fit: contain;
     object-position: center;
 }

@@ -53,7 +53,7 @@ function updateComicReliefMonthlyLogo(root = document) {
     };
 
     const filename = monthlyLogos[new Date().getMonth()] || "logo.png";
-    const loaderScript = Array.from(document.scripts).find(script => /(?:^|\\/)load\\.js(?:[?#]|$)/.test(script.src));
+    const loaderScript = Array.from(document.scripts).find(script => new URL(script.src, window.location.href).pathname.endsWith("/load.js"));
     const assetBase = loaderScript ? new URL(".", loaderScript.src) : new URL(".", window.location.href);
     const target = new URL(filename, assetBase);
     // A small version parameter prevents a previously cached logo from sticking.

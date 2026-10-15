@@ -1814,3 +1814,80 @@ document.addEventListener("DOMContentLoaded", () => {
     -webkit-mask-size: 82% 82%;
     mask-size: 82% 82%;
 }
+
+
+/* Sidebar month settings panel */
+.settings-toggle {
+    width: 100%;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    background: transparent;
+}
+.settings-toggle:hover {
+    background: rgba(255, 105, 180, 0.12);
+}
+.settings-icon {
+    display: inline-flex;
+    width: 20px;
+    justify-content: center;
+    font-size: 18px;
+}
+.monthly-settings-panel {
+    margin: 8px 0 14px;
+    padding: 12px;
+    background: #21111f;
+    border: 1px solid rgba(255, 105, 180, 0.4);
+    border-radius: 10px;
+    color: #fff;
+}
+.monthly-settings-panel[hidden] {
+    display: none !important;
+}
+.monthly-settings-panel h3 {
+    margin: 0 0 10px;
+    color: #ff9bd0;
+    font-size: 15px;
+}
+.monthly-settings-panel label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+.monthly-settings-panel select {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #81506f;
+    border-radius: 6px;
+    background: #120910;
+    color: #fff;
+    font: inherit;
+}
+.settings-action {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 9px 7px;
+    border: 1px solid #ff69b4;
+    border-radius: 6px;
+    background: #a82d72;
+    color: #fff;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.settings-action:hover {
+    background: #c83b8a;
+}
+.settings-action.secondary {
+    background: #321b2c;
+}
+.settings-note {
+    margin: 9px 0 0;
+    color: #d9c4d1;
+    font-size: 11px;
+    line-height: 1.4;
+}

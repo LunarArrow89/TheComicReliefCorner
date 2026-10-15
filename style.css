@@ -61,13 +61,17 @@ body {
 
 .logo-image {
     position: relative;
-    z-index: 2; 
+    z-index: 2;
+    /* Give every monthly logo the same display area as the standard logo. */
     width: 170px;
+    height: 150px;
     max-width: 100%;
-    height: auto;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
     transition: .25s ease;
     filter: drop-shadow(0 0 3px rgba(255,105,180,.4));
-    pointer-events: auto; 
+    pointer-events: auto;
 }
 
 .logo-image:hover {

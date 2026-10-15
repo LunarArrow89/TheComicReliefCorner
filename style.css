@@ -1833,7 +1833,11 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* October uses the same size as every other monthly logo. */
+/* October artwork has more visual fill, so scale it down to match the other months. */
+.monthly-logo-wrap.october-logo .logo-image {
+    transform: scale(0.80) !important;
+    transform-origin: center;
+}
 
 /* Sidebar month settings panel */
 .settings-toggle {

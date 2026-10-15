@@ -63,8 +63,8 @@ body {
     position: relative;
     z-index: 2;
     /* Give every monthly logo the same display area as the standard logo. */
-    width: 170px;
-    height: 150px;
+    width: 180px;
+    height: 158px;
     max-width: 100%;
     object-fit: contain;
     object-position: center;
@@ -1777,8 +1777,8 @@ document.addEventListener("DOMContentLoaded", () => {
 .monthly-logo-wrap {
   position: relative;
   display: inline-flex;
-  width: 170px;
-  height: 150px;
+  width: 180px;
+  height: 158px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -1805,11 +1805,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* Give every monthly logo the same centered 170x150 display frame. */
 .monthly-logo-wrap {
-    width: 170px;
-    height: 150px;
-    min-width: 170px;
-    min-height: 150px;
-    flex: 0 0 170px;
+    width: 180px;
+    height: 158px;
+    min-width: 180px;
+    min-height: 158px;
+    flex: 0 0 180px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1817,15 +1817,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 .logo-image {
     display: block;
-    width: 170px !important;
-    height: 150px !important;
-    min-width: 170px;
-    min-height: 150px;
-    max-width: 170px !important;
-    max-height: 150px !important;
+    width: 180px !important;
+    height: 158px !important;
+    min-width: 180px;
+    min-height: 158px;
+    max-width: 180px !important;
+    max-height: 158px !important;
     object-fit: contain;
     object-position: center;
-    flex: 0 0 170px;
+    flex: 0 0 180px;
 }
 .monthly-logo-wrap.pride-june::after {
     -webkit-mask-size: contain;
@@ -1833,12 +1833,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* The October artwork has less transparent padding, so scale its visible artwork
-   down while keeping the exact same 170x150 layout frame as every other month. */
-.monthly-logo-wrap.october-logo .logo-image {
-    transform: scale(0.60) !important;
-    transform-origin: center;
-}
+/* October uses the same size as every other monthly logo. */
 
 /* Sidebar month settings panel */
 .settings-toggle {

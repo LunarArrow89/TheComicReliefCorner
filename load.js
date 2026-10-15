@@ -12,7 +12,12 @@ function executeGlobalTemplateLighter() {
     if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
         fetch("sidebar.html")
             .then(res => res.text())
-            .then(html => { sidebarWrap.innerHTML = html; })
+            .then(html => {
+                sidebarWrap.innerHTML = html;
+                // Scripts inserted through innerHTML do not execute, so select the
+                // monthly logo here after the sidebar has been inserted.
+                updateComicReliefMonthlyLogo(sidebarWrap);
+            })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
     
@@ -25,6 +30,30 @@ function executeGlobalTemplateLighter() {
             })
             .catch(err => console.error("Error loading header layout:", err));
     }
+}
+
+// Automatically show the logo asset for the current calendar month.
+// This must live in load.js because scripts inside fetched sidebar.html are not executed.
+function updateComicReliefMonthlyLogo(root = document) {
+    const logo = root.querySelector("#monthly-logo");
+    if (!logo) return;
+
+    const monthlyLogos = {
+        0: "logo-january-november.png", // January
+        1: "logo-febuary.png",          // February (filename kept as-is)
+        2: "logo-march-june-july-september.png", // March
+        3: "logo-april.png",            // April
+        4: "logo-may.png",              // May
+        5: "logo-march-june-july-september.png", // June
+        6: "logo-march-june-july-september.png", // July
+        8: "logo-march-june-july-september.png", // September
+        9: "logo-october.png",           // October
+        10: "logo-january-november.png"  // November
+    };
+
+    const filename = monthlyLogos[new Date().getMonth()] || "logo.png";
+    const target = new URL(filename, document.baseURI).href;
+    if (logo.src !== target) logo.src = target;
 }
 
 // 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE

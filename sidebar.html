@@ -40,26 +40,29 @@
     <span class="settings-icon" aria-hidden="true">⚙</span> Settings
   </button>
 
-  <section class="monthly-settings-panel" id="monthly-settings-panel" hidden>
-    <h3>Logo Settings</h3>
-    <label for="monthly-month-select">Preview a month</label>
-    <select id="monthly-month-select">
-      <option value="0">January</option>
-      <option value="1">February</option>
-      <option value="2">March</option>
-      <option value="3">April</option>
-      <option value="4">May</option>
-      <option value="5">June (Pride)</option>
-      <option value="6">July</option>
-      <option value="7">August</option>
-      <option value="8">September</option>
-      <option value="9">October</option>
-      <option value="10">November</option>
-      <option value="11">December</option>
-    </select>
-    <button type="button" class="settings-action" id="monthly-month-apply">Apply Month</button>
-    <button type="button" class="settings-action secondary" id="monthly-month-reset">Use Current Month</button>
-    <p class="settings-note">Your choice is saved on this browser.</p>
+  <section class="monthly-settings-panel" id="monthly-settings-panel" aria-label="Logo settings" hidden>
+    <div class="monthly-settings-card" role="dialog" aria-modal="true" aria-labelledby="monthly-settings-title">
+      <button type="button" class="monthly-settings-close" id="monthly-settings-close" aria-label="Close settings" title="Close">×</button>
+      <h3 id="monthly-settings-title">Logo Settings</h3>
+      <label for="monthly-month-select">Preview a month</label>
+      <select id="monthly-month-select">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June (Pride)</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+      <button type="button" class="settings-action" id="monthly-month-apply">Apply Month</button>
+      <button type="button" class="settings-action secondary" id="monthly-month-reset">Use Current Month</button>
+      <p class="settings-note">Your choice is saved on this browser.</p>
+    </div>
   </section>
 
   <!-- PROXY BUTTON --> 
@@ -88,6 +91,7 @@
     const select = document.getElementById("monthly-month-select");
     const apply = document.getElementById("monthly-month-apply");
     const reset = document.getElementById("monthly-month-reset");
+    const close = document.getElementById("monthly-settings-close");
     const logo = document.getElementById("monthly-logo");
     const wrap = document.getElementById("monthly-logo-wrap");
     if (!toggle || !panel || !select || !apply || !reset || !logo) return;
@@ -99,6 +103,8 @@
         wrap.classList.toggle("october-logo", month === 9);
         wrap.classList.toggle("february-logo", month === 1);
       }
+      // Force February's artwork smaller inline so competing CSS cannot cancel the change.
+      logo.style.setProperty("transform", month === 1 ? "scale(0.62)" : (month === 9 ? "scale(0.80)" : ""), month === 1 || month === 9 ? "important" : "");
     }
 
     const saved = localStorage.getItem("comicReliefLogoMonth");
@@ -107,11 +113,24 @@
     select.value = String(current);
     applyMonth(current);
 
+    function closeSettings() {
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
     toggle.addEventListener("click", function (event) {
       event.preventDefault();
       const opening = panel.hidden;
       panel.hidden = !opening;
       toggle.setAttribute("aria-expanded", String(opening));
+    });
+
+    if (close) close.addEventListener("click", closeSettings);
+    panel.addEventListener("click", function (event) {
+      if (event.target === panel) closeSettings();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) closeSettings();
     });
 
     apply.addEventListener("click", function (event) {

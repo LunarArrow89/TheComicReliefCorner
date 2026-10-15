@@ -1835,8 +1835,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* The October artwork has less transparent padding, so scale its visible artwork
    down while keeping the exact same 170x150 layout frame as every other month. */
-.logo-image[src="logo-october.png"] {
-    transform: scale(0.60);
+.monthly-logo-wrap.october-logo .logo-image {
+    transform: scale(0.60) !important;
     transform-origin: center;
 }
 

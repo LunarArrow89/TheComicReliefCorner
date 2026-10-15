@@ -1803,13 +1803,16 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* Force every monthly logo to use exactly the same display dimensions. */
+/* Give every monthly logo the same centered 170x150 display frame. */
 .monthly-logo-wrap {
     width: 170px;
     height: 150px;
     min-width: 170px;
     min-height: 150px;
     flex: 0 0 170px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-image {
@@ -1820,13 +1823,13 @@ document.addEventListener("DOMContentLoaded", () => {
     min-height: 150px;
     max-width: 170px !important;
     max-height: 150px !important;
-    object-fit: fill;
+    object-fit: contain;
     object-position: center;
     flex: 0 0 170px;
 }
 .monthly-logo-wrap.pride-june::after {
-    -webkit-mask-size: 82% 82%;
-    mask-size: 82% 82%;
+    -webkit-mask-size: contain;
+    mask-size: contain;
 }
 
 

@@ -1790,7 +1790,16 @@ document.addEventListener("DOMContentLoaded", () => {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787, #e40303);
+  /* Vertical Pride rainbow: each color gets enough space to remain visible. */
+  background: linear-gradient(
+    180deg,
+    #e40303 0%,
+    #ff8c00 20%,
+    #ffed00 40%,
+    #008026 60%,
+    #004dff 80%,
+    #750787 100%
+  );
   -webkit-mask-image: url("logo.png");
   mask-image: url("logo.png");
   -webkit-mask-position: center;

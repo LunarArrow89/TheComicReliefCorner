@@ -67,3 +67,77 @@
     <img src="proxy-icon.png" alt="Proxy" class="nav-icon-img"> Proxy 
   </a> 
 </div>
+
+<script>
+(function () {
+  // This file is also embedded directly by proxy.html and
+  // under-construction.html using an <object>. In that case load.js
+  // in the parent page cannot attach click handlers to this document.
+  const logos = [
+    "logo-january-november.png", "logo-febuary.png",
+    "logo-march-june-july-september.png", "logo-april.png",
+    "logo-may.png", "logo.png",
+    "logo-march-june-july-september.png", "logo.png",
+    "logo-march-june-july-september.png", "logo-october.png",
+    "logo-january-november.png", "logo.png"
+  ];
+
+  function initSidebarSettings() {
+    const toggle = document.getElementById("monthly-settings-toggle");
+    const panel = document.getElementById("monthly-settings-panel");
+    const select = document.getElementById("monthly-month-select");
+    const apply = document.getElementById("monthly-month-apply");
+    const reset = document.getElementById("monthly-month-reset");
+    const logo = document.getElementById("monthly-logo");
+    const wrap = document.getElementById("monthly-logo-wrap");
+    if (!toggle || !panel || !select || !apply || !reset || !logo) return;
+
+    function applyMonth(month) {
+      logo.src = new URL(logos[month], document.baseURI).href;
+      if (wrap) {
+        wrap.classList.toggle("pride-june", month === 5);
+        wrap.classList.toggle("october-logo", month === 9);
+      }
+    }
+
+    const saved = localStorage.getItem("comicReliefLogoMonth");
+    const current = saved !== null && saved !== "auto" && Number(saved) >= 0 && Number(saved) <= 11
+      ? Number(saved) : new Date().getMonth();
+    select.value = String(current);
+    applyMonth(current);
+
+    toggle.addEventListener("click", function (event) {
+      event.preventDefault();
+      const opening = panel.hidden;
+      panel.hidden = !opening;
+      toggle.setAttribute("aria-expanded", String(opening));
+    });
+
+    apply.addEventListener("click", function (event) {
+      event.preventDefault();
+      const month = Number(select.value);
+      if (!Number.isInteger(month) || month < 0 || month > 11) return;
+      localStorage.setItem("comicReliefLogoMonth", String(month));
+      applyMonth(month);
+      const note = panel.querySelector(".settings-note");
+      if (note) note.textContent = "Saved! The logo will use " + select.options[select.selectedIndex].text + " on this browser.";
+    });
+
+    reset.addEventListener("click", function (event) {
+      event.preventDefault();
+      localStorage.setItem("comicReliefLogoMonth", "auto");
+      const month = new Date().getMonth();
+      select.value = String(month);
+      applyMonth(month);
+      const note = panel.querySelector(".settings-note");
+      if (note) note.textContent = "Using the current calendar month automatically.";
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSidebarSettings);
+  } else {
+    initSidebarSettings();
+  }
+})();
+</script>

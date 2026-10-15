@@ -1803,7 +1803,8 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 
-/* Give every monthly logo the same centered 170x150 display frame. */
+/* Keep the original logo artwork at its original 180x158 size.
+   The wrapper can remain wider to center the monthly variants. */
 .monthly-logo-wrap {
     width: 200px;
     height: 176px;
@@ -1817,15 +1818,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 .logo-image {
     display: block;
-    width: 200px !important;
-    height: 176px !important;
-    min-width: 200px;
-    min-height: 176px;
-    max-width: 200px !important;
-    max-height: 176px !important;
+    width: 180px !important;
+    height: 158px !important;
+    min-width: 180px;
+    min-height: 158px;
+    max-width: 180px !important;
+    max-height: 158px !important;
     object-fit: contain;
     object-position: center;
-    flex: 0 0 200px;
+    flex: 0 0 180px;
 }
 .monthly-logo-wrap.pride-june::after {
     -webkit-mask-size: contain;

@@ -22,7 +22,7 @@ function executeGlobalTemplateLighter() {
                 sidebarWrap.innerHTML = html;
                 // Scripts inserted through innerHTML do not execute, so select the
                 // monthly logo here after the sidebar has been inserted.
-                updateComicReliefMonthlyLogo(sidebarWrap);
+                updateComicReliefMonthlyLogo(sidebarWrap);\n                setupComicReliefMonthSettings(sidebarWrap);
             })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
@@ -38,32 +38,81 @@ function executeGlobalTemplateLighter() {
     }
 }
 
-// Automatically show the logo asset for the current calendar month.
-// Resolve image URLs from this script's location so the logo works on GitHub Pages
-// and on every page that shares the dynamically loaded sidebar.
-function updateComicReliefMonthlyLogo(root = document) {
+// Monthly logo choices. A saved settings choice overrides the calendar month.
+const comicReliefMonthlyLogos = {
+    0: "logo-january-november.png",
+    1: "logo-febuary.png",
+    2: "logo-march-june-july-september.png",
+    3: "logo-april.png",
+    4: "logo-may.png",
+    5: "logo.png",
+    6: "logo-march-june-july-september.png",
+    7: "logo.png",
+    8: "logo-march-june-july-september.png",
+    9: "logo-october.png",
+    10: "logo-january-november.png",
+    11: "logo.png"
+};
+
+function getComicReliefSelectedMonth() {
+    const saved = localStorage.getItem("comicReliefLogoMonth");
+    if (saved !== null && saved !== "auto" && Number.isInteger(Number(saved)) && Number(saved) >= 0 && Number(saved) <= 11) {
+        return Number(saved);
+    }
+    return new Date().getMonth();
+}
+
+function updateComicReliefMonthlyLogo(root = document, chosenMonth = getComicReliefSelectedMonth()) {
     const logo = root.querySelector("#monthly-logo, .logo-image") || document.querySelector("#monthly-logo, .logo-image");
     if (!logo) return;
 
-    const monthlyLogos = {
-        0: "logo-january-november.png", // January
-        1: "logo-febuary.png",          // February (repository filename spelling)
-        2: "logo-march-june-july-september.png", // March
-        3: "logo-april.png",            // April
-        4: "logo-may.png",              // May
-        5: "logo-march-june-july-september.png", // June
-        6: "logo-march-june-july-september.png", // July
-        8: "logo-march-june-july-september.png", // September
-        9: "logo-october.png",           // October
-        10: "logo-january-november.png"  // November
-    };
+    const wrap = logo.closest(".monthly-logo-wrap");
+    if (wrap) {
+        wrap.classList.toggle("pride-june", chosenMonth === 5);
+        wrap.classList.toggle("october-logo", chosenMonth === 9);
+    }
+    const filename = comicReliefMonthlyLogos[chosenMonth] || "logo.png";
+    const target = new URL(filename, getComicReliefAssetBase());
+    target.searchParams.set("month", String(chosenMonth + 1));
+    if (!logo.src || !logo.src.startsWith(target.href.split("?")[0]) || logo.src !== target.href) {
+        logo.src = target.href;
+    }
+}
 
-    const filename = monthlyLogos[new Date().getMonth()] || "logo.png";
-    const assetBase = getComicReliefAssetBase();
-    const target = new URL(filename, assetBase);
-    // A small version parameter prevents a previously cached logo from sticking.
-    target.searchParams.set("month", String(new Date().getMonth() + 1));
-    if (logo.src !== target.href) logo.src = target.href;
+function setupComicReliefMonthSettings(root = document) {
+    const toggle = root.querySelector("#monthly-settings-toggle");
+    const panel = root.querySelector("#monthly-settings-panel");
+    const select = root.querySelector("#monthly-month-select");
+    const apply = root.querySelector("#monthly-month-apply");
+    const reset = root.querySelector("#monthly-month-reset");
+    if (!toggle || !panel || !select || !apply || !reset || toggle.dataset.settingsReady === "true") return;
+    toggle.dataset.settingsReady = "true";
+
+    const saved = localStorage.getItem("comicReliefLogoMonth");
+    select.value = saved !== null && saved !== "auto" ? saved : String(new Date().getMonth());
+
+    toggle.addEventListener("click", () => {
+        const opening = panel.hidden;
+        panel.hidden = !opening;
+        toggle.setAttribute("aria-expanded", String(opening));
+        if (opening) select.focus();
+    });
+
+    apply.addEventListener("click", () => {
+        const month = Number(select.value);
+        if (!Number.isInteger(month) || month < 0 || month > 11) return;
+        localStorage.setItem("comicReliefLogoMonth", String(month));
+        updateComicReliefMonthlyLogo(document, month);
+        panel.querySelector(".settings-note").textContent = "Saved! The logo will use " + select.options[select.selectedIndex].text + " on this browser.";
+    });
+
+    reset.addEventListener("click", () => {
+        localStorage.setItem("comicReliefLogoMonth", "auto");
+        const month = new Date().getMonth();
+        select.value = String(month);
+        updateComicReliefMonthlyLogo(document, month);
+        panel.querySelector(".settings-note").textContent = "Using the current calendar month automatically.";
+    });
 }
 
 // Recheck on visits, tab return, and if the page stays open across a month change.

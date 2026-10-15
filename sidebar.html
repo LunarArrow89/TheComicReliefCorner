@@ -6,7 +6,7 @@
     <!-- Monthly logo; June uses the normal logo with a rainbow Pride overlay -->
     <span class="monthly-logo-wrap" id="monthly-logo-wrap">
       <img src="logo-october.png" alt="The Comic Relief Corner" class="logo-image" id="monthly-logo"
-         onload="if (!this.dataset.monthlyLogoInitialized) { this.dataset.monthlyLogoInitialized = 'true'; const month = new Date().getMonth(); const monthlyLogos = {0:'logo-january-november.png',1:'logo-febuary.png',2:'logo-march-june-july-september.png',3:'logo-april.png',4:'logo-may.png',5:'logo.png',6:'logo-march-june-july-september.png',8:'logo-march-june-july-september.png',9:'logo-october.png',10:'logo-january-november.png'}; this.parentElement.classList.toggle('pride-june', month === 5); this.src = monthlyLogos[month] || 'logo.png'; }">
+         onload="if (!this.dataset.monthlyLogoInitialized) { this.dataset.monthlyLogoInitialized = 'true'; const month = new Date().getMonth(); const monthlyLogos = {0:'logo-january-november.png',1:'logo-febuary.png',2:'logo-march-june-july-september.png',3:'logo-april.png',4:'logo-may.png',5:'logo.png',6:'logo-march-june-july-september.png',8:'logo-march-june-july-september.png',9:'logo-october.png',10:'logo-january-november.png'}; this.parentElement.classList.toggle('pride-june', month === 5); this.parentElement.classList.toggle('october-logo', month === 9); this.src = monthlyLogos[month] || 'logo.png'; }">
     </span>
   </div> 
 

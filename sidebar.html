@@ -96,6 +96,9 @@
     const wrap = document.getElementById("monthly-logo-wrap");
     if (!toggle || !panel || !select || !apply || !reset || !logo) return;
 
+    // Put the overlay at document level so the sidebar's scrolling container cannot clip it.
+    if (panel.parentElement !== document.body) document.body.appendChild(panel);
+
     function applyMonth(month) {
       logo.src = new URL(logos[month], document.baseURI).href;
       if (wrap) {

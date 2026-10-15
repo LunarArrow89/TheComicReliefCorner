@@ -22,7 +22,8 @@ function executeGlobalTemplateLighter() {
                 sidebarWrap.innerHTML = html;
                 // Scripts inserted through innerHTML do not execute, so select the
                 // monthly logo here after the sidebar has been inserted.
-                updateComicReliefMonthlyLogo(sidebarWrap);\n                setupComicReliefMonthSettings(sidebarWrap);
+                updateComicReliefMonthlyLogo(sidebarWrap);
+                setupComicReliefMonthSettings(sidebarWrap);
             })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }

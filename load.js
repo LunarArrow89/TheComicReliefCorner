@@ -86,34 +86,41 @@ function setupComicReliefMonthSettings(root = document) {
     const select = root.querySelector("#monthly-month-select");
     const apply = root.querySelector("#monthly-month-apply");
     const reset = root.querySelector("#monthly-month-reset");
-    if (!toggle || !panel || !select || !apply || !reset || toggle.dataset.settingsReady === "true") return;
-    toggle.dataset.settingsReady = "true";
+    if (!toggle || !panel || !select || !apply || !reset) return;
 
     const saved = localStorage.getItem("comicReliefLogoMonth");
     select.value = saved !== null && saved !== "auto" ? saved : String(new Date().getMonth());
 
-    toggle.addEventListener("click", () => {
+    // Assign handlers directly so this still works if the shared sidebar is
+    // fetched/reinserted after the main page has loaded.
+    toggle.onclick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         const opening = panel.hidden;
         panel.hidden = !opening;
         toggle.setAttribute("aria-expanded", String(opening));
         if (opening) select.focus();
-    });
+    };
 
-    apply.addEventListener("click", () => {
+    apply.onclick = (event) => {
+        event.preventDefault();
         const month = Number(select.value);
         if (!Number.isInteger(month) || month < 0 || month > 11) return;
         localStorage.setItem("comicReliefLogoMonth", String(month));
         updateComicReliefMonthlyLogo(document, month);
-        panel.querySelector(".settings-note").textContent = "Saved! The logo will use " + select.options[select.selectedIndex].text + " on this browser.";
-    });
+        const note = panel.querySelector(".settings-note");
+        if (note) note.textContent = "Saved! The logo will use " + select.options[select.selectedIndex].text + " on this browser.";
+    };
 
-    reset.addEventListener("click", () => {
+    reset.onclick = (event) => {
+        event.preventDefault();
         localStorage.setItem("comicReliefLogoMonth", "auto");
         const month = new Date().getMonth();
         select.value = String(month);
         updateComicReliefMonthlyLogo(document, month);
-        panel.querySelector(".settings-note").textContent = "Using the current calendar month automatically.";
-    });
+        const note = panel.querySelector(".settings-note");
+        if (note) note.textContent = "Using the current calendar month automatically.";
+    };
 }
 
 // Recheck on visits, tab return, and if the page stays open across a month change.

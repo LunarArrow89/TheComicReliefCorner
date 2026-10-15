@@ -38,37 +38,3 @@
     <img src="proxy-icon.png" alt="Proxy" class="nav-icon-img"> Proxy 
   </a> 
 </div>
-
-<script>
-  (function () {
-    const monthlyLogo = document.getElementById("monthly-logo");
-    if (!monthlyLogo) return;
-
-    // These filenames match the monthly logo assets in this repository.
-    const monthlyLogos = {
-      0: "logo-january-november.png",
-      1: "logo-febuary.png",
-      2: "logo-march-june-july-september.png",
-      3: "logo-april.png",
-      4: "logo-may.png",
-      5: "logo-march-june-july-september.png",
-      6: "logo-march-june-july-september.png",
-      8: "logo-march-june-july-september.png",
-      9: "logo-october.png",
-      10: "logo-january-november.png"
-    };
-
-    function updateMonthlyLogo() {
-      const month = new Date().getMonth();
-      const nextLogo = monthlyLogos[month] || "logo.png";
-      if (!monthlyLogo.src.endsWith("/" + nextLogo)) {
-        monthlyLogo.src = nextLogo;
-      }
-    }
-
-    updateMonthlyLogo();
-    // Also catches a month change while the page remains open.
-    setInterval(updateMonthlyLogo, 60 * 1000);
-    document.addEventListener("visibilitychange", updateMonthlyLogo);
-  })();
-</script>

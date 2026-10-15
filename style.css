@@ -1801,3 +1801,16 @@ document.addEventListener("DOMContentLoaded", () => {
   mask-size: contain;
   pointer-events: none;
 }
+
+
+/* Keep every monthly logo comfortably inside the rotating ring */
+.logo-image {
+    width: 140px;
+    height: 125px;
+    object-fit: contain;
+    object-position: center;
+}
+.monthly-logo-wrap.pride-june::after {
+    -webkit-mask-size: 82% 82%;
+    mask-size: 82% 82%;
+}

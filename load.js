@@ -33,14 +33,15 @@ function executeGlobalTemplateLighter() {
 }
 
 // Automatically show the logo asset for the current calendar month.
-// This must live in load.js because scripts inside fetched sidebar.html are not executed.
+// Resolve image URLs from this script's location so the logo works on GitHub Pages
+// and on every page that shares the dynamically loaded sidebar.
 function updateComicReliefMonthlyLogo(root = document) {
-    const logo = root.querySelector("#monthly-logo");
+    const logo = root.querySelector("#monthly-logo") || document.querySelector("#monthly-logo");
     if (!logo) return;
 
     const monthlyLogos = {
         0: "logo-january-november.png", // January
-        1: "logo-febuary.png",          // February (filename kept as-is)
+        1: "logo-febuary.png",          // February (repository filename spelling)
         2: "logo-march-june-july-september.png", // March
         3: "logo-april.png",            // April
         4: "logo-may.png",              // May
@@ -52,9 +53,25 @@ function updateComicReliefMonthlyLogo(root = document) {
     };
 
     const filename = monthlyLogos[new Date().getMonth()] || "logo.png";
-    const target = new URL(filename, document.baseURI).href;
-    if (logo.src !== target) logo.src = target;
+    const loaderScript = Array.from(document.scripts).find(script => /(?:^|\\/)load\\.js(?:[?#]|$)/.test(script.src));
+    const assetBase = loaderScript ? new URL(".", loaderScript.src) : new URL(".", window.location.href);
+    const target = new URL(filename, assetBase);
+    // A small version parameter prevents a previously cached logo from sticking.
+    target.searchParams.set("month", String(new Date().getMonth() + 1));
+    if (logo.src !== target.href) logo.src = target.href;
 }
+
+// Recheck on visits, tab return, and if the page stays open across a month change.
+function startComicReliefMonthlyLogoUpdates() {
+    updateComicReliefMonthlyLogo();
+    if (!window.comicReliefLogoInterval) {
+        window.comicReliefLogoInterval = window.setInterval(updateComicReliefMonthlyLogo, 60 * 1000);
+    }
+}
+window.addEventListener("pageshow", startComicReliefMonthlyLogoUpdates);
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) updateComicReliefMonthlyLogo();
+});
 
 // 2. HIGH-ACCURACY DIGITAL REAL-TIME CLOCK ENGINE
 function executeSystemTimeTicks() {

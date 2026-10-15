@@ -1777,8 +1777,8 @@ document.addEventListener("DOMContentLoaded", () => {
 .monthly-logo-wrap {
   position: relative;
   display: inline-flex;
-  width: 180px;
-  height: 158px;
+  width: 200px;
+  height: 176px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -1805,11 +1805,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* Give every monthly logo the same centered 170x150 display frame. */
 .monthly-logo-wrap {
-    width: 180px;
-    height: 158px;
-    min-width: 180px;
-    min-height: 158px;
-    flex: 0 0 180px;
+    width: 200px;
+    height: 176px;
+    min-width: 200px;
+    min-height: 176px;
+    flex: 0 0 200px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1817,15 +1817,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 .logo-image {
     display: block;
-    width: 180px !important;
-    height: 158px !important;
-    min-width: 180px;
-    min-height: 158px;
-    max-width: 180px !important;
-    max-height: 158px !important;
+    width: 200px !important;
+    height: 176px !important;
+    min-width: 200px;
+    min-height: 176px;
+    max-width: 200px !important;
+    max-height: 176px !important;
     object-fit: contain;
     object-position: center;
-    flex: 0 0 180px;
+    flex: 0 0 200px;
 }
 .monthly-logo-wrap.pride-june::after {
     -webkit-mask-size: contain;
@@ -1835,13 +1835,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* February artwork is scaled independently; all other logo sizes stay unchanged. */
 .monthly-logo-wrap.february-logo .logo-image {
-    transform: scale(0.80) !important;
+    transform: scale(0.38) !important;
     transform-origin: center;
 }
 
 /* October artwork has more visual fill, so scale it down to match the other months. */
 .monthly-logo-wrap.october-logo .logo-image {
-    transform: scale(0.80) !important;
+    transform: scale(0.72) !important;
     transform-origin: center;
 }
 

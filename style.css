@@ -1771,3 +1771,33 @@ document.addEventListener("DOMContentLoaded", () => {
         font-size: 1.2rem;
     }
 }
+
+
+/* June-only Pride treatment for the standard logo */
+.monthly-logo-wrap {
+  position: relative;
+  display: inline-flex;
+  width: 170px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.monthly-logo-wrap.pride-june .logo-image {
+  opacity: 0;
+}
+.monthly-logo-wrap.pride-june::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787, #e40303);
+  -webkit-mask-image: url("logo.png");
+  mask-image: url("logo.png");
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  pointer-events: none;
+}

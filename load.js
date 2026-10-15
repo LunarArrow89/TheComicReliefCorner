@@ -86,7 +86,12 @@ function setupComicReliefMonthSettings(root = document) {
     const select = root.querySelector("#monthly-month-select");
     const apply = root.querySelector("#monthly-month-apply");
     const reset = root.querySelector("#monthly-month-reset");
+    const close = root.querySelector("#monthly-settings-close");
     if (!toggle || !panel || !select || !apply || !reset) return;
+
+    // Move the popup out of the sidebar's stacking/overflow layers. This is
+    // essential because the sidebar is fixed and has its own high z-index.
+    if (panel.parentElement !== document.body) document.body.appendChild(panel);
 
     const saved = localStorage.getItem("comicReliefLogoMonth");
     select.value = saved !== null && saved !== "auto" ? saved : String(new Date().getMonth());
@@ -101,6 +106,33 @@ function setupComicReliefMonthSettings(root = document) {
         toggle.setAttribute("aria-expanded", String(opening));
         if (opening) select.focus();
     };
+
+    const closeSettings = () => {
+        panel.hidden = true;
+        toggle.setAttribute("aria-expanded", "false");
+    };
+    if (close) close.onclick = (event) => {
+        event.preventDefault();
+        closeSettings();
+        toggle.focus();
+    };
+    panel.onclick = (event) => {
+        if (event.target === panel) closeSettings();
+    };
+    if (!window.comicReliefSettingsEscapeHandler) {
+        window.comicReliefSettingsEscapeHandler = (event) => {
+            const openPanel = document.getElementById("monthly-settings-panel");
+            if (event.key === "Escape" && openPanel && !openPanel.hidden) {
+                openPanel.hidden = true;
+                const openToggle = document.getElementById("monthly-settings-toggle");
+                if (openToggle) {
+                    openToggle.setAttribute("aria-expanded", "false");
+                    openToggle.focus();
+                }
+            }
+        };
+        document.addEventListener("keydown", window.comicReliefSettingsEscapeHandler);
+    }
 
     apply.onclick = (event) => {
         event.preventDefault();

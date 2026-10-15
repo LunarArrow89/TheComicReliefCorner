@@ -107,7 +107,7 @@
         wrap.classList.toggle("february-logo", month === 1);
       }
       // Force February's artwork smaller inline so competing CSS cannot cancel the change.
-      logo.style.setProperty("transform", month === 1 ? "scale(0.62)" : (month === 9 ? "scale(0.80)" : ""), month === 1 || month === 9 ? "important" : "");
+      logo.style.setProperty("transform", month === 1 ? "scale(0.38)" : (month === 9 ? "scale(0.72)" : ""), month === 1 || month === 9 ? "important" : "");
     }
 
     const saved = localStorage.getItem("comicReliefLogoMonth");

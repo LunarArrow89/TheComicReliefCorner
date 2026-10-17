@@ -29,7 +29,7 @@ function executeGlobalTemplateLighter() {
     }
     
     if (headerWrap && headerWrap.innerHTML.trim() === "") {
-        fetch("header.html")
+        fetch("header.html?v=20261016", { cache: "no-store" })
             .then(res => res.text())
             .then(html => {
                 headerWrap.innerHTML = html;

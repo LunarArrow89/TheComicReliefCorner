@@ -39,8 +39,10 @@ const chatInput = document.getElementById("chat-msg");
 const chatWindow = document.getElementById("chat-window");
 const logoutBtn = document.getElementById("logout-btn");
 
-let auth;
-let database;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
 let currentUser = null;
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
@@ -96,7 +98,7 @@ function startMessages() {
   });
 }
 
-onAuthStateChanged(auth = getAuth(initializeApp(firebaseConfig)), (user) => {
+onAuthStateChanged(auth, (user) => {
   currentUser = user;
   if (user) {
     authContainer.style.display = "none";
@@ -113,9 +115,6 @@ onAuthStateChanged(auth = getAuth(initializeApp(firebaseConfig)), (user) => {
     chatContainer.style.display = "none";
   }
 });
-
-const app = initializeApp(firebaseConfig);
-database = getDatabase(app);
 
 signupBtn.addEventListener("click", async () => {
   clearAuthError();

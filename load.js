@@ -85,7 +85,8 @@ const comicReliefThemes = {
     green:  { accent: "#22c55e", rgb: "34, 197, 94", soft: "#86efac", deep: "#15803d", hover: "#16a34a", hue: "142deg" },
     orange: { accent: "#f97316", rgb: "249, 115, 22", soft: "#fdba74", deep: "#c2410c", hover: "#ea580c", hue: "24deg" },
     cyan:   { accent: "#06b6d4", rgb: "6, 182, 212", soft: "#67e8f9", deep: "#0e7490", hover: "#0891b2", hue: "189deg" },
-    yellow: { accent: "#eab308", rgb: "234, 179, 8", soft: "#fde047", deep: "#a16207", hover: "#ca8a04", hue: "45deg" }
+    yellow: { accent: "#eab308", rgb: "234, 179, 8", soft: "#fde047", deep: "#a16207", hover: "#ca8a04", hue: "45deg" },
+    charlie: { accent: "#ff69b4", rgb: "255, 105, 180", soft: "#ff9bd0", deep: "#a82d72", hover: "#c83b8a", hue: "301deg" }
 };
 
 function applyComicReliefTheme(themeName) {

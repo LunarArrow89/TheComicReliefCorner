@@ -109,7 +109,7 @@ function applyComicReliefTheme(themeName) {
 }
 
 function setupComicReliefColorSettings(root = document) {
-    const toggle = root.querySelector("#monthly-settings-toggle") || document.querySelector("#headerSettingsBtn");
+    const toggle = document.querySelector("#headerSettingsBtn") || root.querySelector("#monthly-settings-toggle");
     const panel = document.querySelector("#monthly-settings-panel") || root.querySelector("#monthly-settings-panel");
     const close = document.querySelector("#monthly-settings-close");
     if (!toggle || !panel) return;

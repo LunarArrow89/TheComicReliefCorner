@@ -1,4 +1,3 @@
-// Firebase setup: replace these values with the config from your Firebase project.
 const firebaseConfig = {
   apiKey: "AIzaSyArdYErhvY-c_c3qADYQEKve5EGuNzDcIM",
   authDomain: "chatroom-334ac.firebaseapp.com",
@@ -11,20 +10,13 @@ const firebaseConfig = {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, updateProfile, EmailAuthProvider,
+  reauthenticateWithCredential, deleteUser
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
-  getDatabase,
-  ref,
-  push,
-  query,
-  limitToLast,
-  onChildAdded,
-  serverTimestamp
+  getDatabase, ref, push, query, limitToLast, onChildAdded,
+  serverTimestamp, get, set, remove
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
 const authContainer = document.getElementById("auth-container");
@@ -32,18 +24,25 @@ const chatContainer = document.getElementById("secure-chat-container");
 const authForm = document.getElementById("auth-form");
 const emailInput = document.getElementById("auth-email");
 const passwordInput = document.getElementById("auth-password");
+const signupUsernameInput = document.getElementById("auth-username");
 const signupBtn = document.getElementById("signup-btn");
 const authError = document.getElementById("auth-error");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-msg");
 const chatWindow = document.getElementById("chat-window");
 const logoutBtn = document.getElementById("logout-btn");
+const profileUsernameInput = document.getElementById("profile-username");
+const profileColorInput = document.getElementById("profile-color");
+const saveProfileBtn = document.getElementById("save-profile-btn");
+const profileStatus = document.getElementById("profile-status");
+const deleteAccountBtn = document.getElementById("delete-account-btn");
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
 let currentUser = null;
+let currentProfile = { username: "", nameColor: "#ff69b4" };
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
 
@@ -52,64 +51,83 @@ function showAuthError(message) {
   authError.hidden = false;
   authError.style.display = "block";
 }
-
 function clearAuthError() {
   authError.textContent = "";
   authError.hidden = true;
   authError.style.display = "none";
 }
+function showProfileStatus(message, isError = false) {
+  profileStatus.textContent = message;
+  profileStatus.style.color = isError ? "#ff6b6b" : "inherit";
+}
+function cleanUsername(value) {
+  return value.trim().replace(/\s+/g, " ").slice(0, 24);
+}
 
-function showMessage(username, messageText, createdAt) {
+function showMessage(username, messageText, createdAt, nameColor) {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
-
   const name = document.createElement("span");
   name.className = "chat-meta";
+  name.style.color = /^#[0-9a-fA-F]{6}$/.test(nameColor || "") ? nameColor : "#ff69b4";
   name.textContent = username || "Community member";
-
   const content = document.createElement("span");
   content.textContent = messageText || "";
-
   const timestamp = document.createElement("span");
   timestamp.className = "chat-timestamp";
   timestamp.textContent = createdAt
     ? new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "Sending…";
-
   bubble.append(name, document.createTextNode(": "), content, timestamp);
   chatWindow.appendChild(bubble);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
+async function loadProfile(user) {
+  const profileSnapshot = await get(ref(database, "profiles/" + user.uid));
+  const profile = profileSnapshot.exists() ? profileSnapshot.val() : {};
+  currentProfile = {
+    username: cleanUsername(profile.username || user.displayName || (user.email ? user.email.split("@")[0] : "Community member")) || "Community member",
+    nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4"
+  };
+  profileUsernameInput.value = currentProfile.username;
+  profileColorInput.value = currentProfile.nameColor;
+}
+
 function startMessages() {
   if (!currentUser || messagesStartedForUid === currentUser.uid) return;
-
   if (stopMessagesListener) stopMessagesListener();
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
   const messagesQuery = query(ref(database, "messages"), limitToLast(100));
-
   stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
     const message = snapshot.val();
     if (!message) return;
-    showMessage(message.username, message.text, message.createdAt);
+    showMessage(message.username, message.text, message.createdAt, message.nameColor);
   }, (error) => {
     showAuthError("Could not load messages: " + error.message);
   });
 }
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
     authContainer.style.display = "none";
     chatContainer.style.display = "flex";
     clearAuthError();
-    startMessages();
+    showProfileStatus("");
+    try {
+      await loadProfile(user);
+      startMessages();
+    } catch (error) {
+      showProfileStatus("Could not load your profile: " + error.message, true);
+    }
   } else {
     if (stopMessagesListener) stopMessagesListener();
     stopMessagesListener = null;
     messagesStartedForUid = null;
     currentUser = null;
+    currentProfile = { username: "", nameColor: "#ff69b4" };
     chatWindow.replaceChildren();
     authContainer.style.display = "flex";
     chatContainer.style.display = "none";
@@ -120,12 +138,22 @@ signupBtn.addEventListener("click", async () => {
   clearAuthError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
+  const username = cleanUsername(signupUsernameInput.value);
+  if (!username) {
+    showAuthError("Choose a username before creating your account.");
+    signupUsernameInput.focus();
+    return;
+  }
   if (!email || !password) {
     showAuthError("Enter your email and password first.");
     return;
   }
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(credential.user, { displayName: username });
+    await set(ref(database, "profiles/" + credential.user.uid), {
+      username, nameColor: "#ff69b4"
+    });
   } catch (error) {
     showAuthError(error.message);
   }
@@ -150,22 +178,80 @@ logoutBtn.addEventListener("click", async () => {
   }
 });
 
+saveProfileBtn.addEventListener("click", async () => {
+  if (!currentUser) return;
+  const username = cleanUsername(profileUsernameInput.value);
+  const nameColor = profileColorInput.value;
+  if (!username) {
+    showProfileStatus("Please enter a username.", true);
+    profileUsernameInput.focus();
+    return;
+  }
+  saveProfileBtn.disabled = true;
+  showProfileStatus("Saving…");
+  try {
+    await set(ref(database, "profiles/" + currentUser.uid), { username, nameColor });
+    await updateProfile(currentUser, { displayName: username });
+    currentProfile = { username, nameColor };
+    showProfileStatus("Saved! Your next messages will use this name and color.");
+  } catch (error) {
+    showProfileStatus("Could not save: " + error.message, true);
+  } finally {
+    saveProfileBtn.disabled = false;
+  }
+});
+
 chatForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const messageText = chatInput.value.trim();
   if (!messageText || !currentUser) return;
-
-  const username = currentUser.email ? currentUser.email.split("@")[0] : "Community member";
+  const message = {
+    uid: currentUser.uid,
+    username: currentProfile.username || currentUser.displayName || "Community member",
+    nameColor: currentProfile.nameColor || "#ff69b4",
+    text: messageText,
+    createdAt: serverTimestamp()
+  };
   chatInput.value = "";
   try {
-    await push(ref(database, "messages"), {
-      uid: currentUser.uid,
-      username,
-      text: messageText,
-      createdAt: serverTimestamp()
-    });
+    await push(ref(database, "messages"), message);
   } catch (error) {
     chatInput.value = messageText;
     showAuthError("Message could not be sent: " + error.message);
+  }
+});
+
+deleteAccountBtn.addEventListener("click", async () => {
+  if (!currentUser) return;
+  const confirmed = confirm("Delete your account permanently? This will also try to remove your saved profile and messages. This cannot be undone.");
+  if (!confirmed) return;
+  const password = prompt("For security, enter your account password to confirm deletion:");
+  if (password === null) return;
+  if (!currentUser.email) {
+    showProfileStatus("This account cannot be re-authenticated with email/password here.", true);
+    return;
+  }
+  deleteAccountBtn.disabled = true;
+  showProfileStatus("Verifying your password…");
+  try {
+    const credential = EmailAuthProvider.credential(currentUser.email, password);
+    await reauthenticateWithCredential(currentUser, credential);
+    const allMessages = await get(ref(database, "messages"));
+    if (allMessages.exists()) {
+      const removals = [];
+      allMessages.forEach((snapshot) => {
+        if (snapshot.val()?.uid === currentUser.uid) {
+          removals.push(remove(ref(database, "messages/" + snapshot.key)));
+        }
+      });
+      await Promise.all(removals);
+    }
+    await remove(ref(database, "profiles/" + currentUser.uid));
+    await deleteUser(currentUser);
+    showProfileStatus("Your account was deleted.");
+  } catch (error) {
+    showProfileStatus("Account deletion failed: " + error.message, true);
+  } finally {
+    deleteAccountBtn.disabled = false;
   }
 });

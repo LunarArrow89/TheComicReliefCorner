@@ -1997,3 +1997,33 @@ body > .monthly-settings-panel .monthly-settings-card {
     filter: drop-shadow(0 0 7px rgba(var(--accent-rgb), 0.65));
 }
 
+
+
+/* Accent theme overrides for header styles embedded in header.html. */
+body .header-settings-btn {
+    border-color: rgba(var(--accent-rgb), .35) !important;
+}
+body .header-settings-btn:hover,
+body .header-settings-btn:focus-visible {
+    background: rgba(var(--accent-rgb), .14) !important;
+    border-color: var(--accent) !important;
+}
+body .header-settings-icon {
+    filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(var(--icon-hue)) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(var(--accent-rgb), .4)) !important;
+}
+body .header-settings-btn:hover .header-settings-icon,
+body .header-settings-btn:focus-visible .header-settings-icon {
+    filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(var(--icon-hue)) brightness(104%) contrast(104%) drop-shadow(0 0 8px var(--accent)) !important;
+}
+body .modal-content h2 {
+    text-shadow: 0 0 3px var(--accent), 0 0 8px rgba(var(--accent-rgb), .5) !important;
+}
+body .modal-content textarea:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), .2) !important;
+}
+body .modal-content .submit-btn:hover {
+    color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 15px rgba(var(--accent-rgb), .4) !important;
+}

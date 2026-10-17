@@ -133,7 +133,7 @@
       <div class="messages-window" id="chat-window" aria-live="polite" aria-label="Chat messages">
         <p class="chat-empty">Loading messages…</p>
       </div>
-      <form class="chat-input-bar" id="chat-form">
+      <form class="chat-input-bar" id="chat-form" onsubmit="event.preventDefault()">
         <input type="text" id="chat-msg" class="chat-input" placeholder="Write a message…" maxlength="1000" autocomplete="off" required aria-label="Your message">
         <button type="submit" class="chat-send-btn">Send</button>
       </form>

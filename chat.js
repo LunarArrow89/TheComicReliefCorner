@@ -329,18 +329,6 @@ authForm.addEventListener("submit", async (event) => {
   }
 });
 
-adminUnlockBtn.addEventListener("click", () => {
-  if (adminPasswordInput.value === String(2600 + 97)) {
-    adminMode = true;
-    chatContainer.classList.add("admin-mode");
-    adminStatus.textContent = "Admin mode enabled.";
-    adminPasswordInput.value = "";
-  } else {
-    adminMode = false;
-    chatContainer.classList.remove("admin-mode");
-    adminStatus.textContent = "Incorrect admin password.";
-  }
-});
 logoutBtn.addEventListener("click", async () => {
   clearAuthError();
   try {
@@ -372,7 +360,7 @@ saveProfileBtn.addEventListener("click", async () => {
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
     try {
-      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
+      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink", isAdmin: currentProfile.isAdmin === true });
       const savedSnapshot = await get(profileRef);
       const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
       if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
@@ -389,7 +377,7 @@ saveProfileBtn.addEventListener("click", async () => {
       });
     }
 
-    currentProfile = { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" };
+    currentProfile = { username, nameColor, siteTheme: currentProfile.siteTheme || "pink", isAdmin: currentProfile.isAdmin === true };
 
     // The database profile is the source of truth. Auth display-name syncing is optional.
     try {

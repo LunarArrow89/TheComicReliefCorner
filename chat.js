@@ -64,9 +64,10 @@ function cleanUsername(value) {
   return value.trim().replace(/\s+/g, " ").slice(0, 24);
 }
 
-function showMessage(username, messageText, createdAt, nameColor) {
+function showMessage(username, messageText, createdAt, nameColor, uid = "") {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
+  if (uid) bubble.dataset.uid = uid;
   const name = document.createElement("span");
   name.className = "chat-meta";
   name.style.color = /^#[0-9a-fA-F]{6}$/.test(nameColor || "") ? nameColor : "#ff69b4";
@@ -103,7 +104,7 @@ function startMessages() {
   stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
     const message = snapshot.val();
     if (!message) return;
-    showMessage(message.username, message.text, message.createdAt, message.nameColor);
+    showMessage(message.username, message.text, message.createdAt, message.nameColor, message.uid);
   }, (error) => {
     showAuthError("Could not load messages: " + error.message);
   });
@@ -193,10 +194,21 @@ saveProfileBtn.addEventListener("click", async () => {
   saveProfileBtn.disabled = true;
   showProfileStatus("Saving…");
   try {
+    // Persist the profile first; only show success after Firebase confirms the write.
     await set(ref(database, "profiles/" + currentUser.uid), { username, nameColor });
     await updateProfile(currentUser, { displayName: username });
     currentProfile = { username, nameColor };
-    showProfileStatus("Saved! Your next messages will use this name and color.");
+
+    // Update this user's messages already visible in the current chat window too.
+    chatWindow.querySelectorAll(".chat-bubble").forEach((bubble) => {
+      if (bubble.dataset.uid !== currentUser.uid) return;
+      const name = bubble.querySelector(".chat-meta");
+      if (name) {
+        name.textContent = username;
+        name.style.color = nameColor;
+      }
+    });
+    showProfileStatus("Changes saved! Your username and color are updated.");
   } catch (error) {
     showProfileStatus("Could not save: " + error.message, true);
   } finally {

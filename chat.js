@@ -42,7 +42,7 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 let currentUser = null;
-let currentProfile = { username: "", nameColor: "#ff69b4" };
+let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
 
@@ -131,7 +131,8 @@ async function loadProfile(user) {
   const profile = profileSnapshot.exists() ? profileSnapshot.val() : {};
   currentProfile = {
     username: cleanUsername(profile.username || user.displayName || (user.email ? user.email.split("@")[0] : "Community member")) || "Community member",
-    nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4"
+    nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4",
+    siteTheme: typeof profile.siteTheme === "string" ? profile.siteTheme : "pink"
   };
   profileUsernameInput.value = currentProfile.username;
   profileColorInput.value = currentProfile.nameColor;
@@ -178,7 +179,7 @@ onAuthStateChanged(auth, async (user) => {
     stopMessagesListener = null;
     messagesStartedForUid = null;
     currentUser = null;
-    currentProfile = { username: "", nameColor: "#ff69b4" };
+    currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
     chatWindow.replaceChildren();
     authContainer.style.display = "flex";
     chatContainer.style.display = "none";
@@ -204,7 +205,7 @@ signupBtn.addEventListener("click", async () => {
     // Reserve the username before writing the profile so two people cannot claim it.
     await claimUsername(username, credential.user.uid);
     await set(ref(database, "profiles/" + credential.user.uid), {
-      username, nameColor: "#ff69b4"
+      username, nameColor: "#ff69b4", siteTheme: "pink"
     });
     await updateProfile(credential.user, { displayName: username });
     currentProfile = { username, nameColor: "#ff69b4" };
@@ -252,7 +253,7 @@ saveProfileBtn.addEventListener("click", async () => {
 
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
-    await set(profileRef, { username, nameColor });
+    await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
     const savedSnapshot = await get(profileRef);
     const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
     if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
@@ -267,7 +268,7 @@ saveProfileBtn.addEventListener("click", async () => {
       });
     }
 
-    currentProfile = { username, nameColor };
+    currentProfile = { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" };
 
     // The database profile is the source of truth. Auth display-name syncing is optional.
     try {

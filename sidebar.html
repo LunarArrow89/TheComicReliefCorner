@@ -133,3 +133,35 @@
   }
 })();
 </script>
+
+<style>
+  @keyframes comic-relief-logo-spin {
+    from { rotate: 0deg; }
+    to { rotate: 360deg; }
+  }
+  #monthly-logo.logo-spin-once {
+    animation: comic-relief-logo-spin 700ms ease-in-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #monthly-logo.logo-spin-once { animation-duration: 1ms; }
+  }
+</style>
+<script>
+(function () {
+  const logo = document.getElementById("monthly-logo");
+  if (!logo) return;
+  logo.style.cursor = "pointer";
+  logo.setAttribute("title", "Click to spin the logo");
+  logo.addEventListener("click", function () {
+    // Restart the animation even when the logo is clicked repeatedly.
+    logo.classList.remove("logo-spin-once");
+    void logo.offsetWidth;
+    logo.classList.add("logo-spin-once");
+  });
+  logo.addEventListener("animationend", function (event) {
+    if (event.animationName === "comic-relief-logo-spin") {
+      logo.classList.remove("logo-spin-once");
+    }
+  });
+})();
+</script>

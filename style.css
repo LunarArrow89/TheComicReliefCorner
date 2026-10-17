@@ -236,9 +236,18 @@ body {
 }
 
 .send-icon {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  filter: invert(53%) sepia(93%) saturate(1487%) hue-rotate(301deg) brightness(101%) contrast(101%) drop-shadow(0 0 2px rgba(255,105,180,.4));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.send-btn:hover .send-icon {
+  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px #ff69b4);
+  transform: scale(1.05);
 }
 
 /* ==========================================================================

@@ -50,6 +50,9 @@
     .profile-field input[type="color"] { width: 48px; height: 40px; padding: 2px; border: 1px solid rgba(255,105,180,.35); border-radius: 8px; background: transparent; cursor: pointer; }
     .profile-note { font-size: .78rem; opacity: .7; margin: 8px 0 0; }
     .delete-account-btn { border-color: #e45b69; color: #ff9aa3; }
+    .settings-danger-zone { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(228,91,105,.3); }
+    .settings-danger-zone h3 { margin: 0 0 5px; font-size: .95rem; color: #ff9aa3; }
+    .settings-danger-zone .profile-note { margin: 0 0 10px; }
     #profile-status { font-size: .82rem; margin: 8px 0 0; }
     @media (max-width: 560px) {
       .chatroom-page {
@@ -100,7 +103,7 @@
       </div>
 
       <details class="profile-settings">
-        <summary>Username &amp; appearance</summary>
+        <summary>Settings</summary>
         <div class="profile-controls">
           <label class="profile-field" for="profile-username">Username
             <input type="text" id="profile-username" class="chat-input" maxlength="24" autocomplete="nickname" required>
@@ -108,14 +111,16 @@
           <label class="profile-field" for="profile-color">Name color
             <input type="color" id="profile-color" value="#ff69b4" aria-label="Choose the color of your username">
           </label>
-          <button type="button" id="save-profile-btn" class="chat-send-btn">Save</button>
+          <button type="button" id="save-profile-btn" class="chat-send-btn">Save changes</button>
         </div>
         <p id="profile-status" role="status" aria-live="polite"></p>
-        <p class="profile-note">Your chosen name and color will appear on messages you send next.</p>
+        <p class="profile-note">Saving changes updates your profile and the names/colors shown on your visible messages.</p>
+        <div class="settings-danger-zone">
+          <h3>Account</h3>
+          <p class="profile-note">Permanently delete your account and its chat messages.</p>
+          <button type="button" id="delete-account-btn" class="chat-send-btn chat-secondary-btn delete-account-btn">Delete my account</button>
+        </div>
       </details>
-      <div style="display:flex;justify-content:flex-end">
-        <button type="button" id="delete-account-btn" class="chat-send-btn chat-secondary-btn delete-account-btn">Delete my account</button>
-      </div>
 
       <div class="messages-window" id="chat-window" aria-live="polite" aria-label="Chat messages">
         <p class="chat-empty">Loading messages…</p>

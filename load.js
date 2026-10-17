@@ -23,7 +23,7 @@ function executeGlobalTemplateLighter() {
                 // Scripts inserted through innerHTML do not execute, so select the
                 // monthly logo here after the sidebar has been inserted.
                 updateComicReliefMonthlyLogo(sidebarWrap);
-                setupComicReliefMonthSettings(sidebarWrap);
+                setupComicReliefColorSettings(document);
             })
             .catch(err => console.error("Error loading sidebar layout:", err));
     }
@@ -34,7 +34,7 @@ function executeGlobalTemplateLighter() {
             .then(html => {
                 headerWrap.innerHTML = html;
                 executeSystemTimeTicks();
-                setupComicReliefMonthSettings(document);
+                setupComicReliefColorSettings(document);
             })
             .catch(err => console.error("Error loading header layout:", err));
     }
@@ -57,10 +57,6 @@ const comicReliefMonthlyLogos = {
 };
 
 function getComicReliefSelectedMonth() {
-    const saved = localStorage.getItem("comicReliefLogoMonth");
-    if (saved !== null && saved !== "auto" && Number.isInteger(Number(saved)) && Number(saved) >= 0 && Number(saved) <= 11) {
-        return Number(saved);
-    }
     return new Date().getMonth();
 }
 
@@ -81,32 +77,65 @@ function updateComicReliefMonthlyLogo(root = document, chosenMonth = getComicRel
     }
 }
 
-function setupComicReliefMonthSettings(root = document) {
+const comicReliefThemes = {
+    pink:   { accent: "#ff69b4", rgb: "255, 105, 180", soft: "#ff9bd0", deep: "#a82d72", hover: "#c83b8a", hue: "301deg" },
+    blue:   { accent: "#3b82f6", rgb: "59, 130, 246", soft: "#93c5fd", deep: "#1d4ed8", hover: "#2563eb", hue: "217deg" },
+    red:    { accent: "#ff4545", rgb: "255, 69, 69", soft: "#ff9999", deep: "#b91c1c", hover: "#dc2626", hue: "0deg" },
+    purple: { accent: "#a855f7", rgb: "168, 85, 247", soft: "#d8b4fe", deep: "#6b21a8", hover: "#9333ea", hue: "271deg" },
+    green:  { accent: "#22c55e", rgb: "34, 197, 94", soft: "#86efac", deep: "#15803d", hover: "#16a34a", hue: "142deg" },
+    orange: { accent: "#f97316", rgb: "249, 115, 22", soft: "#fdba74", deep: "#c2410c", hover: "#ea580c", hue: "24deg" },
+    cyan:   { accent: "#06b6d4", rgb: "6, 182, 212", soft: "#67e8f9", deep: "#0e7490", hover: "#0891b2", hue: "189deg" },
+    yellow: { accent: "#eab308", rgb: "234, 179, 8", soft: "#fde047", deep: "#a16207", hover: "#ca8a04", hue: "45deg" }
+};
+
+function applyComicReliefTheme(themeName) {
+    const name = comicReliefThemes[themeName] ? themeName : "pink";
+    const theme = comicReliefThemes[name];
+    const root = document.documentElement;
+    root.style.setProperty("--accent", theme.accent);
+    root.style.setProperty("--accent-rgb", theme.rgb);
+    root.style.setProperty("--accent-soft", theme.soft);
+    root.style.setProperty("--accent-deep", theme.deep);
+    root.style.setProperty("--accent-hover", theme.hover);
+    root.style.setProperty("--icon-hue", theme.hue);
+    root.dataset.comicReliefTheme = name;
+    document.querySelectorAll(".theme-color-choice").forEach(button => {
+        const selected = button.dataset.theme === name;
+        button.setAttribute("aria-pressed", String(selected));
+    });
+    const status = document.getElementById("theme-settings-status");
+    if (status) status.textContent = name.charAt(0).toUpperCase() + name.slice(1) + " is selected. Your choice is saved on this browser.";
+}
+
+function setupComicReliefColorSettings(root = document) {
     const toggle = root.querySelector("#monthly-settings-toggle") || document.querySelector("#headerSettingsBtn");
-    const panel = root.querySelector("#monthly-settings-panel") || document.querySelector("#monthly-settings-panel");
-    const select = root.querySelector("#monthly-month-select") || document.querySelector("#monthly-month-select");
-    const apply = root.querySelector("#monthly-month-apply") || document.querySelector("#monthly-month-apply");
-    const reset = root.querySelector("#monthly-month-reset") || document.querySelector("#monthly-month-reset");
-    const close = root.querySelector("#monthly-settings-close") || document.querySelector("#monthly-settings-close");
-    if (!toggle || !panel || !select || !apply || !reset) return;
+    const panel = document.querySelector("#monthly-settings-panel") || root.querySelector("#monthly-settings-panel");
+    const close = document.querySelector("#monthly-settings-close");
+    if (!toggle || !panel) return;
 
-    // Move the popup out of the sidebar's stacking/overflow layers. This is
-    // essential because the sidebar is fixed and has its own high z-index.
     if (panel.parentElement !== document.body) document.body.appendChild(panel);
+    applyComicReliefTheme(localStorage.getItem("comicReliefAccentTheme") || "pink");
 
-    const saved = localStorage.getItem("comicReliefLogoMonth");
-    select.value = saved !== null && saved !== "auto" ? saved : String(new Date().getMonth());
-
-    // Assign handlers directly so this still works if the shared sidebar is
-    // fetched/reinserted after the main page has loaded.
     toggle.onclick = (event) => {
         event.preventDefault();
         event.stopPropagation();
         const opening = panel.hidden;
         panel.hidden = !opening;
         toggle.setAttribute("aria-expanded", String(opening));
-        if (opening) select.focus();
+        if (opening) {
+            const selected = panel.querySelector('[aria-pressed="true"]');
+            if (selected) selected.focus();
+        }
     };
+
+    panel.querySelectorAll(".theme-color-choice").forEach(button => {
+        button.onclick = () => {
+            const name = button.dataset.theme;
+            if (!comicReliefThemes[name]) return;
+            localStorage.setItem("comicReliefAccentTheme", name);
+            applyComicReliefTheme(name);
+        };
+    });
 
     const closeSettings = () => {
         panel.hidden = true;
@@ -120,40 +149,20 @@ function setupComicReliefMonthSettings(root = document) {
     panel.onclick = (event) => {
         if (event.target === panel) closeSettings();
     };
-    if (!window.comicReliefSettingsEscapeHandler) {
-        window.comicReliefSettingsEscapeHandler = (event) => {
+    if (!window.comicReliefColorSettingsEscapeHandler) {
+        window.comicReliefColorSettingsEscapeHandler = (event) => {
             const openPanel = document.getElementById("monthly-settings-panel");
             if (event.key === "Escape" && openPanel && !openPanel.hidden) {
                 openPanel.hidden = true;
-                const openToggle = document.getElementById("monthly-settings-toggle");
+                const openToggle = document.getElementById("headerSettingsBtn") || document.getElementById("monthly-settings-toggle");
                 if (openToggle) {
                     openToggle.setAttribute("aria-expanded", "false");
                     openToggle.focus();
                 }
             }
         };
-        document.addEventListener("keydown", window.comicReliefSettingsEscapeHandler);
+        document.addEventListener("keydown", window.comicReliefColorSettingsEscapeHandler);
     }
-
-    apply.onclick = (event) => {
-        event.preventDefault();
-        const month = Number(select.value);
-        if (!Number.isInteger(month) || month < 0 || month > 11) return;
-        localStorage.setItem("comicReliefLogoMonth", String(month));
-        updateComicReliefMonthlyLogo(document, month);
-        const note = panel.querySelector(".settings-note");
-        if (note) note.textContent = "Saved! The logo will use " + select.options[select.selectedIndex].text + " on this browser.";
-    };
-
-    reset.onclick = (event) => {
-        event.preventDefault();
-        localStorage.setItem("comicReliefLogoMonth", "auto");
-        const month = new Date().getMonth();
-        select.value = String(month);
-        updateComicReliefMonthlyLogo(document, month);
-        const note = panel.querySelector(".settings-note");
-        if (note) note.textContent = "Using the current calendar month automatically.";
-    };
 }
 
 // Recheck on visits, tab return, and if the page stays open across a month change.

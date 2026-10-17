@@ -298,21 +298,27 @@ saveProfileBtn.addEventListener("click", async () => {
   showProfileStatus("Saving…");
   try {
     const previousUsername = currentProfile.username;
-    // Reserve the new username first. Existing owner names are protected by an atomic transaction.
-    await claimUsername(username, currentUser.uid);
+    const usernameChanged = username.toLowerCase() !== previousUsername.toLowerCase();
+
+    // Only reserve a username when it actually changes. This lets color edits save
+    // even if an older username index entry needs cleanup.
+    if (usernameChanged) await claimUsername(username, currentUser.uid);
 
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
-    await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
-    const savedSnapshot = await get(profileRef);
-    const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
-    if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
-      if (username.toLowerCase() !== previousUsername.toLowerCase()) {
-        await releaseUsername(username, currentUser.uid).catch(() => {});
+    try {
+      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
+      const savedSnapshot = await get(profileRef);
+      const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
+      if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
+        throw new Error("Firebase did not confirm the saved username and color. Check your Realtime Database rules.");
       }
-      throw new Error("Firebase did not confirm the saved username and color. Check your Realtime Database rules.");
+    } catch (saveError) {
+      if (usernameChanged) await releaseUsername(username, currentUser.uid).catch(() => {});
+      throw saveError;
     }
-    if (username.toLowerCase() !== previousUsername.toLowerCase()) {
+
+    if (usernameChanged) {
       await releaseUsername(previousUsername, currentUser.uid).catch((releaseError) => {
         console.warn("Username saved, but the previous username index could not be released:", releaseError);
       });

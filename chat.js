@@ -1,12 +1,12 @@
 // Firebase setup: replace these values with the config from your Firebase project.
 const firebaseConfig = {
-  apiKey: "PASTE_API_KEY_HERE",
-  authDomain: "PASTE_PROJECT_ID_HERE.firebaseapp.com",
-  databaseURL: "PASTE_REALTIME_DATABASE_URL_HERE",
-  projectId: "PASTE_PROJECT_ID_HERE",
-  storageBucket: "PASTE_PROJECT_ID_HERE.appspot.com",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_APP_ID_HERE"
+  apiKey: "AIzaSyArdYErhvY-c_c3qADYQEKve5EGuNzDcIM",
+  authDomain: "chatroom-334ac.firebaseapp.com",
+  databaseURL: "https://chatroom-334ac-default-rtdb.firebaseio.com",
+  projectId: "chatroom-334ac",
+  storageBucket: "chatroom-334ac.firebasestorage.app",
+  messagingSenderId: "207072115223",
+  appId: "1:207072115223:web:647e6ac870013cc3b6fa52"
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";

@@ -72,6 +72,22 @@ function usernameIndexKey(username) {
 async function claimUsername(username, uid) {
   const key = usernameIndexKey(username);
   if (!key) throw new Error("Please choose a username using letters or numbers.");
+
+  // Check existing profiles too, so accounts created before username indexing are protected.
+  const profilesSnapshot = await get(ref(database, "profiles"));
+  let takenByAnotherProfile = false;
+  profilesSnapshot.forEach((profileSnapshot) => {
+    const profile = profileSnapshot.val();
+    if (profileSnapshot.key !== uid &&
+        typeof profile?.username === "string" &&
+        usernameIndexKey(profile.username) === key) {
+      takenByAnotherProfile = true;
+    }
+  });
+  if (takenByAnotherProfile) {
+    throw new Error("That username is already taken. Please choose a different one.");
+  }
+
   const result = await runTransaction(ref(database, "usernameIndex/" + key), (existingUid) => {
     if (existingUid === null || existingUid === uid) return uid;
     return; // Abort if another account already owns this username.

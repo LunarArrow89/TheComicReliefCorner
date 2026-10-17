@@ -1,134 +1,172 @@
-// 1. SUPABASE ACCESS CONFIGURATION BLOCK 
-const SUPABASE_URL = "https://supabase.co"; 
-const SUPABASE_ANON_KEY = "sb_publishable_MpaODvUultrdqhu-2Pws_g_BspLF8s6";
+// Firebase setup: replace these values with the config from your Firebase project.
+const firebaseConfig = {
+  apiKey: "PASTE_API_KEY_HERE",
+  authDomain: "PASTE_PROJECT_ID_HERE.firebaseapp.com",
+  databaseURL: "PASTE_REALTIME_DATABASE_URL_HERE",
+  projectId: "PASTE_PROJECT_ID_HERE",
+  storageBucket: "PASTE_PROJECT_ID_HERE.appspot.com",
+  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
+  appId: "PASTE_APP_ID_HERE"
+};
 
-window.addEventListener('load', () => {
-    // Framework Initialization
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  query,
+  limitToLast,
+  onChildAdded,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
-    // Document Elements Reference Mapping
-    const authContainer = document.getElementById('auth-container');
-    const chatContainer = document.getElementById('secure-chat-container');
-    const authForm = document.getElementById('auth-form');
-    const emailInput = document.getElementById('auth-email');
-    const passwordInput = document.getElementById('auth-password');
-    const signupBtn = document.getElementById('signup-btn');
-    const loginBtn = document.getElementById('login-btn');
-    const authError = document.getElementById('auth-error');
-    
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-msg');
-    const chatWindow = document.getElementById('chat-window');
-    const logoutBtn = document.getElementById('logout-btn');
+const authContainer = document.getElementById("auth-container");
+const chatContainer = document.getElementById("secure-chat-container");
+const authForm = document.getElementById("auth-form");
+const emailInput = document.getElementById("auth-email");
+const passwordInput = document.getElementById("auth-password");
+const signupBtn = document.getElementById("signup-btn");
+const authError = document.getElementById("auth-error");
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-msg");
+const chatWindow = document.getElementById("chat-window");
+const logoutBtn = document.getElementById("logout-btn");
 
-    let currentSessionUser = null;
+let auth;
+let database;
+let currentUser = null;
+let stopMessagesListener = null;
+let messagesStartedForUid = null;
 
-    // Helper: Appends message rows to UI box smoothly
-    function displayMessage(username, text, timestamp) {
-        const node = document.createElement('div');
-        node.className = 'chat-bubble';
-        node.innerHTML = `
-            <span class="chat-meta">${username}</span>: 
-            <span>${text}</span>
-            <span class="chat-timestamp">${timestamp}</span>
-        `;
-        chatWindow.appendChild(node);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+function showAuthError(message) {
+  authError.textContent = message;
+  authError.hidden = false;
+  authError.style.display = "block";
+}
 
-    // 2. CHECK FOR ACTIVE USER STATUS ON RETRY LOOPS
-    async function checkUserSession() {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (user) {
-            currentSessionUser = user.email.split('@')[0]; // Creates a clean nickname from email handle
-            authContainer.style.display = 'none';
-            chatContainer.style.display = 'flex';
-            startDatabasePipeline();
-        } else {
-            authContainer.style.display = 'flex';
-            chatContainer.style.display = 'none';
-        }
-    }
+function clearAuthError() {
+  authError.textContent = "";
+  authError.hidden = true;
+  authError.style.display = "none";
+}
 
-    // 3. SECURE AUTHENTICATION FLOW ACTIONS
-    // Sign-Up Register Runner
-    signupBtn.addEventListener('click', async () => {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        if (!email || !password) return;
+function showMessage(username, messageText, createdAt) {
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
 
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) {
-            authError.textContent = error.message;
-            authError.style.display = 'block';
-        } else {
-            alert("Account requested! If confirmation emails are enabled in your console, verify your inbox, then press LOG IN.");
-        }
+  const name = document.createElement("span");
+  name.className = "chat-meta";
+  name.textContent = username || "Community member";
+
+  const content = document.createElement("span");
+  content.textContent = messageText || "";
+
+  const timestamp = document.createElement("span");
+  timestamp.className = "chat-timestamp";
+  timestamp.textContent = createdAt
+    ? new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    : "Sending…";
+
+  bubble.append(name, document.createTextNode(": "), content, timestamp);
+  chatWindow.appendChild(bubble);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function startMessages() {
+  if (!currentUser || messagesStartedForUid === currentUser.uid) return;
+
+  if (stopMessagesListener) stopMessagesListener();
+  messagesStartedForUid = currentUser.uid;
+  chatWindow.replaceChildren();
+  const messagesQuery = query(ref(database, "messages"), limitToLast(100));
+
+  stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
+    const message = snapshot.val();
+    if (!message) return;
+    showMessage(message.username, message.text, message.createdAt);
+  }, (error) => {
+    showAuthError("Could not load messages: " + error.message);
+  });
+}
+
+onAuthStateChanged(auth = getAuth(initializeApp(firebaseConfig)), (user) => {
+  currentUser = user;
+  if (user) {
+    authContainer.style.display = "none";
+    chatContainer.style.display = "flex";
+    clearAuthError();
+    startMessages();
+  } else {
+    if (stopMessagesListener) stopMessagesListener();
+    stopMessagesListener = null;
+    messagesStartedForUid = null;
+    currentUser = null;
+    chatWindow.replaceChildren();
+    authContainer.style.display = "flex";
+    chatContainer.style.display = "none";
+  }
+});
+
+const app = initializeApp(firebaseConfig);
+database = getDatabase(app);
+
+signupBtn.addEventListener("click", async () => {
+  clearAuthError();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  if (!email || !password) {
+    showAuthError("Enter your email and password first.");
+    return;
+  }
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    showAuthError(error.message);
+  }
+});
+
+authForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  clearAuthError();
+  try {
+    await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+  } catch (error) {
+    showAuthError(error.message);
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  clearAuthError();
+  try {
+    await signOut(auth);
+  } catch (error) {
+    showAuthError(error.message);
+  }
+});
+
+chatForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const messageText = chatInput.value.trim();
+  if (!messageText || !currentUser) return;
+
+  const username = currentUser.email ? currentUser.email.split("@")[0] : "Community member";
+  chatInput.value = "";
+  try {
+    await push(ref(database, "messages"), {
+      uid: currentUser.uid,
+      username,
+      text: messageText,
+      createdAt: serverTimestamp()
     });
-
-    // Log-In Action Process Runner
-    authForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) {
-            authError.textContent = error.message;
-            authError.style.display = 'block';
-        } else {
-            authError.style.display = 'none';
-            checkUserSession();
-        }
-    });
-
-    // Logout Session Destructor Engine
-    logoutBtn.addEventListener('click', async () => {
-        await supabaseClient.auth.signOut();
-        currentSessionUser = null;
-        chatWindow.innerHTML = '';
-        checkUserSession();
-    });
-
-    // 4. WRITE ACCOUNT DATA TO MESS ROW CHANNELS
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const txt = chatInput.value.trim();
-        if (!txt || !currentSessionUser) return;
-
-        chatInput.value = '';
-
-        await supabaseClient
-            .from('Mess')
-            .insert([{ Username: currentSessionUser, Text: txt }]);
-    });
-
-    // 5. LIVE MATRIX SYNC SYSTEM TRANSMISSIONS PIPELINE
-    async function startDatabasePipeline() {
-        const { data: initialLogs } = await supabaseClient
-            .from('Mess')
-            .select('*')
-            .order('created_at', { ascending: true })
-            .limit(40);
-
-        if (initialLogs) {
-            chatWindow.innerHTML = '';
-            initialLogs.forEach(msg => {
-                const formattedTime = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                displayMessage(msg.Username, msg.Text, formattedTime);
-            });
-        }
-
-        supabaseClient
-            .channel('public:Mess')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Mess' }, payload => {
-                const newMsg = payload.new;
-                const formattedTime = new Date(newMsg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                displayMessage(newMsg.Username, newMsg.Text, formattedTime);
-            })
-            .subscribe();
-    }
-
-    // Run session check instantly upon load
-    checkUserSession();
+  } catch (error) {
+    chatInput.value = messageText;
+    showAuthError("Message could not be sent: " + error.message);
+  }
 });

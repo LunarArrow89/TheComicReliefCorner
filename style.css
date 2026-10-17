@@ -123,7 +123,7 @@ body {
 }
 
 .nav-btn:hover .nav-icon-img {
-    filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
+    filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(var(--icon-hue)) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
     transform: scale(1.05); 
 }
 /* ==========================================================================
@@ -254,7 +254,7 @@ body {
 }
 
 .send-btn:hover .send-icon {
-  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
+  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(var(--icon-hue)) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
   transform: scale(1.05);
 }
 
@@ -269,7 +269,7 @@ body {
 }
 .header-settings-btn:hover .header-settings-icon,
 .header-settings-btn:focus-visible .header-settings-icon {
-  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(313deg) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
+  filter: invert(59%) sepia(85%) saturate(3132%) hue-rotate(var(--icon-hue)) brightness(101%) contrast(104%) drop-shadow(0 0 8px var(--accent));
   transform: scale(1.05);
 }
 
@@ -1205,7 +1205,7 @@ body {
 .mini-progress-fill-node {
     width: 35%; 
     height: 100%;
-    background: linear-gradient(to right, #ff1493, var(--accent));
+    background: linear-gradient(to right, var(--accent-deep), var(--accent));
     box-shadow: 0 0 8px var(--accent);
     border-radius: 2px;
     transition: width 0.1s linear;
@@ -1533,7 +1533,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 .creator-social-btn:hover {
   background-color: var(--accent);
-  border-color: #ff1493;
+  border-color: var(--accent);
   box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.4);
 }
 

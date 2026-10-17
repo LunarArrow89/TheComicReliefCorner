@@ -125,10 +125,11 @@ async function releaseUsername(username, uid) {
   if (snapshot.val() === uid) await remove(indexRef);
 }
 
-function showMessage(username, messageText, createdAt, nameColor, uid = "") {
+function showMessage(username, messageText, createdAt, nameColor, uid = "", messageId = "") {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
   if (uid) bubble.dataset.uid = uid;
+  if (messageId) bubble.dataset.messageId = messageId;
   const name = document.createElement("span");
   name.className = "chat-meta";
   name.style.color = /^#[0-9a-fA-F]{6}$/.test(nameColor || "") ? nameColor : "#ff69b4";
@@ -140,7 +141,23 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "") {
   timestamp.textContent = createdAt
     ? new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "Sending…";
-  bubble.append(name, document.createTextNode(": "), content, timestamp);
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.className = "admin-delete-btn";
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", async () => {
+    if (!adminMode || !messageId) return;
+    if (!confirm("Delete this message for everyone?")) return;
+    deleteButton.disabled = true;
+    try {
+      await remove(ref(database, "messages/" + messageId));
+      bubble.remove();
+    } catch (error) {
+      deleteButton.disabled = false;
+      alert("Could not delete message. Your Firebase Database rules may not allow this: " + error.message);
+    }
+  });
+  bubble.append(name, document.createTextNode(": "), content, timestamp, deleteButton);
   chatWindow.appendChild(bubble);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
@@ -218,7 +235,8 @@ function startMessages() {
       message.text,
       message.createdAt,
       isOwnMessage ? currentProfile.nameColor : message.nameColor,
-      message.uid
+      message.uid,
+      snapshot.key
     );
     // Resolve each author's current profile and keep it live, so other people see
     // username and color edits without requiring a new message or page refresh.

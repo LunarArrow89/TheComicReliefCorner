@@ -260,6 +260,10 @@ onAuthStateChanged(auth, async (user) => {
       showProfileStatus("Could not load your profile: " + error.message, true);
     }
   } else {
+    adminMode = false;
+    chatContainer.classList.remove("admin-mode");
+    if (adminPasswordInput) adminPasswordInput.value = "";
+    if (adminStatus) adminStatus.textContent = "";
     if (stopMessagesListener) stopMessagesListener();
     stopMessagesListener = null;
     stopWatchingMessageProfiles();

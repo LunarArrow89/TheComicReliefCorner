@@ -2027,3 +2027,55 @@ body .modal-content .submit-btn:hover {
     border-color: var(--accent) !important;
     box-shadow: 0 0 15px rgba(var(--accent-rgb), .4) !important;
 }
+
+
+/* Charlie mode: pink and green, applied consistently across shared site components. */
+html[data-comic-relief-theme="charlie"] {
+  --charlie-green: #39e66b;
+  --charlie-green-rgb: 57, 230, 107;
+}
+html[data-comic-relief-theme="charlie"] body {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.04' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 78% 22%, rgba(57,230,107,.16), transparent 38%),
+    radial-gradient(circle at 50% 45%, #32142a 0%, #160e19 62%, #080b09 100%);
+}
+html[data-comic-relief-theme="charlie"] .sidebar,
+html[data-comic-relief-theme="charlie"] .header {
+  border-color: rgba(57,230,107,.35);
+}
+html[data-comic-relief-theme="charlie"] .nav-btn:hover,
+html[data-comic-relief-theme="charlie"] .bmc-inline-btn:hover,
+html[data-comic-relief-theme="charlie"] .send-btn:hover,
+html[data-comic-relief-theme="charlie"] .header-settings-btn:hover,
+html[data-comic-relief-theme="charlie"] .theme-color-choice:hover {
+  border-color: #39e66b !important;
+  box-shadow: 0 0 15px rgba(57,230,107,.3);
+}
+html[data-comic-relief-theme="charlie"] .nav-btn:hover,
+html[data-comic-relief-theme="charlie"] .bmc-inline-btn:hover {
+  color: #39e66b;
+}
+html[data-comic-relief-theme="charlie"] .time-box,
+html[data-comic-relief-theme="charlie"] .date-box,
+html[data-comic-relief-theme="charlie"] .ticker-wrap {
+  border-color: rgba(57,230,107,.28);
+}
+html[data-comic-relief-theme="charlie"] .logo-ring {
+  filter: drop-shadow(0 0 5px rgba(57,230,107,.45));
+}
+html[data-comic-relief-theme="charlie"] .charlie-theme-choice {
+  border-color: #39e66b;
+}
+.charlie-swatch {
+  display: inline-flex;
+  width: 22px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-right: 7px;
+  vertical-align: -2px;
+}
+.charlie-swatch i { display:block; width:50%; height:100%; }
+.charlie-swatch i:first-child { background:#ff69b4; }
+.charlie-swatch i:last-child { background:#39e66b; }

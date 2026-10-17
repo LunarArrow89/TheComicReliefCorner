@@ -170,11 +170,14 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
 async function loadProfile(user) {
   const profileSnapshot = await get(ref(database, "profiles/" + user.uid));
   const profile = profileSnapshot.exists() ? profileSnapshot.val() : {};
+  // Admin status must come from a trusted Firebase Auth custom claim, never an editable profile.
+  const tokenResult = await user.getIdTokenResult(true);
+  const isAdmin = tokenResult.claims.admin === true;
   currentProfile = {
     username: cleanUsername(profile.username || user.displayName || (user.email ? user.email.split("@")[0] : "Community member")) || "Community member",
     nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4",
     siteTheme: typeof profile.siteTheme === "string" ? profile.siteTheme : "pink",
-    isAdmin: profile.isAdmin === true
+    isAdmin
   };
   adminMode = currentProfile.isAdmin;
   chatContainer.classList.toggle("admin-mode", adminMode);
@@ -212,7 +215,8 @@ function refreshVisibleMessagesForProfile(uid, profile) {
       username,
       nameColor,
       siteTheme: typeof profile?.siteTheme === "string" ? profile.siteTheme : currentProfile.siteTheme,
-      isAdmin: profile?.isAdmin === true
+      // Keep the trusted Auth claim; profile data must not grant admin privileges.
+      isAdmin: currentProfile.isAdmin === true
     };
     adminMode = currentProfile.isAdmin;
     chatContainer.classList.toggle("admin-mode", adminMode);

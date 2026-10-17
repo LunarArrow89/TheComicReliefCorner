@@ -17,7 +17,7 @@
   <!-- Header actions: settings and send request --> 
   <div class="header-action-buttons">
     <button type="button" class="header-settings-btn" id="headerSettingsBtn" aria-label="Settings" title="Settings" aria-controls="monthly-settings-panel" aria-expanded="false" onclick="const panel = document.getElementById('monthly-settings-panel'); if (panel) { const opening = panel.hidden; panel.hidden = !opening; this.setAttribute('aria-expanded', String(opening)); const sidebarToggle = document.getElementById('monthly-settings-toggle'); if (sidebarToggle) sidebarToggle.setAttribute('aria-expanded', String(opening)); }">
-      <span aria-hidden="true">⚙</span>
+      <img src="setting.png" alt="" class="header-settings-icon" aria-hidden="true">
     </button>
     <button type="button" class="send-btn" id="openModalBtn" aria-label="Send to Creator" onclick="document.getElementById('requestModal').style.display = 'flex';"> 
       <img src="send.png" alt="Send Icon" class="send-icon"> 

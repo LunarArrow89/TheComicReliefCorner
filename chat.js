@@ -36,6 +36,10 @@ const profileColorInput = document.getElementById("profile-color");
 const saveProfileBtn = document.getElementById("save-profile-btn");
 const profileStatus = document.getElementById("profile-status");
 const deleteAccountBtn = document.getElementById("delete-account-btn");
+const adminPasswordInput = document.getElementById("admin-password");
+const adminUnlockBtn = document.getElementById("admin-unlock-btn");
+const adminStatus = document.getElementById("admin-status");
+let adminMode = false;
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -290,6 +294,18 @@ authForm.addEventListener("submit", async (event) => {
   }
 });
 
+adminUnlockBtn.addEventListener("click", () => {
+  if (adminPasswordInput.value === String(2600 + 97)) {
+    adminMode = true;
+    chatContainer.classList.add("admin-mode");
+    adminStatus.textContent = "Admin mode enabled.";
+    adminPasswordInput.value = "";
+  } else {
+    adminMode = false;
+    chatContainer.classList.remove("admin-mode");
+    adminStatus.textContent = "Incorrect admin password.";
+  }
+});
 logoutBtn.addEventListener("click", async () => {
   clearAuthError();
   try {

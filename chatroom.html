@@ -23,10 +23,12 @@
     .chatroom-heading h1 { margin: 0 0 5px; font-size: clamp(1.55rem, 3vw, 2rem); }
     .chatroom-heading p { margin: 0; opacity: .8; font-size: .92rem; }
     .chat-container { box-sizing: border-box; width: 100%; max-width: 780px; min-height: 0; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 11px; border-radius: 16px; background: var(--card-bg, #1f121b); border: 1px solid rgba(255,105,180,.28); box-shadow: 0 8px 28px rgba(0,0,0,.2); }
+    /* Give the signed-in community chat more room without stretching the login card. */
+    #secure-chat-container { max-width: 1100px; min-height: 520px; padding: 22px; gap: 14px; }
     .chat-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .chat-header h2 { margin: 0; font-size: 1.1rem; }
     .chat-status { font-size: .8rem; opacity: .75; }
-    .messages-window { min-height: 180px; height: 36vh; max-height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: 9px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,.2); border: 1px solid rgba(255,105,180,.15); }
+    .messages-window { min-height: 300px; height: 50vh; max-height: 560px; overflow-y: auto; display: flex; flex-direction: column; gap: 9px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,.2); border: 1px solid rgba(255,105,180,.15); }
     .chat-bubble { overflow-wrap: anywhere; padding: 8px 10px; border-radius: 10px; background: rgba(255,105,180,.08); line-height: 1.4; }
     .chat-meta { font-weight: 700; margin-right: 6px; }
     .chat-timestamp { display: block; margin-top: 3px; font-size: .72rem; opacity: .65; }
@@ -62,7 +64,8 @@
         min-height: calc(100vh - 80px);
       }
       .chat-container { padding: 12px; gap: 9px; }
-      .messages-window { height: 34vh; min-height: 160px; padding: 9px; }
+      #secure-chat-container { min-height: 0; padding: 12px; }
+      .messages-window { height: 45vh; min-height: 220px; max-height: 440px; padding: 9px; }
       .chat-input-bar { gap: 6px; }
       .chat-send-btn { padding: 9px 11px; }
     }

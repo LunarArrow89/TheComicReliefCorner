@@ -30,6 +30,7 @@ const authError = document.getElementById("auth-error");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-msg");
 const chatWindow = document.getElementById("chat-window");
+const chatStatus = document.getElementById("chat-message-status");
 const logoutBtn = document.getElementById("logout-btn");
 const profileUsernameInput = document.getElementById("profile-username");
 const profileColorInput = document.getElementById("profile-color");
@@ -62,6 +63,12 @@ function clearAuthError() {
 function showProfileStatus(message, isError = false) {
   profileStatus.textContent = message;
   profileStatus.style.color = isError ? "#ff6b6b" : "inherit";
+}
+function showChatStatus(message, isError = false) {
+  if (!chatStatus) return;
+  chatStatus.textContent = message;
+  chatStatus.style.color = isError ? "#ff6b6b" : "inherit";
+  chatStatus.hidden = !message;
 }
 function cleanUsername(value) {
   return value.replace(/[★⭐☆]/g, "").trim().replace(/\s+/g, " ").slice(0, 24);
@@ -256,7 +263,7 @@ function startMessages() {
     // username and color edits without requiring a new message or page refresh.
     watchMessageAuthorProfile(message.uid);
   }, (error) => {
-    showAuthError("Could not load messages: " + error.message);
+    showChatStatus("Could not load messages: " + error.message, true);
   });
 }
 
@@ -407,6 +414,7 @@ chatForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const messageText = chatInput.value.trim();
   if (!messageText || !currentUser) return;
+  showChatStatus("");
   const message = {
     uid: currentUser.uid,
     username: currentProfile.username || currentUser.displayName || "Community member",
@@ -419,7 +427,8 @@ chatForm.addEventListener("submit", async (event) => {
     await push(ref(database, "messages"), message);
   } catch (error) {
     chatInput.value = messageText;
-    showAuthError("Message could not be sent: " + error.message);
+    showChatStatus("Message could not be sent: " + error.message, true);
+    console.error("Message send failed:", error);
   }
 });
 

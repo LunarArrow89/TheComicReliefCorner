@@ -5,7 +5,7 @@ const { getAuth } = require("firebase-admin/auth");
 const { getDatabase } = require("firebase-admin/database");
 const crypto = require("node:crypto");
 
-initializeApp();
+initializeApp({ databaseURL: "https://chatroom-334ac-default-rtdb.firebaseio.com" });
 
 const ADMIN_PASSCODE = defineSecret("ADMIN_PASSCODE");
 

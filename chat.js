@@ -104,7 +104,15 @@ function startMessages() {
   stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
     const message = snapshot.val();
     if (!message) return;
-    showMessage(message.username, message.text, message.createdAt, message.nameColor, message.uid);
+    // Always use the latest saved profile for the signed-in user's own messages.
+    const isOwnMessage = message.uid && currentUser && message.uid === currentUser.uid;
+    showMessage(
+      isOwnMessage ? currentProfile.username : message.username,
+      message.text,
+      message.createdAt,
+      isOwnMessage ? currentProfile.nameColor : message.nameColor,
+      message.uid
+    );
   }, (error) => {
     showAuthError("Could not load messages: " + error.message);
   });
@@ -194,10 +202,23 @@ saveProfileBtn.addEventListener("click", async () => {
   saveProfileBtn.disabled = true;
   showProfileStatus("Saving…");
   try {
-    // Persist the profile first; only show success after Firebase confirms the write.
-    await set(ref(database, "profiles/" + currentUser.uid), { username, nameColor });
-    await updateProfile(currentUser, { displayName: username });
+    // Save the username and color in the database, then verify the saved values.
+    const profileRef = ref(database, "profiles/" + currentUser.uid);
+    await set(profileRef, { username, nameColor });
+    const savedSnapshot = await get(profileRef);
+    const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
+    if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
+      throw new Error("Firebase did not confirm the saved username and color. Check your Realtime Database rules.");
+    }
+
     currentProfile = { username, nameColor };
+
+    // The database profile is the source of truth. Auth display-name syncing is optional.
+    try {
+      await updateProfile(currentUser, { displayName: username });
+    } catch (authProfileError) {
+      console.warn("Profile saved to the database, but Firebase Auth display name could not be synced:", authProfileError);
+    }
 
     // Update this user's messages already visible in the current chat window too.
     chatWindow.querySelectorAll(".chat-bubble").forEach((bubble) => {
@@ -208,7 +229,7 @@ saveProfileBtn.addEventListener("click", async () => {
         name.style.color = nameColor;
       }
     });
-    showProfileStatus("Changes saved! Your username and color are updated.");
+    showProfileStatus("Saved! Your username and color will stay after refresh.");
   } catch (error) {
     showProfileStatus("Could not save: " + error.message, true);
   } finally {

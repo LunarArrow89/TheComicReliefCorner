@@ -2079,3 +2079,54 @@ html[data-comic-relief-theme="charlie"] .charlie-theme-choice {
 .charlie-swatch i { display:block; width:50%; height:100%; }
 .charlie-swatch i:first-child { background:#ff69b4; }
 .charlie-swatch i:last-child { background:#39e66b; }
+
+
+/* Charlie mode: keep it as a full-width final option with a true two-color swatch. */
+.theme-color-options > .charlie-theme-choice {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+.theme-color-choice .charlie-swatch {
+  display: inline-flex !important;
+  width: 38px !important;
+  height: 20px !important;
+  min-width: 38px;
+  flex: 0 0 38px !important;
+  padding: 0;
+  gap: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  background: transparent !important;
+  box-shadow: 0 0 8px rgba(57,230,107,.22);
+}
+.theme-color-choice .charlie-swatch i {
+  display: block;
+  width: 50%;
+  height: 100%;
+  flex: 0 0 50%;
+  border-radius: 0;
+  box-shadow: none;
+}
+.theme-color-choice .charlie-swatch i:first-child { background: #ff69b4 !important; }
+.theme-color-choice .charlie-swatch i:last-child { background: #39e66b !important; }
+html[data-comic-relief-theme="charlie"] .nav-btn,
+html[data-comic-relief-theme="charlie"] .game-card,
+html[data-comic-relief-theme="charlie"] .creator-card-box,
+html[data-comic-relief-theme="charlie"] .game-modal-window,
+html[data-comic-relief-theme="charlie"] .monthly-settings-card,
+html[data-comic-relief-theme="charlie"] .header,
+html[data-comic-relief-theme="charlie"] .sidebar {
+  border-color: rgba(57,230,107,.42) !important;
+}
+html[data-comic-relief-theme="charlie"] .nav-btn:hover,
+html[data-comic-relief-theme="charlie"] .game-card:hover,
+html[data-comic-relief-theme="charlie"] .creator-social-btn:hover {
+  border-color: #39e66b !important;
+  box-shadow: 0 0 14px rgba(57,230,107,.3);
+}
+html[data-comic-relief-theme="charlie"] .theme-color-choice[data-theme="charlie"][aria-pressed="true"] {
+  border-color: #39e66b !important;
+  box-shadow: 0 0 12px rgba(57,230,107,.3), inset 0 0 0 1px rgba(255,105,180,.5);
+}

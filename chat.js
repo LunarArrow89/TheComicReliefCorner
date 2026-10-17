@@ -197,6 +197,7 @@ function refreshVisibleMessagesForProfile(uid, profile) {
     if (!name) return;
     name.textContent = username;
     name.style.color = nameColor;
+    name.classList.toggle("admin-author", profile?.isAdmin === true);
     const oldBadge = name.querySelector(".admin-star");
     if (oldBadge) oldBadge.remove();
     if (profile?.isAdmin === true) {

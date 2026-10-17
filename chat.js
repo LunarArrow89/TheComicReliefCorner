@@ -371,7 +371,7 @@ saveProfileBtn.addEventListener("click", async () => {
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
     try {
-      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink", isAdmin: currentProfile.isAdmin === true });
+      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
       const savedSnapshot = await get(profileRef);
       const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
       if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {

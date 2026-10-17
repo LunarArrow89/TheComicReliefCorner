@@ -89,6 +89,64 @@ const comicReliefThemes = {
     charlie: { accent: "#ff69b4", rgb: "255, 105, 180", soft: "#ff9bd0", deep: "#a82d72", hover: "#c83b8a", hue: "301deg" }
 };
 
+// Store the website accent theme in each user's Firebase account profile.
+const comicReliefFirebaseConfig = {
+  apiKey: "AIzaSyArdYErhvY-c_c3qADYQEKve5EGuNzDcIM",
+  authDomain: "chatroom-334ac.firebaseapp.com",
+  databaseURL: "https://chatroom-334ac-default-rtdb.firebaseio.com",
+  projectId: "chatroom-334ac",
+  storageBucket: "chatroom-334ac.firebasestorage.app",
+  messagingSenderId: "207072115223",
+  appId: "1:207072115223:web:647e6ac870013cc3b6fa52"
+};
+let comicReliefThemeUser = null;
+let comicReliefAccountServicesPromise = null;
+async function getComicReliefAccountServices() {
+  if (!comicReliefAccountServicesPromise) {
+    comicReliefAccountServicesPromise = Promise.all([
+      import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"),
+      import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js")
+    ]).then(([appModule, authModule, dbModule]) => {
+      const app = appModule.getApps().length ? appModule.getApp() : appModule.initializeApp(comicReliefFirebaseConfig);
+      return { auth: authModule.getAuth(app), database: dbModule.getDatabase(app), onAuthStateChanged: authModule.onAuthStateChanged, ref: dbModule.ref, get: dbModule.get, update: dbModule.update };
+    });
+  }
+  return comicReliefAccountServicesPromise;
+}
+async function syncComicReliefAccountTheme(user) {
+  comicReliefThemeUser = user || null;
+  if (!user) { applyComicReliefTheme(localStorage.getItem("comicReliefAccentTheme") || "pink"); return; }
+  try {
+    const services = await getComicReliefAccountServices();
+    const profileRef = services.ref(services.database, "profiles/" + user.uid);
+    const snapshot = await services.get(profileRef);
+    const profile = snapshot.exists() ? snapshot.val() : {};
+    if (comicReliefThemes[profile.siteTheme]) {
+      localStorage.setItem("comicReliefAccentTheme", profile.siteTheme);
+      applyComicReliefTheme(profile.siteTheme);
+    } else {
+      const chosen = localStorage.getItem("comicReliefAccentTheme") || "pink";
+      await services.update(profileRef, { siteTheme: chosen });
+      applyComicReliefTheme(chosen);
+    }
+  } catch (error) { console.warn("Could not sync the account's site theme:", error); }
+}
+async function saveComicReliefAccountTheme(themeName) {
+  if (!comicReliefThemeUser) return false;
+  const services = await getComicReliefAccountServices();
+  const profileRef = services.ref(services.database, "profiles/" + comicReliefThemeUser.uid);
+  await services.update(profileRef, { siteTheme: themeName });
+  const check = await services.get(profileRef);
+  if (!check.exists() || check.val().siteTheme !== themeName) throw new Error("The database did not confirm the saved theme.");
+  return true;
+}
+function startComicReliefAccountThemeSync() {
+  if (window.comicReliefAccountThemeSyncStarted) return;
+  window.comicReliefAccountThemeSyncStarted = true;
+  getComicReliefAccountServices().then(services => services.onAuthStateChanged(services.auth, syncComicReliefAccountTheme))
+    .catch(error => console.warn("Account theme sync unavailable:", error));
+}
 function applyComicReliefTheme(themeName) {
     const name = comicReliefThemes[themeName] ? themeName : "pink";
     const theme = comicReliefThemes[name];
@@ -105,7 +163,7 @@ function applyComicReliefTheme(themeName) {
         button.setAttribute("aria-pressed", String(selected));
     });
     const status = document.getElementById("theme-settings-status");
-    if (status) status.textContent = name.charAt(0).toUpperCase() + name.slice(1) + " is selected. Your choice is saved on this browser.";
+    if (status) status.textContent = name.charAt(0).toUpperCase() + name.slice(1) + " is selected." + (comicReliefThemeUser ? " Saved to your account." : " Log in to save it to your account.");
 }
 
 function setupComicReliefColorSettings(root = document) {
@@ -115,6 +173,7 @@ function setupComicReliefColorSettings(root = document) {
     if (!toggle || !panel) return;
 
     if (panel.parentElement !== document.body) document.body.appendChild(panel);
+    startComicReliefAccountThemeSync();
     applyComicReliefTheme(localStorage.getItem("comicReliefAccentTheme") || "pink");
 
     toggle.onclick = (event) => {
@@ -130,11 +189,22 @@ function setupComicReliefColorSettings(root = document) {
     };
 
     panel.querySelectorAll(".theme-color-choice").forEach(button => {
-        button.onclick = () => {
+        button.onclick = async () => {
             const name = button.dataset.theme;
             if (!comicReliefThemes[name]) return;
             localStorage.setItem("comicReliefAccentTheme", name);
             applyComicReliefTheme(name);
+            const status = document.getElementById("theme-settings-status");
+            button.disabled = true;
+            try {
+                if (comicReliefThemeUser) {
+                    await saveComicReliefAccountTheme(name);
+                    if (status) status.textContent = name.charAt(0).toUpperCase() + name.slice(1) + " saved to your account.";
+                } else if (status) status.textContent = "Theme applied on this browser. Log in to save it to your account.";
+            } catch (error) {
+                console.error("Could not save account theme:", error);
+                if (status) status.textContent = "Theme changed here, but account saving failed. Please try again.";
+            } finally { button.disabled = false; }
         };
     });
 

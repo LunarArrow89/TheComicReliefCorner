@@ -9,7 +9,16 @@
   <script defer src="load.js"></script>
   <script type="module" src="chat.js"></script>
   <style>
-    .chatroom-page { width: min(100% - 32px, 780px); margin: 0 auto 32px; padding-top: 100px; }
+    /* This page must scroll at the document level; the shared stylesheet sets html/body to height:100%. */
+    html, body { height: auto !important; min-height: 100%; overflow-y: auto !important; }
+    body { min-height: 100vh; }
+    .chatroom-page {
+      box-sizing: border-box;
+      width: calc(100% - 220px);
+      margin: 80px 0 32px 220px;
+      padding: 24px 25px 40px;
+      min-height: calc(100vh - 80px);
+    }
     .chatroom-heading { margin-bottom: 12px; }
     .chatroom-heading h1 { margin: 0 0 5px; font-size: clamp(1.55rem, 3vw, 2rem); }
     .chatroom-heading p { margin: 0; opacity: .8; font-size: .92rem; }
@@ -43,7 +52,12 @@
     .delete-account-btn { border-color: #e45b69; color: #ff9aa3; }
     #profile-status { font-size: .82rem; margin: 8px 0 0; }
     @media (max-width: 560px) {
-      .chatroom-page { width: min(100% - 20px, 780px); margin-top: 0; padding-top: 92px; }
+      .chatroom-page {
+        width: 100%;
+        margin: 80px 0 24px;
+        padding: 20px 10px 32px;
+        min-height: calc(100vh - 80px);
+      }
       .chat-container { padding: 12px; gap: 9px; }
       .messages-window { height: 34vh; min-height: 160px; padding: 9px; }
       .chat-input-bar { gap: 6px; }

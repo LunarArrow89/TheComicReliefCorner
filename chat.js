@@ -154,6 +154,9 @@ signupBtn.addEventListener("click", async () => {
     await set(ref(database, "profiles/" + credential.user.uid), {
       username, nameColor: "#ff69b4"
     });
+    currentProfile = { username, nameColor: "#ff69b4" };
+    profileUsernameInput.value = username;
+    profileColorInput.value = "#ff69b4";
   } catch (error) {
     showAuthError(error.message);
   }

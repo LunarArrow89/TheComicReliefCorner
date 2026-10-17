@@ -17,7 +17,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   getDatabase, ref, push, query, limitToLast, onChildAdded, onValue,
-  serverTimestamp, get, set, remove, runTransaction
+  serverTimestamp, get, set, update, remove, runTransaction
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
 const authContainer = document.getElementById("auth-container");
@@ -387,7 +387,7 @@ saveProfileBtn.addEventListener("click", async () => {
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
     try {
-      await set(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
+      await update(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
       const savedSnapshot = await get(profileRef);
       const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
       if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {

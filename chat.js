@@ -187,6 +187,16 @@ function refreshVisibleMessagesForProfile(uid, profile) {
     if (!name) return;
     name.textContent = username;
     name.style.color = nameColor;
+    const oldBadge = name.querySelector(".admin-star");
+    if (oldBadge) oldBadge.remove();
+    if (profile?.isAdmin === true) {
+      const star = document.createElement("span");
+      star.className = "admin-star";
+      star.textContent = " ★";
+      star.title = "Admin";
+      star.setAttribute("aria-label", "Admin");
+      name.appendChild(star);
+    }
   });
 
   if (currentUser && currentUser.uid === uid) {
@@ -194,8 +204,11 @@ function refreshVisibleMessagesForProfile(uid, profile) {
       ...currentProfile,
       username,
       nameColor,
-      siteTheme: typeof profile?.siteTheme === "string" ? profile.siteTheme : currentProfile.siteTheme
+      siteTheme: typeof profile?.siteTheme === "string" ? profile.siteTheme : currentProfile.siteTheme,
+      isAdmin: profile?.isAdmin === true
     };
+    adminMode = currentProfile.isAdmin;
+    chatContainer.classList.toggle("admin-mode", adminMode);
     if (profileUsernameInput && document.activeElement !== profileUsernameInput) {
       profileUsernameInput.value = username;
     }
@@ -264,7 +277,6 @@ onAuthStateChanged(auth, async (user) => {
     adminMode = false;
     chatContainer.classList.remove("admin-mode");
     if (adminPasswordInput) adminPasswordInput.value = "";
-    if (adminStatus) adminStatus.textContent = "";
     if (stopMessagesListener) stopMessagesListener();
     stopMessagesListener = null;
     stopWatchingMessageProfiles();

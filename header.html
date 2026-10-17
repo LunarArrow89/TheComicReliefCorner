@@ -25,7 +25,24 @@
   </div> 
 </div> 
 
-<section class="monthly-settings-panel" id="monthly-settings-panel" aria-label="Logo settings" hidden><div class="monthly-settings-card" role="dialog" aria-modal="true" aria-labelledby="monthly-settings-title"><button type="button" class="monthly-settings-close" id="monthly-settings-close" aria-label="Close settings" title="Close">×</button><h3 id="monthly-settings-title">Logo Settings</h3><label for="monthly-month-select">Preview a month</label><select id="monthly-month-select"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June (Pride)</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select><button type="button" class="settings-action" id="monthly-month-apply">Apply Month</button><button type="button" class="settings-action secondary" id="monthly-month-reset">Use Current Month</button><p class="settings-note">Your choice is saved on this browser.</p></div></section>
+<section class="monthly-settings-panel" id="monthly-settings-panel" aria-label="Color settings" hidden>
+  <div class="monthly-settings-card" role="dialog" aria-modal="true" aria-labelledby="monthly-settings-title">
+    <button type="button" class="monthly-settings-close" id="monthly-settings-close" aria-label="Close settings" title="Close">×</button>
+    <h3 id="monthly-settings-title">Color Settings</h3>
+    <p class="settings-note">Choose the main accent color for the site. Your choice is saved on this browser.</p>
+    <div class="theme-color-options" role="group" aria-label="Choose accent color">
+      <button type="button" class="theme-color-choice" data-theme="pink" aria-label="Pink" title="Pink"><span style="--swatch:#ff69b4"></span>Pink</button>
+      <button type="button" class="theme-color-choice" data-theme="blue" aria-label="Blue" title="Blue"><span style="--swatch:#3b82f6"></span>Blue</button>
+      <button type="button" class="theme-color-choice" data-theme="red" aria-label="Red" title="Red"><span style="--swatch:#ff4545"></span>Red</button>
+      <button type="button" class="theme-color-choice" data-theme="purple" aria-label="Purple" title="Purple"><span style="--swatch:#a855f7"></span>Purple</button>
+      <button type="button" class="theme-color-choice" data-theme="green" aria-label="Green" title="Green"><span style="--swatch:#22c55e"></span>Green</button>
+      <button type="button" class="theme-color-choice" data-theme="orange" aria-label="Orange" title="Orange"><span style="--swatch:#f97316"></span>Orange</button>
+      <button type="button" class="theme-color-choice" data-theme="cyan" aria-label="Cyan" title="Cyan"><span style="--swatch:#06b6d4"></span>Cyan</button>
+      <button type="button" class="theme-color-choice" data-theme="yellow" aria-label="Yellow" title="Yellow"><span style="--swatch:#eab308"></span>Yellow</button>
+    </div>
+    <p class="settings-note" id="theme-settings-status" aria-live="polite">Pink is selected.</p>
+  </div>
+</section>
 
 <!-- Backdrop Blur Modal Overlay Box --> 
 <div class="modal-overlay" id="requestModal" onclick="if(event.target === this) this.style.display = 'none';"> 

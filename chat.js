@@ -16,7 +16,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   getDatabase, ref, push, query, limitToLast, onChildAdded,
-  serverTimestamp, get, set, remove
+  serverTimestamp, get, set, remove, runTransaction
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
 const authContainer = document.getElementById("auth-container");
@@ -61,7 +61,33 @@ function showProfileStatus(message, isError = false) {
   profileStatus.style.color = isError ? "#ff6b6b" : "inherit";
 }
 function cleanUsername(value) {
-  return value.trim().replace(/\s+/g, " ").slice(0, 24);
+  return value.trim().replace(/\\s+/g, " ").slice(0, 24);
+}
+
+// Username uniqueness is case-insensitive. This key is safe for Firebase paths.
+function usernameIndexKey(username) {
+  return cleanUsername(username).toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+}
+
+async function claimUsername(username, uid) {
+  const key = usernameIndexKey(username);
+  if (!key) throw new Error("Please choose a username using letters or numbers.");
+  const result = await runTransaction(ref(database, "usernameIndex/" + key), (existingUid) => {
+    if (existingUid === null || existingUid === uid) return uid;
+    return; // Abort if another account already owns this username.
+  });
+  if (!result.committed || result.snapshot.val() !== uid) {
+    throw new Error("That username is already taken. Please choose a different one.");
+  }
+  return key;
+}
+
+async function releaseUsername(username, uid) {
+  if (!username) return;
+  const key = usernameIndexKey(username);
+  const indexRef = ref(database, "usernameIndex/" + key);
+  const snapshot = await get(indexRef);
+  if (snapshot.val() === uid) await remove(indexRef);
 }
 
 function showMessage(username, messageText, createdAt, nameColor, uid = "") {
@@ -159,10 +185,12 @@ signupBtn.addEventListener("click", async () => {
   }
   try {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(credential.user, { displayName: username });
+    // Reserve the username before writing the profile so two people cannot claim it.
+    await claimUsername(username, credential.user.uid);
     await set(ref(database, "profiles/" + credential.user.uid), {
       username, nameColor: "#ff69b4"
     });
+    await updateProfile(credential.user, { displayName: username });
     currentProfile = { username, nameColor: "#ff69b4" };
     profileUsernameInput.value = username;
     profileColorInput.value = "#ff69b4";
@@ -202,13 +230,25 @@ saveProfileBtn.addEventListener("click", async () => {
   saveProfileBtn.disabled = true;
   showProfileStatus("Saving…");
   try {
+    const previousUsername = currentProfile.username;
+    // Reserve the new username first. Existing owner names are protected by an atomic transaction.
+    await claimUsername(username, currentUser.uid);
+
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
     await set(profileRef, { username, nameColor });
     const savedSnapshot = await get(profileRef);
     const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
     if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
+      if (username.toLowerCase() !== previousUsername.toLowerCase()) {
+        await releaseUsername(username, currentUser.uid).catch(() => {});
+      }
       throw new Error("Firebase did not confirm the saved username and color. Check your Realtime Database rules.");
+    }
+    if (username.toLowerCase() !== previousUsername.toLowerCase()) {
+      await releaseUsername(previousUsername, currentUser.uid).catch((releaseError) => {
+        console.warn("Username saved, but the previous username index could not be released:", releaseError);
+      });
     }
 
     currentProfile = { username, nameColor };

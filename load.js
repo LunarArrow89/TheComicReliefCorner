@@ -34,6 +34,7 @@ function executeGlobalTemplateLighter() {
             .then(html => {
                 headerWrap.innerHTML = html;
                 executeSystemTimeTicks();
+                setupComicReliefMonthSettings(document);
             })
             .catch(err => console.error("Error loading header layout:", err));
     }
@@ -81,12 +82,12 @@ function updateComicReliefMonthlyLogo(root = document, chosenMonth = getComicRel
 }
 
 function setupComicReliefMonthSettings(root = document) {
-    const toggle = root.querySelector("#monthly-settings-toggle");
-    const panel = root.querySelector("#monthly-settings-panel");
-    const select = root.querySelector("#monthly-month-select");
-    const apply = root.querySelector("#monthly-month-apply");
-    const reset = root.querySelector("#monthly-month-reset");
-    const close = root.querySelector("#monthly-settings-close");
+    const toggle = root.querySelector("#monthly-settings-toggle") || document.querySelector("#headerSettingsBtn");
+    const panel = root.querySelector("#monthly-settings-panel") || document.querySelector("#monthly-settings-panel");
+    const select = root.querySelector("#monthly-month-select") || document.querySelector("#monthly-month-select");
+    const apply = root.querySelector("#monthly-month-apply") || document.querySelector("#monthly-month-apply");
+    const reset = root.querySelector("#monthly-month-reset") || document.querySelector("#monthly-month-reset");
+    const close = root.querySelector("#monthly-settings-close") || document.querySelector("#monthly-settings-close");
     if (!toggle || !panel || !select || !apply || !reset) return;
 
     // Move the popup out of the sidebar's stacking/overflow layers. This is

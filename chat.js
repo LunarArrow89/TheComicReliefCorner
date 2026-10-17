@@ -15,7 +15,7 @@ import {
   reauthenticateWithCredential, deleteUser
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
-  getDatabase, ref, push, query, limitToLast, onChildAdded,
+  getDatabase, ref, push, query, limitToLast, onChildAdded, onValue,
   serverTimestamp, get, set, remove, runTransaction
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
@@ -45,6 +45,7 @@ let currentUser = null;
 let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
+const messageProfileListeners = new Map();
 
 function showAuthError(message) {
   authError.textContent = message;
@@ -138,16 +139,61 @@ async function loadProfile(user) {
   profileColorInput.value = currentProfile.nameColor;
 }
 
+function refreshVisibleMessagesForProfile(uid, profile) {
+  const username = cleanUsername(profile?.username || "") || "Community member";
+  const nameColor = /^#[0-9a-fA-F]{6}$/.test(profile?.nameColor || "")
+    ? profile.nameColor
+    : "#ff69b4";
+
+  chatWindow.querySelectorAll(".chat-bubble").forEach((bubble) => {
+    if (bubble.dataset.uid !== uid) return;
+    const name = bubble.querySelector(".chat-meta");
+    if (!name) return;
+    name.textContent = username;
+    name.style.color = nameColor;
+  });
+
+  if (currentUser && currentUser.uid === uid) {
+    currentProfile = {
+      ...currentProfile,
+      username,
+      nameColor,
+      siteTheme: typeof profile?.siteTheme === "string" ? profile.siteTheme : currentProfile.siteTheme
+    };
+    if (profileUsernameInput && document.activeElement !== profileUsernameInput) {
+      profileUsernameInput.value = username;
+    }
+    if (profileColorInput && document.activeElement !== profileColorInput) {
+      profileColorInput.value = nameColor;
+    }
+  }
+}
+
+function watchMessageAuthorProfile(uid) {
+  if (!uid || messageProfileListeners.has(uid)) return;
+  const stop = onValue(ref(database, "profiles/" + uid), (snapshot) => {
+    refreshVisibleMessagesForProfile(uid, snapshot.exists() ? snapshot.val() : null);
+  }, (error) => {
+    console.warn("Could not watch chat profile:", error.message);
+  });
+  messageProfileListeners.set(uid, stop);
+}
+
+function stopWatchingMessageProfiles() {
+  for (const stop of messageProfileListeners.values()) stop();
+  messageProfileListeners.clear();
+}
+
 function startMessages() {
   if (!currentUser || messagesStartedForUid === currentUser.uid) return;
   if (stopMessagesListener) stopMessagesListener();
+  stopWatchingMessageProfiles();
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
   const messagesQuery = query(ref(database, "messages"), limitToLast(100));
   stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
     const message = snapshot.val();
     if (!message) return;
-    // Always use the latest saved profile for the signed-in user's own messages.
     const isOwnMessage = message.uid && currentUser && message.uid === currentUser.uid;
     showMessage(
       isOwnMessage ? currentProfile.username : message.username,
@@ -156,6 +202,9 @@ function startMessages() {
       isOwnMessage ? currentProfile.nameColor : message.nameColor,
       message.uid
     );
+    // Resolve each author's current profile and keep it live, so other people see
+    // username and color edits without requiring a new message or page refresh.
+    watchMessageAuthorProfile(message.uid);
   }, (error) => {
     showAuthError("Could not load messages: " + error.message);
   });
@@ -177,6 +226,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     if (stopMessagesListener) stopMessagesListener();
     stopMessagesListener = null;
+    stopWatchingMessageProfiles();
     messagesStartedForUid = null;
     currentUser = null;
     currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };

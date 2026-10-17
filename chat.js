@@ -9,6 +9,7 @@ const firebaseConfig = {
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, onAuthStateChanged, updateProfile, EmailAuthProvider,
@@ -43,6 +44,8 @@ let adminMode = false;
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
+const functions = getFunctions(app, "us-central1");
+const activateAdminWithPasscode = httpsCallable(functions, "activateAdminWithPasscode");
 
 let currentUser = null;
 let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
@@ -306,6 +309,7 @@ signupBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
   const username = cleanUsername(signupUsernameInput.value);
+  const adminPasscode = adminPasswordInput?.value || "";
   if (!username) {
     showAuthError("Choose a username before creating your account.");
     signupUsernameInput.focus();
@@ -326,6 +330,17 @@ signupBtn.addEventListener("click", async () => {
     currentProfile = { username, nameColor: "#ff69b4" };
     profileUsernameInput.value = username;
     profileColorInput.value = "#ff69b4";
+    if (adminPasswordInput) adminPasswordInput.value = "";
+    if (adminPasscode) {
+      try {
+        await activateAdminWithPasscode({ passcode: adminPasscode });
+        await credential.user.getIdToken(true);
+        await loadProfile(credential.user);
+        showAuthError("Admin access enabled for this account.");
+      } catch (adminError) {
+        showAuthError("Account created, but admin access was not enabled: " + (adminError.message || "Incorrect passcode."));
+      }
+    }
   } catch (error) {
     showAuthError(error.message);
   }

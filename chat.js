@@ -62,7 +62,7 @@ function showProfileStatus(message, isError = false) {
   profileStatus.style.color = isError ? "#ff6b6b" : "inherit";
 }
 function cleanUsername(value) {
-  return value.trim().replace(/\\s+/g, " ").slice(0, 24);
+  return value.trim().replace(/\s+/g, " ").slice(0, 24);
 }
 
 // Username uniqueness is case-insensitive. This key is safe for Firebase paths.

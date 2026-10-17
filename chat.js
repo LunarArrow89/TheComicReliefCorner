@@ -89,7 +89,21 @@ async function claimUsername(username, uid) {
     throw new Error("That username is already taken. Please choose a different one.");
   }
 
-  const result = await runTransaction(ref(database, "usernameIndex/" + key), (existingUid) => {
+  const indexRef = ref(database, "usernameIndex/" + key);
+  const existingIndex = await get(indexRef);
+  if (existingIndex.exists() && existingIndex.val() !== uid) {
+    // A deleted account may have left an old username reservation behind.
+    const formerOwnerProfile = await get(ref(database, "profiles/" + existingIndex.val()));
+    if (!formerOwnerProfile.exists()) {
+      // Remove the stale reservation only if it still belongs to that former account.
+      await runTransaction(indexRef, (currentUid) => {
+        if (currentUid === existingIndex.val()) return null;
+        return;
+      });
+    }
+  }
+
+  const result = await runTransaction(indexRef, (existingUid) => {
     if (existingUid === null || existingUid === uid) return uid;
     return; // Abort if another account already owns this username.
   });
@@ -395,6 +409,8 @@ deleteAccountBtn.addEventListener("click", async () => {
       });
       await Promise.all(removals);
     }
+    // Release the username reservation so another account can use the name.
+    await releaseUsername(currentProfile.username, currentUser.uid);
     await remove(ref(database, "profiles/" + currentUser.uid));
     await deleteUser(currentUser);
     showProfileStatus("Your account was deleted.");

@@ -630,3 +630,43 @@ window.audioEngine.addEventListener("play", updateMiniplayerDataTrack);
 
 setInterval(processGlobalMiniplayerVisibility, 500);
 processGlobalMiniplayerVisibility();
+
+
+// Click-to-spin the shared logo. Delegation is required because sidebar.html is fetched
+(function setupComicReliefLogoSpin() {
+    if (!document.getElementById("comic-relief-logo-spin-style")) {
+        const style = document.createElement("style");
+        style.id = "comic-relief-logo-spin-style";
+        style.textContent = `
+            @keyframes comic-relief-logo-spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            #monthly-logo.logo-spin-once {
+                animation: comic-relief-logo-spin 700ms ease-in-out;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                #monthly-logo.logo-spin-once { animation-duration: 1ms; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // The sidebar is inserted with innerHTML, which prevents its own scripts from running.
+    // A delegated listener still works when the monthly logo is added later.
+    document.addEventListener("click", function (event) {
+        const logo = event.target.closest && event.target.closest("#monthly-logo");
+        if (!logo) return;
+        logo.style.cursor = "pointer";
+        logo.title = "Click to spin the logo";
+        logo.classList.remove("logo-spin-once");
+        void logo.offsetWidth;
+        logo.classList.add("logo-spin-once");
+    });
+
+    document.addEventListener("animationend", function (event) {
+        if (event.target.id === "monthly-logo" && event.animationName === "comic-relief-logo-spin") {
+            event.target.classList.remove("logo-spin-once");
+        }
+    });
+})();

@@ -37,8 +37,6 @@ const saveProfileBtn = document.getElementById("save-profile-btn");
 const profileStatus = document.getElementById("profile-status");
 const deleteAccountBtn = document.getElementById("delete-account-btn");
 const adminPasswordInput = document.getElementById("admin-password");
-const adminUnlockBtn = document.getElementById("admin-unlock-btn");
-const adminStatus = document.getElementById("admin-status");
 let adminMode = false;
 
 const app = initializeApp(firebaseConfig);
@@ -66,7 +64,7 @@ function showProfileStatus(message, isError = false) {
   profileStatus.style.color = isError ? "#ff6b6b" : "inherit";
 }
 function cleanUsername(value) {
-  return value.trim().replace(/\s+/g, " ").slice(0, 24);
+  return value.replace(/[★⭐☆]/g, "").trim().replace(/\s+/g, " ").slice(0, 24);
 }
 
 // Username uniqueness is case-insensitive. This key is safe for Firebase paths.
@@ -168,8 +166,11 @@ async function loadProfile(user) {
   currentProfile = {
     username: cleanUsername(profile.username || user.displayName || (user.email ? user.email.split("@")[0] : "Community member")) || "Community member",
     nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4",
-    siteTheme: typeof profile.siteTheme === "string" ? profile.siteTheme : "pink"
+    siteTheme: typeof profile.siteTheme === "string" ? profile.siteTheme : "pink",
+    isAdmin: profile.isAdmin === true
   };
+  adminMode = currentProfile.isAdmin;
+  chatContainer.classList.toggle("admin-mode", adminMode);
   profileUsernameInput.value = currentProfile.username;
   profileColorInput.value = currentProfile.nameColor;
 }

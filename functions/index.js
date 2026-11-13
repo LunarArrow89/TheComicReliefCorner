@@ -47,3 +47,30 @@ exports.activateAdminWithPasscode = onCall(
     return { success: true };
   }
 );
+
+// Delete a chat message only after verifying the caller's trusted admin claim.
+// The Admin SDK performs the deletion without granting clients broad write access.
+exports.deleteChatMessage = onCall(
+  { region: "us-central1" },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Sign in before deleting messages.");
+    }
+    if (request.auth.token.admin !== true) {
+      throw new HttpsError("permission-denied", "Only admins can delete messages.");
+    }
+
+    const messageId = request.data && request.data.messageId;
+    if (typeof messageId !== "string" || !/^[A-Za-z0-9_-]{1,128}$/.test(messageId)) {
+      throw new HttpsError("invalid-argument", "A valid message ID is required.");
+    }
+
+    const messageRef = getDatabase().ref("messages/" + messageId);
+    const snapshot = await messageRef.get();
+    if (!snapshot.exists()) {
+      throw new HttpsError("not-found", "That message no longer exists.");
+    }
+    await messageRef.remove();
+    return { success: true };
+  }
+);

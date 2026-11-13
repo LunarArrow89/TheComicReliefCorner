@@ -37,7 +37,6 @@ const profileColorInput = document.getElementById("profile-color");
 const saveProfileBtn = document.getElementById("save-profile-btn");
 const profileStatus = document.getElementById("profile-status");
 const deleteAccountBtn = document.getElementById("delete-account-btn");
-const adminPasswordInput = document.getElementById("admin-password");
 let adminMode = false;
 
 const app = initializeApp(firebaseConfig);
@@ -288,7 +287,6 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     adminMode = false;
     chatContainer.classList.remove("admin-mode");
-    if (adminPasswordInput) adminPasswordInput.value = "";
     if (stopMessagesListener) stopMessagesListener();
     stopMessagesListener = null;
     stopWatchingMessageProfiles();
@@ -306,7 +304,6 @@ signupBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
   const username = cleanUsername(signupUsernameInput.value);
-  const adminPasscode = adminPasswordInput?.value || "";
   if (!username) {
     showAuthError("Choose a username before creating your account.");
     signupUsernameInput.focus();
@@ -327,17 +324,6 @@ signupBtn.addEventListener("click", async () => {
     currentProfile = { username, nameColor: "#ff69b4" };
     profileUsernameInput.value = username;
     profileColorInput.value = "#ff69b4";
-    if (adminPasswordInput) adminPasswordInput.value = "";
-    if (adminPasscode) {
-      try {
-        await activateAdminWithPasscode({ passcode: adminPasscode });
-        await credential.user.getIdToken(true);
-        await loadProfile(credential.user);
-        showAuthError("Admin access enabled for this account.");
-      } catch (adminError) {
-        showAuthError("Account created, but admin access was not enabled: " + (adminError.message || "Incorrect passcode."));
-      }
-    }
   } catch (error) {
     showAuthError(error.message);
   }

@@ -163,7 +163,7 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
       bubble.remove();
     } catch (error) {
       deleteButton.disabled = false;
-      alert("Could not delete message. Your Firebase Database rules may not allow this: " + error.message);
+      alert("Could not delete message: " + (error.message || "Please try again."));
     }
   });
   bubble.append(name, document.createTextNode(": "), content, timestamp, deleteButton);

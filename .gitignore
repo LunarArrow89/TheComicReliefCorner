@@ -4,3 +4,7 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Firebase Admin SDK private key (never commit this)
+functions/serviceAccountKey.json
+functions/*.service-account.json

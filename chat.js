@@ -9,7 +9,6 @@ const firebaseConfig = {
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, onAuthStateChanged, updateProfile, EmailAuthProvider,
@@ -44,9 +43,6 @@ let adminMode = false;
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
-const functions = getFunctions(app, "us-central1");
-const activateAdminWithPasscode = httpsCallable(functions, "activateAdminWithPasscode");
-const deleteChatMessage = httpsCallable(functions, "deleteChatMessage");
 
 let currentUser = null;
 let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
@@ -159,7 +155,7 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
     if (!confirm("Delete this message for everyone?")) return;
     deleteButton.disabled = true;
     try {
-      await deleteChatMessage({ messageId });
+      await remove(ref(database, "messages/" + messageId));
       bubble.remove();
     } catch (error) {
       deleteButton.disabled = false;

@@ -46,6 +46,7 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 const functions = getFunctions(app, "us-central1");
 const activateAdminWithPasscode = httpsCallable(functions, "activateAdminWithPasscode");
+const deleteChatMessage = httpsCallable(functions, "deleteChatMessage");
 
 let currentUser = null;
 let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
@@ -158,7 +159,7 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
     if (!confirm("Delete this message for everyone?")) return;
     deleteButton.disabled = true;
     try {
-      await remove(ref(database, "messages/" + messageId));
+      await deleteChatMessage({ messageId });
       bubble.remove();
     } catch (error) {
       deleteButton.disabled = false;

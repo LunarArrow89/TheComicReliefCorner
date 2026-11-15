@@ -86,16 +86,23 @@ function sanitizeAvatarData(value) {
 
 function setAvatarDisplay(image, fallback, avatarData, username) {
   const safeData = sanitizeAvatarData(avatarData);
+
+  // Explicit display styles ensure the letter and uploaded image can never
+  // appear together, even if another stylesheet overrides the [hidden] rule.
   if (safeData) {
     image.src = safeData;
     image.alt = (username || "Member") + " profile picture";
     image.hidden = false;
+    image.style.display = "block";
     fallback.hidden = true;
+    fallback.style.display = "none";
   } else {
     image.removeAttribute("src");
     image.hidden = true;
+    image.style.display = "none";
     fallback.textContent = (username || "?").trim().charAt(0).toUpperCase() || "?";
     fallback.hidden = false;
+    fallback.style.display = "inline-flex";
   }
 }
 

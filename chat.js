@@ -80,7 +80,7 @@ function cleanUsername(value) {
 }
 
 function sanitizeAvatarData(value) {
-  if (typeof value !== "string" || value.length > 300000) return "";
+  if (typeof value !== "string" || value.length > 1400000) return "";
   return /^data:image\/(?:gif|jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value) ? value : "";
 }
 
@@ -118,17 +118,17 @@ async function compressProfileImage(file) {
   }
   if (file.size > 8 * 1024 * 1024) throw new Error("Choose an image smaller than 8 MB.");
 
-  // Keep GIF files intact so their animation is preserved. Firebase allows
-  // avatarData up to 300,000 characters, so limit the GIF source accordingly.
+  // Keep GIF files intact so their animation is preserved. The profile rule
+  // must allow up to 1,400,000 characters for this larger animated image.
   if (file.type === "image/gif") {
-    if (file.size > 220 * 1024) {
-      throw new Error("This GIF is too large. Choose a GIF under 220 KB so it can fit in your profile.");
+    if (file.size > 1024 * 1024) {
+      throw new Error("This GIF is too large. Choose a GIF under 1 MB.");
     }
     return await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
         const result = String(reader.result);
-        if (result.length > 300000) {
+        if (result.length > 1400000) {
           reject(new Error("This GIF is too large. Choose a smaller GIF."));
         } else {
           resolve(result);

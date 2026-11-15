@@ -15,17 +15,57 @@ function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
     
-    if (sidebarWrap && sidebarWrap.innerHTML.trim() === "") {
-        fetch(new URL("sidebar.html?v=monthly-logo-fix-20261015", getComicReliefAssetBase()), { cache: "no-store" })
-            .then(res => res.text())
+    if (sidebarWrap && !sidebarWrap.dataset.sidebarLoaded) {
+        sidebarWrap.dataset.sidebarLoaded = "loading";
+        const sidebarUrl = new URL("sidebar.html?v=sidebar-recovery-20261114", getComicReliefAssetBase());
+        fetch(sidebarUrl, { cache: "no-store" })
+            .then(res => {
+                if (!res.ok) throw new Error("sidebar.html returned HTTP " + res.status);
+                return res.text();
+            })
             .then(html => {
+                if (!html || !html.includes('class="sidebar"')) {
+                    throw new Error("sidebar.html did not contain the expected .sidebar element");
+                }
                 sidebarWrap.innerHTML = html;
-                // Scripts inserted through innerHTML do not execute, so select the
-                // monthly logo here after the sidebar has been inserted.
+
+                // Apply the essential layout directly as a fallback, so a stale or
+                // conflicting stylesheet cannot make the shared navigation disappear.
+                Object.assign(sidebarWrap.style, {
+                    display: "block",
+                    position: "fixed",
+                    top: "0",
+                    left: "0",
+                    bottom: "0",
+                    width: "220px",
+                    minWidth: "220px",
+                    height: "100vh",
+                    zIndex: "1200",
+                    overflow: "visible"
+                });
+                const sidebar = sidebarWrap.querySelector(".sidebar");
+                if (sidebar) Object.assign(sidebar.style, {
+                    display: "block",
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    bottom: "0",
+                    width: "220px",
+                    minWidth: "220px",
+                    height: "100%",
+                    boxSizing: "border-box",
+                    overflowX: "hidden",
+                    overflowY: "auto"
+                });
+
+                sidebarWrap.dataset.sidebarLoaded = "true";
                 updateComicReliefMonthlyLogo(sidebarWrap);
                 setupComicReliefColorSettings(document);
             })
-            .catch(err => console.error("Error loading sidebar layout:", err));
+            .catch(err => {
+                sidebarWrap.dataset.sidebarLoaded = "error";
+                console.error("Error loading sidebar layout:", err);
+            });
     }
     
     if (headerWrap && headerWrap.innerHTML.trim() === "") {

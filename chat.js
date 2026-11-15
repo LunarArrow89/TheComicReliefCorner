@@ -34,6 +34,10 @@ const chatStatus = document.getElementById("chat-message-status");
 const logoutBtn = document.getElementById("logout-btn");
 const profileUsernameInput = document.getElementById("profile-username");
 const profileColorInput = document.getElementById("profile-color");
+const profileAvatarFileInput = document.getElementById("profile-avatar-file");
+const profileAvatarPreview = document.getElementById("profile-avatar-preview");
+const profileAvatarFallback = document.getElementById("profile-avatar-fallback");
+const removeProfileAvatarBtn = document.getElementById("remove-profile-avatar-btn");
 const saveProfileBtn = document.getElementById("save-profile-btn");
 const profileStatus = document.getElementById("profile-status");
 const deleteAccountBtn = document.getElementById("delete-account-btn");
@@ -44,7 +48,9 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 let currentUser = null;
-let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
+let currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink", avatarData: "" };
+let pendingAvatarData = null;
+let pendingAvatarRemoval = false;
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
 const messageProfileListeners = new Map();
@@ -71,6 +77,66 @@ function showChatStatus(message, isError = false) {
 }
 function cleanUsername(value) {
   return value.replace(/[★⭐☆]/g, "").trim().replace(/\s+/g, " ").slice(0, 24);
+}
+
+function sanitizeAvatarData(value) {
+  if (typeof value !== "string" || value.length > 300000) return "";
+  return /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value) ? value : "";
+}
+
+function setAvatarDisplay(image, fallback, avatarData, username) {
+  const safeData = sanitizeAvatarData(avatarData);
+  if (safeData) {
+    image.src = safeData;
+    image.alt = (username || "Member") + " profile picture";
+    image.hidden = false;
+    fallback.hidden = true;
+  } else {
+    image.removeAttribute("src");
+    image.hidden = true;
+    fallback.textContent = (username || "?").trim().charAt(0).toUpperCase() || "?";
+    fallback.hidden = false;
+  }
+}
+
+function refreshProfileAvatarPreview(avatarData, username = currentProfile.username) {
+  if (profileAvatarPreview && profileAvatarFallback) {
+    setAvatarDisplay(profileAvatarPreview, profileAvatarFallback, avatarData, username);
+  }
+}
+
+async function compressProfileImage(file) {
+  if (!file || !["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    throw new Error("Choose a JPG, PNG, or WebP image.");
+  }
+  if (file.size > 8 * 1024 * 1024) throw new Error("Choose an image smaller than 8 MB.");
+  const bitmap = await createImageBitmap(file);
+  try {
+    const size = 256;
+    const scale = Math.max(size / bitmap.width, size / bitmap.height);
+    const sourceWidth = size / scale;
+    const sourceHeight = size / scale;
+    const sx = (bitmap.width - sourceWidth) / 2;
+    const sy = (bitmap.height - sourceHeight) / 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Your browser could not process this image.");
+    context.drawImage(bitmap, sx, sy, sourceWidth, sourceHeight, 0, 0, size, size);
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(result => result ? resolve(result) : reject(new Error("Could not compress this image.")), "image/jpeg", 0.72);
+    });
+    if (blob.size > 220 * 1024) throw new Error("This picture is still too large. Try a simpler image.");
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("Could not read the selected image."));
+      reader.readAsDataURL(blob);
+    });
+  } finally {
+    bitmap.close();
+  }
 }
 
 // Username uniqueness is case-insensitive. This key is safe for Firebase paths.
@@ -134,6 +200,14 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
   bubble.className = "chat-bubble";
   if (uid) bubble.dataset.uid = uid;
   if (messageId) bubble.dataset.messageId = messageId;
+  const avatar = document.createElement("img");
+  avatar.className = "chat-avatar";
+  avatar.hidden = true;
+  const avatarFallback = document.createElement("span");
+  avatarFallback.className = "chat-avatar-fallback";
+  setAvatarDisplay(avatar, avatarFallback, uid === currentUser?.uid ? currentProfile.avatarData : "", username);
+  const body = document.createElement("div");
+  body.className = "chat-bubble-body";
   const name = document.createElement("span");
   name.className = "chat-meta";
   name.style.color = /^#[0-9a-fA-F]{6}$/.test(nameColor || "") ? nameColor : "#ff69b4";
@@ -161,7 +235,8 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
       alert("Could not delete message: " + (error.message || "Please try again."));
     }
   });
-  bubble.append(name, document.createTextNode(": "), content, timestamp, deleteButton);
+  body.append(name, document.createTextNode(": "), content, timestamp, deleteButton);
+  bubble.append(avatar, avatarFallback, body);
   chatWindow.appendChild(bubble);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
@@ -176,12 +251,17 @@ async function loadProfile(user) {
     username: cleanUsername(profile.username || user.displayName || (user.email ? user.email.split("@")[0] : "Community member")) || "Community member",
     nameColor: /^#[0-9a-fA-F]{6}$/.test(profile.nameColor || "") ? profile.nameColor : "#ff69b4",
     siteTheme: typeof profile.siteTheme === "string" ? profile.siteTheme : "pink",
+    avatarData: sanitizeAvatarData(profile.avatarData),
     isAdmin
   };
   adminMode = currentProfile.isAdmin;
   chatContainer.classList.toggle("admin-mode", adminMode);
   profileUsernameInput.value = currentProfile.username;
   profileColorInput.value = currentProfile.nameColor;
+  pendingAvatarData = null;
+  pendingAvatarRemoval = false;
+  if (profileAvatarFileInput) profileAvatarFileInput.value = "";
+  refreshProfileAvatarPreview(currentProfile.avatarData, currentProfile.username);
 }
 
 function refreshVisibleMessagesForProfile(uid, profile) {
@@ -189,6 +269,7 @@ function refreshVisibleMessagesForProfile(uid, profile) {
   const nameColor = /^#[0-9a-fA-F]{6}$/.test(profile?.nameColor || "")
     ? profile.nameColor
     : "#ff69b4";
+  const avatarData = sanitizeAvatarData(profile?.avatarData);
 
   chatWindow.querySelectorAll(".chat-bubble").forEach((bubble) => {
     if (bubble.dataset.uid !== uid) return;
@@ -196,6 +277,9 @@ function refreshVisibleMessagesForProfile(uid, profile) {
     if (!name) return;
     name.textContent = username;
     name.style.color = nameColor;
+    const avatar = bubble.querySelector(".chat-avatar");
+    const avatarFallback = bubble.querySelector(".chat-avatar-fallback");
+    if (avatar && avatarFallback) setAvatarDisplay(avatar, avatarFallback, avatarData, username);
     name.classList.toggle("admin-author", profile?.isAdmin === true);
     const oldBadge = name.querySelector(".admin-star");
     if (oldBadge) oldBadge.remove();
@@ -214,6 +298,7 @@ function refreshVisibleMessagesForProfile(uid, profile) {
       ...currentProfile,
       username,
       nameColor,
+      avatarData,
       siteTheme: typeof profile?.siteTheme === "string" ? profile.siteTheme : currentProfile.siteTheme,
       // Keep the trusted Auth claim; profile data must not grant admin privileges.
       isAdmin: currentProfile.isAdmin === true
@@ -225,6 +310,9 @@ function refreshVisibleMessagesForProfile(uid, profile) {
     }
     if (profileColorInput && document.activeElement !== profileColorInput) {
       profileColorInput.value = nameColor;
+    }
+    if (pendingAvatarData === null && !pendingAvatarRemoval) {
+      refreshProfileAvatarPreview(avatarData, username);
     }
   }
 }
@@ -292,7 +380,9 @@ onAuthStateChanged(auth, async (user) => {
     stopWatchingMessageProfiles();
     messagesStartedForUid = null;
     currentUser = null;
-    currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink" };
+    currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink", avatarData: "" };
+    pendingAvatarData = null;
+    pendingAvatarRemoval = false;
     chatWindow.replaceChildren();
     authContainer.style.display = "flex";
     chatContainer.style.display = "none";
@@ -318,10 +408,10 @@ signupBtn.addEventListener("click", async () => {
     // Reserve the username before writing the profile so two people cannot claim it.
     await claimUsername(username, credential.user.uid);
     await set(ref(database, "profiles/" + credential.user.uid), {
-      username, nameColor: "#ff69b4", siteTheme: "pink"
+      username, nameColor: "#ff69b4", siteTheme: "pink", avatarData: ""
     });
     await updateProfile(credential.user, { displayName: username });
-    currentProfile = { username, nameColor: "#ff69b4" };
+    currentProfile = { username, nameColor: "#ff69b4", siteTheme: "pink", avatarData: "" };
     profileUsernameInput.value = username;
     profileColorInput.value = "#ff69b4";
   } catch (error) {
@@ -348,10 +438,35 @@ logoutBtn.addEventListener("click", async () => {
   }
 });
 
+profileAvatarFileInput.addEventListener("change", async () => {
+  const file = profileAvatarFileInput.files?.[0];
+  if (!file) return;
+  showProfileStatus("Preparing picture…");
+  try {
+    pendingAvatarData = await compressProfileImage(file);
+    pendingAvatarRemoval = false;
+    refreshProfileAvatarPreview(pendingAvatarData, currentProfile.username);
+    showProfileStatus("Picture ready. Select Save changes to publish it.");
+  } catch (error) {
+    profileAvatarFileInput.value = "";
+    showProfileStatus(error.message, true);
+  }
+});
+
+removeProfileAvatarBtn.addEventListener("click", () => {
+  pendingAvatarData = "";
+  pendingAvatarRemoval = true;
+  if (profileAvatarFileInput) profileAvatarFileInput.value = "";
+  refreshProfileAvatarPreview("", currentProfile.username);
+  showProfileStatus("Picture will be removed when you save changes.");
+});
+
 saveProfileBtn.addEventListener("click", async () => {
   if (!currentUser) return;
   const username = cleanUsername(profileUsernameInput.value);
   const nameColor = profileColorInput.value;
+  const avatarData = pendingAvatarRemoval ? "" :
+    (pendingAvatarData !== null ? pendingAvatarData : currentProfile.avatarData || "");
   if (!username) {
     showProfileStatus("Please enter a username.", true);
     profileUsernameInput.focus();
@@ -370,11 +485,17 @@ saveProfileBtn.addEventListener("click", async () => {
     // Save the username and color in the database, then verify the saved values.
     const profileRef = ref(database, "profiles/" + currentUser.uid);
     try {
-      await update(profileRef, { username, nameColor, siteTheme: currentProfile.siteTheme || "pink" });
+      await update(profileRef, {
+        username,
+        nameColor,
+        siteTheme: currentProfile.siteTheme || "pink",
+        avatarData: avatarData || null
+      });
       const savedSnapshot = await get(profileRef);
       const savedProfile = savedSnapshot.exists() ? savedSnapshot.val() : null;
-      if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor) {
-        throw new Error("Firebase did not confirm the saved username and color. Check your Realtime Database rules.");
+      if (!savedProfile || savedProfile.username !== username || savedProfile.nameColor !== nameColor ||
+          sanitizeAvatarData(savedProfile.avatarData) !== avatarData) {
+        throw new Error("Firebase did not confirm the saved profile. Check your Realtime Database rules.");
       }
     } catch (saveError) {
       if (usernameChanged) await releaseUsername(username, currentUser.uid).catch(() => {});
@@ -387,7 +508,15 @@ saveProfileBtn.addEventListener("click", async () => {
       });
     }
 
-    currentProfile = { username, nameColor, siteTheme: currentProfile.siteTheme || "pink", isAdmin: currentProfile.isAdmin === true };
+    currentProfile = {
+      username, nameColor, avatarData,
+      siteTheme: currentProfile.siteTheme || "pink",
+      isAdmin: currentProfile.isAdmin === true
+    };
+    pendingAvatarData = null;
+    pendingAvatarRemoval = false;
+    if (profileAvatarFileInput) profileAvatarFileInput.value = "";
+    refreshProfileAvatarPreview(avatarData, username);
 
     // The database profile is the source of truth. Auth display-name syncing is optional.
     try {
@@ -405,7 +534,7 @@ saveProfileBtn.addEventListener("click", async () => {
         name.style.color = nameColor;
       }
     });
-    showProfileStatus("Saved! Your username and color will stay after refresh.");
+    showProfileStatus("Saved! Your picture, username, and color will stay after refresh.");
   } catch (error) {
     showProfileStatus("Could not save: " + error.message, true);
   } finally {

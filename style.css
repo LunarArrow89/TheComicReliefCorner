@@ -2210,23 +2210,15 @@ body.sidebar-collapsed .main {
 }
 
 
-/* Make the actual header bar expand with the sidebar, not just its wrapper. */
-.header {
-  transition: left 320ms cubic-bezier(.22, 1, .36, 1),
-              width 320ms cubic-bezier(.22, 1, .36, 1);
+/* The header fills its fixed wrapper. The wrapper itself moves/resizes
+   when the sidebar is toggled, keeping the header and toggle aligned. */
+#header-container {
+  overflow: visible;
 }
-body.sidebar-collapsed .header {
+#header-container .header {
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
-}
-@media (max-width: 768px) {
-  .header {
-    left: 0;
-    width: 100%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .header {
-    transition-duration: .01ms !important;
-  }
+  transition: none;
 }

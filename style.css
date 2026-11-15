@@ -2289,3 +2289,41 @@ body.sidebar-collapsed #header-container .header {
     height: 100dvh !important;
   }
 }
+
+
+/* Keep the sidebar pinned to the viewport while the document scrolls. */
+html body #sidebar-container {
+  position: fixed !important;
+  top: 0 !important;
+  right: auto !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: start !important;
+  z-index: 1200 !important;
+  overflow: hidden !important;
+}
+
+html body #sidebar-container > .sidebar {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+}
+
+/* The page scrolls independently; the sidebar stays at the top. */
+html, body {
+  scroll-padding-top: 0;
+}

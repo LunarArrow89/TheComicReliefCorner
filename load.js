@@ -15,57 +15,74 @@ function executeGlobalTemplateLighter() {
     const sidebarWrap = document.getElementById("sidebar-container");
     const headerWrap = document.getElementById("header-container");
     
-    if (sidebarWrap && !sidebarWrap.dataset.sidebarLoaded) {
+    if (sidebarWrap && sidebarWrap.dataset.sidebarLoaded !== "true" && sidebarWrap.dataset.sidebarLoaded !== "loading") {
         sidebarWrap.dataset.sidebarLoaded = "loading";
-        const sidebarUrl = new URL("sidebar.html?v=sidebar-recovery-20261114", getComicReliefAssetBase());
-        fetch(sidebarUrl, { cache: "no-store" })
-            .then(res => {
-                if (!res.ok) throw new Error("sidebar.html returned HTTP " + res.status);
-                return res.text();
-            })
-            .then(html => {
-                if (!html || !html.includes('class="sidebar"')) {
-                    throw new Error("sidebar.html did not contain the expected .sidebar element");
+
+        // Try the shared asset location first, then the current page directory.
+        const sidebarUrls = [
+            new URL("sidebar.html?v=sidebar-recovery-20261115", getComicReliefAssetBase()),
+            new URL("sidebar.html?v=sidebar-recovery-20261115", window.location.href)
+        ];
+
+        const fetchSidebar = async () => {
+            let lastError = null;
+            for (const url of sidebarUrls) {
+                try {
+                    const response = await fetch(url, { cache: "no-store" });
+                    if (!response.ok) throw new Error("sidebar.html returned HTTP " + response.status);
+                    const html = await response.text();
+                    const parsed = new DOMParser().parseFromString(html, "text/html");
+                    const sidebarElement = parsed.querySelector(".sidebar");
+                    if (!sidebarElement) throw new Error("sidebar.html did not contain .sidebar");
+                    // Insert the actual navigation element. Scripts embedded in fetched
+                    // HTML do not execute through innerHTML, so load.js initializes it.
+                    sidebarWrap.replaceChildren(sidebarElement);
+                    return;
+                } catch (error) {
+                    lastError = error;
+                    console.warn("Sidebar source failed:", url.href, error);
                 }
-                sidebarWrap.innerHTML = html;
+            }
 
-                // Apply the essential layout directly as a fallback, so a stale or
-                // conflicting stylesheet cannot make the shared navigation disappear.
-                Object.assign(sidebarWrap.style, {
-                    display: "block",
-                    position: "fixed",
-                    top: "0",
-                    left: "0",
-                    bottom: "0",
-                    width: "220px",
-                    minWidth: "220px",
-                    height: "100vh",
-                    zIndex: "1200",
-                    overflow: "visible"
-                });
-                const sidebar = sidebarWrap.querySelector(".sidebar");
-                if (sidebar) Object.assign(sidebar.style, {
-                    display: "block",
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    bottom: "0",
-                    width: "220px",
-                    minWidth: "220px",
-                    height: "100%",
-                    boxSizing: "border-box",
-                    overflowX: "hidden",
-                    overflowY: "auto"
-                });
+            // Last-resort navigation keeps the site usable if GitHub Pages cannot
+            // retrieve sidebar.html for any reason.
+            const fallback = document.createElement("nav");
+            fallback.className = "sidebar";
+            fallback.innerHTML = `
+                <div class="logo-container">
+                    <img src="logo-ring.png" alt="" class="logo-ring">
+                    <span class="monthly-logo-wrap"><img src="logo.png" alt="The Comic Relief Corner" class="logo-image" id="monthly-logo"></span>
+                </div>
+                <a href="home.html" class="nav-btn"><img src="home-icon.png" alt="" class="nav-icon-img"> Home</a>
+                <a href="games.html" class="nav-btn"><img src="games-icon.png" alt="" class="nav-icon-img"> Games</a>
+                <a href="music.html" class="nav-btn"><img src="music-icon.png" alt="" class="nav-icon-img"> Music</a>
+                <a href="creators.html" class="nav-btn"><img src="creators-icon.png" alt="" class="nav-icon-img"> Creators</a>
+                <a href="chatroom.html" class="nav-btn"><img src="messenger.png" alt="" class="nav-icon-img"> Chatroom</a>
+                <a href="proxy.html" class="nav-btn"><img src="proxy-icon.png" alt="" class="nav-icon-img"> Proxy</a>
+            `;
+            sidebarWrap.replaceChildren(fallback);
+            console.error("Using built-in sidebar fallback:", lastError);
+        };
 
-                sidebarWrap.dataset.sidebarLoaded = "true";
-                updateComicReliefMonthlyLogo(sidebarWrap);
-                setupComicReliefColorSettings(document);
-            })
-            .catch(err => {
-                sidebarWrap.dataset.sidebarLoaded = "error";
-                console.error("Error loading sidebar layout:", err);
+        fetchSidebar().then(() => {
+            Object.assign(sidebarWrap.style, {
+                display: "block", position: "fixed", top: "0", left: "0", bottom: "0",
+                width: "220px", minWidth: "220px", height: "100vh", height: "100dvh",
+                zIndex: "1200", overflow: "visible"
             });
+            const sidebar = sidebarWrap.querySelector(".sidebar");
+            if (sidebar) Object.assign(sidebar.style, {
+                display: "block", position: "absolute", top: "0", left: "0", bottom: "0",
+                width: "220px", minWidth: "220px", height: "100%", boxSizing: "border-box",
+                overflowX: "hidden", overflowY: "auto", background: "#120910", padding: "15px"
+            });
+            sidebarWrap.dataset.sidebarLoaded = "true";
+            updateComicReliefMonthlyLogo(sidebarWrap);
+            setupComicReliefColorSettings(document);
+        }).catch(error => {
+            sidebarWrap.dataset.sidebarLoaded = "error";
+            console.error("Could not initialize sidebar:", error);
+        });
     }
     
     if (headerWrap && headerWrap.innerHTML.trim() === "") {

@@ -2208,3 +2208,25 @@ body.sidebar-collapsed .main {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Make the actual header bar expand with the sidebar, not just its wrapper. */
+.header {
+  transition: left 320ms cubic-bezier(.22, 1, .36, 1),
+              width 320ms cubic-bezier(.22, 1, .36, 1);
+}
+body.sidebar-collapsed .header {
+  left: 0;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .header {
+    left: 0;
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition-duration: .01ms !important;
+  }
+}

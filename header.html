@@ -1,5 +1,10 @@
 <!-- Header Navigation Bar Layout --> 
 <div class="header"> 
+  <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn"
+    aria-label="Collapse sidebar" title="Collapse sidebar" aria-controls="sidebar-container" aria-expanded="true"
+    onclick="const collapsed = document.body.classList.toggle('sidebar-collapsed'); this.setAttribute('aria-expanded', String(!collapsed)); this.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar'); this.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar'; this.querySelector('span').textContent = collapsed ? '☰' : '☰';">
+    <span aria-hidden="true">☰</span>
+  </button>
   <div class="time-box" id="timeBox">06:20 PM</div> 
   <div class="date-box" id="dateBox">AUG 23</div> 
   

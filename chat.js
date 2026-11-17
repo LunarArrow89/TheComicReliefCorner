@@ -367,21 +367,43 @@ function startMessages() {
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
   const messagesQuery = query(ref(database, "messages"), limitToLast(100));
-  stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
+  stopMessagesListener = onChildAdded(messagesQuery, async (snapshot) => {
     const message = snapshot.val();
     if (!message) return;
-    const isOwnMessage = message.uid && currentUser && message.uid === currentUser.uid;
+
+    const uid = message.uid || "";
+    const isOwnMessage = uid && currentUser && uid === currentUser.uid;
+
+    // Load the author's current profile before drawing the message. This avoids
+    // briefly (or permanently, if the listener is delayed) rendering a blank PFP.
+    let authorProfile = null;
+    if (uid) {
+      try {
+        if (isOwnMessage) {
+          authorProfile = currentProfile;
+        } else {
+          const profileSnapshot = await get(ref(database, "profiles/" + uid));
+          authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
+        }
+      } catch (profileError) {
+        console.warn("Could not load message author's profile:", profileError.message);
+      }
+    }
+
+    // A profile may finish loading after the user logs out or switches accounts.
+    if (!currentUser || messagesStartedForUid !== currentUser.uid) return;
+
     showMessage(
-      isOwnMessage ? currentProfile.username : message.username,
+      cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
       message.text,
       message.createdAt,
-      isOwnMessage ? currentProfile.nameColor : message.nameColor,
-      message.uid,
+      authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
+      uid,
       snapshot.key
     );
-    // Resolve each author's current profile and keep it live, so other people see
-    // username and color edits without requiring a new message or page refresh.
-    watchMessageAuthorProfile(message.uid);
+
+    // Keep the profile live after the initial fetch, so later edits update old messages too.
+    watchMessageAuthorProfile(uid);
   }, (error) => {
     showChatStatus("Could not load messages: " + error.message, true);
   });

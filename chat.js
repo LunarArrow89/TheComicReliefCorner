@@ -225,6 +225,23 @@ async function releaseUsername(username, uid) {
   if (snapshot.val() === uid) await remove(indexRef);
 }
 
+function openAvatarZoom(image) {
+  if (!image || !image.src || image.hidden) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'avatar-zoom-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', image.alt || 'Profile picture');
+  const enlarged = document.createElement('img');
+  enlarged.className = 'avatar-zoom-image';
+  enlarged.src = image.src;
+  enlarged.alt = image.alt || 'Profile picture';
+  overlay.appendChild(enlarged);
+  // Any click on the overlay or enlarged picture closes the preview.
+  overlay.addEventListener('click', () => overlay.remove());
+  document.body.appendChild(overlay);
+}
+
 function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "", scrollToBottom = true, target = chatWindow) {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
@@ -233,6 +250,9 @@ function showMessage(username, messageText, createdAt, nameColor, avatarData = "
   const avatar = document.createElement("img");
   avatar.className = "chat-avatar";
   avatar.hidden = true;
+  avatar.style.cursor = "zoom-in";
+  avatar.title = "Click to enlarge profile picture";
+  avatar.addEventListener("click", () => openAvatarZoom(avatar));
   const avatarFallback = document.createElement("span");
   avatarFallback.className = "chat-avatar-fallback";
   setAvatarDisplay(avatar, avatarFallback, avatarData, username);

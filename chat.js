@@ -223,7 +223,7 @@ async function releaseUsername(username, uid) {
   if (snapshot.val() === uid) await remove(indexRef);
 }
 
-function showMessage(username, messageText, createdAt, nameColor, uid = "", messageId = "") {
+function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "") {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
   if (uid) bubble.dataset.uid = uid;
@@ -233,7 +233,7 @@ function showMessage(username, messageText, createdAt, nameColor, uid = "", mess
   avatar.hidden = true;
   const avatarFallback = document.createElement("span");
   avatarFallback.className = "chat-avatar-fallback";
-  setAvatarDisplay(avatar, avatarFallback, uid === currentUser?.uid ? currentProfile.avatarData : "", username);
+  setAvatarDisplay(avatar, avatarFallback, avatarData, username);
   const body = document.createElement("div");
   body.className = "chat-bubble-body";
   const name = document.createElement("span");
@@ -398,6 +398,7 @@ function startMessages() {
       message.text,
       message.createdAt,
       authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
+      authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
       uid,
       snapshot.key
     );

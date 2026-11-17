@@ -387,51 +387,33 @@ function startMessages() {
     showChatStatus("Could not load messages: " + error.message, true);
   });
 
-  async function renderMessage(snapshot, scrollToBottom, target = chatWindow) {
+  function renderMessage(snapshot, scrollToBottom, target = chatWindow) {
     const messageId = snapshot.key;
     const message = snapshot.val();
     if (!message || !messageId || renderedMessageIds.has(messageId)) return;
 
-    const uid = message.uid || "";
-    const activeUser = currentUser;
-    const isOwnMessage = uid && activeUser && uid === activeUser.uid;
-    let authorProfile = null;
-
-    if (uid) {
-      try {
-        if (isOwnMessage) {
-          authorProfile = currentProfile;
-        } else {
-          const profileSnapshot = await get(ref(database, "profiles/" + uid));
-          authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
-        }
-      } catch (profileError) {
-        console.warn("Could not load message author's profile:", profileError.message);
-      }
-    }
-
-    if (!currentUser || messagesStartedForUid !== currentUser.uid ||
-        renderedMessageIds.has(messageId)) return;
-
+    const uid = message.uid || '';
+    // Render saved message fields immediately. Do not wait for a separate
+    // profile request for every old message; that made history appear gradually.
     renderedMessageIds.add(messageId);
     showMessage(
-      cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
+      cleanUsername(message.username || '') || 'Community member',
       message.text,
       message.createdAt,
-      authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
-      authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
+      message.nameColor || '#ff69b4',
+      '',
       uid,
       messageId,
       scrollToBottom,
       target
     );
-    watchMessageAuthorProfile(uid);
+    if (target === chatWindow) watchMessageAuthorProfile(uid);
   }
 
   function queueLiveMessage(snapshot) {
     messageLoadQueue = messageLoadQueue.then(() => renderMessage(snapshot, true)).catch((error) => {
-      console.error("Could not display a chat message:", error);
-      showChatStatus("Could not display a message: " + error.message, true);
+      console.error('Could not display a chat message:', error);
+      showChatStatus('Could not display a message: ' + error.message, true);
     });
   }
 
@@ -443,15 +425,20 @@ function startMessages() {
       const initialMessages = [];
       initialSnapshot.forEach((child) => initialMessages.push(child));
 
-      // Build the complete history off-screen, then insert it in one DOM update.
+      // Build all historical bubbles synchronously, then insert them together.
       const messageBatch = document.createDocumentFragment();
+      const authorUids = new Set();
       for (const child of initialMessages) {
-        await renderMessage(child, false, messageBatch);
+        renderMessage(child, false, messageBatch);
+        const uid = child.val()?.uid;
+        if (uid) authorUids.add(uid);
       }
 
       chatWindow.replaceChildren(messageBatch);
       chatWindow.scrollTop = chatWindow.scrollHeight;
       initialLoadComplete = true;
+      // Update profile details after the full history is visible.
+      for (const uid of authorUids) watchMessageAuthorProfile(uid);
 
       // Events received while the initial snapshot was loading may include
       // both old messages and genuinely new ones. Duplicate IDs are skipped.

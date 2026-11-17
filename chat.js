@@ -54,6 +54,8 @@ let pendingAvatarRemoval = false;
 let stopMessagesListener = null;
 let messagesStartedForUid = null;
 const messageProfileListeners = new Map();
+const renderedMessageIds = new Set();
+let messageLoadQueue = Promise.resolve();
 
 function showAuthError(message) {
   authError.textContent = message;
@@ -366,45 +368,56 @@ function startMessages() {
   stopWatchingMessageProfiles();
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
+  renderedMessageIds.clear();
+  messageLoadQueue = Promise.resolve();
+
   const messagesQuery = query(ref(database, "messages"), limitToLast(100));
-  stopMessagesListener = onChildAdded(messagesQuery, async (snapshot) => {
-    const message = snapshot.val();
-    if (!message) return;
 
-    const uid = message.uid || "";
-    const isOwnMessage = uid && currentUser && uid === currentUser.uid;
+  // Firebase sends one child_added event for every existing message when the
+  // listener first starts. Process those events in order so profile lookups
+  // cannot make older messages appear after newer ones.
+  stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
+    messageLoadQueue = messageLoadQueue.then(async () => {
+      const messageId = snapshot.key;
+      const message = snapshot.val();
+      if (!message || !messageId || renderedMessageIds.has(messageId)) return;
 
-    // Load the author's current profile before drawing the message. This avoids
-    // briefly (or permanently, if the listener is delayed) rendering a blank PFP.
-    let authorProfile = null;
-    if (uid) {
-      try {
-        if (isOwnMessage) {
-          authorProfile = currentProfile;
-        } else {
-          const profileSnapshot = await get(ref(database, "profiles/" + uid));
-          authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
+      const uid = message.uid || "";
+      const activeUser = currentUser;
+      const isOwnMessage = uid && activeUser && uid === activeUser.uid;
+
+      let authorProfile = null;
+      if (uid) {
+        try {
+          if (isOwnMessage) {
+            authorProfile = currentProfile;
+          } else {
+            const profileSnapshot = await get(ref(database, "profiles/" + uid));
+            authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
+          }
+        } catch (profileError) {
+          console.warn("Could not load message author's profile:", profileError.message);
         }
-      } catch (profileError) {
-        console.warn("Could not load message author's profile:", profileError.message);
       }
-    }
 
-    // A profile may finish loading after the user logs out or switches accounts.
-    if (!currentUser || messagesStartedForUid !== currentUser.uid) return;
+      if (!currentUser || messagesStartedForUid !== currentUser.uid) return;
+      if (renderedMessageIds.has(messageId)) return;
 
-    showMessage(
-      cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
-      message.text,
-      message.createdAt,
-      authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
-      authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
-      uid,
-      snapshot.key
-    );
-
-    // Keep the profile live after the initial fetch, so later edits update old messages too.
-    watchMessageAuthorProfile(uid);
+      renderedMessageIds.add(messageId);
+      showMessage(
+        cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
+        message.text,
+        message.createdAt,
+        authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
+        authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
+        uid,
+        messageId
+      );
+      watchMessageAuthorProfile(uid);
+    }).catch((error) => {
+      console.error("Could not display a chat message:", error);
+      showChatStatus("Could not display a message: " + error.message, true);
+    });
   }, (error) => {
     showChatStatus("Could not load messages: " + error.message, true);
   });
@@ -430,6 +443,8 @@ onAuthStateChanged(auth, async (user) => {
     stopMessagesListener = null;
     stopWatchingMessageProfiles();
     messagesStartedForUid = null;
+    renderedMessageIds.clear();
+    messageLoadQueue = Promise.resolve();
     currentUser = null;
     currentProfile = { username: "", nameColor: "#ff69b4", siteTheme: "pink", avatarData: "" };
     pendingAvatarData = null;
@@ -596,19 +611,44 @@ saveProfileBtn.addEventListener("click", async () => {
 chatForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const messageText = chatInput.value.trim();
-  if (!messageText || !currentUser) return;
+  const sender = currentUser;
+  if (!messageText || !sender) return;
+
   showChatStatus("");
   const message = {
-    uid: currentUser.uid,
-    username: currentProfile.username || currentUser.displayName || "Community member",
+    uid: sender.uid,
+    username: currentProfile.username || sender.displayName || "Community member",
     nameColor: currentProfile.nameColor || "#ff69b4",
     text: messageText,
     createdAt: serverTimestamp()
   };
+
+  // Reserve the message ID before writing. If Firebase's live listener receives
+  // this message first, it will skip it; we render it once after the write succeeds.
+  const messageRef = push(ref(database, "messages"));
+  renderedMessageIds.add(messageRef.key);
   chatInput.value = "";
+
   try {
-    await push(ref(database, "messages"), message);
+    await set(messageRef, message);
+    const savedSnapshot = await get(messageRef);
+    const savedMessage = savedSnapshot.exists() ? savedSnapshot.val() : message;
+
+    if (currentUser && currentUser.uid === sender.uid &&
+        messagesStartedForUid === sender.uid) {
+      showMessage(
+        message.username,
+        savedMessage.text,
+        savedMessage.createdAt,
+        message.nameColor,
+        currentProfile.avatarData || "",
+        sender.uid,
+        messageRef.key
+      );
+      watchMessageAuthorProfile(sender.uid);
+    }
   } catch (error) {
+    renderedMessageIds.delete(messageRef.key);
     chatInput.value = messageText;
     showChatStatus("Message could not be sent: " + error.message, true);
     console.error("Message send failed:", error);

@@ -453,6 +453,7 @@ function startMessages() {
 
       chatWindow.scrollTop = chatWindow.scrollHeight;
       chatWindow.style.visibility = "visible";
+      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
       initialLoadComplete = true;
 
       // Events received while the initial snapshot was loading may include
@@ -463,6 +464,7 @@ function startMessages() {
       waitingForInitialLoad.clear();
     } catch (error) {
       chatWindow.style.visibility = "visible";
+      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
       initialLoadComplete = true;
       showChatStatus("Could not load messages: " + error.message, true);
       for (const snapshot of waitingForInitialLoad.values()) {
@@ -484,6 +486,7 @@ onAuthStateChanged(auth, async (user) => {
       startMessages();
     } catch (error) {
       showProfileStatus("Could not load your profile: " + error.message, true);
+      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
     }
   } else {
     adminMode = false;
@@ -501,6 +504,7 @@ onAuthStateChanged(auth, async (user) => {
     chatWindow.replaceChildren();
     authContainer.style.display = "flex";
     chatContainer.style.display = "none";
+    document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
   }
 });
 

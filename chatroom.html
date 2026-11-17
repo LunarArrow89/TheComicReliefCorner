@@ -7,7 +7,7 @@
   <title>Chatroom | The Comic Relief Corner</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="load.js"></script>
-  <script type="module" src="chat.js?v=20261116-batch2"></script>
+  <script type="module" src="chat.js?v=20261116-pfpzoom"></script>
   <style>
     /* This page must scroll at the document level; the shared stylesheet sets html/body to height:100%. */
     html, body { height: auto !important; min-height: 100%; overflow-y: auto !important; }
@@ -87,6 +87,15 @@
       .messages-window { height: 45vh; min-height: 220px; max-height: 440px; padding: 9px; }
       .chat-input-bar { gap: 6px; }
       .chat-send-btn { padding: 9px 11px; }
+    }
+    .avatar-zoom-overlay {
+      position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center;
+      padding: 24px; box-sizing: border-box; background: rgba(0,0,0,.88); cursor: zoom-out;
+    }
+    .avatar-zoom-image {
+      display: block; max-width: min( min(80vw, 560px), 80vh ); max-height: 80vh;
+      width: auto; height: auto; object-fit: contain; border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.5); cursor: zoom-out;
     }
   </style>
 </head>

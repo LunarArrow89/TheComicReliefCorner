@@ -368,6 +368,9 @@ function startMessages() {
   stopWatchingMessageProfiles();
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
+  // Keep the history hidden while Firebase/profile lookups populate it.
+  // This prevents old messages from visibly appearing one at a time like new posts.
+  chatWindow.style.visibility = "hidden";
   renderedMessageIds.clear();
   messageLoadQueue = Promise.resolve();
 
@@ -449,6 +452,7 @@ function startMessages() {
       }
 
       chatWindow.scrollTop = chatWindow.scrollHeight;
+      chatWindow.style.visibility = "visible";
       initialLoadComplete = true;
 
       // Events received while the initial snapshot was loading may include
@@ -458,6 +462,7 @@ function startMessages() {
       }
       waitingForInitialLoad.clear();
     } catch (error) {
+      chatWindow.style.visibility = "visible";
       initialLoadComplete = true;
       showChatStatus("Could not load messages: " + error.message, true);
       for (const snapshot of waitingForInitialLoad.values()) {

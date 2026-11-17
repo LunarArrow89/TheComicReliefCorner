@@ -636,16 +636,21 @@ chatForm.addEventListener("submit", async (event) => {
 
     if (currentUser && currentUser.uid === sender.uid &&
         messagesStartedForUid === sender.uid) {
-      showMessage(
-        message.username,
-        savedMessage.text,
-        savedMessage.createdAt,
-        message.nameColor,
-        currentProfile.avatarData || "",
-        sender.uid,
-        messageRef.key
-      );
-      watchMessageAuthorProfile(sender.uid);
+      messageLoadQueue = messageLoadQueue.then(() => {
+        if (!currentUser || currentUser.uid !== sender.uid ||
+            messagesStartedForUid !== sender.uid) return;
+        showMessage(
+          message.username,
+          savedMessage.text,
+          savedMessage.createdAt,
+          message.nameColor,
+          currentProfile.avatarData || "",
+          sender.uid,
+          messageRef.key
+        );
+        watchMessageAuthorProfile(sender.uid);
+      });
+      await messageLoadQueue;
     }
   } catch (error) {
     renderedMessageIds.delete(messageRef.key);

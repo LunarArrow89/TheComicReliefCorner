@@ -19,6 +19,19 @@
       padding: 24px 25px 40px;
       min-height: calc(100vh - 80px);
     }
+    .chat-loading-screen {
+      position: fixed; inset: 0; z-index: 99999; display: flex;
+      align-items: center; justify-content: center; flex-direction: column;
+      gap: 16px; background: #170f18; color: #fff; font: 600 1rem system-ui;
+      transition: opacity .2s ease;
+    }
+    .chat-loading-screen[hidden] { display: none; }
+    .chat-loading-spinner {
+      width: 42px; height: 42px; border: 4px solid rgba(255,255,255,.18);
+      border-top-color: #ff69b4; border-radius: 50%;
+      animation: chat-loading-spin .8s linear infinite;
+    }
+    @keyframes chat-loading-spin { to { transform: rotate(360deg); } }
     .chatroom-heading { margin-bottom: 12px; }
     .chatroom-heading h1 { margin: 0 0 5px; font-size: clamp(1.55rem, 3vw, 2rem); }
     .chatroom-heading p { margin: 0; opacity: .8; font-size: .92rem; }
@@ -91,6 +104,10 @@
   </style>
 </head>
 <body>
+  <div id="chat-loading-screen" class="chat-loading-screen" role="status" aria-live="polite">
+    <div class="chat-loading-spinner" aria-hidden="true"></div>
+    <span>Loading chatroom…</span>
+  </div>
   <div id="sidebar-container"></div>
   <div id="header-container"></div>
 

@@ -225,7 +225,7 @@ async function releaseUsername(username, uid) {
   if (snapshot.val() === uid) await remove(indexRef);
 }
 
-function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "") {
+function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "", scrollToBottom = true) {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
   if (uid) bubble.dataset.uid = uid;
@@ -268,7 +268,7 @@ function showMessage(username, messageText, createdAt, nameColor, avatarData = "
   body.append(name, document.createTextNode(": "), content, timestamp, deleteButton);
   bubble.append(avatar, avatarFallback, body);
   chatWindow.appendChild(bubble);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  if (scrollToBottom) chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
 async function loadProfile(user) {
@@ -372,57 +372,101 @@ function startMessages() {
   messageLoadQueue = Promise.resolve();
 
   const messagesQuery = query(ref(database, "messages"), limitToLast(100));
+  let initialLoadComplete = false;
+  const waitingForInitialLoad = new Map();
 
-  // Firebase sends one child_added event for every existing message when the
-  // listener first starts. Process those events in order so profile lookups
-  // cannot make older messages appear after newer ones.
+  // Start listening immediately, but hold incoming events until the initial
+  // history has been drawn as one quiet batch.
   stopMessagesListener = onChildAdded(messagesQuery, (snapshot) => {
-    messageLoadQueue = messageLoadQueue.then(async () => {
-      const messageId = snapshot.key;
-      const message = snapshot.val();
-      if (!message || !messageId || renderedMessageIds.has(messageId)) return;
-
-      const uid = message.uid || "";
-      const activeUser = currentUser;
-      const isOwnMessage = uid && activeUser && uid === activeUser.uid;
-
-      let authorProfile = null;
-      if (uid) {
-        try {
-          if (isOwnMessage) {
-            authorProfile = currentProfile;
-          } else {
-            const profileSnapshot = await get(ref(database, "profiles/" + uid));
-            authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
-          }
-        } catch (profileError) {
-          console.warn("Could not load message author's profile:", profileError.message);
-        }
-      }
-
-      if (!currentUser || messagesStartedForUid !== currentUser.uid) return;
-      if (renderedMessageIds.has(messageId)) return;
-
-      renderedMessageIds.add(messageId);
-      showMessage(
-        cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
-        message.text,
-        message.createdAt,
-        authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
-        authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
-        uid,
-        messageId
-      );
-      watchMessageAuthorProfile(uid);
-    }).catch((error) => {
-      console.error("Could not display a chat message:", error);
-      showChatStatus("Could not display a message: " + error.message, true);
-    });
+    if (!initialLoadComplete) {
+      waitingForInitialLoad.set(snapshot.key, snapshot);
+      return;
+    }
+    queueLiveMessage(snapshot);
   }, (error) => {
     showChatStatus("Could not load messages: " + error.message, true);
   });
-}
 
+  async function renderMessage(snapshot, scrollToBottom) {
+    const messageId = snapshot.key;
+    const message = snapshot.val();
+    if (!message || !messageId || renderedMessageIds.has(messageId)) return;
+
+    const uid = message.uid || "";
+    const activeUser = currentUser;
+    const isOwnMessage = uid && activeUser && uid === activeUser.uid;
+    let authorProfile = null;
+
+    if (uid) {
+      try {
+        if (isOwnMessage) {
+          authorProfile = currentProfile;
+        } else {
+          const profileSnapshot = await get(ref(database, "profiles/" + uid));
+          authorProfile = profileSnapshot.exists() ? profileSnapshot.val() : null;
+        }
+      } catch (profileError) {
+        console.warn("Could not load message author's profile:", profileError.message);
+      }
+    }
+
+    if (!currentUser || messagesStartedForUid !== currentUser.uid ||
+        renderedMessageIds.has(messageId)) return;
+
+    renderedMessageIds.add(messageId);
+    showMessage(
+      cleanUsername(authorProfile?.username || (isOwnMessage ? currentProfile.username : message.username || "")) || "Community member",
+      message.text,
+      message.createdAt,
+      authorProfile?.nameColor || (isOwnMessage ? currentProfile.nameColor : message.nameColor),
+      authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
+      uid,
+      messageId,
+      scrollToBottom
+    );
+    watchMessageAuthorProfile(uid);
+  }
+
+  function queueLiveMessage(snapshot) {
+    messageLoadQueue = messageLoadQueue.then(() => renderMessage(snapshot, true)).catch((error) => {
+      console.error("Could not display a chat message:", error);
+      showChatStatus("Could not display a message: " + error.message, true);
+    });
+  }
+
+  (async () => {
+    try {
+      const initialSnapshot = await get(messagesQuery);
+      if (!currentUser || messagesStartedForUid !== currentUser.uid) return;
+
+      const initialMessages = [];
+      initialSnapshot.forEach((child) => initialMessages.push(child));
+
+      // Render old messages without repeatedly scrolling the chat. The user
+      // sees the completed history instead of a stream of apparent new posts.
+      for (const child of initialMessages) {
+        await renderMessage(child, false);
+      }
+
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+      initialLoadComplete = true;
+
+      // Events received while the initial snapshot was loading may include
+      // both old messages and genuinely new ones. Duplicate IDs are skipped.
+      for (const snapshot of waitingForInitialLoad.values()) {
+        if (!renderedMessageIds.has(snapshot.key)) queueLiveMessage(snapshot);
+      }
+      waitingForInitialLoad.clear();
+    } catch (error) {
+      initialLoadComplete = true;
+      showChatStatus("Could not load messages: " + error.message, true);
+      for (const snapshot of waitingForInitialLoad.values()) {
+        if (!renderedMessageIds.has(snapshot.key)) queueLiveMessage(snapshot);
+      }
+      waitingForInitialLoad.clear();
+    }
+  })();
+}
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {

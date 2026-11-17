@@ -225,7 +225,7 @@ async function releaseUsername(username, uid) {
   if (snapshot.val() === uid) await remove(indexRef);
 }
 
-function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "", scrollToBottom = true) {
+function showMessage(username, messageText, createdAt, nameColor, avatarData = "", uid = "", messageId = "", scrollToBottom = true, target = chatWindow) {
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
   if (uid) bubble.dataset.uid = uid;
@@ -267,8 +267,8 @@ function showMessage(username, messageText, createdAt, nameColor, avatarData = "
   });
   body.append(name, document.createTextNode(": "), content, timestamp, deleteButton);
   bubble.append(avatar, avatarFallback, body);
-  chatWindow.appendChild(bubble);
-  if (scrollToBottom) chatWindow.scrollTop = chatWindow.scrollHeight;
+  target.appendChild(bubble);
+  if (scrollToBottom && target === chatWindow) chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
 async function loadProfile(user) {
@@ -368,9 +368,6 @@ function startMessages() {
   stopWatchingMessageProfiles();
   messagesStartedForUid = currentUser.uid;
   chatWindow.replaceChildren();
-  // Keep the history hidden while Firebase/profile lookups populate it.
-  // This prevents old messages from visibly appearing one at a time like new posts.
-  chatWindow.style.visibility = "hidden";
   renderedMessageIds.clear();
   messageLoadQueue = Promise.resolve();
 
@@ -390,7 +387,7 @@ function startMessages() {
     showChatStatus("Could not load messages: " + error.message, true);
   });
 
-  async function renderMessage(snapshot, scrollToBottom) {
+  async function renderMessage(snapshot, scrollToBottom, target = chatWindow) {
     const messageId = snapshot.key;
     const message = snapshot.val();
     if (!message || !messageId || renderedMessageIds.has(messageId)) return;
@@ -425,7 +422,8 @@ function startMessages() {
       authorProfile?.avatarData || (isOwnMessage ? currentProfile.avatarData : ""),
       uid,
       messageId,
-      scrollToBottom
+      scrollToBottom,
+      target
     );
     watchMessageAuthorProfile(uid);
   }
@@ -445,15 +443,14 @@ function startMessages() {
       const initialMessages = [];
       initialSnapshot.forEach((child) => initialMessages.push(child));
 
-      // Render old messages without repeatedly scrolling the chat. The user
-      // sees the completed history instead of a stream of apparent new posts.
+      // Build the complete history off-screen, then insert it in one DOM update.
+      const messageBatch = document.createDocumentFragment();
       for (const child of initialMessages) {
-        await renderMessage(child, false);
+        await renderMessage(child, false, messageBatch);
       }
 
+      chatWindow.replaceChildren(messageBatch);
       chatWindow.scrollTop = chatWindow.scrollHeight;
-      chatWindow.style.visibility = "visible";
-      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
       initialLoadComplete = true;
 
       // Events received while the initial snapshot was loading may include
@@ -463,8 +460,6 @@ function startMessages() {
       }
       waitingForInitialLoad.clear();
     } catch (error) {
-      chatWindow.style.visibility = "visible";
-      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
       initialLoadComplete = true;
       showChatStatus("Could not load messages: " + error.message, true);
       for (const snapshot of waitingForInitialLoad.values()) {
@@ -486,7 +481,6 @@ onAuthStateChanged(auth, async (user) => {
       startMessages();
     } catch (error) {
       showProfileStatus("Could not load your profile: " + error.message, true);
-      document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
     }
   } else {
     adminMode = false;
@@ -504,7 +498,6 @@ onAuthStateChanged(auth, async (user) => {
     chatWindow.replaceChildren();
     authContainer.style.display = "flex";
     chatContainer.style.display = "none";
-    document.getElementById("chat-loading-screen")?.setAttribute("hidden", "");
   }
 });
 
